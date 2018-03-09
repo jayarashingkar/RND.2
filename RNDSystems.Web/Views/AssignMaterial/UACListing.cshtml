@@ -1,0 +1,212 @@
+﻿
+@{
+    ViewBag.Title = "UACListing";
+}
+
+<h2>UACListing</h2>
+
+@{Html.RenderPartial("_Repeater", "UACRepeater");}
+
+<script>
+    //debugger;
+    var columns = [
+        {
+            label: 'Mill Lot No',
+            property: 'MillLotNo',
+            sortable: true,
+            width: '30px'
+        },
+        {
+            label: 'Rec. No',
+            property: 'RecID',
+            sortable: true,
+            width: '15px'
+        },
+        {
+            label: 'Customer Part No.',
+            property: 'CustPart',
+            sortable: true,
+            width: '15px'
+        },
+        {
+            label: 'UAC Part No.',
+            property: 'UACPart',
+            sortable: true,
+            width: '25px'
+        },
+        {
+            label: 'Alloy',
+            property: 'Alloy',
+            sortable: true,
+            width: '15px'
+        },
+        {
+            label: 'Temper',
+            property: 'Temper',
+            sortable: true,
+            width: '15px'
+        },
+        {
+            label: 'Hole',
+            property: 'Hole',
+            sortable: true,
+            width: '15px'
+        },
+        {
+            label: 'Piece No.',
+            property: 'PieceNo',
+            sortable: true,
+            width: '15px'
+        },
+        {
+            label: 'Location 2',
+            property: 'Location2',
+            sortable: true,
+            width: '15px'
+        },
+        {
+            label: 'Gage Thickness',
+            property: 'GageThickness',
+            sortable: true,
+            width: '15px'
+        },
+        {
+            label: 'Material Comment',
+            property: 'Comment',
+            sortable: true,
+            width: '15px'
+        },
+        {
+            label: 'Material Processing',
+            property: 'MaterialProcessing',
+            width: '50px',
+
+        },
+        {
+            label: 'Edit',
+            property: 'Edit',
+            width: '10px'
+        },
+        {
+            label: 'Delete',
+            property: 'Delete',
+            width: '10px'
+        }
+    ];
+
+    function customColumnRenderer(helpers, callback) {
+        // determine what column is being rendered
+        var column = helpers.columnAttr;
+
+        // get all the data for the entire row
+        var rowData = helpers.rowData;
+        var customMarkup = '';
+
+        // only override the output for specific columns.
+        // will default to output the text value of the row item
+        switch (column) {
+            case 'RecID':
+                // let's combine name and description into a single column
+                customMarkup = '<div style="font-size:12px;">' + rowData.RecID + '</div>';
+                break;
+            case 'EntryDate':
+                // let's combine name and description into a single column
+                customMarkup = rowData.StrEntryDate;
+                break;
+            case 'MaterialProcessing':
+                // let's combine name and description into a single column
+                customMarkup = "<button id='gridPM' data-RecId='" + rowData.RecId + "' data-WorkStudyID='" + rowData.WorkStudyID + "'  onclick= 'ProcessingMaterial(this)' name= 'gridPM' class='btn btn-primary btn-sm center-block' > <i class='fa fa-book'></i></button > ";
+                break;
+            case 'Edit':
+                // let's combine name and description into a single column
+                customMarkup = '<button onclick="GridEditClicked(' + rowData.RecID + ')" id="gridEdit" name="gridEdit" class="btn btn-info btn-sm center-block"><i class="fa fa-pencil"></i></button>';
+                break;
+            case 'Delete':
+                // let's combine name and description into a single column
+                customMarkup = '<button onclick="GridDeleteClicked(' + rowData.RecID + ')" id="gridDelete" name="gridDelete" class="btn btn-danger btn-sm center-block"><i class="fa fa-trash"></i></button>';
+                break;
+            default:
+                // otherwise, just use the existing text value
+                customMarkup = helpers.item.text();
+                break;
+        }
+        helpers.item.html(customMarkup);
+        callback();
+    }
+
+    function customRowRenderer(helpers, callback) {
+        // let's get the id and add it to the "tr" DOM element
+        var item = helpers.item;
+        item.attr('id', 'row' + helpers.rowData.RecID);
+        callback();
+    }
+
+    // this example uses an API to fetch its datasource.
+    // the API handles filtering, sorting, searching, etc.
+    function customDataSource(options, callback) {
+        // set options
+        var pageIndex = options.pageIndex;
+        var pageSize = options.pageSize;
+        var search = '';
+        if ($('#searchWorkStudyNumber').val())
+            search += ';' + 'WorkStudyID:' + $('#searchWorkStudyNumber').val();
+        if ($('#searchMillLotNo').val())
+            search += ';' + 'MillLotNo:' + $('#searchMillLotNo').val();
+        if ($('#searchCustPartNo').val())
+            search += ';' + 'CustPartNo:' + $('#searchCustPartNo').val();
+        if ($('#searchAlloy').val())
+            search += ';' + 'AlloyTypes:' + $('#searchAlloy').val();
+        if ($('#searchTemper').val())
+            search += ';' + 'TemperTypes:' + $('#searchTemper').val();
+        //if ($('#Plant').val())
+        //    search += ';' + 'Plant:' + $('#Plant').val();
+
+        var options = {
+            Screen: 'AssignMaterial',
+            pageIndex: pageIndex,
+            pageSize: pageSize,
+            sortDirection: options.sortDirection,
+            sortBy: options.sortProperty,
+            filterBy: options.filter.value || '',
+            searchBy: search || ''
+        };
+        // call API, posting options
+        $.ajax({
+            type: 'post',
+            url: Api + 'api/grid',
+            data: options
+        })
+            .done(function (data) {
+                //debugger;
+                var items = data.items;
+                var totalItems = data.total;
+                var totalPages = Math.ceil(totalItems / pageSize);
+                var startIndex = (pageIndex * pageSize) + 1;
+                var endIndex = (startIndex + pageSize) - 1;
+
+                if (items) {
+                    if (endIndex > items.length) {
+                        endIndex = items.length;
+                    }
+                }
+                // configure datasource
+                var dataSource = {
+                    page: pageIndex,
+                    pages: totalPages,
+                    count: totalItems,
+                    start: startIndex,
+                    end: endIndex,
+                    columns: columns,
+                    items: items
+                };
+
+                // invoke callback to render repeater
+                callback(dataSource);
+            });
+    }
+    $(document).ready(function () {
+        //debugger;
+        LoadGrid("UACRepeater");
+    });
+</script>
+

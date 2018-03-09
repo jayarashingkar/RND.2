@@ -1,0 +1,85 @@
+﻿@model RNDTesting
+@{
+    ViewBag.Title = "TestingMaterialList";
+}
+
+<div class="panel-heading">List of Testing Material Studies</div>
+<div class="panel-body">
+
+    <div id="searchDiv" class="container">
+         <div class="row">
+            <div class="col-md-12">
+                <button id="btnAddTesting" class="btn btn-success btn-sm"><i class="fa fa-plus" aria-hidden="true"></i> Create New Test</button>
+                <button id="btnBack" onclick="window.history.back();" class="btn btn-primary btn-sm pull-right"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</button>
+            </div>
+        </div>
+        <form action="PrintSelected" method="post">
+            <div class="row">
+                <div class="form-group">
+                    <label for="WorkStudyNumber" class="cols-sm-2 control-label">Work Study Number</label>
+                    <div class="cols-sm-10">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-book" aria-hidden="true"></i></span>
+                            <input type="text" value="@Model.WorkStudyID" id="WorkStudyNumber" name="WorkStudyNumber" class="form-control" placeholder="Enter Work Study Number" />
+                            <input type="hidden" name="WorkStudyID" id="WorkStudyID" value="@Model.WorkStudyID" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                @*<div class="col-md-3">
+                    <div class="form-group">
+                        <label for="lblTestType" class="cols-sm-2 control-label">Test Types</label>
+                        <div class="cols-sm-10">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-search" aria-hidden="true"></i></span>
+                                @Html.DropDownList("ddlTestType", ViewBag.ddlTestType as IEnumerable<SelectListItem>, new { @class = "show-tick form-control" })
+                            </div>
+                        </div>
+                    </div>
+                </div>*@
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="lblTestType" class="cols-sm-2 control-label">Select Material Test Types</label>
+                        <div class="cols-sm-10">
+                            @Html.DropDownList("ddlTestType", ViewBag.ddlTestType as IEnumerable<SelectListItem>, new { @class = "show-tick" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="lblAvailableTT" class="cols-sm-2 control-label">Available Test Type</label>
+                        <div class="cols-sm-10">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-search" aria-hidden="true"></i></span>
+                                @Html.DropDownList("ddlAvailableTT", ViewBag.ddlAvailableTT as IEnumerable<SelectListItem>, new { @class = "show-tick form-control" })
+                            </div>
+                        </div>
+                        <input type="hidden" name="SelectedTests" id="SelectedTests" value="@Model.SelectedTests" />
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <button id="btnSearch" type="button" class="btn btn-primary btn-sm"><i class="fa fa-search" aria-hidden="true"></i> Search</button>
+                        <button id="btnClear" type="button" class="btn btn-primary btn-sm"><i class="fa fa-times" aria-hidden="true"></i> Clear</button>
+                        <button id="btnPrint" class="btn btn-info btn-sm pull-right cust-left-margin" style="margin-left:10px!important"><i class="fa fa-print" aria-hidden="true"></i>Print All</button> 
+                        <button id="btnSelectPrint" class="btn btn-info btn-sm pull-right"><i class="fa fa-print" aria-hidden="true"></i>Print Selected</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    @{Html.RenderPartial("_Repeater", "TestingMaterialRepeater");}
+</div>
+ 
+@section scripts{
+    @Scripts.Render("~/bundles/TestingMaterial")
+    <script>
+        $(document).ready(function () {
+            LoadGrid("TestingMaterialRepeater");
+        });
+    </script>
+}

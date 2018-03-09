@@ -1,0 +1,98 @@
+﻿
+
+<div class="panel-heading">List of Work Studies</div>
+<div class="panel-body">
+
+        <div id="searchDiv" class="container">
+            <div class="row">
+                <div class="col-md-3">
+                    <button id="btnAdd" class="btn btn-success btn-large"><i class="fa fa-plus" aria-hidden="true"></i> Create New Work Study</button>
+                </div>
+            </div>
+            <form action="ExportToExcel" method="post">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="searchWorkStudyNumber" class="cols-sm-2 control-label">Work Study Number</label>
+                            <div class="cols-sm-10">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-search" aria-hidden="true"></i></span>
+                                    <input type="text" value="" id="searchWorkStudyNumber" name="searchWorkStudyNumber" class="form-control" placeholder="Enter Work Study Number" />
+                                    @*   <input type="text" value="" id="searchFirstName" name="searchFirstName" class="form-control" placeholder="Enter First Name" />*@
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                           
+                            <label for="searchStudyType" class="cols-sm-2 control-label">Study Type</label>
+                            <div class="cols-sm-10">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-search" aria-hidden="true"></i></span>
+                                    @* drop down list has values from table RNDStudyType - show RNDStudytype.TypeDec values here *@
+                                    @*@Html.DropDownList("StudyType", ViewBag.ddStudyTypes as IEnumerable<SelectListItem>, new { @class = "show-tick form-control", @id = "searchStudyType" })*@
+                                    @Html.DropDownList("StudyType", ViewBag.ddStudyTypes as IEnumerable<SelectListItem>, new { @class = "show-tick form-control" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="Plant" class="cols-sm-2 control-label">Location</label>
+                            <div class="cols-sm-10">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-search" aria-hidden="true"></i></span>
+                                    @* change here - drop down list has values from table RNDLocation -show RNDLocation.PlantDesc values here *@
+                                    @*  @Html.DropDownList("searchStatusCode", ViewBag.ddStatus as IEnumerable<SelectListItem>, new { @class = "show-tick" })*@
+                                    @Html.DropDownList("Plant", ViewBag.ddLocation as IEnumerable<SelectListItem>, new { @class = "show-tick form-control" })
+                                </div>
+                                </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="searchStudyStatus" class="cols-sm-2 control-label">Study Status</label>
+                            <div class="cols-sm-10">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-search" aria-hidden="true"></i></span>
+                                    @* change here - drop down list has values from table [RNDStudyStatus] -show [RNDStudyStatus].StatusDesc values here *@
+                                    @*  @Html.DropDownList("searchStatusCode", ViewBag.ddStatus as IEnumerable<SelectListItem>, new { @class = "show-tick" })*@
+                                    @Html.DropDownList("StudyStatus", ViewBag.ddStatus as IEnumerable<SelectListItem>, new { @class = "show-tick form-control" })
+                                    </div>
+                                </div>
+                        </div>
+                    </div>
+                </div>               
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="" class="cols-sm-2 control-label"></label>
+                            <div class="cols-sm-10">
+                                <button id="btnSearch" class="btn btn-primary btn-large" onclick="return false;"><i class="fa fa-search" aria-hidden="true"></i> Search</button>
+                                &nbsp;&nbsp;&nbsp;
+                                <button id="btnClear" class="btn btn-primary btn-large" onclick="return false;"><i class="fa fa-times" aria-hidden="true"></i> Clear</button>
+                                <div class="cols-sm-10 pull-right">
+                                    <button id="btnExport" type="submit" class="btn btn-info btn-large"><i class="fa fa-file-excel-o" aria-hidden="true"></i> Export to Excel</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+</div>
+    
+        @{Html.RenderPartial("_Repeater", "WorkStudyRepeater");}
+   
+</div>
+
+@section scripts{
+    @Scripts.Render("~/bundles/WorkStudyList")
+    <script>
+        $(document).ready(function () {
+            LoadGrid("WorkStudyRepeater");
+        });
+    </script>
+}

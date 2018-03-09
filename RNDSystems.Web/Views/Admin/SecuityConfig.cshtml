@@ -1,0 +1,83 @@
+﻿@model RNDSystems.Models.RNDUserSecurityAnswer
+@{
+    ViewBag.Title = "SecuityConfig";
+}
+
+<div class="container">
+    @using (Html.BeginForm("SecuityConfig", "Admin", FormMethod.Post, new { id = "SaveSecurity" }))
+    {
+        <div class="row">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="Password" class="cols-sm-2 control-label">New Password</label>
+                    <div class="cols-sm-10">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-text-width" aria-hidden="true"></i></span>
+                            <input type="password" value="@Model.Password"  id="Password" name="Password" class="form-control" placeholder="Enter New Password" />
+                            <input type="hidden" name="HasQuestionId" id="HasQuestionId" value="" />
+                            <input type="hidden" name="IsSecurityApplied" id="IsSecurityApplied" value="@Model.IsSecurityApplied" />
+                            <input type="hidden" name="UserName" id="UserName" value="@Model.UserName" />
+                           
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+
+                <div class="form-group">
+                    <label for="Password" class="cols-sm-2 control-label">Confirm Password</label>
+                    <div class="cols-sm-10">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-text-width" aria-hidden="true"></i></span>
+                            <input type="password"value="@Model.ConfirmPassword"  id="ConfirmPassword" name="ConfirmPassword" class="form-control" placeholder="Enter Confirm Password" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="RNDSecurityQuestionId" class="cols-sm-2 control-label">Choose Security Question</label>
+                    <div class="cols-sm-10">
+                        @Html.DropDownList("RNDSecurityQuestionId", ViewBag.ddSecurityQuestions as IEnumerable<SelectListItem>, new { @class = "show-tick" })
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+
+                <div class="form-group">
+                    <label for="SecurityAnswer" class="cols-sm-2 control-label">Security Answer</label>
+                    <div class="cols-sm-10">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-text-width" aria-hidden="true"></i></span>
+                            <input type="text" value="@Model.SecurityAnswer"  id="SecurityAnswer" name="SecurityAnswer" class="form-control" placeholder="Enter Security Answer" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-8">
+                <div class="form-group">
+                    @*<button type="submit" onclick="return Submit();" class="btn btn-success "><i class="fa fa-check" aria-hidden="true"></i>Save</button>*@
+                    <button type="submit" id="btnSavePassword" class="btn btn-success "><i class="fa fa-check" aria-hidden="true"></i>Save</button>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@section scripts{
+    @Scripts.Render("~/bundles/SecuityConfig")
+   
+}
+

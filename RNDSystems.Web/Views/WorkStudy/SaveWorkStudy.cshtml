@@ -1,0 +1,168 @@
+﻿@model RNDSystems.Models.RNDWorkStudy
+
+@{
+    ViewBag.Title = "SaveWorkStudy";
+}
+
+<div class="panel-heading">Add WorkStudy</div>
+<div class="panel-body">
+    <div class="container">
+        <div class="row" style="height:10px">
+        </div>
+        <div class="row">
+            <div class="col-md-3 pull-right">
+                <button id="btnBack" onclick="window.history.back();" class="btn btn-primary btn-large"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</button>
+            </div>
+        </div>
+        @using (Html.BeginForm("SaveWorkStudy", "WorkStudy", FormMethod.Post, new { id = "SaveWorkStudy" }))
+        {
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="WorkStudyID" class="cols-sm-2 control-label">R&D Study Number</label>
+                        <div class="cols-sm-10">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-text-width" aria-hidden="true"></i></span>
+                                <input type="text" value="@Model.WorkStudyID" id="WorkStudyID" name="WorkStudyID" class="form-control" placeholder="Enter WorkStudy ID" />
+                                <input type="hidden" name="RecId" id="RecId" value="@Model.RecId" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="searchStudyType" class="cols-sm-2 control-label">Study Type</label>
+                        <div class="cols-sm-10">
+                            @Html.DropDownList("StudyType", ViewBag.ddStudyTypes as IEnumerable<SelectListItem>, new { @class = "show-tick" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="Plant" class="cols-sm-2 control-label">Location</label>
+                        <div class="cols-sm-10">
+                            @Html.DropDownList("Plant", ViewBag.ddLocation as IEnumerable<SelectListItem>, new { @class = "show-tick" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-9">
+                    <div class="form-group">
+                        <label for="StudyDesc" class="cols-sm-2 control-label">Study Title</label>
+                        <textarea style="min-width:97%" class="form-control" name="StudyDesc">@Model.StudyDesc</textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="PlanOSCost" class="cols-sm-2 control-label">PlanOSCost</label>
+                        <div class="cols-sm-10">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-text-width" aria-hidden="true"></i></span>
+                                <input type="text" value="@Model.PlanOSCost" id="PlanOSCost" name="PlanOSCost" class="form-control" placeholder="Enter PlanOSCost" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="AcctOSCost" class="cols-sm-2 control-label">AcctOSCost</label>
+                        <div class="cols-sm-10">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-text-width" aria-hidden="true"></i></span>
+                                <input type="text" value="@Model.AcctOSCost" id="AcctOSCost" name="AcctOSCost" class="form-control" placeholder="Enter AcctOSCost" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="searchStudyStatus" class="cols-sm-2 control-label">Study Status</label>
+                        <div class="cols-sm-10">
+                            @Html.DropDownList("StudyStatus", ViewBag.ddStatus as IEnumerable<SelectListItem>, new { @class = "show-tick" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="StartedDate" class="cols-sm-2 control-label"> Started Date</label>
+                        <div class="cols-sm-10">
+                            <div class="input-group date">
+                                <input type="text" id="StartDate" value="@Model.StartDate" name="StartDate" class="form-control"><span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="DueDate" class="cols-sm-2 control-label">Due Date</label>
+                        <div class="cols-sm-10">
+                            <div class="input-group date">
+                                <input type="text" id="DueDate" value="@Model.DueDate" name="DueDate" class="form-control"><span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="CompleteDate" class="cols-sm-2 control-label">Completed Date</label>
+                        <div class="cols-sm-10">
+                            <div class="input-group date">
+                                <input type="text" id="CompleteDate" value="@Model.CompleteDate" name="CompleteDate" class="form-control"><span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-9">
+                    <div class="form-group">
+                       @* <label for="StudyScope" class="cols-sm-2 control-label">Study Scope</label>*@
+                        <label for="Uncertainty" class="cols-sm-2 control-label">Uncertainty</label>
+                        <textarea style="min-width:97%" id="Uncertainty" name="Uncertainty"   value="@Model.Uncertainty" class="form-control" >@Model.Uncertainty</textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-9">
+                    <div class="form-group">
+                        @* <label for="StudyScope" class="cols-sm-2 control-label">Study Scope</label>*@
+                        <label for="Experimentation" class="cols-sm-2 control-label">Experimentation</label>
+                        <textarea style="min-width:97%" class="form-control" value="@Model.Experimentation" id="Experimentation" name="Experimentation">@Model.Experimentation</textarea>
+
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-9">
+                    <div class="form-group">
+                        @* <label for="StudyScope" class="cols-sm-2 control-label">Study Scope</label>*@
+                        <label for="FinalSummary" class="cols-sm-2 control-label">FinalSummary</label>
+                        <textarea style="min-width:97%" class="form-control" value="@Model.FinalSummary" id ="FinalSummary" name="FinalSummary">@Model.FinalSummary</textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="form-group">
+                        <button type="button" id="btnCancel" onclick="window.history.back();" class="btn btn-danger"><i class="fa fa-times" aria-hidden="true"></i> Cancel</button>
+                        <button type="submit" name="Save" onclick="return Submit();" class="btn btn-success "><i class="fa fa-check" aria-hidden="true"></i>Save</button>
+                        <button type="submit" id="btnAM" name="AssignMatterial" onclick="return AssignMaterial();" class="btn btn-warning"><i class="fa fa-step-forward" aria-hidden="true"></i>Assign Material</button>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+    @section scripts{
+        @Scripts.Render("~/bundles/SaveWorkStudy")
+    }

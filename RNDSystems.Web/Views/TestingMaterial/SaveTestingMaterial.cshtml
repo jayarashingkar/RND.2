@@ -1,0 +1,210 @@
+﻿@model RNDSystems.Models.RNDTesting
+
+@{
+    ViewBag.Title = "SaveTestingMaterial";
+}
+<div class="panel-heading">Add Testing Material</div>
+<div class="panel-body">
+    <div class="container">
+        <div class="row" style="height:10px"></div>
+        <div class="row">
+            <div class="col-md-3 pull-right">
+                <button id="btnBack" onclick="window.history.back();" class="btn btn-primary btn-large"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</button>
+            </div>
+        </div>
+        @using (Html.BeginForm("SaveTestingMaterial", "TestingMaterial", FormMethod.Post, new { id = "SaveTestingMaterial" }))
+        {
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="WorkStudyID" class="cols-sm-2 control-label">R&D Study Number</label>
+                        <div class="cols-sm-10">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-text-width" aria-hidden="true"></i></span>
+                                <input type="text" value="@Model.WorkStudyID" id="WorkStudyID" name="WorkStudyID" class="form-control" placeholder="Enter WorkStudy ID" />
+                                <input type="hidden" name="WorkStudyID" id="WorkStudyID" value="@Model.WorkStudyID" />
+                                @*<input type="hidden" name="RecId" id="RecId" value="@Model.TestingNo" />*@
+                                <input type="hidden" name="TestingNo" id="TestingNo" value="@Model.TestingNo" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="lblLotID" class="cols-sm-2 control-label">Lot ID</label>
+                        <div class="cols-sm-10">
+                          @*  @Html.DropDownList("ddlLotID", ViewBag.ddlLotID as IEnumerable<SelectListItem>, new { @class = "show-tick" })*@
+                            @Html.DropDownList("LotID", ViewBag.ddlLotID as IEnumerable<SelectListItem>, new { @class = "show-tick" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="lblHole" class="cols-sm-2 control-label">Hole</label>
+                        <div class="cols-sm-10">
+                            @Html.DropDownList("Hole", ViewBag.ddlHole as IEnumerable<SelectListItem>, new { @class = "show-tick" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="lblPieceNo" class="cols-sm-2 control-label">PieceNo</label>
+                        <div class="cols-sm-10">
+                            @Html.DropDownList("PieceNo", ViewBag.ddlPieceNo as IEnumerable<SelectListItem>, new { @class = "show-tick" })
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="row">               
+                <div class="col-md-3">
+                    <div class="form-group">
+                        @*<div class="col-md-3">
+                            <div class="form-group">*@
+                                <label for="lblLocation2" class="cols-sm-2 control-label">Location2</label>
+                                <div class="cols-sm-10">
+                                    @Html.DropDownList("Location2", ViewBag.ddlLocation2 as IEnumerable<SelectListItem>, new { @class = "show-tick" })
+                                </div>
+                            @*</div>
+                        </div>*@                         
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="lblGageThickness" class="cols-sm-2 control-label">Gage Thickness</label>
+                        <div class="cols-sm-10">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-text-width" aria-hidden="true"></i></span>
+                                <input type="text" value="@Model.GageThickness" id="GageThickness" name="GageThickness" class="form-control" placeholder="GageThickness" />                             
+                                <input type="hidden" name="GageThickness" id="GageThickness" value="@Model.GageThickness" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          <div class="row">                      
+                  <div class="col-md-3">
+                      <div class="form-group">
+                          <label for="lblOrientation" class="cols-sm-2 control-label">Orientation</label>
+                          <div class="cols-sm-10">
+                             @Html.DropDownList("Orientation", ViewBag.ddlOrientation as IEnumerable<SelectListItem>, new { @class = "show-tick" })   
+                              @*<input type="hidden" name="Orientation1" id="Orientation1" value="@Model.Orientation" />*@                          
+                          </div>
+                      </div>
+                  </div>             
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="lblLocation1" class="cols-sm-2 control-label">Location 1</label>
+                        <div class="cols-sm-10">
+                            @Html.DropDownList("Location1", ViewBag.ddlLocation1 as IEnumerable<SelectListItem>, new { @class = "show-tick" })
+                        </div>
+                    </div>
+                </div>   
+        </div>  
+        <div class="row">           
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="lblLocation3" class="cols-sm-2 control-label">Location 3</label>
+                        <div class="cols-sm-10">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-text-width" aria-hidden="true"></i></span>
+                                <input type="text" value="@Model.Location3" id="Location3" name="Location3" class="form-control" placeholder="Location 3" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="lblReplica" class="cols-sm-2 control-label">Replica</label>
+                        <div class="cols-sm-10">
+                            @*@Html.DropDownList("Replica", ViewBag.ddlReplica as IEnumerable<SelectListItem>, new { @class = "show-tick" })*@
+                            @Html.DropDownList("Replica", ViewBag.ddlReplica as IEnumerable<SelectListItem>, Model.TestingNo > 0 ? (object)new { @class = "form-control disabled show-tick ", @disabled = true } : new { @class = "show-tick form-control" })
+                            <input type="hidden" name="Replica" id="Replica" data-toggle="dropdown" value="@Model.Replica"/>
+                        </div>
+                    </div>
+                </div>          
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="lblAvailableTestType" class="cols-sm-2 control-label">Test Type</label>
+                    <div class="cols-sm-10">
+                        <input type="text" value="@Model.TestType" id="TestType" name="TestType" class="form-control" placeholder="Enter Test Type" />
+                    </div>
+                    <div class="cols-sm-10">
+                        @Html.DropDownList("ddTestType", ViewBag.ddlAvailableTestType as IEnumerable<SelectListItem>, new { @class = "show-tick" })
+                    </div>
+                </div>
+            </div>
+           <div class="col-md-3">
+               <div class="form-group">
+                   <label for="lblSubTestType" class="cols-sm-2 control-label">Sub Test Type</label>
+                   <div class="cols-sm-10">
+                       <input type="text" value="@Model.SubTestType" id="SubTestType" name="SubTestType" class="form-control" placeholder="Enter SubTestType" />
+                   </div>
+                   <div class="cols-sm-10">
+                       @Html.DropDownList("ddSubTestType", ViewBag.ddlSubTestType as IEnumerable<SelectListItem>, new { @class = "show-tick" })
+                   </div>
+               </div>
+           </div>
+        </div>      
+        <div class="row">            
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="lblSpeciComment" class="cols-sm-2 control-label">Specimen Comments</label>
+                    <div class="cols-sm-10">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-text-width" aria-hidden="true"></i></span>
+                            <input type="text" value="@Model.SpeciComment" id="SpeciComment" name="SpeciComment" class="form-control" placeholder="Specimen Comment" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="lblTestLab" class="cols-sm-2 control-label">Test Lab</label>                    
+                    <div class="cols-sm-10">
+                        <input type="text" value="@Model.TestLab" id="TestLab" name="TestLab" class="form-control" placeholder="Enter Test Lab" />
+                    </div>
+                    <div class="cols-sm-10">
+                        @Html.DropDownList("ddTestLab", ViewBag.ddlTestLab as IEnumerable<SelectListItem>, new { @class = "show-tick" })
+                    </div>
+                </div>
+            </div>
+        </div>
+            @*<div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="lblRCS" class="cols-sm-2 control-label">RCS</label>
+                            <div class="cols-sm-10">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-text-width" aria-hidden="true"></i></span>
+                                    <input type="text" value="@Model.RCS" id="RCS" name="RCS" class="form-control" placeholder="RCS" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>*@
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="form-group">
+                        <button type="button" id="btnCancel" onclick="window.history.back();" class="btn btn-danger"><i class="fa fa-times" aria-hidden="true"></i> Cancel</button>
+                         &nbsp;&nbsp;&nbsp;
+                        @*<button type="submit" id="btnSaveTest" onclick="return Submit();" class="btn btn-success "><i class="fa fa-check" aria-hidden="true"></i>Save</button>*@
+                        <button type="submit" id="btnSaveTest" class="btn btn-success "><i class="fa fa-check" aria-hidden="true"></i>Save</button>
+                    </div>
+                </div>
+            </div>
+            }
+        </div>
+</div>
+
+
+@section scripts{
+    @Scripts.Render("~/bundles/SaveTestingMaterial")
+}

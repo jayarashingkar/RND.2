@@ -1,0 +1,93 @@
+﻿@model RNDLogin
+@{
+    ViewBag.Title = "Register New User";
+}
+
+<div class="panel-heading">Register New User</div>
+<div class="panel-body">
+    <div id="searchDiv" class="container">
+        <div class="row">
+            <div class="col-md-3">
+                <button id="btnAdd" class="btn btn-success btn-large"><i class="fa fa-plus" aria-hidden="true"></i> Register New User</button>
+            </div>           
+            <div class="col-md-3 pull-right">
+                <button id="btnBack" onclick="window.history.back();" class="btn btn-primary btn-large"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</button>
+            </div>           
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="UserName" class="cols-sm-2 control-label">User Name</label>
+                    <div class="cols-sm-10">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-search" aria-hidden="true"></i></span>
+                            <input type="text" value="" id="searchUserName" name="searchUserName" class="form-control" placeholder="Enter User Name" />
+                            @*<input type="hidden" name="UserId" id="UserId" value="@Model.UserId" />*@
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="FirstName" class="cols-sm-2 control-label">First Name</label>
+                    <div class="cols-sm-10">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-search" aria-hidden="true"></i></span>
+                            <input type="text" value="" id="searchFirstName" name="searchFirstName" class="form-control" placeholder="Enter First Name" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="LastName" class="cols-sm-2 control-label">Last Name</label>
+                    <div class="cols-sm-10">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-search" aria-hidden="true"></i></span>
+                            <input type="text" value="" id="searchLastName" name="searchLastName" class="form-control" placeholder="Enter Last Name" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">                        
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="searchPermissionLevel" class="cols-sm-2 control-label">Permission Level</label>
+                    <div class="cols-sm-10">
+                        <i class="fa fa-search" aria-hidden="true"></i>
+                        @Html.DropDownList("PermissionLevel", ViewBag.ddlPermissionLevel as IEnumerable<SelectListItem>, new { @class = "show-tick" })
+                    </div>
+                </div>
+            </div>           
+        </div>
+
+        @*new row*@
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="" class="cols-sm-2 control-label"></label>
+                    <div class="cols-sm-10">
+                        <button id="btnSearch" class="btn btn-primary btn-large"><i class="fa fa-search" aria-hidden="true"></i> Search</button>
+                        &nbsp;&nbsp;&nbsp;
+                        <button id="btnClear" class="btn btn-primary btn-large"><i class="fa fa-times" aria-hidden="true"></i> Clear</button>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+    @{Html.RenderPartial("_Repeater", "UserRegisterRepeater");}
+</div>
+
+@section scripts{
+    @Scripts.Render("~/bundles/RegisteredUserList")
+    <script>
+        $(document).ready(function () {
+            LoadGrid("UserRegisterRepeater");
+        });
+    </script>
+}
+

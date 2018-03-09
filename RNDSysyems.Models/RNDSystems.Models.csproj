@@ -1,0 +1,95 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{5BBE2AC4-5CF1-4DFF-9455-C7B58BB67422}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>RNDSysyems.Models</RootNamespace>
+    <AssemblyName>RNDSysyems.Models</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Web.Mvc, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CurrentUser.cs" />
+    <Compile Include="IModel.cs" />
+    <Compile Include="IRNDModel.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RNDBearingResults.cs" />
+    <Compile Include="RNDCompressionResults.cs" />
+    <Compile Include="RNDFatigueTestingResults.cs" />
+    <Compile Include="RNDFractureToughnessResults.cs" />
+    <Compile Include="RNDLocation.cs" />
+    <Compile Include="RNDLogin.cs" />
+    <Compile Include="RNDMaterial.cs" />
+    <Compile Include="RNDModulusCompressionResults.cs" />
+    <Compile Include="RNDModulusTensionResults.cs" />
+    <Compile Include="RNDNotchYieldResults.cs" />
+    <Compile Include="RNDProcessing.cs" />
+    <Compile Include="RNDRCurveResults.cs" />
+    <Compile Include="RNDReports.cs" />
+    <Compile Include="RNDResidualStrengthResults.cs" />
+    <Compile Include="RNDSecurityQuestion.cs" />
+    <Compile Include="RNDShearResults.cs" />
+    <Compile Include="RNDStatusCodeDetail.cs" />
+    <Compile Include="RNDStudyScope.cs" />
+    <Compile Include="RNDStudyStatus.cs" />
+    <Compile Include="RNDStudyType.cs" />
+    <Compile Include="RNDTesting.cs" />
+    <Compile Include="RNDUserSecurityAnswer.cs" />
+    <Compile Include="RNDWorkStudy.cs" />
+    <Compile Include="TestViewModels\BearingViewModel.cs" />
+    <Compile Include="TestViewModels\FatigueTestingDataViewModel.cs" />
+    <Compile Include="TestViewModels\ModulusCompressionDataViewModel.cs" />
+    <Compile Include="TestViewModels\ModulusTensionDataViewModel.cs" />
+    <Compile Include="TestViewModels\ShearViewModel.cs" />
+    <Compile Include="TestViewModels\CompressionViewModel.cs" />
+    <Compile Include="TestViewModels\FractureToughnessViewModel.cs" />
+    <Compile Include="TestViewModels\NotchYieldViewModel.cs" />
+    <Compile Include="TestViewModels\ResidualStrengthViewModel.cs" />
+    <Compile Include="TestViewModels\TensionViewModel.cs" />
+    <Compile Include="ViewModels\ApiViewModel.cs" />
+    <Compile Include="ViewModels\DataGridoption.cs" />
+    <Compile Include="ViewModels\DataSearch.cs" />
+    <Compile Include="ViewModels\ImportDataViewModel.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

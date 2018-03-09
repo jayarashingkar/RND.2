@@ -1,0 +1,243 @@
+﻿@model RNDSystems.Models.RNDMaterial
+
+@{
+    ViewBag.Title = "SaveAssignMaterial";
+}
+
+<div class="panel-heading">Assign Material</div>
+<div class="panel-body">
+<div class="container">
+    <div class="row" style="height:10px">
+    </div>
+    <div class="row">
+        <div class="col-md-3 pull-right">
+            <button id="btnBack" onclick="window.history.back();" class="btn btn-primary btn-large"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</button>
+        </div>
+    </div>
+    @using (Html.BeginForm("SaveAssignMaterial", "AssignMaterial", FormMethod.Post, new { id = "SaveAssignMaterial" }))
+    {
+        <div class="row">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="searchDataBase" class="cols-sm-2 control-label">DataBase</label>
+                    <div class="cols-sm-10">
+                        @*@Html.DropDownList("DataBase", ViewBag.ddDataBase as IEnumerable<SelectListItem>, new { @class = "show-tick" })*@  
+                        @Html.DropDownList("DBCntry", ViewBag.ddDataBase as IEnumerable<SelectListItem>, new { @class = "show-tick" })    
+                        @*<input type="hidden" name="IsCopy" id="IsCopy" value="@Model.IsCopy" />*@
+                        <input type="hidden" name="DBCntry" id="DBCntry"/>
+                    </div>
+                </div>
+            </div>    
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="WorkStudyID" class="cols-sm-2 control-label">R&D Study Number</label>
+                    <div class="cols-sm-10">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-text-width" aria-hidden="true"></i></span>
+                            <input type="text" value="@Model.WorkStudyID" id="WorkStudyID" name="WorkStudyID" class="form-control" placeholder="Enter WorkStudy ID" />
+                            <input type="hidden" name="RecId" id="RecId" value="@Model.RecID" />
+                            @*<input type="hidden" name="IsCopy" id="IsCopy" value="@Model.IsCopy" />*@
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="searchMillLotNo" class="cols-sm-2 control-label">Mill Lot Number</label>
+                    <div class="cols-sm-10">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-text-width" aria-hidden="true"></i></span>
+                            <input type="text" value="@Model.MillLotNo" id="MillLotNo" name="MillLotNo" class="form-control" placeholder="Enter Mill Lot No" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="searchCustPart" class="cols-sm-2 control-label">Customer Part Number</label>
+                    <div class="cols-sm-10">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-text-width" aria-hidden="true"></i></span>
+                            <input type="text" value="@Model.CustPart" id="CustPart" name="CustPart" class="form-control" placeholder="Cust Part No" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="searchUACPart" class="cols-sm-2 control-label">UAC Part Number</label>
+                    <div class="cols-sm-10">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-text-width" aria-hidden="true"></i></span>
+                            <input type="text" value="@Model.UACPart" id="UACPart" name="UACPart" class="form-control" placeholder="Enter UACPart No" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="searchAlloy" class="cols-sm-2 control-label">Alloy</label>
+                    <div class="cols-sm-10">
+                        @*@Html.DropDownList("Alloy",ViewBag.ddAlloy as IEnumerable<SelectListItem>, new { @class = "show-tick" })*@
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-text-width" aria-hidden="true"></i></span>
+                            <input type="text" value="@Model.Alloy" id="Alloy" name="Alloy" class="form-control" placeholder="Enter Alloy" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="searchTemper" class="cols-sm-2 control-label">Temper</label>
+                    <div class="cols-sm-10">
+                        @*@Html.DropDownList("Temper", ViewBag.ddTemper as IEnumerable<SelectListItem>, new { @class = "show-tick" })*@
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-text-width" aria-hidden="true"></i></span>
+                            <input type="text" value="@Model.Temper" id="Temper" name="Temper" class="form-control" placeholder="Enter Temper" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="searchHole" class="cols-sm-2 control-label">Hole</label>
+                    <div class="cols-sm-10">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-text-width" aria-hidden="true"></i></span>
+                           @* <input type="text" value="@Model.Hole" id="PlanOSCost" name="Hole" class="form-control" placeholder="Enter Hole" />*@
+                            <input type="text" value="@Model.Hole" id="Hole" name="Hole" class="form-control" placeholder="Enter Hole" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="searchPieceNo" class="cols-sm-2 control-label">Piece Number</label>
+                    <div class="cols-sm-10">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-text-width" aria-hidden="true"></i></span>
+                            <input type="text" value="@Model.PieceNo" id="PieceNo" name="PieceNo" class="form-control" placeholder="Enter Piece No" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="searchLocation2" class="cols-sm-2 control-label">Location 2</label>
+                    <div class="cols-sm-10">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-text-width" aria-hidden="true"></i></span>
+                            <input type="text" value="@Model.Location2" id="Location2" name="Location2" class="form-control" placeholder="Enter Location 2" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="searchGageThickness" class="cols-sm-2 control-label">Gage Thickness</label>
+                    <div class="cols-sm-10">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-text-width" aria-hidden="true"></i></span>
+                            <input type="text" value="@Model.GageThickness" id="GageThickness" name="GageThickness" class="form-control" placeholder="Enter Gage Thickness" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="searchComment" class="cols-sm-2 control-label">Material Comment</label>
+                    <div class="cols-sm-10">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-text-width" aria-hidden="true"></i></span>
+                            <input type="text" value="@Model.Comment" id="Comment" name="Comment" class="form-control" placeholder="Enter Material Comment" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="searchSoNum" class="cols-sm-2 control-label">SO Number</label>
+                    <div class="cols-sm-10">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-text-width" aria-hidden="true"></i></span>
+                            <input type="text" value="@Model.SoNum" id="SoNum" name="SoNum" class="form-control" placeholder="Enter SoNum" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+  
+        <div class="row">
+            <div class="col-md-8">
+                <div class="form-group">
+                    <button id="btnBack" onclick="window.history.back();" class="btn btn-danger btn-large"><i class="fa fa-times" aria-hidden="true"></i> Cancel</button>
+                    <button type="submit" class="btn btn-success"><i class="fa fa-check" aria-hidden="true"></i>Save</button>
+                   @* <button type="submit" id="btnSaveAM" name="btnSaveAM" onclick="return ValidateAM();" class="btn btn-success"><i class="fa fa-check" aria-hidden="true"></i>Save</button>*@
+
+                  @*  <button type="submit" @(@Model.RecID <= 0 ? "disabled='disabled'" : "" )  id="btnCopy" name="btnCopy" class="btn btn-warning" onclick="javascript: CopyAssignMaterial();"><i class="fa fa-clipboard" aria-hidden="true"></i>Add Process</button>*@
+                </div>
+            </div>
+        </div>
+    }
+
+</div>
+
+    <section>
+        <div id="ppUACListing" style="display:block" class="container">
+            <div class="row">
+                <div class="col-md-8">
+                    <h3>UAC Part List</h3>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    @{
+                        Html.RenderPartial("_Repeater", "UACRepeater");
+                    }
+                </div>
+                <div class="col-md-4">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">Selected UAC Parts List</div>
+                        <div class="panel-body">
+                            @*<div id="ppSelected"></div>*@
+                            <div id="SelectedList"></div>
+                            <div>
+                                <button type="button" id="btnSelected" class="btn btn-success"><i class="fa fa-check" aria-hidden="true"></i> Add Selected</button>
+                                @*<button type="submit" id="btnSaveAM" name="btnSaveAM" onclick="return ValidateAM();" class="btn btn-success"><i class="fa fa-check" aria-hidden="true"></i>Save</button>*@
+
+                                <button id="btnMaterialList" name="btnMaterialList" class="btn btn-info btn-large"><i class="fa fa-list" aria-hidden="true"></i> View Material List</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-8">&nbsp;</div>
+            </div>
+        </div>
+    </section>
+</div>
+
+@section scripts{
+    @Scripts.Render("~/bundles/SaveAssignMaterial")
+    @Scripts.Render("~/bundles/AssignMaterial")
+    <script>
+        var isUACGrid = true;
+        var MillLot_No;
+        var UAC_Part;
+
+        function CopyAssignMaterial() {
+            $("#IsCopy").val('true');
+        }
+    </script>
+}
