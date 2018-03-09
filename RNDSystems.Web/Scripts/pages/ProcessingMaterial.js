@@ -555,10 +555,8 @@ function customDataSource(options, callback) {
                                 async: false,
                                 dataType: "json",                               
                                 contentType: "application/json;charset=utf-8",
-                                success: function (data) {
-                                
-                                    if (data) {
-                                     
+                                success: function (data) {                                
+                                    if (data) {                                     
                                         $("input[class='ProcessRecID']").removeAttr('checked');
                                         location.href = '/ProcessingMaterial/ProcessingMaterialList?recId=0&workStudyID=' + $('#WorkStudyID').val();
                                     }
@@ -572,8 +570,7 @@ function customDataSource(options, callback) {
                     }
                     else {                        
                         bootbox.alert("Please Select Records to enter new AgeLotID");
-                    }
-                    // 
+                    }                    
                     //selectedRecords = "";
                     //$("input[class='ProcessRecID']").removeAttr('checked');
                 });
@@ -601,8 +598,7 @@ function customDataSource(options, callback) {
                                 dataType: "json",
                                 contentType: "application/json;charset=utf-8",
                                 success: function (data) {
-                                    if (data) {
-                                     
+                                    if (data) {                                     
                                         $('#ddMillLotNo').selectpicker('val', "-1");
                                         $('#ddHTLogID').selectpicker('val', "-1");
                                         $('#ddAgeLotID').selectpicker('val', "-1");
@@ -622,28 +618,18 @@ function customDataSource(options, callback) {
                         //}     
                     }     
                     else {
-                       // bootbox.alert("Please Select Records to enter AgeLotID");
-                    }
-                   
+                        bootbox.alert("Please Select Records to enter AgeLotID");
+                    }                   
                     //selectedRecords = "";
                     //$("input[class='ProcessRecID']").removeAttr('checked');
                 });
         });
 }
  
-//function ProcessSelected(RecId) {
-//    if (selectedRecords == "")
-//        selectedRecords += RecId;
-//    else
-//        selectedRecords += "," + RecId;
-
-//}
-
 function GridEditClicked(id) {
    
     location.href = '/ProcessingMaterial/SaveProcessingMaterial/' + id;
 }
-
 
 function GridDeleteClicked(id) {
     bootbox.confirm({
