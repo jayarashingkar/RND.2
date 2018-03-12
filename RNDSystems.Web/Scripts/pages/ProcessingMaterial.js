@@ -327,14 +327,6 @@ function customDataSource(options, callback) {
     if ($('#searchWorkStudyNumber').val())
         search += ';' + 'WorkStudyID:' + $('#searchWorkStudyNumber').val();
 
-    //if ($('#searchMillLotNo').val())
-    //    search += ';' + 'MillLotNo:' + $('#searchMillLotNo').val();
-
-    //if ($('#searchHTLogID').val())
-    //    search += ';' + 'HTLogID:' + $('#searchHTLogID').val();
-    //if ($('#searchAgeLotID').val())
-    //    search += ';' + 'AgeLotID:' + $('#searchAgeLotID').val();
-
     if ($('#ddMillLotNo').val())
         search += ';' + 'MillLotNo:' + $('#ddMillLotNo').val();
 
@@ -389,21 +381,7 @@ function customDataSource(options, callback) {
             callback(dataSource);
 
             // Check or Uncheck the record for selection to add to group.
-           
-            //starts here
-            //$("input[name='ProcessRecID']").on('click', function () {
-            //    var RId = $(this).val();
-                
-            //    //var selected = $.grep(items, function (x) {
-            //    //    //var checked = $("input[name='UACPartCheck']").is(':checked');
-            //    //    //if (checked)
-            //    //    return x.RecID == rid;
-            //    //})
-            //    if (selectedRecords == "")
-            //        selectedRecords += RId;
-            //    else
-            //        selectedRecords += "," + RId;
-            //});
+                     
             $("input[class='ProcessRecID']").on('click', function () {
                 // 
                 var recID = $(this).val();
@@ -420,17 +398,13 @@ function customDataSource(options, callback) {
                 }
                 var removecomma = selectedRecords.replace(",,", ",");
                 selectedRecords = removecomma;
-            });
-            //ends here
-            //start here
+            });            
 
           //  var GroupName = "";
           //  var GroupType = "";
          
                 $('#btnNewHTGroup').on('click', function () {
                     if (selectedRecords != "") {
-                                             
-                       
                         var options = {
                             GroupName: 'NEW',
                             SelectedRecords: selectedRecords,
@@ -451,8 +425,7 @@ function customDataSource(options, callback) {
                             success: function (data) {
                                 if (data) {
                                     $("input[class='ProcessRecID']").removeAttr('checked');
-                                    location.href = '/ProcessingMaterial/ProcessingMaterialList?recId=0&workStudyID=' + $('#WorkStudyID').val();
-                                    
+                                    location.href = '/ProcessingMaterial/ProcessingMaterialList?recId=0&workStudyID=' + $('#WorkStudyID').val();                                    
                                     //  $('#ProcessingMaterialRepeater').repeater('render');
                                 }
                                  else
@@ -461,11 +434,9 @@ function customDataSource(options, callback) {
                             error: function (x, y, z) { }
                         });
                       //  GroupName = "";
-                      //  GroupType = "";                     
-
+                      //  GroupType = "";     
                     }
                     else {
-                      
                         alert("Please Select Records to enter new HTLogID");
                     }
                     // 
@@ -524,12 +495,11 @@ function customDataSource(options, callback) {
                             //GroupType = "";
                         }
                         else {
-                          //  bootbox.alert("Please Enter HTLogID");
+                          bootbox.alert("Please Enter HTLogID");
                         }                                                
                     }
                     else {
-                     //    
-                   //     bootbox.alert("Please Select Records to enter HTLogID");
+                     bootbox.alert("Please Select Records to enter HTLogID");
                     }
                    
                 });
@@ -613,9 +583,9 @@ function customDataSource(options, callback) {
                             //GroupName = "";
                             //GroupType = "";                           
                         }
-                        //else {                            
-                        //    bootbox.alert("Please Enter AgeLotID");
-                        //}     
+                        else {                            
+                            bootbox.alert("Please Enter AgeLotID");
+                        }     
                     }     
                     else {
                         bootbox.alert("Please Select Records to enter AgeLotID");
@@ -703,4 +673,10 @@ $(document).ready(function () {
         location.href = '/ProcessingMaterial/SaveProcessingMaterial?id=0&workStudyId=' + $('#WorkStudyID').val();
     });
 
+    $('#btnTM').on('click', function () {
+     //   location.href = '/AssignMaterial/SaveAssignMaterial?id=0&workStudyId=' + $('#WorkStudyID').val();
+        //    customMarkup = "<button id='gridPM' data-RecId='" + rowData.RecID + "' data-WorkStudyID='" + rowData.WorkStudyID + "'  onclick= 'ProcessingMaterial(this)' name= 'gridPM' class='btn btn-primary btn-sm center-block' > <i class='fa fa-book'></i></button > ";
+        var workStudyID = $('#WorkStudyID').val();
+        location.href = '/TestingMaterial/TestingMaterialList?recId=0&workStudyID=' + workStudyID;
+    });
 });

@@ -115,7 +115,9 @@ function customColumnRenderer(helpers, callback) {
             break;
         case 'TestingMaterial':
             //let's combine name and description into a single column
-            customMarkup = "<button id='gridPM' data-RecId='" + rowData.RecId + "' data-WorkStudyID='" + rowData.WorkStudyID + "'  onclick= 'TestingMaterial(this)' name= 'gridTM' class='btn btn-secondary btn-sm center-block' > <i class='fa fa-book'></i></button > ";
+            //customMarkup = "<button id='gridPM' data-RecId='" + rowData.RecId + "' data-WorkStudyID='" + rowData.WorkStudyID + "'  onclick= 'TestingMaterial(this)' name= 'gridTM' class='btn btn-secondary btn-sm center-block' > <i class='fa fa-book'></i></button > ";
+            customMarkup = "<button id='gridTM' data-RecId='" + rowData.RecId + "' data-WorkStudyID='" + rowData.WorkStudyID + "'  onclick= 'TestingMaterial(this)' name= 'gridTM' class='btn btn-secondary btn-sm center-block' > <i class='fa fa-book'></i></button > ";
+
             break;
         //case 'MaterialTesting':
         //    // let's combine name and description into a single column
