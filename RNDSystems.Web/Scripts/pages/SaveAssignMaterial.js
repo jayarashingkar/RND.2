@@ -4,6 +4,11 @@
    
     var SelectedDataBase = "USA";
 
+    //EDIT
+    //if (($("#RecId").val() != "0")) {
+    //    $('#MillLotNo').attr("disable", true);
+    //}
+
     $('#btnMaterialList').on('click', function () {
         var workStudyID = $('#WorkStudyID').val();
         var recId = $('#RecId').val();
@@ -54,10 +59,18 @@
     if ($('#MillLotNo').val() === '0') {
         $('#MillLotNo').val('');
     }
-
+    debugger;
     if ($('#MillLotNo').val()) {
         //  debugger;
         $('#MillLotNo').prop("readonly", true);
+
+        // read only - during the EDIT
+        //$('#CustPart').prop("readonly", true);
+        //$('#UACPart').prop("readonly", true);
+        //$('#Alloy').prop("readonly", true);
+        //$('#Temper').prop("readonly", true);
+        //$('#SoNum').prop("readonly", true);
+
         $('#btnSelected').prop('disabled', false);
         MillLot_No = $('#MillLotNo').val();
 

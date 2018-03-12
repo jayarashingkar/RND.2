@@ -15,6 +15,7 @@
          selectedTestType = $.trim($("#ddTestTypes").val());
     });
 
+    ;
     $("#btnImportDefault").click(function () {
 
       //  $("#filePath").click();

@@ -192,24 +192,13 @@ function customDataSource(options, callback) {
 
         if (UACPart != null)
             search += ';' + 'UACPart:' + UACPart;
-            //    search += ';' + 'UacPartNo:' + UAC_Part;
-
-        //if (UAC_Part != null)
-        //    //  search += ';' + 'UACPartNo:' + UAC_Part;
-        //    search += ';' + 'UacPartNo:' + UAC_Part;
-    
+  
     }
     else {        
         if ($('#searchMillLotNo').val())
             search += ';' + 'MillLotNo:' + $('#searchMillLotNo').val();
 
-        //if ($('#searchCustPartNo').val())
-        //    search += ';' + 'CustPartNo:' + $('#searchCustPartNo').val();
-
-        //if ($('#searchUACPartNo').val())
-        //    search += ';' + 'UACPartNo:' + $('#searchUACPartNo').val();
-
-        if ($('#searchUACPartNo').val()) {            
+      if ($('#searchUACPartNo').val()) {            
             search += ';' + 'UACPart:' + $('#searchUACPartNo').val();
         }           
     }
@@ -306,8 +295,6 @@ function customDataSource(options, callback) {
                           $("#UACPartDiv_" + controlId).remove();
 
                       }
-
-
                       //if (selected && selected[0]) {      
                       //    var selec = selected[0];
                       //    // var html = "<div>" + selec.UACPart + " - " + selec.GageThickness + " - " + selec.Location2 + "<a name='pp_as' id='pp_" + rid + "'>Remove</a>" + "</div>";
