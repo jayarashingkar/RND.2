@@ -97,122 +97,177 @@ namespace RNDSystems.API.Controllers
         public HttpResponseMessage Post(ApiViewModel selectedTestType)
         {            
             bool isSuccess = true;
+            string message = "Import Error for: ";
             string data = string.Empty;
-            string TestType = selectedTestType.Message;
             string filePath = selectedTestType.Message1;
             //string custom = selectedTestType.Custom;
 
-            //custom = "custom";
-            //filePath = "s:";
+            List<string> TestTypes = selectedTestType.MessageList;          
+            string TestType = selectedTestType.Message;
+
+            ApiViewModel sendMessage = new ApiViewModel();
+            sendMessage.Message1 = "";
+            sendMessage.Success = true;
+            
             try
             {
-                switch (TestType)
+
+                if (filePath == "none")
                 {
-                    case "Tension":
+                    //Import Default
+                    foreach (var tt in TestTypes)
+                    {
+                        sendMessage = ImportData(tt, filePath);
+                        if (!sendMessage.Success)
                         {
-                            //implemented
-                            if (filePath == "none")
-                                filePath = "S:\\RD\\Database\\Export\\ForNewDataBase\\Tension.csv";
-                           // filePath = "\\USCTRD01\\RDServer\\RD\\Database\\Export\\ForNewDataBase\\Modulus Tension.csv";
-                            isSuccess = ImportTensionData(filePath);
-                            break;
+                            isSuccess = false;
+                            if (message == "Import Error for: ")
+                                message += tt;
+                            else
+                                message += ", " + tt;
+                            // return Serializer.ReturnContent(sendMessage, this.Configuration.Services.GetContentNegotiator(), this.Configuration.Formatters, this.Request);
                         }
-                    case "Compression":
-                        {                           
-                            if (filePath == "none")
-                                filePath = "S:\\RD\\Database\\Export\\ForNewDataBase\\Compression.csv";
-
-                            //if (custom == "custom")
-                            //    filePath = filePath + "\\TestImport.csv";
-
-                            //  filePath = "S:\\TestImport.csv";
-                            // filePath = "\\USCTRD01\\RDServer\\RD\\Database\\Export\\ForNewDataBase\\Compression.csv";
-                            isSuccess = ImportCompressionData(filePath);
-                            break;
-                        }
-                    case "Bearing":
-                        {
-                            if (filePath == "none")
-                                filePath = "S:\\RD\\Database\\Export\\ForNewDataBase\\Bearing.csv";
-                            //  filePath = "\\USCTRD01\\RDServer\\RD\\Database\\Export\\ForNewDataBase\\Bearing.csv";
-                            isSuccess = ImportBearingData(filePath);
-                            break;
-                        }
-                    case "Shear":
-                        {
-                            if (filePath == "none")
-                                filePath = "S:\\RD\\Database\\Export\\ForNewDataBase\\Shear.csv";
-                          //  filePath = "\\USCTRD01\\RDServer\\RD\\Database\\Export\\ForNewDataBase\\Shear.csv";
-
-                            isSuccess = ImportShearData(filePath);
-                            break;
-                        }
-                    case "Notch Yield":
-                        {
-                            //implemented
-                            isSuccess = ImportNotchYieldData(filePath);
-                            break;
-                        }
-                    case "Residual Strength":
-                        {
-                            //implemented
-                            isSuccess = ImportResidualStrengthData(filePath);
-                            break;
-                        }
-                    case "Fracture Toughness":
-                        {
-                            if (filePath == "none")
-                                filePath = "S:\\RD\\Database\\Export\\ForNewDataBase\\Fracture Toughness.csv";
-                            //filePath = "\\USCTRD01\\RDServer\\RD\\Database\\Export\\ForNewDataBase\\Fracture Toughness.csv";
-
-                            //implemented
-                            isSuccess = ImportFractureToughnessData(filePath);
-                            break;
-                        }
-                    case "Modulus Tension":
-                        {
-                            if (filePath == "none")
-                                filePath = "S:\\RD\\Database\\Export\\ForNewDataBase\\Fracture Toughness.csv";
-                            // filePath = "\\USCTRD01\\RDServer\\RD\\Database\\Export\\ForNewDataBase\\Fracture Toughness.csv";
-
-                            isSuccess = ImportModulusTensionData(filePath);
-                            break;
-                        }
-                    case "Modulus Compression":
-                        {
-                            if (filePath == "none")
-                                filePath = "S:\\RD\\Database\\Export\\ForNewDataBase\\Modulus Compression.csv";
-                            //  filePath = "\\USCTRD01\\RDServer\\RD\\Database\\Export\\ForNewDataBase\\Modulus Compression.csv";
-
-                            isSuccess = ImportModulusCompressionData(filePath);
-                            break;
-                        }
-                    case "Fatigue Testing":
-                        {
-                            if (filePath == "none")
-                                filePath = "S:\\RD\\Database\\Export\\ForNewDataBase\\Fatigue Testing.csv";
-                            //  filePath = "\\USCTRD01\\RDServer\\RD\\Database\\Export\\ForNewDataBase\\Fatigue Testing.csv";
-
-                            isSuccess = ImportFatigueTestingData(filePath);
-                            break;
-                        }
-                    default:
-                        break;
-
+                        //return Serializer.ReturnContent(sendMessage, this.Configuration.Services.GetContentNegotiator(), this.Configuration.Formatters, this.Request);
+                        //break;
+                    }
+                    sendMessage.Message1 = message;
+                    sendMessage.Success = isSuccess;
                 }
-                return Serializer.ReturnContent(isSuccess, this.Configuration.Services.GetContentNegotiator(), this.Configuration.Formatters, this.Request);
+                else
+                {
+                    //Import Custom
+                    sendMessage = ImportData(TestType, filePath);
+                    if (!sendMessage.Success)
+                    {
+                        sendMessage.Message1 = "Import Error for: " + TestType;
+                    }
+                      
+                }                   
+
+              //  return Serializer.ReturnContent(sendMessage, this.Configuration.Services.GetContentNegotiator(), this.Configuration.Formatters, this.Request);
             }
             catch (Exception ex)
             {
                 _logger.Error(ex.Message);
-                return new HttpResponseMessage(HttpStatusCode.InternalServerError);
+                sendMessage.Message1 = ex.Message.ToString();
+                sendMessage.Success = false;
+                // return new HttpResponseMessage(HttpStatusCode.InternalServerError);
             }
-       }
+            return Serializer.ReturnContent(sendMessage, this.Configuration.Services.GetContentNegotiator(), this.Configuration.Formatters, this.Request);
+        }
+        ApiViewModel ImportData(string tt, string filePath)
+        {
+            ApiViewModel sendMessage = new ApiViewModel();
+            sendMessage.Message = "";
+            sendMessage.Success = false;
+            //bool isSuccess = false;
+            switch (tt)
+            {
+                case "Tension":
+                    {
+                        //implemented
+                        if (filePath == "none")
+                            filePath = "S:\\RD\\Database\\Export\\ForNewDataBase\\Tension.csv";
+                        // filePath = "\\USCTRD01\\RDServer\\RD\\Database\\Export\\ForNewDataBase\\Modulus Tension.csv";
+                      
+                        sendMessage = ImportTensionData(filePath);
+                        break;
+                    }
+                case "Compression":
+                    {
+                        if (filePath == "none")
+                            filePath = "S:\\RD\\Database\\Export\\ForNewDataBase\\Compression.csv";
+
+                        //if (custom == "custom")
+                        //    filePath = filePath + "\\TestImport.csv";
+
+                        //  filePath = "S:\\TestImport.csv";
+                        // filePath = "\\USCTRD01\\RDServer\\RD\\Database\\Export\\ForNewDataBase\\Compression.csv";
+                        sendMessage = ImportCompressionData(filePath);
+                        break;
+                    }
+                case "Bearing":
+                    {
+                        if (filePath == "none")
+                            filePath = "S:\\RD\\Database\\Export\\ForNewDataBase\\Bearing.csv";
+                        //  filePath = "\\USCTRD01\\RDServer\\RD\\Database\\Export\\ForNewDataBase\\Bearing.csv";
+                        sendMessage = ImportBearingData(filePath);
+                        break;
+                    }
+                case "Shear":
+                    {
+                        if (filePath == "none")
+                            filePath = "S:\\RD\\Database\\Export\\ForNewDataBase\\Shear.csv";
+                        //  filePath = "\\USCTRD01\\RDServer\\RD\\Database\\Export\\ForNewDataBase\\Shear.csv";
+
+                        sendMessage = ImportShearData(filePath);
+                        break;
+                    }
+                case "Notch Yield":
+                    {
+                        //implemented
+                        sendMessage = ImportNotchYieldData(filePath);
+                        break;
+                    }
+                case "Residual Strength":
+                    {
+                        //implemented
+                        sendMessage = ImportResidualStrengthData(filePath);
+                        break;
+                    }
+                case "Fracture Toughness":
+                    {
+                        if (filePath == "none")
+                            filePath = "S:\\RD\\Database\\Export\\ForNewDataBase\\Fracture Toughness.csv";
+                        //filePath = "\\USCTRD01\\RDServer\\RD\\Database\\Export\\ForNewDataBase\\Fracture Toughness.csv";
+
+                        //implemented
+                        sendMessage = ImportFractureToughnessData(filePath);
+                        break;
+                    }
+                case "Modulus Tension":
+                    {
+                        if (filePath == "none")
+                            filePath = "S:\\RD\\Database\\Export\\ForNewDataBase\\Modulus Tension.csv";
+                        // filePath = "\\USCTRD01\\RDServer\\RD\\Database\\Export\\ForNewDataBase\\Fracture Toughness.csv";
+
+                        sendMessage = ImportModulusTensionData(filePath);
+                        break;
+                    }
+                case "Modulus Compression":
+                    {
+                        if (filePath == "none")
+                            filePath = "S:\\RD\\Database\\Export\\ForNewDataBase\\Modulus Compression.csv";
+                        //  filePath = "\\USCTRD01\\RDServer\\RD\\Database\\Export\\ForNewDataBase\\Modulus Compression.csv";
+
+                        sendMessage = ImportModulusCompressionData(filePath);
+                        break;
+                    }
+                case "Fatigue Testing":
+                    {
+                        if (filePath == "none")
+                            filePath = "S:\\RD\\Database\\Export\\ForNewDataBase\\Fatigue Testing.csv";
+                        //  filePath = "\\USCTRD01\\RDServer\\RD\\Database\\Export\\ForNewDataBase\\Fatigue Testing.csv";
+
+                        sendMessage = ImportFatigueTestingData(filePath);
+                        break;
+                    }
+                default:
+                    break;
+
+            }
+            return sendMessage;
+
+        }
 
         public List<TensionViewModel> listTensionData { get; set; }
 
-        bool ImportTensionData(string filePath)
+        ApiViewModel ImportTensionData(string filePath)
         {
+            ApiViewModel sendMessage = new ApiViewModel();
+            sendMessage.Message = "";
+            sendMessage.Success = false;
+
             try
             {
                 listTensionData = new List<TensionViewModel>();
@@ -280,20 +335,27 @@ namespace RNDSystems.API.Controllers
                     }
                     introw++;
                 }
-                              
-                return true;
+                sendMessage.Success = true;
+               
             }
             catch(Exception ex)
             {
                 _logger.Error(ex.Message);
-                return false;
-            }           
+                sendMessage.Success = false;
+                sendMessage.Message = ex.Message.ToString();
+                
+            }
+            return sendMessage;
         }
 
         public List<CompressionViewModel> listCompressionData { get; set; }
 
-        bool ImportCompressionData(string filePath)
+        ApiViewModel ImportCompressionData(string filePath)
         {
+            ApiViewModel sendMessage = new ApiViewModel();
+            sendMessage.Message = "";
+            sendMessage.Success = false;
+
             try
             {
                 listCompressionData = new List<CompressionViewModel>();
@@ -360,20 +422,27 @@ namespace RNDSystems.API.Controllers
                     }
                     introw++;
                 }
-                return true;
+                sendMessage.Success = true;
+
             }
             catch (Exception ex)
             {
                 _logger.Error(ex.Message);
-                return false;
+                sendMessage.Success = false;
+                sendMessage.Message = ex.Message.ToString();
+
             }
+            return sendMessage;
         }
 
-      
+
         public List<BearingViewModel> listBearingData { get; set; }
 
-        bool ImportBearingData(string filePath)
+        ApiViewModel ImportBearingData(string filePath)
         {
+            ApiViewModel sendMessage = new ApiViewModel();
+            sendMessage.Message = "";
+            sendMessage.Success = false;
             try
             {
                 listBearingData = new List<BearingViewModel>();
@@ -439,19 +508,27 @@ namespace RNDSystems.API.Controllers
                     }
                     introw++;
                 }
-                return true;
+                sendMessage.Success = true;
+
             }
             catch (Exception ex)
             {
                 _logger.Error(ex.Message);
-                return false;
+                sendMessage.Success = false;
+                sendMessage.Message = ex.Message.ToString();
+
             }
+            return sendMessage;
         }
-    
+
         public List<ShearViewModel> listShearData { get; set; }
 
-        bool ImportShearData(string filePath)
+        ApiViewModel ImportShearData(string filePath)
         {
+            ApiViewModel sendMessage = new ApiViewModel();
+            sendMessage.Message = "";
+            sendMessage.Success = false; 
+
             try
             {
                 listShearData = new List<ShearViewModel>();
@@ -513,20 +590,27 @@ namespace RNDSystems.API.Controllers
                     }
                     introw++;
                 }
-                return true;
+                sendMessage.Success = true;
+
             }
             catch (Exception ex)
             {
                 _logger.Error(ex.Message);
-                return false;
+                sendMessage.Success = false;
+                sendMessage.Message = ex.Message.ToString();
+
             }
+            return sendMessage;
         }
 
 
 
         public List<NotchYieldViewModel> listNotchYieldData { get; set; }
-        bool ImportNotchYieldData(string filePath)
+        ApiViewModel ImportNotchYieldData(string filePath)
         {
+            ApiViewModel sendMessage = new ApiViewModel();
+            sendMessage.Message = "";
+            sendMessage.Success = false;
             try
             {
                 listNotchYieldData = new List<NotchYieldViewModel>();
@@ -594,23 +678,30 @@ namespace RNDSystems.API.Controllers
                     }
                     introw++;
                 }
-                return true;
+                sendMessage.Success = true;
+
             }
             catch (Exception ex)
             {
                 _logger.Error(ex.Message);
-                return false;
+                sendMessage.Success = false;
+                sendMessage.Message = ex.Message.ToString();
+
             }
+            return sendMessage;
         }
 
         /// <summary>
         /// ResidualStrength
         /// </summary>
         /// <returns></returns>
-       public List<ResidualStrengthViewModel> listResidualStrengthData { get; set; }
+        public List<ResidualStrengthViewModel> listResidualStrengthData { get; set; }
 
-        bool ImportResidualStrengthData(string filePath)
+        ApiViewModel ImportResidualStrengthData(string filePath)
         {
+            ApiViewModel sendMessage = new ApiViewModel();
+            sendMessage.Message = "";
+            sendMessage.Success = false;
             try
             {
                 listResidualStrengthData = new List<ResidualStrengthViewModel>();
@@ -686,13 +777,17 @@ namespace RNDSystems.API.Controllers
                     }
                     introw++;
                 }
-                return true;
+                sendMessage.Success = true;
+
             }
             catch (Exception ex)
             {
                 _logger.Error(ex.Message);
-                return false;
+                sendMessage.Success = false;
+                sendMessage.Message = ex.Message.ToString();
+
             }
+            return sendMessage;
         }
 
 
@@ -700,9 +795,12 @@ namespace RNDSystems.API.Controllers
         /// Fracture Toughness
         /// </summary>
         public List<FractureToughnessViewModel> listFractureToughnessData { get; set; }
-       
-        bool ImportFractureToughnessData(string filePath)
+
+        ApiViewModel ImportFractureToughnessData(string filePath)
         {
+            ApiViewModel sendMessage = new ApiViewModel();
+            sendMessage.Message = "";
+            sendMessage.Success = false;
             try
             {
                 listFractureToughnessData = new List<FractureToughnessViewModel>();
@@ -790,20 +888,27 @@ namespace RNDSystems.API.Controllers
                     }
                     introw++;
                 }
-                return true;
+                sendMessage.Success = true;
+
             }
             catch (Exception ex)
             {
                 _logger.Error(ex.Message);
-                return false;
+                sendMessage.Success = false;
+                sendMessage.Message = ex.Message.ToString();
+
             }
+            return sendMessage;
         }
-       
+
 
         public List<ModulusTensionDataViewModel> listModulusTensionData { get; set; }
 
-        bool ImportModulusTensionData(string filePath)
+        ApiViewModel ImportModulusTensionData(string filePath)
         {
+            ApiViewModel sendMessage = new ApiViewModel();
+            sendMessage.Message = "";
+            sendMessage.Success = false;
             try
             {
                 listModulusTensionData = new List<ModulusTensionDataViewModel>();
@@ -868,20 +973,27 @@ namespace RNDSystems.API.Controllers
                     }
                     introw++;
                 }
-                return true;
+                sendMessage.Success = true;
+
             }
             catch (Exception ex)
             {
                 _logger.Error(ex.Message);
-                return false;
+                sendMessage.Success = false;
+                sendMessage.Message = ex.Message.ToString();
+
             }
+            return sendMessage;
         }
 
 
         public List<ModulusCompressionDataViewModel> listModulusCompressionData { get; set; }
 
-        bool ImportModulusCompressionData(string filePath)
+        ApiViewModel ImportModulusCompressionData(string filePath)
         {
+            ApiViewModel sendMessage = new ApiViewModel();
+            sendMessage.Message = "";
+            sendMessage.Success = false;
             try
             {
                 listModulusCompressionData = new List<ModulusCompressionDataViewModel>();
@@ -952,19 +1064,26 @@ namespace RNDSystems.API.Controllers
                     introw++;
                 }
                 //SqlParameter param1 = new SqlParameter("@RecID", tension.RecID);
-                return true;
+                sendMessage.Success = true;
+
             }
             catch (Exception ex)
             {
                 _logger.Error(ex.Message);
-                return false;
+                sendMessage.Success = false;
+                sendMessage.Message = ex.Message.ToString();
+
             }
+            return sendMessage;
         }
 
         public List<FatigueTestingDataViewModel> listFatigueTestingData { get; set; }
 
-        bool ImportFatigueTestingData(string filePath)
+        ApiViewModel ImportFatigueTestingData(string filePath)
         {
+            ApiViewModel sendMessage = new ApiViewModel();
+            sendMessage.Message = "";
+            sendMessage.Success = false;
             try
             {
                 listFatigueTestingData = new List<FatigueTestingDataViewModel>();
@@ -1058,13 +1177,17 @@ namespace RNDSystems.API.Controllers
                     }
                     introw++;
                 }
-                return true;
+                sendMessage.Success = true;
+
             }
             catch (Exception ex)
             {
                 _logger.Error(ex.Message);
-                return false;
+                sendMessage.Success = false;
+                sendMessage.Message = ex.Message.ToString();
+
             }
+            return sendMessage;
         }
 
     }
