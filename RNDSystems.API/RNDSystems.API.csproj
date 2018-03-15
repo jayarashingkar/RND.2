@@ -255,6 +255,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ImportDataController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\OptionsController.cs" />
     <Compile Include="Controllers\ProcessingController.cs" />
     <Compile Include="Controllers\RegisterController.cs" />
     <Compile Include="Controllers\ReportsController.cs" />
@@ -343,6 +344,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="Views\Grid\" />
     <Folder Include="Views\ImportData\" />
+    <Folder Include="Views\Options\" />
     <Folder Include="Views\Reports\" />
     <Folder Include="Views\Serializer\" />
     <Folder Include="Views\Testing\" />

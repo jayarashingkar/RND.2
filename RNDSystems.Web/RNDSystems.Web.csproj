@@ -207,6 +207,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\pages\AssignMeterial.js" />
     <Content Include="Scripts\pages\ImportData.js" />
+    <Content Include="Scripts\pages\SetOptions.js" />
     <Content Include="Scripts\pages\ProcessingMaterial.js" />
     <Content Include="Scripts\pages\RegisteredUserList.js" />
     <Content Include="Scripts\pages\Reports.js" />
@@ -237,6 +238,7 @@
     <Compile Include="Controllers\ImportDataController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\LogOutController.cs" />
+    <Compile Include="Controllers\OptionsController.cs" />
     <Compile Include="Controllers\ProcessingMaterialController.cs" />
     <Compile Include="Controllers\RegisterController.cs" />
     <Compile Include="Controllers\RnDReportsController.cs" />
@@ -247,7 +249,9 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\LocationViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
+    <Compile Include="ViewModels\StudyTypeViewModel.cs" />
     <Compile Include="ViewModels\RegisterViewModel.cs" />
     <Compile Include="ViewModels\ReportsViewModel.cs" />
     <Compile Include="ViewModels\RNDWorkStudyViewModel.cs" />
@@ -282,6 +286,10 @@
     <Content Include="Views\RnDReports\Reports.cshtml" />
     <Content Include="Views\ImportData\ImportData.cshtml" />
     <None Include="Properties\PublishProfiles\RNDWeb.pubxml" />
+    <Content Include="Views\Options\SetOptions.cshtml" />
+    <Content Include="Views\Options\OptionView.cshtml" />
+    <Content Include="Views\Options\StudyTypeOptionView.cshtml" />
+    <Content Include="Views\Options\LocationView.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

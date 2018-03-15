@@ -268,23 +268,17 @@ function customDataSource(options, callback) {
 
             // invoke callback to render repeater
             callback(dataSource);
-          //  debugger;
-            //    $("input[name='UACPartCheck']").on('change', function () {          
-            $("input[class='UACPartCheck']").on('click', function () {
+
+           $("input[class='UACPartCheck']").on('click', function () {
                 var controlId = $(this).attr("id").split("_")[1];
-                //  var rid = $(this).val();             
                 var rid = $(this).val();
                       var selected = $.grep(items, function (x) {
-                          //var checked = $("input[name='UACPartCheck']").is(':checked');
-                          //if (checked)SElected
-                            return x.RecID == rid;
+                           return x.RecID == rid;
                       })
                       //debugger;
                       if ($(this).prop('checked')) {
                           var selec = selected[0];
-                          // var html = "<div>" + selec.UACPart + " - " + selec.GageThickness + " - " + selec.Location2 + "<a name='pp_as' id='pp_" + rid + "'>Remove</a>" + "</div>";
                           var html = "<div id='UACPartDiv_" + controlId + "'>" + selec.UACPart + " - " + selec.GageThickness + " - " + selec.Location2 + "<a class='SelectedRecord_" + controlId + "' name='SelectedRecord' id='SelectedRecord" + rid + "'>Remove</a>" + "</div>";
-                          // $("#ppSelected").append(html)
                           $("#SelectedList").append(html)
                           $("a[name='SelectedRecord']").on('click', function () {
                               $("#UACPartCheck_" + $(this).attr("class").split("_")[1]).prop("checked", false)
@@ -295,17 +289,6 @@ function customDataSource(options, callback) {
                           $("#UACPartDiv_" + controlId).remove();
 
                       }
-                      //if (selected && selected[0]) {      
-                      //    var selec = selected[0];
-                      //    // var html = "<div>" + selec.UACPart + " - " + selec.GageThickness + " - " + selec.Location2 + "<a name='pp_as' id='pp_" + rid + "'>Remove</a>" + "</div>";
-                      //    var html = "<div id='UACPartDiv_" + controlId + "'>" + selec.UACPart + " - " + selec.GageThickness + " - " + selec.Location2 + "<a name='SelectedRecord' id='SelectedRecord" + rid + "'>Remove</a>" + "</div>";
-                      //    // $("#ppSelected").append(html)
-                      //    $("#SelectedList").append(html)
-                      //    $("a[name='SelectedRecord']").on('click', function () {
-                      //        $(this).parent().remove();
-                      //    });
-                      //}     
-                //ppSelected
             });
         });
 }
@@ -314,14 +297,6 @@ function customDataSource(options, callback) {
 function GridEditClicked(id) {
     location.href = '/AssignMaterial/SaveAssignMaterial/' + id;
 }
-
-
-//function ProcessingMaterial(ele) {
-//    var recId = $(ele).attr('data-RecId');
-//    var workStudyID = $(ele).attr('data-WorkStudyID');
-//    location.href = '/ProcessingMaterial/ProcessingMaterialList?recId=' + recId + '&workStudyID=' + workStudyID;
-//}
-
 
 function GridDeleteClicked(id) {
 
@@ -378,12 +353,7 @@ $(document).ready(function () {
     if ($('#WorkStudyID').val() !== '0') {
         $('#searchWorkStudyNumber').prop("readonly", true);
     }
-    /*
-    $('#AlloyTypes').attr('data-live-search', 'true');
-    $('#AlloyTypes').selectpicker();
-    $('#TemperTypes').attr('data-live-search', 'true');
-    $('#TemperTypes').selectpicker();
-    */
+
     $('#btnAdd').on('click', function () {
         location.href = '/AssignMaterial/SaveAssignMaterial?id=0&workStudyId=' + $('#WorkStudyID').val();
     });

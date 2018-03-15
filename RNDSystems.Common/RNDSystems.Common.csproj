@@ -42,8 +42,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Constants\CommonConstants.cs" />
+    <Compile Include="Constants\CRUDConstants.cs" />
     <Compile Include="Constants\GroupTypeConstants.cs" />
     <Compile Include="Constants\MessageConstants.cs" />
+    <Compile Include="Constants\OptionTypeConstants.cs" />
     <Compile Include="Constants\PermissionConstants.cs" />
     <Compile Include="Constants\UserTypeConstants.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

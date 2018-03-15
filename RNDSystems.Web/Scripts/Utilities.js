@@ -5,6 +5,11 @@ RND.Constants = {
     AreYouDelete: "Are you sure want to delete it?"
 };
 
+RND.OptionConstant = {
+    StudyType: "StudyType",
+    Location: "Location"
+};
+
 function GetRootDirectory() {
     if (location.origin.indexOf('local') > -1)
         return "";

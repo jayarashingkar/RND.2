@@ -82,6 +82,7 @@
     <Compile Include="ViewModels\DataGridoption.cs" />
     <Compile Include="ViewModels\DataSearch.cs" />
     <Compile Include="ViewModels\ImportDataViewModel.cs" />
+    <Compile Include="ViewModels\OptionsViewModel.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -94,6 +94,10 @@ namespace RNDSystems.Web
             bundles.Add(new ScriptBundle("~/bundles/Reports").Include(
                       "~/Scripts/pages/Reports.js"
                       ));
+            bundles.Add(new ScriptBundle("~/bundles/SetOptions").Include(
+                     "~/Scripts/pages/SetOptions.js"
+                     ));
+
             BundleTable.EnableOptimizations = false;
         }
     }

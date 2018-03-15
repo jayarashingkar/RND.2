@@ -278,7 +278,6 @@ function customColumnRenderer(helpers, callback) {
          //   customMarkup = '<input type="checkbox" id="ProcessRecID" name="ProcessRecID" onchange="ProcessSelected(' + rowData.RecID + ')"/>';
             customMarkup = ' <input type="checkbox" name="ProcessRecID" id="ProcessRecID' + rowData.RecID + '" class="ProcessRecID" value="' + rowData.RecID + '"/>';
 
-              // customMarkup = '<input type="button" name="UACPartCheck" click="selected();" value="' + rowData.RecID + '" class="btn btn-success btn-sm center-block fa fa-plus" />';
             break;
         case 'ArtAgeDate':
             // let's combine name and description into a single column

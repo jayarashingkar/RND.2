@@ -171,7 +171,7 @@ namespace RNDSystems.Web.Controllers
 
         /// <summary>
         /// User entered the MillLotNo and moves to another control, If the MillLotNo is exist and
-        /// it will ftech the value and shows the UACList grid.
+        /// it will fetch the value and shows the UACList grid.
         /// </summary>
         /// <param name="id"></param>
         /// <param name="MillLotNo"></param>

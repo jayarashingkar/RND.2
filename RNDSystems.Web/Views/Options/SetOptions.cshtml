@@ -1,0 +1,79 @@
+﻿@model  RNDSystems.Models.ViewModels.OptionsViewModel
+@{
+    ViewBag.Title = "SetOptions";
+}
+
+<div class="panel-heading">Options</div>
+<div class="panel_b" style="min-height:500px">
+    <div id="searchDiv" class="container">
+
+        <div class="row">
+            <div class="col-md-3 pull-right">
+                <button id="btnBack" onclick="window.history.back();" class="btn btn-primary btn-large"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</button>
+            </div>
+        </div>
+
+        @* <label for="lblImportTypes" class="cols-sm-2 control-label">Select Import Type:</label>*@
+        <label for="lblSelectOptions" id="lblSelectOptions" class="cols-sm-2 control-label bg-primary text-uppercase">Select Options</label>
+        @*<form>
+                <input type="radio" id="Default" value="Default" name="ImportRadio" checked>Default<br>
+                <input type="radio" id="Custom" value="Custom" name="ImportRadio">Custom
+            </form>*@
+
+        <div class="row">
+            <div class="col-md-3 ">
+                <form>
+                    <input type="radio" id="StudyType" value="StudyType" name="OptionRadio" checked>Study Type<br>
+                    <input type="radio" id="Location" value="Location" name="OptionRadio">Location<br>
+                    @* <input type="radio" id="Manual" value="Manual" name="ImportRadio" disabled>Manual Entry*@
+                    @*<input type="hidden" name="optionType" id="optionType" value="@Model.optionType" />*@
+                </form>
+            </div>
+            <div class="col-md-3 ">
+                <div class="form-group">
+                    <div class="button btn btn-primary" id="btnSelectOption">Select</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <h3>Custom Option</h3>
+    @*<section>
+        <div id="CustomOption" style="display:block" class="container">
+            <div class="row">
+                <div class="col-md-8">                  
+                    @Html.Partial("OptionView");  
+                </div>
+            </div>           
+        </div>
+    </section>*@
+    <section>
+        <div id="StudyTypeOptionOption" style="display:block" class="container">
+            <div class="row">
+                <div class="col-md-8">
+                    @Html.Partial("StudyTypeOptionView");
+                </div>
+            </div>
+        </div>
+        <div id="LocationOption" style="display:block" class="container">
+            <div class="row">
+                <div class="col-md-8">
+                    @Html.Partial("LocationView");
+                </div>
+            </div>
+        </div>
+    </section>
+
+</div>
+@section scripts{
+    @Scripts.Render("~/bundles/SetOptions")
+    @*<script>
+            $(document).ready(function () {
+                LoadGrid("ImportDataRepeater");
+            });
+        </script>*@
+}
+
+
+
+
