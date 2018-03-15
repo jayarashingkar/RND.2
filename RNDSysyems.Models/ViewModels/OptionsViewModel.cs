@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Web.Mvc;
 
 
 namespace RNDSystems.Models.ViewModels
@@ -20,6 +18,10 @@ namespace RNDSystems.Models.ViewModels
         //    public int StudyTypeRecID { get; set; }
          public string TypeStudy { get; set; }
          public string TypeDesc { get; set; }
+
+        public List<SelectListItem> StudyTypeList { get; set; }
+        public List<SelectListItem> LocationList { get; set; }
+
 
     }
 }

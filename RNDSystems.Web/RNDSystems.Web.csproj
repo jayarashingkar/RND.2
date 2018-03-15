@@ -288,8 +288,8 @@
     <None Include="Properties\PublishProfiles\RNDWeb.pubxml" />
     <Content Include="Views\Options\SetOptions.cshtml" />
     <Content Include="Views\Options\OptionView.cshtml" />
-    <Content Include="Views\Options\StudyTypeOptionView.cshtml" />
-    <Content Include="Views\Options\LocationView.cshtml" />
+    <Content Include="Views\Options\StudyTypeOption.cshtml" />
+    <Content Include="Views\Options\LocationOption.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

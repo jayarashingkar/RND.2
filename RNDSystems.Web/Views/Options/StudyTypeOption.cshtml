@@ -1,0 +1,43 @@
+﻿
+@model RNDSystems.Models.ViewModels.OptionsViewModel
+@{
+    ViewBag.Title = "StudyTypeOption";
+}
+
+<h2>
+    <label for="" name="hdStudyType" id="hdStudyType" class="cols-sm-2 control-label bg-primary text-uppercase">Study Type</label>
+</h2>
+
+<div class="row">
+    <div class="col-md-3">
+        <div class="form-group">
+            <label for="lblStudyType" class="cols-sm-2 control-label">Study Types</label>
+            <div class="cols-sm-10">
+                @Html.DropDownList("ddStudyTypeList", ViewBag.ddStudyTypeList as IEnumerable<SelectListItem>, new { @class = "show-tick", data_size = "6" })
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="form-group">
+        <label for="lblStudyTypeDesc" class="cols-sm-2 control-label">Study Type Desc</label>
+        <div class="cols-sm-10">
+            <div class="input-group">
+                <span class="input-group-addon"><i class="fa fa-text-width" aria-hidden="true"></i></span>
+                <input type="text" value="@Model.TypeDesc" id="TypeDesc" name="TypeDesc" class="form-control" placeholder="Enter Study Type Desciption" />
+                @* <input type="hidden" name="PlantDesc" id="PlantDesc" value="@Model.PlantDesc" />*@
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-3">
+        <div class="form-group">
+            <button type="submit" class="button btn btn-success" id="btnLocationSave">Save</button>
+        </div>
+    </div>
+</div>
+
+
+
+

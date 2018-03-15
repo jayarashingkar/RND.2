@@ -17,30 +17,35 @@ namespace RNDSystems.Web.Controllers
         {
             _logger.Debug("SetOptions");
 
-            string[] strOptions = {"Study Type", "Location", "Location1", "Database", "TestLab"};
-            List<SelectListItem> ddOptionList = new List<SelectListItem>();
+            // string[] strOptions = {"Study Type", "Location", "Location1", "Database", "TestLab"};
+            //string[] strOptions = { "Study Type", "Location", "Location1", "Database", "TestLab" };
+            List<SelectListItem> ddStudyTypeList = new List<SelectListItem>();
+            List<SelectListItem> ddLocationList = new List<SelectListItem>();
+            OptionsViewModel optionModel = new OptionsViewModel();
             try
             {
-                int intRowId = 0;
-                string strValue = string.Empty;
-                while (intRowId < strOptions.Length)
-                {
-                    strValue = strOptions[intRowId];
-                    ddOptionList.Add(new SelectListItem
+                var client = GetHttpClient();
+                var task = client.GetAsync(Api + "api/Options?recID=0").ContinueWith((res) =>
                     {
-                        Value = strValue,
-                        Text = strValue,
-                       // Selected = (testingOrientation == Convert.ToString(strValue)) ? true : false,
-                    });     
-                    intRowId += 1;
-                }
-                ViewBag.ddOptionList = ddOptionList;
+                        if (res.Result.IsSuccessStatusCode)
+                        {
+                            optionModel = JsonConvert.DeserializeObject<OptionsViewModel>(res.Result.Content.ReadAsStringAsync().Result);
+                            if (optionModel != null)
+                            {
+                                ddStudyTypeList = optionModel.StudyTypeList;
+                                ddLocationList = optionModel.LocationList;
+                            }
+                        }
+                    });
+                    task.Wait();
+                    ViewBag.ddStudyTypeList = ddStudyTypeList;
+                    ViewBag.ddLocationList = ddLocationList;
             }
             catch (Exception ex)
             {
                 _logger.Error(ex);
             }
-            return View();
+            return View(optionModel);
         }
 
         public ActionResult OptionView(int id, string optionType)
@@ -51,20 +56,53 @@ namespace RNDSystems.Web.Controllers
             return PartialView(model);
         }
 
-        public ActionResult StudyTypeOptionView(int id, string optionType)
+        //public ActionResult GetOptionList(string optionType)
+        //{
+            
+        //    OptionsViewModel optionModel = new OptionsViewModel();
+        //    optionModel.optionType = optionType;
+
+        //    List<SelectListItem> ddStudyTypes = null;
+        //    {
+        //        var client = GetHttpClient();
+        //        var task = client.GetAsync(Api + "api/Options?recID=0").ContinueWith((res) =>
+        //        {
+        //            if (res.Result.IsSuccessStatusCode)
+        //            {
+        //                 optionModel = JsonConvert.DeserializeObject<OptionsViewModel>(res.Result.Content.ReadAsStringAsync().Result);
+        //                if (optionModel != null)
+        //                {
+                           
+        //                    ddStudyTypes = optionModel.StudyTypeList;                           
+        //                }
+        //            }
+        //        });
+        //        task.Wait();
+        //        ViewBag.ddStudyTypes = ddStudyTypes;
+        //    }
+
+           
+        //    // return PartialView(model);
+        //    return View(optionModel);
+        //}
+
+
+        public ActionResult StudyTypeOption(int id, string optionType)
         {
             OptionsViewModel model = new OptionsViewModel();
             model.optionType = optionType;
             model.RecId = id;
-            return PartialView(model);
+            // return PartialView(model);
+            return View(model);
         }
 
-        public ActionResult LocationView(int id, string optionType)
+        public ActionResult LocationOption(int id, string optionType)
         {
             OptionsViewModel model = new OptionsViewModel();
             model.optionType = optionType;
             model.RecId = id;
-            return PartialView(model);
+            //  return PartialView(model);
+            return View(model);
         }
 
         /// <summary>
@@ -73,31 +111,29 @@ namespace RNDSystems.Web.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult StudyType( string action, OptionsViewModel model)
+        public ActionResult StudyType(OptionsViewModel model)
         {
+            // Add or Edit
             var client = GetHttpClient();
             OptionsViewModel options;
             try
-            {
-                //add = 1 , 
-               if (action == CRUDConstants.Add)
+            { 
+                var task = client.PostAsJsonAsync(Api + "api/Options", model).ContinueWith((res) =>
                 {
-                    var task = client.PostAsJsonAsync(Api + "api/Options", model).ContinueWith((res) =>
+                    if (res.Result.IsSuccessStatusCode)
                     {
-                        if (res.Result.IsSuccessStatusCode)
-                        {
-                            options = JsonConvert.DeserializeObject<OptionsViewModel>(res.Result.Content.ReadAsStringAsync().Result);
-
-                        }
-                    });
-                    task.Wait();
-                }               
+                        options = JsonConvert.DeserializeObject<OptionsViewModel>(res.Result.Content.ReadAsStringAsync().Result);
+                    }
+                });
+                task.Wait();
+                       
             }
            catch(Exception ex)
             {
                 _logger.Error(ex);
             }
-            return PartialView(model);
+            // return PartialView(model);
+            return View();
         }
 
     }

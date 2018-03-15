@@ -47,8 +47,7 @@
         $('#lblImported').text('');
         $('#lblError').text('');
     });
-
-
+    
     $('#ddlTestType').change(function () {
          selectedTestType = $.trim($("#ddTestTypes").val());
     });

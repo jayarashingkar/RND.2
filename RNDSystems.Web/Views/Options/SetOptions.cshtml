@@ -26,7 +26,8 @@
                     <input type="radio" id="StudyType" value="StudyType" name="OptionRadio" checked>Study Type<br>
                     <input type="radio" id="Location" value="Location" name="OptionRadio">Location<br>
                     @* <input type="radio" id="Manual" value="Manual" name="ImportRadio" disabled>Manual Entry*@
-                    @*<input type="hidden" name="optionType" id="optionType" value="@Model.optionType" />*@
+                    <input type="hidden" name="optionType" id="optionType" value="@Model.optionType" />
+                    <
                 </form>
             </div>
             <div class="col-md-3 ">
@@ -36,8 +37,34 @@
             </div>
         </div>
     </div>
-
-    <h3>Custom Option</h3>
+   
+    <section>
+        <div class="row">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="lblStudyTypeList" class="cols-sm-2 control-label">Study Types</label>
+                    <div class="cols-sm-10">
+                        @Html.DropDownList("ddStudyTypeList", ViewBag.ddStudyTypeList as IEnumerable<SelectListItem>, new { @class = "show-tick", data_size = "6" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="ddLocation" class="cols-sm-2 control-label">Location</label>
+                    <div class="cols-sm-10">
+                        @Html.DropDownList("ddLocationList", ViewBag.ddLocationList as IEnumerable<SelectListItem>, new { @class = "show-tick", data_size = "6" })
+                    </div>
+                </div>
+            </div>   
+                
+        </div>       
+    </section>
+    <div class="col-md-3 ">
+        <div class="form-group">
+            <div class="button btn btn-success" id="btnAddOption">Add</div>
+            <div class="button btn btn-info" id="btnEditOption" disable>Edit</div>
+            @*<div class="button btn btn-danger" id="btnDeleteOption"disable>Delete</div>*@
+        </div>
+        <input type="hidden" name="RecId" id="RecId" value="@Model.RecId" />     
+    </div>
     @*<section>
         <div id="CustomOption" style="display:block" class="container">
             <div class="row">
@@ -63,7 +90,9 @@
             </div>
         </div>
     </section>
-
+    <div>
+        <label id="lblReturnMessage" class="col-md-16 control-label btn-success"></label>
+    </div>
 </div>
 @section scripts{
     @Scripts.Render("~/bundles/SetOptions")

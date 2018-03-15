@@ -329,8 +329,6 @@ function GridDeleteClicked(id) {
             }        
         }
     });
-
-
 }
 
 $('#btnSearch').on('click', function () {   
