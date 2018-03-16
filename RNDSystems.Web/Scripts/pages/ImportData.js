@@ -109,14 +109,11 @@
         if ($("#filePath1").val() != null) {
             filePath = $.trim($("#filePath1").val());
         }
-
         $('#lblFileName').text("Importing file: " + filePath);
         var errorMsg;
         if (!filePath.includes(selectedTestType)) {
             errorMsg = "Import Error: Please check the correct file is imported";
         }
-
-
         var options = {
            // MessageList: selectedTestTypes,
             Message: selectedTestType,

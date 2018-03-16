@@ -5,93 +5,68 @@
 
 <div class="panel-heading">Options</div>
 <div class="panel_b" style="min-height:500px">
-    <div id="searchDiv" class="container">
 
+    <div id="searchDiv" class="container">
         <div class="row">
             <div class="col-md-3 pull-right">
                 <button id="btnBack" onclick="window.history.back();" class="btn btn-primary btn-large"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</button>
             </div>
         </div>
 
-        @* <label for="lblImportTypes" class="cols-sm-2 control-label">Select Import Type:</label>*@
-        <label for="lblSelectOptions" id="lblSelectOptions" class="cols-sm-2 control-label bg-primary text-uppercase">Select Options</label>
-        @*<form>
-                <input type="radio" id="Default" value="Default" name="ImportRadio" checked>Default<br>
-                <input type="radio" id="Custom" value="Custom" name="ImportRadio">Custom
-            </form>*@
-
+        <label for="lblSelectOptions" id="lblSelectOptions" class="cols-sm-2 control-label ">Select Options</label>
+ 
         <div class="row">
             <div class="col-md-3 ">
                 <form>
                     <input type="radio" id="StudyType" value="StudyType" name="OptionRadio" checked>Study Type<br>
                     <input type="radio" id="Location" value="Location" name="OptionRadio">Location<br>
-                    @* <input type="radio" id="Manual" value="Manual" name="ImportRadio" disabled>Manual Entry*@
-                    <input type="hidden" name="optionType" id="optionType" value="@Model.optionType" />
-                    <
+                    @* <input type="radio" id="Database" value="Database" name="OptionRadio" disabled>Database*@
+                    <input type="hidden" name="optionType" id="optionType" value="@Model.optionType" />                    
                 </form>
             </div>
             <div class="col-md-3 ">
                 <div class="form-group">
-                    <div class="button btn btn-primary" id="btnSelectOption">Select</div>
+                    <div class="button btn btn-success" id="btnAddOption">Add New</div>
                 </div>
             </div>
         </div>
-    </div>
-   
-    <section>
+        
+          <section>
+            <div role="form" id="formStudyType">
+                <div id="StudyTypeOption" style="display:block" class="container">
+                    <div class="row">
+                        <label for="" name="hdStudyType" id="hdStudyType" class="cols-sm-2 control-label bg-primary ">Add New Study Type</label>
+                    </div>                   
+                    <div class="row">
+                        <div class="col-md-3">
+                            @Html.Partial("StudyTypeOption")
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div role="form" id="formLocation" >
+                <div id="LocationOption" style="display:block" class="container">
+                    <div class="row">
+                        <label for="" name="hdLocation" id="hdLocation" class="cols-sm-2 control-label bg-primary ">Add New Location</label>
+                    </div>                   
+                    <div class="row">
+                        <div class="col-md-8">
+                            @Html.Partial("LocationOption")
+                        </div>
+                    </div>                    
+                </div>                
+            </div>
+        </section>
         <div class="row">
             <div class="col-md-3">
                 <div class="form-group">
-                    <label for="lblStudyTypeList" class="cols-sm-2 control-label">Study Types</label>
-                    <div class="cols-sm-10">
-                        @Html.DropDownList("ddStudyTypeList", ViewBag.ddStudyTypeList as IEnumerable<SelectListItem>, new { @class = "show-tick", data_size = "6" })
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="ddLocation" class="cols-sm-2 control-label">Location</label>
-                    <div class="cols-sm-10">
-                        @Html.DropDownList("ddLocationList", ViewBag.ddLocationList as IEnumerable<SelectListItem>, new { @class = "show-tick", data_size = "6" })
-                    </div>
-                </div>
-            </div>   
-                
-        </div>       
-    </section>
-    <div class="col-md-3 ">
-        <div class="form-group">
-            <div class="button btn btn-success" id="btnAddOption">Add</div>
-            <div class="button btn btn-info" id="btnEditOption" disable>Edit</div>
-            @*<div class="button btn btn-danger" id="btnDeleteOption"disable>Delete</div>*@
-        </div>
-        <input type="hidden" name="RecId" id="RecId" value="@Model.RecId" />     
-    </div>
-    @*<section>
-        <div id="CustomOption" style="display:block" class="container">
-            <div class="row">
-                <div class="col-md-8">                  
-                    @Html.Partial("OptionView");  
-                </div>
-            </div>           
-        </div>
-    </section>*@
-    <section>
-        <div id="StudyTypeOptionOption" style="display:block" class="container">
-            <div class="row">
-                <div class="col-md-8">
-                    @Html.Partial("StudyTypeOptionView");
+                    <button type="submit" id="btnSaveOption"  class="btn btn-success"><i class="fa fa-check" aria-hidden="true"></i>Save</button>
                 </div>
             </div>
         </div>
-        <div id="LocationOption" style="display:block" class="container">
-            <div class="row">
-                <div class="col-md-8">
-                    @Html.Partial("LocationView");
-                </div>
-            </div>
+        <div class="row">
+            <label id="lblReturnMessage" class="col-md-16 control-label bg-success"></label>
         </div>
-    </section>
-    <div>
-        <label id="lblReturnMessage" class="col-md-16 control-label btn-success"></label>
     </div>
 </div>
 @section scripts{

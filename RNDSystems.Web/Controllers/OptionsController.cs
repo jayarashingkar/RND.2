@@ -13,128 +13,48 @@ namespace RNDSystems.Web.Controllers
     public class OptionsController : BaseController
     {
         // GET: Options
+
         public ActionResult SetOptions()
         {
             _logger.Debug("SetOptions");
-
-            // string[] strOptions = {"Study Type", "Location", "Location1", "Database", "TestLab"};
-            //string[] strOptions = { "Study Type", "Location", "Location1", "Database", "TestLab" };
-            List<SelectListItem> ddStudyTypeList = new List<SelectListItem>();
-            List<SelectListItem> ddLocationList = new List<SelectListItem>();
             OptionsViewModel optionModel = new OptionsViewModel();
-            try
-            {
-                var client = GetHttpClient();
-                var task = client.GetAsync(Api + "api/Options?recID=0").ContinueWith((res) =>
-                    {
-                        if (res.Result.IsSuccessStatusCode)
-                        {
-                            optionModel = JsonConvert.DeserializeObject<OptionsViewModel>(res.Result.Content.ReadAsStringAsync().Result);
-                            if (optionModel != null)
-                            {
-                                ddStudyTypeList = optionModel.StudyTypeList;
-                                ddLocationList = optionModel.LocationList;
-                            }
-                        }
-                    });
-                    task.Wait();
-                    ViewBag.ddStudyTypeList = ddStudyTypeList;
-                    ViewBag.ddLocationList = ddLocationList;
-            }
-            catch (Exception ex)
-            {
-                _logger.Error(ex);
-            }
             return View(optionModel);
-        }
 
-        public ActionResult OptionView(int id, string optionType)
-        {
-            OptionsViewModel model = new OptionsViewModel();
-            model.optionType = optionType;
-            model.RecId = id;
-            return PartialView(model);
         }
-
-        //public ActionResult GetOptionList(string optionType)
+        //public ActionResult SetOptions()
         //{
-            
-        //    OptionsViewModel optionModel = new OptionsViewModel();
-        //    optionModel.optionType = optionType;
+        //    _logger.Debug("SetOptions");
 
-        //    List<SelectListItem> ddStudyTypes = null;
+        //    // string[] strOptions = {"Study Type", "Location", "Location1", "Database", "TestLab"};
+        //    //string[] strOptions = { "Study Type", "Location", "Location1", "Database", "TestLab" };
+        //    List<SelectListItem> ddStudyTypeList = new List<SelectListItem>();
+        //    List<SelectListItem> ddLocationList = new List<SelectListItem>();
+        //    OptionsViewModel optionModel = new OptionsViewModel();
+        //    try
         //    {
         //        var client = GetHttpClient();
-        //        var task = client.GetAsync(Api + "api/Options?recID=0").ContinueWith((res) =>
-        //        {
-        //            if (res.Result.IsSuccessStatusCode)
+        //        var task = client.GetAsync(Api + "api/Options?recID=0&optionType=none").ContinueWith((res) =>
         //            {
-        //                 optionModel = JsonConvert.DeserializeObject<OptionsViewModel>(res.Result.Content.ReadAsStringAsync().Result);
-        //                if (optionModel != null)
+        //                if (res.Result.IsSuccessStatusCode)
         //                {
-                           
-        //                    ddStudyTypes = optionModel.StudyTypeList;                           
+        //                    optionModel = JsonConvert.DeserializeObject<OptionsViewModel>(res.Result.Content.ReadAsStringAsync().Result);
+        //                    if (optionModel != null)
+        //                    {
+        //                        ddStudyTypeList = optionModel.StudyTypeList;
+        //                        ddLocationList = optionModel.LocationList;
+        //                    }
         //                }
-        //            }
-        //        });
-        //        task.Wait();
-        //        ViewBag.ddStudyTypes = ddStudyTypes;
+        //            });
+        //            task.Wait();
+        //            ViewBag.ddStudyTypeList = ddStudyTypeList;
+        //            ViewBag.ddLocationList = ddLocationList;
         //    }
-
-           
-        //    // return PartialView(model);
+        //    catch (Exception ex)
+        //    {
+        //        _logger.Error(ex);
+        //    }
         //    return View(optionModel);
-        //}
-
-
-        public ActionResult StudyTypeOption(int id, string optionType)
-        {
-            OptionsViewModel model = new OptionsViewModel();
-            model.optionType = optionType;
-            model.RecId = id;
-            // return PartialView(model);
-            return View(model);
-        }
-
-        public ActionResult LocationOption(int id, string optionType)
-        {
-            OptionsViewModel model = new OptionsViewModel();
-            model.optionType = optionType;
-            model.RecId = id;
-            //  return PartialView(model);
-            return View(model);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        [HttpPost]
-        public ActionResult StudyType(OptionsViewModel model)
-        {
-            // Add or Edit
-            var client = GetHttpClient();
-            OptionsViewModel options;
-            try
-            { 
-                var task = client.PostAsJsonAsync(Api + "api/Options", model).ContinueWith((res) =>
-                {
-                    if (res.Result.IsSuccessStatusCode)
-                    {
-                        options = JsonConvert.DeserializeObject<OptionsViewModel>(res.Result.Content.ReadAsStringAsync().Result);
-                    }
-                });
-                task.Wait();
-                       
-            }
-           catch(Exception ex)
-            {
-                _logger.Error(ex);
-            }
-            // return PartialView(model);
-            return View();
-        }
+        //}  
 
     }
 }

@@ -1,69 +1,186 @@
 ﻿$(document).ready(function () {
 
-   // $('#CustomOption').hide();
     $('#LocationOption').hide();
-    $('#StudyTypeOptionOption').hide();
+    $('#StudyTypeOption').hide();
+    $('#btnSaveOption').hide();
+    
     $('#lblReturnMessage').text('');
+        
+    //$('#ddStudyTypeList').attr('data-live-search', 'true');
+    //$('#ddStudyTypeList').selectpicker();
 
-    $('#ddStudyTypeList').change(function () {
+    //$('#ddLocationList').attr('data-live-search', 'true');
+    //$('#ddLocationList').selectpicker();
 
-        if ($('#ddStudyTypeList').val != -1) {
-            $("#btnAddOption").attr("disabled", true);
-            $("#btnEditOption").attr("disabled", false);
-           // $("#btnDeleteOption").attr("disabled", false);
-        }
-        else {
-            $("#btnAddOption").attr("disabled", false);
-            $("#btnEditOption").attr("disabled", true);
-          //  $("#btnDeleteOption").attr("disabled", true);
-        }
-    });
+    //$('#ddStudyTypeList').change(function () {
 
-    $('#ddLocation').change(function () {
+    //    if ($('#ddStudyTypeList').val != -1) {
+    //        $("#btnAddOption").attr("disabled", true);
+    //        $("#btnEditOption").attr("disabled", false);
+    //       // $("#btnDeleteOption").attr("disabled", false);
+    //    }
+    //    else {
+    //        $("#btnAddOption").attr("disabled", false);
+    //        $("#btnEditOption").attr("disabled", true);
+    //      //  $("#btnDeleteOption").attr("disabled", true);
+    //    }
+    //});
 
-        if ($('#ddLocation').val != -1) {
-            $("#btnAddOption").attr("disabled", true);
-            $("#btnEditOption").attr("disabled", false);
-          //  $("#btnDeleteOption").attr("disabled", false);
-        }
-        else {
-            $("#btnAddOption").attr("disabled", false);
-            $("#btnEditOption").attr("disabled", true);
-           // $("#btnDeleteOption").attr("disabled", true);
-        }
-    });
+    //$('#ddLocation').change(function () {
+
+    //    if ($('#ddLocation').val != -1) {
+    //        $("#btnAddOption").attr("disabled", true);
+    //        $("#btnEditOption").attr("disabled", false);
+    //      //  $("#btnDeleteOption").attr("disabled", false);
+    //    }
+    //    else {
+    //        $("#btnAddOption").attr("disabled", false);
+    //        $("#btnEditOption").attr("disabled", true);
+    //       // $("#btnDeleteOption").attr("disabled", true);
+    //    }
+    //});
 
     $("#btnAddOption").click(function () {
+        $('#lblReturnMessage').text('');
         var optionType = $("input:radio[name='OptionRadio']:checked").val();
-        if (optionType == RND.OptionConstant.StudyType) {
-            debugger;
+        if (optionType == RND.OptionConstant.StudyType) {           
             $('#LocationOption').hide();
-            $('#StudyTypeOptionOption').show();           
+            $('#StudyTypeOption').show();
+            $('#btnSaveOption').show();
+
+          
+          
+
         }
-        else if (optionType == RND.OptionConstant.Location) {
-            debugger;
+        else if (optionType == RND.OptionConstant.Location) {          
             $('#LocationOption').show();
-            $('#StudyTypeOptionOption').hide();
+            $('#StudyTypeOption').hide();
+            $('#btnSaveOption').show();
+
         }
     });
-
-    $("#btnEditOption").click(function () {
-        var optionType = $("input:radio[name='OptionRadio']:checked").val();
        
+    $("#btnSaveOption").click(function () {
+        
+        var optionType = $("input:radio[name='OptionRadio']:checked").val();
+        
         if (optionType == RND.OptionConstant.StudyType) {
-            debugger;
-            $('#LocationOption').hide();
-            $('#StudyTypeOptionOption').show();
-            $('#RecId').val($('#ddStudyTypeList').val());
+            var TypeDesc = $.trim($("#TypeDesc").val());
+            //debugger;
+          //  $('#formStudyType').bootstrapValidator('resetForm', true);
+       
+        }
+        else if (optionType == RND.OptionConstant.Location) {          
+            var PlantDesc = $.trim($("#PlantDesc").val());
+            var PlantState = $.trim($("#PlantState").val());
+            var PlantType = $.trim($("#PlantType").val());
+          //  $('#formLocation').bootstrapValidator('resetForm', true);
+           
+        }
+        var options = {
+            // MessageList: selectedTestTypes,
+            optionType: optionType,
+            TypeDesc: TypeDesc,
+            PlantDesc: PlantDesc,
+            PlantState: PlantState,
+            PlantType: PlantType
+        };
 
-        }
-        else if (optionType == RND.OptionConstant.Location) {
-            debugger;
-            $('#LocationOption').show();
-            $('#StudyTypeOptionOption').hide();
-            $('#RecId').val($('#ddLocationList').val());
-        }
+        $.ajax({
+            type: 'post',
+            url: Api + 'api/Options',
+            headers: {
+                Token: GetToken()
+            },
+            data: options
+        })
+       .done(function (data) {          
+           if (data.RecId) {
+               var message = optionType + ': successfully added'
+               $('#lblReturnMessage').text(message);
+           }
+           else {
+               var message = optionType + ': did not get added'
+               $('#lblReturnMessage').text(message);
+           }
+       });
     });
+       
+    //var formType = $("input:radio[name='OptionRadio']:checked").val();
+    //if (formType == RND.OptionConstant.Location) {
+    //    $('#formLocation').bootstrapValidator({
+    //        message: 'This value is not valid',
+    //        feedbackIcons: {
+    //            valid: 'glyphicon glyphicon-ok',
+    //            invalid: 'glyphicon glyphicon-remove',
+    //            validating: 'glyphicon glyphicon-refresh'
+    //        },
+    //        fields: {
+    //            PlantDesc: {
+    //                validators: {
+    //                    notEmpty: {
+    //                        message: 'Plant Desciption ID is required.'
+    //                    }
+    //                }
+    //            },
+    //            PlantState: {
+    //                validators: {
+    //                    notEmpty: {
+    //                        message: 'Plant State ID is required.'
+    //                    }
+    //                }
+    //            },
+    //            PlantType: {
+    //                validators: {
+    //                    notEmpty: {
+    //                        message: 'Plant Type ID is required.'
+    //                    }
+    //                }
+    //            }
+    //        }
+    //    });
+    //}
+    //else
+    //    if (formType == RND.OptionConstant.StudyType) {
+    //        $('#formStudyType').bootstrapValidator({
+    //            message: 'This value is not valid',
+    //            feedbackIcons: {
+    //                valid: 'glyphicon glyphicon-ok',
+    //                invalid: 'glyphicon glyphicon-remove',
+    //                validating: 'glyphicon glyphicon-refresh'
+    //            },
+    //            fields: {
+    //                TypeDesc: {
+    //                    validators: {
+    //                        notEmpty: {
+    //                            message: 'Type Desciption ID is required.'
+    //                        }
+    //                    }
+    //                }
+    //            }
+    //        });
+
+    //    }
+
+
+
+    //$("#btnEditOption").click(function () {
+    //    var optionType = $("input:radio[name='OptionRadio']:checked").val();
+       
+    //    if (optionType == RND.OptionConstant.StudyType) {
+    //        debugger;
+    //        $('#LocationOption').hide();
+    //        $('#StudyTypeOptionOption').show();
+    //        $('#RecId').val($('#ddStudyTypeList').val());
+
+    //    }
+    //    else if (optionType == RND.OptionConstant.Location) {
+    //        debugger;
+    //        $('#LocationOption').show();
+    //        $('#StudyTypeOptionOption').hide();
+    //        $('#RecId').val($('#ddLocationList').val());
+    //    }
+    //});
 
     //$("#btnDeleteOption").click(function () {
 
@@ -122,27 +239,6 @@
     //    }
     //});
 
-    $("#btnSelectOption").click(function () {
-        var optionType = $("input:radio[name='OptionRadio']:checked").val();
-
-        //location.href = '/Options/StudyTypeOptionView?id=0&optionType=' + optionType;
-
-        if (optionType == RND.OptionConstant.StudyType)
-        {
-            debugger;
-            $('#LocationOption').hide();
-            $('#StudyTypeOptionOption').show();
-
-          //  location.href = '/Options/StudyTypeOptionView?id=0&optionType=' + optionType;
-            // $('#CustomOption').load('@Url.Action("StudyTypeOptionView")');
-          
-        }
-        else if (optionType == RND.OptionConstant.Location)
-        {
-            debugger;
-            $('#LocationOption').show();
-            $('#StudyTypeOptionOption').hide();         
-        }
-    });
+   
 });
 
