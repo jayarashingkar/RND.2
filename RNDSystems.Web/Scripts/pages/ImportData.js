@@ -71,9 +71,8 @@
             },
             data: options
         })
-        .done(function (data) {
-            debugger;
-            if (data.Success) {
+        .done(function (data) {         
+            if (data.Success) {              
                 $('#lblImported').text("Imported: " + selectedTestType + "data");
             }
             else {
@@ -128,8 +127,7 @@
             },
             data: options
         })
-       .done(function (data) {
-           debugger;
+       .done(function (data) {          
            if (data.Success) {
                $('#lblImported').text("Imported: " + selectedTestType + "data");
            }

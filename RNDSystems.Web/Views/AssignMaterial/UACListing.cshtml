@@ -7,8 +7,7 @@
 
 @{Html.RenderPartial("_Repeater", "UACRepeater");}
 
-<script>
-    //debugger;
+<script>    
     var columns = [
         {
             label: 'Mill Lot No',
@@ -176,8 +175,7 @@
             url: Api + 'api/grid',
             data: options
         })
-            .done(function (data) {
-                //debugger;
+            .done(function (data) {             
                 var items = data.items;
                 var totalItems = data.total;
                 var totalPages = Math.ceil(totalItems / pageSize);
@@ -205,7 +203,6 @@
             });
     }
     $(document).ready(function () {
-        //debugger;
         LoadGrid("UACRepeater");
     });
 </script>

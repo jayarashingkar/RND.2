@@ -97,8 +97,7 @@ function customColumnRenderer(helpers, callback) {
 
     // get all the data for the entire row
     var rowData = helpers.rowData;
-    var customMarkup = '';
-   // debugger;
+    var customMarkup = ''; 
     if (typeof isUACGrid !== 'undefined' && isUACGrid) {        
         switch (column) {
             case 'RecID':
@@ -154,8 +153,7 @@ function customRowRenderer(helpers, callback) {
 
 // this example uses an API to fetch its datasource.
 // the API handles filtering, sorting, searching, etc.
-function customDataSource(options, callback) {
-    //debugger;
+function customDataSource(options, callback) {   
     // set options
     if (typeof isUACGrid !== 'undefined' && isUACGrid) {
         columns = [
@@ -275,7 +273,6 @@ function customDataSource(options, callback) {
                       var selected = $.grep(items, function (x) {
                            return x.RecID == rid;
                       })
-                      //debugger;
                       if ($(this).prop('checked')) {
                           var selec = selected[0];
                           var html = "<div id='UACPartDiv_" + controlId + "'>" + selec.UACPart + " - " + selec.GageThickness + " - " + selec.Location2 + "<a class='SelectedRecord_" + controlId + "' name='SelectedRecord' id='SelectedRecord" + rid + "'>Remove</a>" + "</div>";

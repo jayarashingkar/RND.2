@@ -173,7 +173,6 @@ function customColumnRenderer(helpers, callback) {
 }
 
 $('#btnSelectPrint').on('click', function () {
-    //debugger;
     if (SelectedTests == null)
         SelectedTests = "";
     $("#SelectedTests").val(SelectedTests);
@@ -210,7 +209,7 @@ function customDataSource(options, callback) {
     if ($('#ddlAvailableTT').val()) {
         search += ';' + 'TestType:' + $('#ddlAvailableTT').val();
     }
-   // debugger;
+
     //if ($('#ddlAvailableTT').val() == '-1'){
     //    flag = true;
     //    $("#ddlTestType").attr("disabled", false);
@@ -271,8 +270,7 @@ function customDataSource(options, callback) {
             // invoke callback to render repeater
             callback(dataSource);
 
-            $("input[class='CheckTesting']").on('click', function () {
-                debugger;
+            $("input[class='CheckTesting']").on('click', function () {               
                 var testingNo = $(this).val();
                 if ($(this).prop('checked')) {
                     if (SelectedTests == "")
@@ -370,14 +368,11 @@ $(document).ready(function () {
     $('#ddlTestType').selectpicker();
      
     var avialableTT = $('#ddlTestType').val();
-    //debugger;
-
+  
     //  $('#ddlTestType').on('focusout', function () {
   //   $(document).on('focusout', '#ddlTestType', function () {
 
-   // $('#ddlTestType').blur(function () {
-       // debugger;
-
+   // $('#ddlTestType').blur(function () {     
    // $('#btnAddAvialableTT').on('click', function () {
    
    $('#ddlTestType').change(function () {

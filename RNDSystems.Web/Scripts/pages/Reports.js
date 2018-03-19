@@ -112,27 +112,9 @@ function customDataSource(options, callback) {
     }
     if ($('#ddlWorkStudyID').val())
         search += ';' + 'WorkStudyID:' + $('#ddlWorkStudyID').val();
-    
-    //search testing number
-    //$('#ddTestType').change(function () {
-    //    debugger;
-    //    search += ';' + 'TestType:' + $('#ddTestType').val();
-    //});
-    //search += ';' + 'TestType:' + $('#ddTestType').val();
 
     if ($('#ddTestType').val())
         search += ';' + 'TestType:' + $('#ddTestType').val();
-
-    //var ddtestt = $('#ddTestType').val();
-    ////test remove here
-    //   //var ddlTestType 
-    //if ((ddtestt.trim() == 'Tension') || (ddtestt.trim() == 'Compression')) {
-    //       //debugger;
-    //       search += ';' + 'TestType:' + $('#ddTestType').val();
-    //   }         
-    //    else
-    //        search += ';' + 'TestType:' + 'Tension';        
-    ////ends here
 
     var options = {
         //Screen: 'TestingMaterialList',
@@ -228,12 +210,6 @@ function customDataSource(options, callback) {
         });
     });
 
-
-    //$('#ddTestType').change(function () {
-    //    debugger;
-    //    $('#ReportsRepeater').repeater('render');
-    //});
-
     //$('#ddTestType').change(function () {
     //    search = '';
     //    if ($('#searchFromDate').val()) {
@@ -316,7 +292,6 @@ $('#btnSearch').on('click', function () {
 
 $(document).ready(function () {
 
-
     $('#ddlWorkStudyID').attr('data-live-search', 'true');
     $('#ddlWorkStudyID').selectpicker();
 
@@ -328,5 +303,4 @@ $(document).ready(function () {
     $('#searchToDate').datepicker({ autoclose: true, todayHighlight: true, todayBtn: "linked" });
     $('#searchToDate').datepicker("setDate", new Date());
     
-
 });

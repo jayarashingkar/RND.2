@@ -97,7 +97,9 @@ namespace RNDSystems.API.Controllers
         public HttpResponseMessage Post(ApiViewModel selectedTestType)
         {            
             bool isSuccess = true;
-            string message = "Import Error for: ";
+            string errorMessage = "Import Error for: ";
+            string successMessage = "Imported for: ";
+
             string data = string.Empty;
             string filePath = selectedTestType.Message1;
             //string custom = selectedTestType.Custom;
@@ -121,16 +123,24 @@ namespace RNDSystems.API.Controllers
                         if (!sendMessage.Success)
                         {
                             isSuccess = false;
-                            if (message == "Import Error for: ")
-                                message += tt;
+                            if (errorMessage == "Import Error for: ")
+                                errorMessage += tt;
                             else
-                                message += ", " + tt;
+                                errorMessage += ", " + tt;
                             // return Serializer.ReturnContent(sendMessage, this.Configuration.Services.GetContentNegotiator(), this.Configuration.Formatters, this.Request);
+                        }
+                        else
+                        {
+                            if (successMessage == "Imported for: ")
+                                successMessage += tt;
+                            else
+                                successMessage += ", " + tt;
                         }
                         //return Serializer.ReturnContent(sendMessage, this.Configuration.Services.GetContentNegotiator(), this.Configuration.Formatters, this.Request);
                         //break;
                     }
-                    sendMessage.Message1 = message;
+                    sendMessage.Message1 = errorMessage;
+                    sendMessage.Message = successMessage;
                     sendMessage.Success = isSuccess;
                 }
                 else

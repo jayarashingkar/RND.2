@@ -139,7 +139,7 @@ namespace RNDSystems.API.Controllers
                                     {
                                         while (reader.Read())
                                         {
-                                            option.RecId = Convert.ToInt32(reader["RecId"].ToString());
+                                        option.RecId = Convert.ToInt32(reader["RecId"]);
                                         }
                                     }
                                 }

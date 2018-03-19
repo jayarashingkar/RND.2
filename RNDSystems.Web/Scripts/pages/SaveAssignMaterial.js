@@ -58,10 +58,8 @@
 
     if ($('#MillLotNo').val() === '0') {
         $('#MillLotNo').val('');
-    }
-    debugger;
-    if ($('#MillLotNo').val()) {
-        //  debugger;
+    }   
+    if ($('#MillLotNo').val()) {      
         $('#MillLotNo').prop("readonly", true);
 
         // read only - during the EDIT
@@ -81,9 +79,7 @@
     }
 
     $("#MillLotNo").change(function () {
-        //   debugger;      
-
-        if (SelectedDataBase != 'NO') {
+         if (SelectedDataBase != 'NO') {
             //automatically fills up the values CustPart,UACPart,Alloy,Temper,SoNum
 
             var RecID = $("#RecID").val();
@@ -108,7 +104,6 @@
                     dataType: "json",
                     contentType: "application/json;charset=utf-8",
                     success: function (data) {
-                        //   debugger;
                         if (data && data.MillLotNo > 0) {
                             $('#SaveAssignMaterial').bootstrapValidator('resetForm', true);
                             $("#CustPart").val(data.CustPart);
@@ -116,8 +111,9 @@
                             $("#Alloy").val(data.Alloy);
                             $("#Temper").val(data.Temper);
                             $("#SoNum").val(data.SoNum);
-                            //debugger;
+
                             JqueryFunction.ReadOnly();
+
                             $('#MillLotNo').val(data.MillLotNo)
                             $('#btnSelected').prop('disabled', false);
 
@@ -170,8 +166,6 @@
                                 }
                                 else
                                 {
-                                    //check
-                                    //debugger;
                                     $('#MillLotNo').val('');
                                     $('#SaveAssignMaterial').bootstrapValidator('resetForm', true);
                                 }
@@ -189,7 +183,6 @@
     });
 
     $("#DBCntry").on('change', function () {
-        //  debugger;
         SelectedDataBase = $(this).find("option:selected").val();
         if (SelectedDataBase == "-1")
             SelectedDataBase = "USA";
@@ -256,7 +249,6 @@
                     contentType: "application/json;charset=utf-8",
                     success: function (data) {
                         if (data) {
-                            // debugger;
                             if (!data.Success)
                                 bootbox.alert(data.Message);
                             else {
@@ -440,16 +432,6 @@
                         message: 'GageThickness is required.'
                     }
                 }
-
-                //validators: {
-                //    callback: {
-                //        message: 'GageThickness is required.',
-                //        callback: function (value, validator, $field) {
-                //            //debugger;
-                //            return IsAutoFilled;
-                //        }
-                //    }
-                //}
             },
             Location2: {
                 validators: {

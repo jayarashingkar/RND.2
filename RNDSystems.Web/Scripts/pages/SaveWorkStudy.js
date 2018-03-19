@@ -104,7 +104,6 @@
                     callback: {
                         message: 'Uncertainty is required.',
                         callback: function (value, validator, $field) {
-                            //debugger;
                             var options = validator.getFieldElements('StudyStatus').val();   
                             var Experimentation = validator.getFieldElements('Experimentation').val();
                             if (options.trim() == "3"){

@@ -61,7 +61,6 @@
         
         if (optionType == RND.OptionConstant.StudyType) {
             var TypeDesc = $.trim($("#TypeDesc").val());
-            //debugger;
           //  $('#formStudyType').bootstrapValidator('resetForm', true);
        
         }
