@@ -47,16 +47,11 @@
             $('#LocationOption').hide();
             $('#StudyTypeOption').show();
             $('#btnSaveOption').show();
-
-          
-          
-
         }
         else if (optionType == RND.OptionConstant.Location) {          
             $('#LocationOption').show();
             $('#StudyTypeOption').hide();
             $('#btnSaveOption').show();
-
         }
     });
        
