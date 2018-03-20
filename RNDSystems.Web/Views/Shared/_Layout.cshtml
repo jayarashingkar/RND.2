@@ -64,13 +64,11 @@
                     </ul>
                 </li>
                 <li id="liWorkStudyOptions">
+                
+                @*<li id="liadmin">*@
                     <a href="#"><span class="fa-stack fa-lg pull-left"><i class="fa fa-lock fa-stack-1x " style="color:lightcoral"></i></span>Options</a>
                     <ul class="nav-pills nav-stacked" style="list-style-type:none;">
                         <li><a href="~/Options/SetOptions"><span class="fa-stack fa-lg pull-left"><i class="fa fa-share-square-o fa-stack-1x " style="color:coral"></i></span>Set Options</a></li>
-                        @*<li><a href="~/WorkStudy/WorkSutdyList"><span class="fa-stack fa-lg pull-left"><i class="fa fa-share-square-o fa-stack-1x " style="color:coral"></i></span>Location</a></li>
-                        <li><a href="~/WorkStudy/WorkSutdyList"><span class="fa-stack fa-lg pull-left"><i class="fa fa-share-square-o fa-stack-1x " style="color:coral"></i></span>Location 1</a></li>
-                        <li><a href="~/WorkStudy/WorkSutdyList"><span class="fa-stack fa-lg pull-left"><i class="fa fa-share-square-o fa-stack-1x " style="color:coral"></i></span>Database</a></li>
-                        <li><a href="~/WorkStudy/WorkSutdyList"><span class="fa-stack fa-lg pull-left"><i class="fa fa-share-square-o fa-stack-1x " style="color:coral"></i></span>Test Lab</a></li>*@                        
                         <app-menu [menus]='wsMenus'></app-menu>
                     </ul>
                 </li>
@@ -84,25 +82,28 @@
                     </ul>*@
                 </li>
 
-                <li id="liadmin">
-
+               @* <li id="liadmin">*@
+                <li id="liReports">
                     <a href="#"><span class="fa-stack fa-lg pull-left"><i class="fa fa-lock fa-stack-1x " style="color:crimson"></i></span>Reports</a>
                     <ul class="nav-pills nav-stacked" style="list-style-type:none;">
                         <li><a href="~/RnDReports/Reports"><span class="fa-stack fa-lg pull-left"><i class="fa fa-file-excel-o fa-stack-1x " style="color:crimson"></i></span>R&D Reports</a></li>
                     </ul>
                 </li>
-
-                <li id="liadmin">
+                @*<li id="liadmin">                   
                     <a href="#"><span class="fa-stack fa-lg pull-left"><i class="fa fa-lock fa-stack-1x " style="color:coral"></i></span>Admin</a>
                     <ul class="nav-pills nav-stacked" style="list-style-type:none;">
                         <li><a href="~/Register/RegisterUserList"><span class="fa-stack fa-lg pull-left"><i class="fa fa-check-square fa-stack-1x " style="color:coral"></i></span>Login Permissions</a></li>
 
-                        @*<li><a href="~/Report/TrainingOverDues1"><span class="fa-stack fa-lg pull-left"><i class="fa fa-file-excel-o fa-stack-1x " style="color:coral"></i></span>Training OverDues</a></li>
-                <li><a href="~/Report/TrainingnotTaken1"><span class="fa-stack fa-lg pull-left"><i class="fa fa-file-excel-o fa-stack-1x " style="color:coral"></i></span>Training Not Taken</a></li>*@
-
+                        <app-menu [menus]='wsMenus'></app-menu>
+                    </ul>
+                </li>*@
+                <li id="liadmin">
+                    <a href="#"><span class="fa-stack fa-lg pull-left"><i class="fa fa-lock fa-stack-1x " style="color:lightcoral"></i></span>Admin</a>
+                    <ul class="nav-pills nav-stacked" style="list-style-type:none;">
+                        <li><a href="~/Register/RegisterUserList"><span class="fa-stack fa-lg pull-left"><i class="fa fa-share-square-o fa-stack-1x " style="color:coral"></i></span>Login Permissions</a></li>
+                        <app-menu [menus]='wsMenus'></app-menu>
                     </ul>
                 </li>
-
                 @* Added super admin 11/21/2016*@
 
                 @*<input type="hidden" name="hdnPermission" id="hdnPermission" value="@GetUserPermission()" />
@@ -206,19 +207,22 @@
             }
         );
     }
-    $(document).ready(function () {
-        initMenu();
+    $(document).ready(function () {       
+        initMenu();       
         if (document.getElementById("hdnPermission").value == "ReadOnly") {
             $('#liadmin').addClass('disabled');
+            $('#liWorkStudyOptions').addClass('disabled');            
+        }
+        if (document.getElementById("hdnPermission").value == "Admin") {
+            $('#liadmin').addClass('disabled');
+            $('#liWorkStudyOptions').addClass('disabled');
         }
     });
     //Added super admin 11/21/2016
     $(document).ready(function () {
         initMenu();
-
         if (document.getElementById("hdnPermission").value != "SuperAdmin") {
             $('#lisuperadmin').addClass('disabled');
-
         }
     });
 </script>

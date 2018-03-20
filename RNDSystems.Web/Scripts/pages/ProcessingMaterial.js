@@ -237,7 +237,6 @@ var columns = [
     //    sortable: true,
     //    width: '15px'
     //},
-
     //{
     //    label: 'AgeLotNo',
     //    property: 'AgeLotNo',
@@ -596,41 +595,59 @@ function customDataSource(options, callback) {
 }
  
 function GridEditClicked(id) {
-   
-    location.href = '/ProcessingMaterial/SaveProcessingMaterial/' + id;
+    if (document.getElementById("hdnPermission").value == "ReadOnly") {
+        //  $('#gridEdit').hide();      
+        $('#gridEdit').attr("disabled", true);
+        bootbox.alert(RND.Constants.AccessDenied);
+    }
+    else {
+        //  $('#gridEdit').show();
+        $('#gridEdit').attr("disabled", false);
+        location.href = '/ProcessingMaterial/SaveProcessingMaterial/' + id;
+    }
 }
 
 function GridDeleteClicked(id) {
-    bootbox.confirm({
-        message: RND.Constants.AreYouDelete,
-        buttons: {
-            confirm: {
-                label: 'Yes',
-                className: 'btn-success'
+    if (document.getElementById("hdnPermission").value == "ReadOnly") {
+        //$('#gridDelete').hide();
+        $('#gridDelete').attr("disabled", true);
+        bootbox.alert(RND.Constants.AccessDenied);
+    }
+    else {
+        //$('#gridDelete').show();
+        $('#gridDelete').attr("disabled", false);
+        bootbox.confirm({
+            message: RND.Constants.AreYouDelete,
+            buttons: {
+                confirm: {
+                    label: 'Yes',
+                    className: 'btn-success'
+                },
+                cancel: {
+                    label: 'No',
+                    className: 'btn-danger'
+                }
             },
-            cancel: {
-                label: 'No',
-                className: 'btn-danger'
+            callback: function (result) {
+                if (result) {
+
+                    $.ajax({
+                        url: Api + "api/Processing/" + id,
+                        headers: {
+                            Token: GetToken()
+                        },
+                        type: 'DELETE',
+                        contentType: "application/json;charset=utf-8",
+                    })
+                    .done(function (data) {
+
+                        $('#ProcessingMaterialRepeater').repeater('render');
+                    });
+                }
             }
-        },
-        callback: function (result) {
-            if (result) {
-               
-                $.ajax({
-                    url: Api + "api/Processing/" + id,
-                    headers: {
-                        Token: GetToken()
-                    },
-                    type: 'DELETE',
-                    contentType: "application/json;charset=utf-8",                    
-                })
-                .done(function (data) {
-                  
-                    $('#ProcessingMaterialRepeater').repeater('render');
-                });
-            }           
-        }
-    });    
+        });
+    }
+ 
 }
 
 $('#btnSearch').on('click', function () {   
@@ -667,6 +684,14 @@ $(document).ready(function () {
     $('#ddAgeLotID').attr('data-live-search', 'true');
     $('#ddAgeLotID').selectpicker();
   //  $('#ddHTLogID').prop('disabled', true);
+
+
+    if (document.getElementById("hdnPermission").value == "ReadOnly") {
+        $('#btnAddProcess').hide();
+    }
+    else {
+        $('#btnAddProcess').show();
+    }
 
     $('#btnAddProcess').on('click', function () {        
         location.href = '/ProcessingMaterial/SaveProcessingMaterial?id=0&workStudyId=' + $('#WorkStudyID').val();

@@ -309,42 +309,46 @@ function GridEditClicked(id) {
 
 
 function GridDeleteClicked(id) {
-    bootbox.confirm({
-        message: RND.Constants.AreYouDelete,
-        buttons: {
-            confirm: {
-                label: 'Yes',
-                className: 'btn-success'
+    if (document.getElementById("hdnPermission").value == "ReadOnly") {
+        $('#gridDelete').attr("disabled", true);
+        bootbox.alert(RND.Constants.AccessDenied);
+    }
+    else {
+        $('#gridDelete').attr("disabled", false);
+        bootbox.confirm({
+            message: RND.Constants.AreYouDelete,
+            buttons: {
+                confirm: {
+                    label: 'Yes',
+                    className: 'btn-success'
+                },
+                cancel: {
+                    label: 'No',
+                    className: 'btn-danger'
+                }
             },
-            cancel: {
-                label: 'No',
-                className: 'btn-danger'
+            callback: function (result) {
+                if (result) {
+                    $.ajax({
+                        url: Api + "api/Testing/" + id,
+                        headers: {
+                            Token: GetToken()
+                        },
+                        type: 'DELETE',
+                        //data: JSON.stringify(ApiViewModel),
+                        contentType: "application/json;charset=utf-8",
+                    })
+                     .done(function (data) {
+                         $('#TestingMaterialRepeater').repeater('render');
+                     });
+                }
             }
-        },
-        callback: function (result) {
-            if (result)
-            {
-                $.ajax({
-                    url: Api + "api/Testing/" + id,
-                    headers: {
-                        Token: GetToken()
-                    },
-                    type: 'DELETE',
-                    //data: JSON.stringify(ApiViewModel),
-                    contentType: "application/json;charset=utf-8",                    
-                })
-                 .done(function (data) {
-                     $('#TestingMaterialRepeater').repeater('render');
-                 });
-            }
-        }
-    });  
+        });
+    } 
 }
 
-$('#btnSearch').on('click', function () {
-    
-    $('#TestingMaterialRepeater').repeater('render');
-     
+$('#btnSearch').on('click', function () {    
+    $('#TestingMaterialRepeater').repeater('render');     
 });
 
 $('#btnClear').on('click', function () {
@@ -385,7 +389,8 @@ $(document).ready(function () {
  
         $.ajax({
             type: 'post',
-            url: GetRootDirectory() + '/TestingMaterial/TestingMaterial',
+            //url: GetRootDirectory() + '/TestingMaterial/TestingMaterial',
+            url:  '../TestingMaterial/TestingMaterial',
             //'/TestingMaterial/SaveTestingMaterial?avialableTT=' + avialableTT
             data: options
         })

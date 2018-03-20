@@ -227,7 +227,16 @@ function customDataSource(options, callback) {
 }
 
 function GridEditClicked(id) {
-    location.href = '/WorkStudy/SaveWorkStudy/' + id;
+    if (document.getElementById("hdnPermission").value == "ReadOnly") {
+        //  $('#gridEdit').hide();      
+        $('#gridEdit').attr("disabled", true);
+        bootbox.alert(RND.Constants.AccessDenied);
+    }
+    else {
+      //  $('#gridEdit').show();
+        $('#gridEdit').attr("disabled", false);
+        location.href = '/WorkStudy/SaveWorkStudy/' + id;
+    }  
 }
 
 function AssignMaterial(ele) {
@@ -246,36 +255,45 @@ function TestingMaterial(ele) {
     location.href = '/TestingMaterial/TestingMaterialList?recId=' + recId + '&workStudyID=' + workStudyID;
 }
 function GridDeleteClicked(id) {
-    bootbox.confirm({
-        message: RND.Constants.AreYouDelete,
-        buttons: {
-            confirm: {
-                label: 'Yes',
-                className: 'btn-success'
+    if (document.getElementById("hdnPermission").value == "ReadOnly") {
+        //$('#gridDelete').hide();
+        $('#gridDelete').attr("disabled", true);
+        bootbox.alert(RND.Constants.AccessDenied);
+    }
+    else {
+        //$('#gridDelete').show();
+        $('#gridDelete').attr("disabled", false);
+        bootbox.confirm({
+            message: RND.Constants.AreYouDelete,
+            buttons: {
+                confirm: {
+                    label: 'Yes',
+                    className: 'btn-success'
+                },
+                cancel: {
+                    label: 'No',
+                    className: 'btn-danger'
+                }
             },
-            cancel: {
-                label: 'No',
-                className: 'btn-danger'
+            callback: function (result) {
+                if (result) {
+                    $.ajax({
+                        url: Api + "api/workstudy/" + id,
+                        headers: {
+                            Token: GetToken()
+                        },
+                        type: 'DELETE',
+                        //data: JSON.stringify(ApiViewModel),
+                        contentType: "application/json;charset=utf-8",
+
+                    })
+                    .done(function (data) {
+                        $('#WorkStudyRepeater').repeater('render');
+                    });
+                }
             }
-        },
-        callback: function (result) {
-            if (result) {
-                $.ajax({
-                    url: Api + "api/workstudy/" + id,
-                    headers: {
-                        Token: GetToken()
-                    },
-                    type: 'DELETE',
-                    //data: JSON.stringify(ApiViewModel),
-                    contentType: "application/json;charset=utf-8",
-                    
-                })
-                .done(function (data) {
-                    $('#WorkStudyRepeater').repeater('render');
-                });
-            }         
-        }
-    });
+        });
+    }       
 }
 
 $('#btnSearch').on('click', function () {
@@ -364,6 +382,15 @@ $(document).ready(function () {
   
     //$('#searchFromDate').datepicker({ autoclose: true, todayHighlight: true, todayBtn: "linked" });
     //$('#searchToDate').datepicker({ autoclose: true, todayHighlight: true, todayBtn: "linked" });
+    
+    if (document.getElementById("hdnPermission").value == "ReadOnly") {
+        $('#btnAdd').hide();
+    }
+    else
+    {
+        $('#btnAdd').show();
+    }
+
     $('#btnAdd').on('click', function () {
         console.log('cliked');
         location.href = '/WorkStudy/SaveWorkStudy/0'

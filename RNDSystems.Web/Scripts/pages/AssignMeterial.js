@@ -292,40 +292,55 @@ function customDataSource(options, callback) {
 
 
 function GridEditClicked(id) {
-    location.href = '/AssignMaterial/SaveAssignMaterial/' + id;
+    if (document.getElementById("hdnPermission").value == "ReadOnly") {
+        $('#gridEdit').attr("disabled", true);
+        bootbox.alert(RND.Constants.AccessDenied);
+    }
+    else {
+        $('#gridEdit').attr("disabled", false);
+        location.href = '/AssignMaterial/SaveAssignMaterial/' + id;
+    }
 }
 
 function GridDeleteClicked(id) {
-
-    bootbox.confirm({
-        message: RND.Constants.AreYouDelete,
-        buttons: {
-            confirm: {
-                label: 'Yes',
-                className: 'btn-success'
+    if (document.getElementById("hdnPermission").value == "ReadOnly") {
+        //$('#gridDelete').hide();
+        $('#gridDelete').attr("disabled", true);
+        bootbox.alert(RND.Constants.AccessDenied);
+    }
+    else {
+        //$('#gridDelete').show();
+        $('#gridDelete').attr("disabled", false);
+        bootbox.confirm({
+            message: RND.Constants.AreYouDelete,
+            buttons: {
+                confirm: {
+                    label: 'Yes',
+                    className: 'btn-success'
+                },
+                cancel: {
+                    label: 'No',
+                    className: 'btn-danger'
+                }
             },
-            cancel: {
-                label: 'No',
-                className: 'btn-danger'
+            callback: function (result) {
+                if (result) {
+                    $.ajax({
+                        url: Api + "api/AssignMaterial/" + id,
+                        headers: {
+                            Token: GetToken()
+                        },
+                        type: 'DELETE',
+                        //data: JSON.stringify(ApiViewModel),
+                        contentType: "application/json;charset=utf-8",
+                    })
+                     .done(function (data) {
+                         $('#AssignMaterialRepeater').repeater('render');
+                     });
+                }
             }
-        },
-        callback: function (result) {
-            if (result) {
-                $.ajax({
-                    url: Api + "api/AssignMaterial/" + id,
-                    headers: {
-                        Token: GetToken()
-                    },
-                    type: 'DELETE',
-                    //data: JSON.stringify(ApiViewModel),
-                    contentType: "application/json;charset=utf-8",
-                })
-                 .done(function (data) {                    
-                     $('#AssignMaterialRepeater').repeater('render');
-                 });
-            }        
-        }
-    });
+        });
+    }
 }
 
 $('#btnSearch').on('click', function () {   
@@ -347,6 +362,13 @@ $('#btnClear').on('click', function () {
 $(document).ready(function () {
     if ($('#WorkStudyID').val() !== '0') {
         $('#searchWorkStudyNumber').prop("readonly", true);
+    }
+    
+    if (document.getElementById("hdnPermission").value == "ReadOnly") {
+        $('#btnAdd').hide();
+    }
+    else {
+        $('#btnAdd').show();
     }
 
     $('#btnAdd').on('click', function () {

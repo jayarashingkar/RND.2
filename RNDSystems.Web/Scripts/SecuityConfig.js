@@ -94,13 +94,15 @@ function CheckSecuityConfig() {
                             };
                             $.ajax({
                                 type: 'post',
-                                url: GetRootDirectory() + '/admin/SecuityConfig',
+                                // url: GetRootDirectory() + '/admin/SecuityConfig',
+                                url:  '../admin/SecuityConfig',
                                 data: model
                             })
                             .done(function (data) {
                                 if (data && data.isSuccess) {
                                     dialog.modal('hide');
-                                    location.href = GetRootDirectory() + '/WorkStudy/WorkSutdyList';
+                                    //  location.href = GetRootDirectory() + '/WorkStudy/WorkSutdyList';
+                                    location.href = '../WorkStudy/WorkSutdyList';
                                 }
                                 else {
                                     dialog.modal('hide');
@@ -123,7 +125,8 @@ function CheckSecuityConfig() {
         dialog.find('#RNDSecurityQuestionId').selectpicker({ width: '27%' });
     }
     else
-        location.href = GetRootDirectory() + '/WorkStudy/WorkSutdyList';
+        //  location.href = GetRootDirectory() + '/WorkStudy/WorkSutdyList';
+        location.href = '../WorkStudy/WorkSutdyList';
 }
 
 
