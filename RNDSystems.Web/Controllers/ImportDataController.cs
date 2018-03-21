@@ -25,7 +25,7 @@ namespace RNDSystems.Web.Controllers
             List<SelectListItem> ddWorkStudyId = null;
             // List<SelectListItem> ddTestNos = null;
             // ImportDataViewModel data = null;
-            string[] strTestTypes = { "Tension", "Compression", "Bearing", "Shear", "Notch Yield", "Residual Strength", "Fracture Toughness", "Modulus Tension", "Modulus Compression", "Fatigue Testing"};
+         //   string[] strTestTypes = { "Tension", "Compression", "Bearing", "Shear", "Notch Yield", "Residual Strength", "Fracture Toughness", "Modulus Tension", "Modulus Compression", "Fatigue Testing"};
             string strWorkStudyId = "Currently Unavailable" ;
 
             try
@@ -37,37 +37,39 @@ namespace RNDSystems.Web.Controllers
 
                     ImportDataViewModel data = new ImportDataViewModel();
 
-                    //var client = GetHttpClient();
-                    //var task = client.GetAsync(Api + "api/ImportData?WorkStudyId=none").ContinueWith((res) =>
-                    //{
-                    //    if (res.Result.IsSuccessStatusCode)
-                    //    {
-                    //        data = JsonConvert.DeserializeObject<ImportDataViewModel>(res.Result.Content.ReadAsStringAsync().Result);
-                    //        if (data != null)
-                    //        {
-                    //           // ddTestTypes = data.ddTestType;
-                    //            ddWorkStudyId = data.ddWorkStudyID;
-                    //        }
-                    //    }
-                    //});
-                    //task.Wait();
-                    int intRowId = 0;
-                    string strValue = string.Empty;
-                    while (intRowId < strTestTypes.Length)
+                    var client = GetHttpClient();
+                    //   var task = client.GetAsync(Api + "api/ImportData?WorkStudyId=none").ContinueWith((res) =>
+                    var task = client.GetAsync(Api + "api/ImportData").ContinueWith((res) =>
                     {
-                        strValue = strTestTypes[intRowId];
-                        //if (data != null)
+                        if (res.Result.IsSuccessStatusCode)
                         {
-                            ddTestTypes.Add(new SelectListItem
+                            data = JsonConvert.DeserializeObject<ImportDataViewModel>(res.Result.Content.ReadAsStringAsync().Result);
+                            if (data != null)
                             {
-                                Value = strValue,
-                                Text = strValue,
-                                Selected = (Convert.ToString(data.TestType) == Convert.ToString(strValue)) ? true : false,
-                            });
+                                 ddTestTypes = data.ddTestType;
+                                //ddWorkStudyId = data.ddWorkStudyID;
+                            }
                         }
+                    });
+                    task.Wait();
 
-                        intRowId += 1;
-                    }
+                   // int intRowId = 0;
+                    //string strValue = string.Empty;
+                    //while (intRowId < strTestTypes.Length)
+                    //{
+                    //    strValue = strTestTypes[intRowId];
+                    //    //if (data != null)
+                    //    {
+                    //        ddTestTypes.Add(new SelectListItem
+                    //        {
+                    //            Value = strValue,
+                    //            Text = strValue,
+                    //            Selected = (Convert.ToString(data.TestType) == Convert.ToString(strValue)) ? true : false,
+                    //        });
+                    //    }
+
+                    //    intRowId += 1;
+                    //}
                     ddWorkStudyId.Add(new SelectListItem
                     {
                         Value = strWorkStudyId,

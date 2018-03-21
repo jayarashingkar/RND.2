@@ -18,7 +18,8 @@ namespace RNDSystems.API.Controllers
     public class ImportDataController : UnSecuredController
     {
         // GET: ImportData
-        public HttpResponseMessage Get(string WorkStudyId)
+        // public HttpResponseMessage Get(string WorkStudyId)
+        public HttpResponseMessage Get()
         {
             _logger.Debug("ImportData Get Called");
             SqlDataReader reader = null;
@@ -26,59 +27,59 @@ namespace RNDSystems.API.Controllers
 
             try
             {
-                if (WorkStudyId == "none")
-                {
-                    CurrentUser user = ApiUser;
+                 CurrentUser user = ApiUser;
                     ID = new ImportDataViewModel();
                     AdoHelper ado = new AdoHelper();
 
-                    ID.ddWorkStudyID = new List<SelectListItem>() { GetInitialSelectItem() };
+                    ID.ddTestType = new List<SelectListItem>() { GetInitialSelectItem() };
 
-                    // for Release 2 - to fill the drop down menu
-                    //check if store proc - [RNDTestType_READ] can be used
+                //ID.ddWorkStudyID = new List<SelectListItem>() { GetInitialSelectItem() };                                        
+                // SqlParameter param1 = new SqlParameter("@WorkStudyId", PM.WorkStudyID);
 
-                    //  ID.ddTestType = new List<SelectListItem>() { GetInitialSelectItem() };
+                // using (reader = ado.ExecDataReaderProc("RNDTestTypes_READfromRNDTesting", "RND"))
 
-                    // SqlParameter param1 = new SqlParameter("@WorkStudyId", PM.WorkStudyID);
+                //Active = 2 for Import and Active = 3 for Manual Entry
 
-                    //using (reader = ado.ExecDataReaderProc("RNDTestTypes_READfromRNDTesting", "RND"))
-                    //{
-                    //    if (reader.HasRows)
-                    //    {
-                    //        while (reader.Read())
-                    //        {
-                    //            string TestType = Convert.ToString(reader["TestType"]);
-                    //            if ((TestType != " ") && (TestType != "") && (TestType != null))
-                    //            {
-                    //                ID.ddTestType.Add(new SelectListItem
-                    //                {
-                    //                    Value = TestType,
-                    //                    Text = TestType,
-                    //                    Selected = (ID.TestType == TestType) ? true : false,
-                    //                });
-                    //            }
-                    //        }
-                    //    }
-                    using (reader = ado.ExecDataReaderProc("RNDTestWorkStudy_READ", "RND"))
-                    {
+                SqlParameter param1 = new SqlParameter("@Active", '2');
+
+                using (reader = ado.ExecDataReaderProc("RNDImportTestList_READ", "RND", new object[] { param1 }))
+                {
                         if (reader.HasRows)
                         {
                             while (reader.Read())
                             {
-                                string WorkStudyID = Convert.ToString(reader["WorkStudyID"]);
-                                if ((WorkStudyID != " ") && (WorkStudyID != "") && (WorkStudyID != null))
+                                string TestType = Convert.ToString(reader["TestDesc"]);
+                                if ((TestType != " ") && (TestType != "") && (TestType != null))
                                 {
-                                    ID.ddWorkStudyID.Add(new SelectListItem
+                                    ID.ddTestType.Add(new SelectListItem
                                     {
-                                        Value = WorkStudyID,
-                                        Text = WorkStudyID,
-                                        Selected = (ID.WorkStudyID == WorkStudyID) ? true : false,
+                                        Value = TestType,
+                                        Text = TestType,
+                                        Selected = (ID.TestType == TestType) ? true : false,
                                     });
                                 }
                             }
                         }
+                        //using (reader = ado.ExecDataReaderProc("RNDTestWorkStudy_READ", "RND"))
+                        //{
+                        //    if (reader.HasRows)
+                        //    {
+                        //        while (reader.Read())
+                        //        {
+                        //            string WorkStudyID = Convert.ToString(reader["WorkStudyID"]);
+                        //            if ((WorkStudyID != " ") && (WorkStudyID != "") && (WorkStudyID != null))
+                        //            {
+                        //                ID.ddWorkStudyID.Add(new SelectListItem
+                        //                {
+                        //                    Value = WorkStudyID,
+                        //                    Text = WorkStudyID,
+                        //                    Selected = (ID.WorkStudyID == WorkStudyID) ? true : false,
+                        //                });
+                        //            }
+                        //        }
+                        //    }
+                        //}
                     }
-                }
                 return Serializer.ReturnContent(ID, this.Configuration.Services.GetContentNegotiator(), this.Configuration.Formatters, this.Request);
             }
             catch (Exception ex)

@@ -450,7 +450,11 @@ namespace RNDSystems.Web.Controllers
             return selectedTT;
         }
 
-
+        public ActionResult AddResults(bool isSuccess, string TestType, string SelectedTests)
+        {
+             isSuccess = false;
+            return Json(new { isSuccess = isSuccess }, JsonRequestBehavior.AllowGet);
+        }
         [HttpPost]
         public ActionResult PrintSelected(string SelectedTests, string WorkStudyID)
         {

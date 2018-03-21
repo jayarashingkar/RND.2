@@ -107,8 +107,8 @@ function customDataSource(options, callback) {
     // call API, posting options
     $.ajax({
         type: 'post',
-        //  url: GetRootDirectory() + '/Grid/GetUserLogins',
-        url:  '../Grid/GetUserLogins',
+          url: GetRootDirectory() + '/Grid/GetUserLogins',
+        //url:  '../Grid/GetUserLogins',
         data: options
     })
     .done(function (data) {
@@ -245,8 +245,8 @@ $('#btnAdd').on('click', function (event, param) {
                         };
                         $.ajax({
                             type: 'post',
-                            //  url: GetRootDirectory() + '/Admin/SaveUserLogin',
-                            url: '../Admin/SaveUserLogin',
+                              url: GetRootDirectory() + '/Admin/SaveUserLogin',
+                            //url: '../Admin/SaveUserLogin',
                             data: model
                         })
                         .done(function (data) {
@@ -307,8 +307,8 @@ function GridEditClicked(id) {
     var obj = { id: id };
     $.ajax({
         type: 'post',
-        // url: GetRootDirectory() + '/Admin/EditUserLogin',
-        url:  '../Admin/EditUserLogin',
+         url: GetRootDirectory() + '/Admin/EditUserLogin',
+        //url:  '../Admin/EditUserLogin',
         data: obj
     })
     .done(function (data) {
@@ -330,8 +330,8 @@ function GridEditClicked(id) {
 
 function GridDeleteClicked(id) {
 
-    //DeleteGridRow(id, GetRootDirectory() + '/Admin/DeleteUserLogins', 'userLoginsRepeater');
-    DeleteGridRow(id, '../Admin/DeleteUserLogins', 'userLoginsRepeater');
+    DeleteGridRow(id, GetRootDirectory() + '/Admin/DeleteUserLogins', 'userLoginsRepeater');
+    //DeleteGridRow(id, '../Admin/DeleteUserLogins', 'userLoginsRepeater');
 }
 
 $('#btnSearch').on('click', function () {

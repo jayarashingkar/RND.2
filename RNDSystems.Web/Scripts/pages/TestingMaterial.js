@@ -1,9 +1,14 @@
 ﻿var columns = [
       {
-          label: 'Testing No',
-          property: 'TestingNo',
+          label: 'Select',
+          property: 'SelectTestingNo',
           sortable: true,
       },
+       {
+           label: 'Testing No',
+           property: 'TestingNo',
+           sortable: true,
+       },
      {
          label: 'Printed',
          property: 'Printed',
@@ -132,6 +137,7 @@ var selectTests;
 
 function customColumnRenderer(helpers, callback) {
     // determine what column is being rendered
+    
     var column = helpers.columnAttr;
     var ListofTestNos = "";
     // get all the data for the entire row
@@ -141,13 +147,13 @@ function customColumnRenderer(helpers, callback) {
     // only override the output for specific columns.
     // will default to output the text value of the row item
     switch (column) {
-        case 'TestingNo':
+        //case 'TestingNo':
+        case 'SelectTestingNo':
             // let's combine name and description into a single column
              //customMarkup = '<input type="checkbox" id="TestingNo" name="TestingNo" value="' + rowData.TestingNo + '" />';
            //  customMarkup = '<button id="TestingNo" name="TestingNo" onclick="TestSelected(' + rowData.TestingNo + ')" class="btn btn-inverse"><i class="fa fa-square-o"></i></button>';
       //   customMarkup = '<input type="checkbox" id="TestingNo" name="TestingNo" onchange="TestSelected(' + rowData.TestingNo+ '" class="TestingNo" value="' + rowData.TestingNo + '"/>';
             customMarkup = ' <input type="checkbox" name="CheckTesting" id="CheckTesting' + rowData.TestingNo + '" class="CheckTesting" value="' + rowData.TestingNo + '"/>';
-
             break;
         //case 'TestingMaterial':
         //    // let's combine name and description into a single column
@@ -168,9 +174,9 @@ function customColumnRenderer(helpers, callback) {
     }
     helpers.item.html(customMarkup);
     callback();
-
-
 }
+
+
 
 $('#btnSelectPrint').on('click', function () {
     if (SelectedTests == null)
@@ -180,7 +186,6 @@ $('#btnSelectPrint').on('click', function () {
 $('#btnPrint').on('click', function () {  
     SelectedTests = "";
     $("#SelectedTests").val(SelectedTests);
-   // $("#SelectedTests").val(avialableTT);
 })
 
 function customRowRenderer(helpers, callback) {
@@ -389,8 +394,8 @@ $(document).ready(function () {
  
         $.ajax({
             type: 'post',
-            //url: GetRootDirectory() + '/TestingMaterial/TestingMaterial',
-            url:  '../TestingMaterial/TestingMaterial',
+            url: GetRootDirectory() + '/TestingMaterial/TestingMaterial',
+            //url:  '../TestingMaterial/TestingMaterial',
             //'/TestingMaterial/SaveTestingMaterial?avialableTT=' + avialableTT
             data: options
         })
@@ -426,13 +431,24 @@ $(document).ready(function () {
                 
         });
     });
- 
- 
+  
     if ($('#WorkStudyID').val() !== '0') {
         $('#WorkStudyNumber').prop("readonly", true);
     }
 
-    $('#btnAddTesting').on('click', function () {        
+    $('#btnAddResults').on('click', function () {
+        if (SelectedTests == null)
+            SelectedTests = "";
+        debugger;
+        if (selectedType != '-1'){
+            location.href = '/TestingMaterial/AddResults?isSuccess=false&TestType=' + $('#ddlAvailableTT').val() + '&SelectedTests=' + SelectedTests;
+        }           
+        else
+            bootbox.alert('Select from Available Test');
+    });
+
+    $('#btnAddTesting').on('click', function () {
+        debugger;
         avialableTT = $('#ddlTestType').val();       
         if ((avialableTT == "-1") || (avialableTT == null) || (avialableTT == ""))
         {

@@ -13,6 +13,9 @@
                 <button id="btnBack" onclick="window.history.back();" class="btn btn-primary btn-sm pull-right"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</button>
             </div>
         </div>
+        <div class="row">
+        </div>
+           
         <form action="PrintSelected" method="post">
             <div class="row">
                 <div class="form-group">
@@ -57,6 +60,7 @@
                             </div>
                         </div>
                         <input type="hidden" name="SelectedTests" id="SelectedTests" value="@Model.SelectedTests" />
+                        <input type="hidden" name="AvailableTT" id="AvailableTT" value="@Model.TestType" />
                     </div>
                 </div>
             </div>
@@ -65,13 +69,19 @@
                     <div class="form-group">
                         <button id="btnSearch" type="button" class="btn btn-primary btn-sm"><i class="fa fa-search" aria-hidden="true"></i> Search</button>
                         <button id="btnClear" type="button" class="btn btn-primary btn-sm"><i class="fa fa-times" aria-hidden="true"></i> Clear</button>
-                        <button id="btnPrint" class="btn btn-info btn-sm pull-right cust-left-margin" style="margin-left:10px!important"><i class="fa fa-print" aria-hidden="true"></i>Print All</button> 
+                        <button id="btnPrint" class="btn btn-info btn-sm pull-right cust-left-margin" style="margin-left:10px!important"><i class="fa fa-print" aria-hidden="true"></i>Print All</button>
                         <button id="btnSelectPrint" class="btn btn-info btn-sm pull-right"><i class="fa fa-print" aria-hidden="true"></i>Print Selected</button>
                     </div>
                 </div>
             </div>
-        </form>
-    </div>
+        </form>         
+                <div class="row">
+                    <div class="col-md-12">
+                        <button id="btnAddResults" class="btn btn-warning btn-sm pull-right"><i class="fa fa-table" aria-hidden="true" disabled></i>Add Results</button>
+                    </div>
+                </div>             
+           
+        </div>
     @{Html.RenderPartial("_Repeater", "TestingMaterialRepeater");}
 </div>
  
