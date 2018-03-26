@@ -1,0 +1,86 @@
+﻿
+@model RNDSystems.Models.ManualViewModels.ManualDataViewModel
+@{
+    ViewBag.Title = "MacroEtchResult";
+}
+
+<div class="row">
+    <div class="col-md-3">
+        <div class="form-group">
+            <label for="lblMaxRexGrainDepth" class="cols-sm-2 control-label">MaxRexGrainDepth</label>
+            <div class="cols-sm-10">
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-text-width" aria-hidden="true"></i></span>
+                    <input type="text" id="MaxRexGrainDepth" name="MaxRexGrainDepth" class="form-control" placeholder="Enter MaxRexGrainDepth" />
+                    <input type="hidden" name="SelectedTests" id="SelectedTests" value="@Model.SelectedTests" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-3">
+        <div class="form-group">
+            <label for="lblMacroEtchSpeciComment" class="cols-sm-2 control-label">SpeciComment</label>
+            <div class="cols-sm-10">
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-text-width" aria-hidden="true"></i></span>
+                    <input type="text" id="MacroEtchSpeciComment" name="MacroEtchSpeciComment" class="form-control" placeholder="Enter SpeciComment" />
+                </div>
+            </div>
+        </div>
+    </div>
+    @*</div>
+        <div class="row">*@
+    <div class="col-md-3">
+        <div class="form-group">
+            <label for="lblMacroEtchOperator" class="cols-sm-2 control-label">Operator</label>
+            <div class="cols-sm-10">
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-text-width" aria-hidden="true"></i></span>
+                    <input type="text" id="MacroEtchOperator" name="MacroEtchOperator" class="form-control" placeholder="Enter Operator" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-3">
+        <div class="form-group">
+            <label for="lblTestDate" class="cols-sm-2 control-label">Test Date</label>
+            <div class="input-group date">
+                <input type="text" id="MacroEtchTestDate" name="MacroEtchTestDate" class="form-control"><span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-3">
+        <div class="form-group">
+            <label for="lblMacroEtchTimeHrs" class="cols-sm-2 control-label">TimeHrs</label>
+            <div class="cols-sm-10">
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-text-width" aria-hidden="true"></i></span>
+                    <input type="text" id="MacroEtchTimeHrs" name="MacroEtchTimeHrs" class="form-control" placeholder="Enter TimeHrs" />
+                </div>
+            </div>
+        </div>
+    </div>
+    @*</div>
+        <div class="row">*@
+    <div class="col-md-3">
+        <div class="form-group">
+            <label for="lblMacroEtchTimeMns" class="cols-sm-2 control-label">TimeMns</label>
+            <div class="cols-sm-10">
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-text-width" aria-hidden="true"></i></span>
+                    <input type="text" id="MacroEtchTimeMns" name="MacroEtchTimeMns" class="form-control" placeholder="Enter TimeMns" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+

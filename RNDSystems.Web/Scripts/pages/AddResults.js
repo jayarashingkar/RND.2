@@ -1,5 +1,7 @@
 ﻿$(document).ready(function () {
 
+    debugger;
+
     $('#SCCResult').hide();
     $('#ExcoResult').hide();
     $('#MacroEtchResult').hide();
@@ -8,6 +10,8 @@
     $('#TestStartDate').datepicker({ autoclose: true, todayHighlight: true, todayBtn: "linked" });
     $('#TestEndDate').datepicker({ autoclose: true, todayHighlight: true, todayBtn: "linked" });
     $('#TestDate').datepicker({ autoclose: true, todayHighlight: true, todayBtn: "linked" });
+    $('#MacroEtchTestDate').datepicker({ autoclose: true, todayHighlight: true, todayBtn: "linked" });
+
  //   $('#TestStartDate').datepicker({ autoclose: true, todayHighlight: true, todayBtn: "linked" });
     if ($('#TestStartDate').val() === '') {
         $('#TestStartDate').datepicker("setDate", new Date());
@@ -17,6 +21,9 @@
     }
     if ($('#TestDate').val() === '') {
         $('#TestDate').datepicker("setDate", new Date());
+    }
+    if ($('#MacroEtchTestDate').val() === '') {
+        $('#MacroEtchTestDate').datepicker("setDate", new Date());
     }
 
     $('#lblReturnMessage').text('');
@@ -32,11 +39,19 @@
         if (TestType == RND.ResultConstant.SCC) {               
             $('#SCCResult').show();
             $('#ExcoResult').hide();
+            $('#MacroEtchResult').hide();
             $('#btnSaveResult').show();
         }
         else if (TestType == RND.ResultConstant.EXCO) {
             $('#SCCResult').hide();
             $('#ExcoResult').show();
+            $('#MacroEtchResult').hide();
+            $('#btnSaveResult').show();
+        }
+        else if (TestType == RND.ResultConstant.MacroEtch) {
+            $('#SCCResult').hide();
+            $('#ExcoResult').hide();
+            $('#MacroEtchResult').show();
             $('#btnSaveResult').show();
         }
     });
@@ -46,7 +61,7 @@
       
         var TestType = $.trim($("#ddTestTypesManual").val());
         var SelectedTests = $.trim($("#SelectedTests").val());
-        var options;
+      //  var options1;
 
         if (TestType == RND.ResultConstant.SCC) {
             var StressKsi = $.trim($("#StressKsi").val());
@@ -58,7 +73,7 @@
             var TestEndDate = $.trim($("#TestEndDate").val());
 
             //  $('#formStudyType').bootstrapValidator('resetForm', true);
-            options1 = {
+            var options1 = {
                 SelectedTests: SelectedTests,                
                 StressKsi: StressKsi,
                 TimeDays: TimeDays,
@@ -79,7 +94,8 @@
            .done(function (data) {
 
                $('#SCCResult').hide();
-                $('#ExcoResult').hide();
+               $('#ExcoResult').hide();
+               $('#MacroEtchResult').hide();
                $('#btnSaveResult').hide();
                if (data.Success) {
 
@@ -108,7 +124,7 @@
             var BatchNo = $.trim($("#BatchNo").val());
             //  $('#formStudyType').bootstrapValidator('resetForm', true);
           
-            options2 = {
+            var options2 = {
                 SelectedTests: SelectedTests,              
                 ExcoRating: ExcoRating,
                 StartWT: StartWT,
@@ -135,6 +151,7 @@
 
                $('#SCCResult').hide();
                $('#ExcoResult').hide();
+               $('#MacroEtchResult').hide();
                $('#btnSaveResult').hide();
                if (data.Success) {
 
@@ -147,6 +164,49 @@
                }
            });
         }
+        else
+            if (TestType == RND.ResultConstant.MacroEtch) {
+                var MaxRexGrainDepth = $.trim($("#MaxRexGrainDepth").val());               
+                var SpeciComment = $.trim($("#MicroEtchSpeciComment").val());
+                var Operator = $.trim($("#MicroEtchOperator").val());
+                var TestDate = $.trim($("#MicroEtchTestDate").val());
+                var TimeHrs = $.trim($("#MicroEtchTimeHrs").val());
+                var TimeMns = $.trim($("#MicroEtchTimeMns").val());
+                //  $('#formStudyType').bootstrapValidator('resetForm', true);
+
+                var options3 = {
+                    SelectedTests: SelectedTests,                   
+                    SpeciComment: SpeciComment,
+                    Operator: Operator,
+                    TestDate: TestDate,
+                    TimeHrs: TimeHrs,
+                    TimeMns: TimeMns                   
+                };
+                $.ajax({
+                    type: 'Post',
+                    url: Api + 'api/MacroEtchResult',
+                    headers: {
+                        Token: GetToken()
+                    },
+                    data: options3
+                })
+               .done(function (data) {
+
+                   $('#SCCResult').hide();
+                   $('#ExcoResult').hide();
+                   $('#MacroEtchResult').hide();
+                   $('#btnSaveResult').hide();
+                   if (data.Success) {
+
+                       var message = data.Message + ': successfully added'
+                       $('#lblReturnMessage').text(message);
+                   }
+                   else {
+                       // var message = TestType + ': did not get added'
+                       $('#lblReturnMessage').text('ERROR inserting Results');
+                   }
+               });
+            }
         });
     
     //var formType = $("input:radio[name='OptionRadio']:checked").val();

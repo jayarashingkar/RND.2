@@ -12,7 +12,8 @@ RND.OptionConstant = {
 
 RND.ResultConstant = {
     SCC: "SCC",
-    EXCO: "Exco"
+    EXCO: "Exco",
+    MacroEtch: "MacroEtch"
 };
 
 function GetRootDirectory() {

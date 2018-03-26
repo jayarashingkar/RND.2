@@ -45,6 +45,7 @@
     <Compile Include="IModel.cs" />
     <Compile Include="IRNDModel.cs" />
     <Compile Include="ManualViewModels\EXCOViewModel.cs" />
+    <Compile Include="ManualViewModels\MacroEtchViewModel.cs" />
     <Compile Include="ManualViewModels\ManualDataViewModel.cs" />
     <Compile Include="ManualViewModels\SCCViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

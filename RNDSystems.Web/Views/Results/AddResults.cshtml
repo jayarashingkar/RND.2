@@ -48,14 +48,19 @@
                 <div id="ExcoResult" style="display:block" class="container">
                     <div class="row">
                         <label for="" name="hdExco" id="hdExco" class="cols-sm-2 control-label bg-primary ">Exco</label>
-                    </div>
-                    @*<div class="row">
-                        <div class="col-md-3">
-                            @Html.Partial("ExcoResult")
-                        </div>
-                    </div>*@
+                    </div>                   
                     <div class="row">                       
                             @Html.Partial("ExcoResult")                      
+                    </div>
+                </div>
+            </div>
+            <div role="form" id="formAddMacroEtch">
+                <div id="MacroEtch" style="display:block" class="container">
+                    <div class="row">
+                        <label for="" name="hdMacroEtch" id="hdMacroEtch" class="cols-sm-2 control-label bg-primary ">Macro Etch</label>
+                    </div>
+                    <div class="row">
+                        @Html.Partial("MacroEtchResult")
                     </div>
                 </div>
             </div>
