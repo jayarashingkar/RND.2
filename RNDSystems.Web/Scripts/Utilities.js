@@ -14,7 +14,8 @@ RND.ResultConstant = {
     SCC: "SCC",
     EXCO: "Exco",
     MacroEtch: "Macro Etch",
-    OpticalMount: "Optical Mount"
+    OpticalMount: "Optical Mount",
+    Hardness: "Hardness"
 };
 
 function GetRootDirectory() {

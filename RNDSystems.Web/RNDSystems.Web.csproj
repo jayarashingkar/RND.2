@@ -298,6 +298,7 @@
     <Content Include="Views\Results\ExcoResult.cshtml" />
     <Content Include="Views\Results\MacroEtchResult.cshtml" />
     <Content Include="Views\Results\OpticalMountResults.cshtml" />
+    <Content Include="Views\Results\HardnessResults.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -311,6 +312,7 @@
     <Folder Include="Models\" />
     <Folder Include="Views\Base\" />
     <Folder Include="Views\Grid\" />
+    <Folder Include="Views\Hardness\" />
     <Folder Include="Views\Home\" />
     <Folder Include="Views\LogOut\" />
     <Folder Include="Views\RND\" />

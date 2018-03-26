@@ -4,12 +4,16 @@
     $('#ExcoResult').hide();
     $('#MacroEtchResult').hide();
     $('#OpticalMountResult').hide();
+    $('#HardnessResult').hide();
     $('#btnSaveResult').hide();
 
     $('#TestStartDate').datepicker({ autoclose: true, todayHighlight: true, todayBtn: "linked" });
     $('#TestEndDate').datepicker({ autoclose: true, todayHighlight: true, todayBtn: "linked" });
     $('#TestDate').datepicker({ autoclose: true, todayHighlight: true, todayBtn: "linked" });
     $('#MacroEtchTestDate').datepicker({ autoclose: true, todayHighlight: true, todayBtn: "linked" });
+    $('#OpticalMountTestDate').datepicker({ autoclose: true, todayHighlight: true, todayBtn: "linked" });
+    $('#HardnessTestDate').datepicker({ autoclose: true, todayHighlight: true, todayBtn: "linked" });
+
 
  //   $('#TestStartDate').datepicker({ autoclose: true, todayHighlight: true, todayBtn: "linked" });
     if ($('#TestStartDate').val() === '') {
@@ -27,7 +31,9 @@
     if ($('#OpticalMountTestDate').val() === '') {
         $('#OpticalMountTestDate').datepicker("setDate", new Date());
     }
-
+    if ($('#HardnessTestDate').val() === '') {
+        $('#HardnessTestDate').datepicker("setDate", new Date());
+    }
     $('#lblReturnMessage').text('');
     $('#ddTestTypesManual').attr('data-live-search', 'true');
     $('#ddTestTypesManual').selectpicker();
@@ -42,6 +48,7 @@
             $('#ExcoResult').hide();
             $('#MacroEtchResult').hide();
             $('#OpticalMountResult').hide();
+            $('#HardnessResult').hide();
             $('#btnSaveResult').show();
         }
         else if (TestType == RND.ResultConstant.EXCO) {
@@ -49,6 +56,7 @@
             $('#ExcoResult').show();
             $('#MacroEtchResult').hide();
             $('#OpticalMountResult').hide();
+            $('#HardnessResult').hide();
             $('#btnSaveResult').show();
         }
         else if (TestType == RND.ResultConstant.MacroEtch) {
@@ -56,6 +64,7 @@
             $('#ExcoResult').hide();
             $('#MacroEtchResult').show();
             $('#OpticalMountResult').hide();
+            $('#HardnessResult').hide();
             $('#btnSaveResult').show();
         }
         else if (TestType == RND.ResultConstant.OpticalMount) {
@@ -63,6 +72,15 @@
             $('#ExcoResult').hide();
             $('#MacroEtchResult').hide();
             $('#OpticalMountResult').show();
+            $('#HardnessResult').hide();
+            $('#btnSaveResult').show();
+        }
+        else if (TestType == RND.ResultConstant.Hardness) {
+            $('#SCCResult').hide();
+            $('#ExcoResult').hide();
+            $('#MacroEtchResult').hide();
+            $('#OpticalMountResult').hide();
+            $('#HardnessResult').show();
             $('#btnSaveResult').show();
         }
         debugger;
@@ -108,6 +126,8 @@
                $('#SCCResult').hide();
                $('#ExcoResult').hide();
                $('#MacroEtchResult').hide();
+               $('#OpticalMountResult').hide();
+               $('#HardnessResult').hide();
                $('#btnSaveResult').hide();
                if (data.Success) {
 
@@ -164,6 +184,8 @@
                $('#SCCResult').hide();
                $('#ExcoResult').hide();
                $('#MacroEtchResult').hide();
+               $('#OpticalMountResult').hide();
+               $('#HardnessResult').hide();
                $('#btnSaveResult').hide();
                if (data.Success) {
 
@@ -263,6 +285,56 @@
                        }
                    });
                 }
+                else
+                    if (TestType == RND.ResultConstant.Hardness) {
+                        var HardnessSubConduct = $.trim($("#HardnessSubConduct").val());
+                        var HardnessSurfConduct = $.trim($("#HardnessSurfConduct").val());
+                        var Hardness = $.trim($("#Hardness").val());
+                        var HardnessSpeciComment = $.trim($("#HardnessSpeciComment").val());
+                        var HardnessOperator = $.trim($("#HardnessOperator").val());
+                        var HardnessTestDate = $.trim($("#HardnessTestDate").val());
+                        var HardnessTimeHrs = $.trim($("#HardnessTimeHrs").val());
+                        var HardnessTimeMns = $.trim($("#HardnessTimeMns").val());
+                       
+                        var options5 = {
+                            SelectedTests: SelectedTests,
+                            SubConduct: HardnessSubConduct,
+                            SurfConduct: HardnessSurfConduct,
+                            Hardness:Hardness,
+                            SpeciComment: HardnessSpeciComment,
+                            Operator: HardnessOperator,
+                            TestDate: HardnessTestDate,
+                            TimeHrs: HardnessTimeHrs,
+                            TimeMns: HardnessTimeMns
+                        };
+                        $.ajax({
+                            type: 'Post',
+                            url: Api + 'api/Hardness',
+                            headers: {
+                                Token: GetToken()
+                            },
+                            data: options5
+                        })
+                       .done(function (data) {
+
+                           $('#SCCResult').hide();
+                           $('#ExcoResult').hide();                          
+                           $('#MacroEtchResult').hide();
+                           $('#OpticalMountResult').hide();
+                           $('#HardnessResult').hide();
+                           $('#btnSaveResult').hide();
+                           if (data.Success) {
+
+                               var message = data.Message + ': successfully added'
+                               $('#lblReturnMessage').text(message);
+                           }
+                           else {
+                               // var message = TestType + ': did not get added'
+                               $('#lblReturnMessage').text('ERROR inserting Results');
+                           }
+                       });
+                    }
+
         });
     
     //var formType = $("input:radio[name='OptionRadio']:checked").val();
