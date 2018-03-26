@@ -1,10 +1,9 @@
 ﻿$(document).ready(function () {
 
-    debugger;
-
     $('#SCCResult').hide();
     $('#ExcoResult').hide();
     $('#MacroEtchResult').hide();
+    $('#OpticalMountResult').hide();
     $('#btnSaveResult').hide();
 
     $('#TestStartDate').datepicker({ autoclose: true, todayHighlight: true, todayBtn: "linked" });
@@ -25,13 +24,15 @@
     if ($('#MacroEtchTestDate').val() === '') {
         $('#MacroEtchTestDate').datepicker("setDate", new Date());
     }
+    if ($('#OpticalMountTestDate').val() === '') {
+        $('#OpticalMountTestDate').datepicker("setDate", new Date());
+    }
 
     $('#lblReturnMessage').text('');
     $('#ddTestTypesManual').attr('data-live-search', 'true');
     $('#ddTestTypesManual').selectpicker();
 
     $("#btnAddNew").click(function () {
-        debugger;
         $('#lblReturnMessage').text('');
 
         var TestType = $.trim($("#ddTestTypesManual").val());
@@ -40,25 +41,36 @@
             $('#SCCResult').show();
             $('#ExcoResult').hide();
             $('#MacroEtchResult').hide();
+            $('#OpticalMountResult').hide();
             $('#btnSaveResult').show();
         }
         else if (TestType == RND.ResultConstant.EXCO) {
             $('#SCCResult').hide();
             $('#ExcoResult').show();
             $('#MacroEtchResult').hide();
+            $('#OpticalMountResult').hide();
             $('#btnSaveResult').show();
         }
         else if (TestType == RND.ResultConstant.MacroEtch) {
             $('#SCCResult').hide();
             $('#ExcoResult').hide();
             $('#MacroEtchResult').show();
+            $('#OpticalMountResult').hide();
             $('#btnSaveResult').show();
         }
+        else if (TestType == RND.ResultConstant.OpticalMount) {
+            $('#SCCResult').hide();
+            $('#ExcoResult').hide();
+            $('#MacroEtchResult').hide();
+            $('#OpticalMountResult').show();
+            $('#btnSaveResult').show();
+        }
+        debugger;
     });
 
     $("#btnSaveResult").click(function () {       
         //   var optionType = $("input:radio[name='OptionRadio']:checked").val();
-      
+        debugger;
         var TestType = $.trim($("#ddTestTypesManual").val());
         var SelectedTests = $.trim($("#SelectedTests").val());
       //  var options1;
@@ -167,24 +179,25 @@
         else
             if (TestType == RND.ResultConstant.MacroEtch) {
                 var MaxRexGrainDepth = $.trim($("#MaxRexGrainDepth").val());               
-                var SpeciComment = $.trim($("#MicroEtchSpeciComment").val());
-                var Operator = $.trim($("#MicroEtchOperator").val());
-                var TestDate = $.trim($("#MicroEtchTestDate").val());
-                var TimeHrs = $.trim($("#MicroEtchTimeHrs").val());
-                var TimeMns = $.trim($("#MicroEtchTimeMns").val());
+                var MacroEtchSpeciComment = $.trim($("#MacroEtchSpeciComment").val());
+                var MacroEtchOperator = $.trim($("#MacroEtchOperator").val());
+                var MacroEtchTestDate = $.trim($("#MacroEtchTestDate").val());
+                var MacroEtchTimeHrs = $.trim($("#MacroEtchTimeHrs").val());
+                var MacroEtchTimeMns = $.trim($("#MacroEtchTimeMns").val());
                 //  $('#formStudyType').bootstrapValidator('resetForm', true);
 
                 var options3 = {
+                    MaxRexGrainDepth: MaxRexGrainDepth,
                     SelectedTests: SelectedTests,                   
-                    SpeciComment: SpeciComment,
-                    Operator: Operator,
-                    TestDate: TestDate,
-                    TimeHrs: TimeHrs,
-                    TimeMns: TimeMns                   
+                    SpeciComment: MacroEtchSpeciComment,
+                    Operator: MacroEtchOperator,
+                    TestDate: MacroEtchTestDate,
+                    TimeHrs: MacroEtchTimeHrs,
+                    TimeMns: MacroEtchTimeMns
                 };
                 $.ajax({
                     type: 'Post',
-                    url: Api + 'api/MacroEtchResult',
+                    url: Api + 'api/MacroEtch',
                     headers: {
                         Token: GetToken()
                     },
@@ -207,6 +220,49 @@
                    }
                });
             }
+            else
+                if (TestType == RND.ResultConstant.OpticalMount) {
+                    var OpticalMountSpeciComment = $.trim($("#OpticalMountSpeciComment").val());
+                    var OpticalMountOperator = $.trim($("#OpticalMountOperator").val());
+                    var OpticalMountTestDate = $.trim($("#OpticalMountTestDate").val());
+                    var OpticalMountTimeHrs = $.trim($("#OpticalMountTimeHrs").val());
+                    var OpticalMountTimeMns = $.trim($("#OpticalMountTimeMns").val());
+                    //  $('#formStudyType').bootstrapValidator('resetForm', true);
+
+                    var options4 = {                      
+                        SelectedTests: SelectedTests,
+                        SpeciComment: OpticalMountSpeciComment,
+                        Operator: OpticalMountOperator,
+                        TestDate: OpticalMountTestDate,
+                        TimeHrs: OpticalMountTimeHrs,
+                        TimeMns: OpticalMountTimeMns
+                    };
+                    $.ajax({
+                        type: 'Post',
+                        url: Api + 'api/OpticalMount',
+                        headers: {
+                            Token: GetToken()
+                        },
+                        data: options4
+                    })
+                   .done(function (data) {
+
+                       $('#SCCResult').hide();
+                       $('#ExcoResult').hide();
+                       $('#OpticalMountResult').hide();
+                       $('#MacroEtchResult').hide();
+                       $('#btnSaveResult').hide();
+                       if (data.Success) {
+
+                           var message = data.Message + ': successfully added'
+                           $('#lblReturnMessage').text(message);
+                       }
+                       else {
+                           // var message = TestType + ': did not get added'
+                           $('#lblReturnMessage').text('ERROR inserting Results');
+                       }
+                   });
+                }
         });
     
     //var formType = $("input:radio[name='OptionRadio']:checked").val();

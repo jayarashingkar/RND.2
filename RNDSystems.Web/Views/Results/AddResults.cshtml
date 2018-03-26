@@ -55,12 +55,22 @@
                 </div>
             </div>
             <div role="form" id="formAddMacroEtch">
-                <div id="MacroEtch" style="display:block" class="container">
+                <div id="MacroEtchResult" style="display:block" class="container">
                     <div class="row">
                         <label for="" name="hdMacroEtch" id="hdMacroEtch" class="cols-sm-2 control-label bg-primary ">Macro Etch</label>
                     </div>
                     <div class="row">
                         @Html.Partial("MacroEtchResult")
+                    </div>
+                </div>
+            </div>
+            <div role="form" id="formAddOpticalMount">
+                <div id="OpticalMountResult" style="display:block" class="container">
+                    <div class="row">
+                        <label for="" name="hdOpticalMount" id="hdOpticalMount" class="cols-sm-2 control-label bg-primary ">Optical Mount</label>
+                    </div>
+                    <div class="row">
+                        @Html.Partial("OpticalMountResults")
                     </div>
                 </div>
             </div>
