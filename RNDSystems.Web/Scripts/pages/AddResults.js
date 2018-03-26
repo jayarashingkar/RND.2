@@ -2,12 +2,22 @@
 
     $('#SCCResult').hide();
     $('#ExcoResult').hide();
+    $('#MacroEtchResult').hide();
     $('#btnSaveResult').hide();
 
     $('#TestStartDate').datepicker({ autoclose: true, todayHighlight: true, todayBtn: "linked" });
     $('#TestEndDate').datepicker({ autoclose: true, todayHighlight: true, todayBtn: "linked" });
     $('#TestDate').datepicker({ autoclose: true, todayHighlight: true, todayBtn: "linked" });
  //   $('#TestStartDate').datepicker({ autoclose: true, todayHighlight: true, todayBtn: "linked" });
+    if ($('#TestStartDate').val() === '') {
+        $('#TestStartDate').datepicker("setDate", new Date());
+    }
+    if ($('#TestEndDate').val() === '') {
+        $('#TestEndDate').datepicker("setDate", new Date());
+    }
+    if ($('#TestDate').val() === '') {
+        $('#TestDate').datepicker("setDate", new Date());
+    }
 
     $('#lblReturnMessage').text('');
     $('#ddTestTypesManual').attr('data-live-search', 'true');
