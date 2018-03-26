@@ -44,6 +44,9 @@
     <Compile Include="CurrentUser.cs" />
     <Compile Include="IModel.cs" />
     <Compile Include="IRNDModel.cs" />
+    <Compile Include="ManualViewModels\EXCOViewModel.cs" />
+    <Compile Include="ManualViewModels\ManualDataViewModel.cs" />
+    <Compile Include="ManualViewModels\SCCViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RNDBearingResults.cs" />
     <Compile Include="RNDCompressionResults.cs" />

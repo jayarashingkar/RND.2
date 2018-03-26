@@ -37,5 +37,6 @@ namespace RNDSystems.Models.ViewModels
         public char Selected { get; set; }
         public string TestLab { get; set; }
         public char Printed { get; set; }
+        public string SelectedTests { get; set; }
     }
 }

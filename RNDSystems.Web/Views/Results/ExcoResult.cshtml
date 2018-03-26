@@ -1,0 +1,155 @@
+﻿
+
+@model RNDSystems.Models.ManualViewModels.ManualDataViewModel
+@{
+    ViewBag.Title = "ExcoResult";
+}
+
+<div class="row">
+    <div class="form-group">
+        <label for="lblExcoRating" class="cols-sm-2 control-label">ExcoRating</label>
+        <div class="cols-sm-10">
+            <div class="input-group">
+                <span class="input-group-addon"><i class="fa fa-text-width" aria-hidden="true"></i></span>
+                <input type="text" id="ExcoRating" name="ExcoRating" class="form-control" placeholder="Enter ExcoRating" />
+                <input type="hidden" name="SelectedTests" id="SelectedTests" value="@Model.SelectedTests" />
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="form-group">
+        <label for="lblStartWT" class="cols-sm-2 control-label">StartWT</label>
+        <div class="cols-sm-10">
+            <div class="input-group">
+                <span class="input-group-addon"><i class="fa fa-text-width" aria-hidden="true"></i></span>
+                <input type="text" id="StartWT" name="StartWT" class="form-control" placeholder="Enter StartWT" />
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="form-group">
+        <label for="lblFinalWT" class="cols-sm-2 control-label">FinalWT</label>
+        <div class="cols-sm-10">
+            <div class="input-group">
+                <span class="input-group-addon"><i class="fa fa-text-width" aria-hidden="true"></i></span>
+                <input type="text" id="FinalWT" name="FinalWT" class="form-control" placeholder="Enter FinalWT" />
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="form-group">
+        <label for="lblExposedArea" class="cols-sm-2 control-label">ExposedArea</label>
+        <div class="cols-sm-10">
+            <div class="input-group">
+                <span class="input-group-addon"><i class="fa fa-text-width" aria-hidden="true"></i></span>
+                <input type="text" id="ExposedArea" name="ExposedArea" class="form-control" placeholder="Enter ExposedArea" />
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="form-group">
+        <label for="lblStartpH" class="cols-sm-2 control-label">StartpH</label>
+        <div class="cols-sm-10">
+            <div class="input-group">
+                <span class="input-group-addon"><i class="fa fa-text-width" aria-hidden="true"></i></span>
+                <input type="text" id="StartpH" name="StartpH" class="form-control" placeholder="Enter StartpH" />
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="form-group">
+        <label for="lblFinalpH" class="cols-sm-2 control-label">FinalpH</label>
+        <div class="cols-sm-10">
+            <div class="input-group">
+                <span class="input-group-addon"><i class="fa fa-text-width" aria-hidden="true"></i></span>
+                <input type="text" id="FinalpH" name="FinalpH" class="form-control" placeholder="Enter FinalpH" />
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="form-group">
+        <label for="lblEXCOSpeciComment" class="cols-sm-2 control-label">SpeciComment</label>
+        <div class="cols-sm-10">
+            <div class="input-group">
+                <span class="input-group-addon"><i class="fa fa-text-width" aria-hidden="true"></i></span>
+                <input type="text" id="EXCOSpeciComment" name="EXCOSpeciComment" class="form-control" placeholder="Enter SpeciComment" />
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="form-group">
+        <label for="lblEXCOOperator" class="cols-sm-2 control-label">Operator</label>
+        <div class="cols-sm-10">
+            <div class="input-group">
+                <span class="input-group-addon"><i class="fa fa-text-width" aria-hidden="true"></i></span>
+                <input type="text" id="EXCOOperator" name="EXCOOperator" class="form-control" placeholder="Enter Operator" />
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-3">
+        <div class="form-group">
+            <label for="lblTestDate" class="cols-sm-2 control-label">Test Date</label>
+            <div class="cols-sm-10">
+                <div class="input-group date">
+                    <input type="text" id="TestDate" name="TestDate" class="form-control"><span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="form-group">
+        <label for="lblTimeHrs" class="cols-sm-2 control-label">TimeHrs</label>
+        <div class="cols-sm-10">
+            <div class="input-group">
+                <span class="input-group-addon"><i class="fa fa-text-width" aria-hidden="true"></i></span>
+                <input type="text" id="TimeHrs" name="TimeHrs" class="form-control" placeholder="Enter TimeHrs" />
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="form-group">
+        <label for="lblTimeMns" class="cols-sm-2 control-label">TimeMns</label>
+        <div class="cols-sm-10">
+            <div class="input-group">
+                <span class="input-group-addon"><i class="fa fa-text-width" aria-hidden="true"></i></span>
+                <input type="text" id="TimeMns" name="TimeMns" class="form-control" placeholder="Enter TimeMns" />
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="form-group">
+        <label for="lblBatchNo" class="cols-sm-2 control-label">BatchNo</label>
+        <div class="cols-sm-10">
+            <div class="input-group">
+                <span class="input-group-addon"><i class="fa fa-text-width" aria-hidden="true"></i></span>
+                <input type="text" id="BatchNo" name="BatchNo" class="form-control" placeholder="Enter BatchNo" />
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@*<div class="row">
+        <div class="col-md-3">
+            <div class="form-group">
+                <button type="submit" class="button btn btn-success" id="btnSCCResultSave">Save</button>
+            </div>
+        </div>
+    </div>*@
+
+
+

@@ -205,6 +205,7 @@
     <Content Include="Scripts\jquery-ui.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\pages\AddResults.js" />
     <Content Include="Scripts\pages\AssignMeterial.js" />
     <Content Include="Scripts\pages\ImportData.js" />
     <Content Include="Scripts\pages\SetOptions.js" />
@@ -241,6 +242,7 @@
     <Compile Include="Controllers\OptionsController.cs" />
     <Compile Include="Controllers\ProcessingMaterialController.cs" />
     <Compile Include="Controllers\RegisterController.cs" />
+    <Compile Include="Controllers\ResultsController.cs" />
     <Compile Include="Controllers\RnDReportsController.cs" />
     <Compile Include="Controllers\TestingMaterialController.cs" />
     <Compile Include="Controllers\WorkStudyController.cs" />
@@ -289,6 +291,11 @@
     <Content Include="Views\Options\SetOptions.cshtml" />
     <Content Include="Views\Options\StudyTypeOption.cshtml" />
     <Content Include="Views\Options\LocationOption.cshtml" />
+    <Content Include="Views\TestingMaterial\back upAddResults.cshtml" />
+    <Content Include="Views\Results\SCCResult.cshtml" />
+    <Content Include="Views\Results\AddResults.cshtml" />
+    <Content Include="Views\Results\View.cshtml" />
+    <Content Include="Views\Results\ExcoResult.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -10,6 +10,11 @@ RND.OptionConstant = {
     Location: "Location"
 };
 
+RND.ResultConstant = {
+    SCC: "SCC",
+    EXCO: "Exco"
+};
+
 function GetRootDirectory() {
     if (location.origin.indexOf('local') > -1)
         return "";

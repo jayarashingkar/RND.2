@@ -19,7 +19,7 @@ namespace RNDSystems.API.Controllers
     {
         // GET: ImportData
         // public HttpResponseMessage Get(string WorkStudyId)
-        public HttpResponseMessage Get()
+        public HttpResponseMessage Get(string Active )
         {
             _logger.Debug("ImportData Get Called");
             SqlDataReader reader = null;
@@ -40,7 +40,7 @@ namespace RNDSystems.API.Controllers
 
                 //Active = 2 for Import and Active = 3 for Manual Entry
 
-                SqlParameter param1 = new SqlParameter("@Active", '2');
+                SqlParameter param1 = new SqlParameter("@Active", Active);
 
                 using (reader = ado.ExecDataReaderProc("RNDImportTestList_READ", "RND", new object[] { param1 }))
                 {

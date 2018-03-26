@@ -437,14 +437,15 @@ $(document).ready(function () {
     }
 
     $('#btnAddResults').on('click', function () {
-        if (SelectedTests == null)
-            SelectedTests = "";
-        debugger;
-        if (selectedType != '-1'){
-            location.href = '/TestingMaterial/AddResults?isSuccess=false&TestType=' + $('#ddlAvailableTT').val() + '&SelectedTests=' + SelectedTests;
+        //if (SelectedTests == null)
+        //    SelectedTests = "";
+       
+        if ((SelectedTests != null)&&(SelectedTests != "")) {
+            // location.href = '/TestingMaterial/AddResults?isSuccess=false&TestType=' + $('#ddlAvailableTT').val() + '&SelectedTests=' + SelectedTests;
+            location.href = '/Results/AddResults?isSuccess=false&SelectedTests=' + SelectedTests;
         }           
         else
-            bootbox.alert('Select from Available Test');
+            bootbox.alert('Select Test to attach Results');
     });
 
     $('#btnAddTesting').on('click', function () {

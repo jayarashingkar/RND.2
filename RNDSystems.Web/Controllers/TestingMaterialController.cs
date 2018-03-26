@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Web.Mvc;
+using RNDSystems.Models.ManualViewModels;
 using RNDSystems.Models.ViewModels;
 using RNDSystems.Web.ViewModels;
 
@@ -450,12 +451,45 @@ namespace RNDSystems.Web.Controllers
             return selectedTT;
         }
 
-        public ActionResult AddResults(bool isSuccess, string TestType, string SelectedTests)
-        {
-             isSuccess = false;
-            return Json(new { isSuccess = isSuccess }, JsonRequestBehavior.AllowGet);
-        }
-        [HttpPost]
+    //    public ActionResult AddResults(bool isSuccess, string ResultType, string SelectedTests)
+        //public ActionResult AddResults(bool isSuccess, string SelectedTests)
+        //{
+        //    ManualDataViewModel data = new ManualDataViewModel();
+        //    isSuccess = false;
+        //    List<SelectListItem> ddTestType = null;
+        //    try
+        //    {
+        //        ddTestType = new List<SelectListItem>();
+        //        var client = GetHttpClient();
+        //        var task = client.GetAsync(Api + "api/ImportData?Active=3").ContinueWith((res) =>
+        //        {
+        //            if (res.Result.IsSuccessStatusCode)
+        //            {
+        //                data = JsonConvert.DeserializeObject<ManualDataViewModel>(res.Result.Content.ReadAsStringAsync().Result);
+        //                if (data != null)
+        //                {
+        //                    ddTestType = data.ddTestType;
+        //                    //ddWorkStudyId = data.ddWorkStudyID;
+        //                }
+        //            }
+        //        });
+
+        //        task.Wait();
+
+        //        ViewBag.ddTestTypesManual = ddTestType;
+        //        //data.WorkStudyID = WorkStudyID;
+        //        data.SelectedTests = SelectedTests;
+
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        _logger.Error(ex);
+        //    }
+
+        //    //return Json(new { isSuccess = isSuccess }, JsonRequestBehavior.AllowGet);
+        //    return View(data);
+        //}
+        //[HttpPost]
         public ActionResult PrintSelected(string SelectedTests, string WorkStudyID)
         {
             _logger.Debug("PrintSelected");

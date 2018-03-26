@@ -39,7 +39,7 @@ namespace RNDSystems.Web.Controllers
 
                     var client = GetHttpClient();
                     //   var task = client.GetAsync(Api + "api/ImportData?WorkStudyId=none").ContinueWith((res) =>
-                    var task = client.GetAsync(Api + "api/ImportData").ContinueWith((res) =>
+                    var task = client.GetAsync(Api + "api/ImportData?Active=2").ContinueWith((res) =>
                     {
                         if (res.Result.IsSuccessStatusCode)
                         {
@@ -70,6 +70,7 @@ namespace RNDSystems.Web.Controllers
 
                     //    intRowId += 1;
                     //}
+
                     ddWorkStudyId.Add(new SelectListItem
                     {
                         Value = strWorkStudyId,

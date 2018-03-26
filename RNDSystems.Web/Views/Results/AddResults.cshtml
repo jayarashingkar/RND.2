@@ -1,0 +1,83 @@
+﻿
+@model RNDSystems.Models.ManualViewModels.ManualDataViewModel
+@{
+    ViewBag.Title = "AddResults";
+}
+
+<div class="panel-heading">Add Results</div>
+<div class="panel_b" style="min-height:500px">
+    <div id="searchDiv" class="container">
+
+        <div class="row">
+            <div class="col-md-3 pull-right">
+                <button id="btnBack" onclick="window.history.back();" class="btn btn-primary btn-large"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</button>
+                <input type="hidden" name="SelectedTests" id="SelectedTests" value="@Model.SelectedTests" />
+            </div>
+        </div>
+
+        <label for="lblTestTypes" id="lblTestTypes" class="cols-sm-2 control-label bg-primary text-uppercase">Select Test Type</label>
+        <div class="row">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="lblddTestTypes" class="cols-sm-2 control-label">Test Type</label>
+                    <div class="cols-sm-10">
+                        @Html.DropDownList("ddTestTypesManual", ViewBag.ddTestTypesManual as IEnumerable<SelectListItem>, new { @class = "show-tick", data_size = "6" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 ">
+                <div class="form-group">
+                    <div class="button btn btn-primary" id="btnAddNew">Add New</div>
+                </div>
+            </div>
+        </div>
+        <section>
+            <div role="form" id="formAddSCC">
+                <div id="SCCResult" style="display:block" class="container">
+                    <div class="row">
+                        <label for="" name="hdSCC" id="hdSCC" class="cols-sm-2 control-label bg-primary ">SCC</label>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            @Html.Partial("SCCResult")
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div role="form" id="formAddExco">
+                <div id="ExcoResult" style="display:block" class="container">
+                    <div class="row">
+                        <label for="" name="hdExco" id="hdExco" class="cols-sm-2 control-label bg-primary ">Exco</label>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            @Html.Partial("ExcoResult")
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <div class="row">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <button type="submit" id="btnSaveResult" class="btn btn-success"><i class="fa fa-check" aria-hidden="true"></i>Save</button>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <label id="lblReturnMessage" class="col-md-16 control-label bg-success"></label>
+        </div>
+
+    </div>
+    @*  @{Html.RenderPartial("_Repeater", "ImportDataRepeater");}*@
+</div>
+@section scripts{
+    @Scripts.Render("~/bundles/AddResults")
+    @*<script>
+            $(document).ready(function () {
+                LoadGrid("ImportDataRepeater");
+            });
+        </script>*@
+}
+
+

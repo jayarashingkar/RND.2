@@ -91,6 +91,10 @@ namespace RNDSystems.Web
                      "~/Scripts/pages/ImportData.js"
                      ));
 
+            bundles.Add(new ScriptBundle("~/bundles/AddResults").Include(
+         "~/Scripts/pages/AddResults.js"
+         ));
+
             bundles.Add(new ScriptBundle("~/bundles/Reports").Include(
                       "~/Scripts/pages/Reports.js"
                       ));
