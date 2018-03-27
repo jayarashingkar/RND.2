@@ -299,6 +299,7 @@
     <Content Include="Views\Results\MacroEtchResult.cshtml" />
     <Content Include="Views\Results\OpticalMountResults.cshtml" />
     <Content Include="Views\Results\HardnessResults.cshtml" />
+    <Content Include="Views\Results\FatigueResults.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

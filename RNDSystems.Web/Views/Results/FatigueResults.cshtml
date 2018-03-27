@@ -1,0 +1,251 @@
+﻿
+
+@model RNDSystems.Models.ManualViewModels.ManualDataViewModel
+@{
+    ViewBag.Title = "FatigueResults";
+}
+
+<div class="row">
+    <div class="col-md-3">
+        <div class="form-group">
+            <label for="lblSpecimenDrawing" class="cols-sm-2 control-label">SpecimenDrawing</label>
+            <div class="cols-sm-10">
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-text-width" aria-hidden="true"></i></span>
+                    <input type="text" id="SpecimenDrawing" name="SpecimenDrawing" class="form-control" placeholder="Enter SpecimenDrawing" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">      
+        <div class="col-md-3">
+            <div class="form-group">
+                <label for="lblMinStress" class="cols-sm-2 control-label">MinStress</label>
+                <div class="cols-sm-10">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-text-width" aria-hidden="true"></i></span>
+                        <input type="text" id="MinStress" name="MinStress" class="form-control" placeholder="Enter MinStress" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    <div class="col-md-3">
+        <div class="form-group">
+            <label for="lblMaxStress" class="cols-sm-2 control-label">MaxStress</label>
+            <div class="cols-sm-10">
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-text-width" aria-hidden="true"></i></span>
+                    <input type="text" id="MaxStress" name="MaxStress" class="form-control" placeholder="Enter MaxStress" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row"> 
+    <div class="col-md-3">
+        <div class="form-group">
+            <label for="lblMinLoad" class="cols-sm-2 control-label">MinLoad</label>
+            <div class="cols-sm-10">
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-text-width" aria-hidden="true"></i></span>
+                    <input type="text" id="MinLoad" name="MinLoad" class="form-control" placeholder="Enter MinLoad" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="form-group">
+            <label for="lblMaxLoad" class="cols-sm-2 control-label">MaxLoad</label>
+            <div class="cols-sm-10">
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-text-width" aria-hidden="true"></i></span>
+                    <input type="text" id="MaxLoad" name="MaxLoad" class="form-control" placeholder="Enter MaxLoad" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-3">
+        <div class="form-group">
+            <label for="lblWidthOrDia" class="cols-sm-2 control-label">WidthOrDia</label>
+            <div class="cols-sm-10">
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-text-width" aria-hidden="true"></i></span>
+                    <input type="text" id="WidthOrDia" name="WidthOrDia" class="form-control" placeholder="Enter WidthOrDia" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="form-group">
+            <label for="lblThickness" class="cols-sm-2 control-label">Thickness</label>
+            <div class="cols-sm-10">
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-text-width" aria-hidden="true"></i></span>
+                    <input type="text" id="Thickness" name="Thickness" class="form-control" placeholder="Enter Thickness" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-3">
+        <div class="form-group">
+            <label for="lblHoleDia" class="cols-sm-2 control-label">HoleDia</label>
+            <div class="cols-sm-10">
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-text-width" aria-hidden="true"></i></span>
+                    <input type="text" id="HoleDia" name="HoleDia" class="form-control" placeholder="Enter HoleDia" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="form-group">
+            <label for="lblAvgChamferDepth" class="cols-sm-2 control-label">AvgChamferDepth</label>
+            <div class="cols-sm-10">
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-text-width" aria-hidden="true"></i></span>
+                    <input type="text" id="AvgChamferDepth" name="AvgChamferDepth" class="form-control" placeholder="Enter AvgChamferDepth" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-3">
+        <div class="form-group">
+            <label for="lblFrequency" class="cols-sm-2 control-label">Frequency</label>
+            <div class="cols-sm-10">
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-text-width" aria-hidden="true"></i></span>
+                    <input type="text" id="Frequency" name="Frequency" class="form-control" placeholder="Enter Frequency" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="form-group">
+            <label for="lblCyclesToFailure" class="cols-sm-2 control-label">CyclesToFailure</label>
+            <div class="cols-sm-10">
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-text-width" aria-hidden="true"></i></span>
+                    <input type="text" id="CyclesToFailure" name="CyclesToFailure" class="form-control" placeholder="Enter CyclesToFailure" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-3">
+        <div class="form-group">
+            <label for="lblRoughness" class="cols-sm-2 control-label">Roughness</label>
+            <div class="cols-sm-10">
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-text-width" aria-hidden="true"></i></span>
+                    <input type="text" id="Roughness" name="Roughness" class="form-control" placeholder="Enter Roughness" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="form-group">
+            <label for="lblTestFrame" class="cols-sm-2 control-label">TestFrame</label>
+            <div class="cols-sm-10">
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-text-width" aria-hidden="true"></i></span>
+                    <input type="text" id="TestFrame" name="TestFrame" class="form-control" placeholder="Enter TestFrame" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-3">
+        <div class="form-group">
+            <label for="lblComment" class="cols-sm-2 control-label">Comment</label>
+            <div class="cols-sm-10">
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-text-width" aria-hidden="true"></i></span>
+                    <input type="text" id="Comment" name="Comment" class="form-control" placeholder="Enter Comment" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="form-group">
+            <label for="lblFractureLocation" class="cols-sm-2 control-label">FractureLocation</label>
+            <div class="cols-sm-10">
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-text-width" aria-hidden="true"></i></span>
+                    <input type="text" id="FractureLocation" name="FractureLocation" class="form-control" placeholder="Enter FractureLocation" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-3">
+        <div class="form-group">
+            <label for="lblComment" class="cols-sm-2 control-label">Comment</label>
+            <div class="cols-sm-10">
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-text-width" aria-hidden="true"></i></span>
+                    <input type="text" id="Comment" name="Comment" class="form-control" placeholder="Enter Comment" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="form-group">
+            <label for="lblFractureLocation" class="cols-sm-2 control-label">FractureLocation</label>
+            <div class="cols-sm-10">
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-text-width" aria-hidden="true"></i></span>
+                    <input type="text" id="FractureLocation" name="FractureLocation" class="form-control" placeholder="Enter FractureLocation" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+        <div class="col-md-3">
+            <div class="form-group">
+                <label for="lblOperator" class="cols-sm-2 control-label">Operator</label>
+                <div class="cols-sm-10">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-text-width" aria-hidden="true"></i></span>
+                        <input type="text" id="FatigueOperator" name="FatigueOperator" class="form-control" placeholder="Enter Operator" />
+                    </div>
+                </div>
+            </div>
+        </div>
+ </div>
+<div class="row">
+    <div class="col-md-3">
+        <div class="form-group">
+            <label for="lblTestDate" class="cols-sm-2 control-label">Test Date</label>
+            <div class="input-group date">
+                <input type="text" id="FatigueTestDate" name="FatigueTestDate" class="form-control"><span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="form-group">
+            <label for="lblFatigueTimeTime" class="cols-sm-2 control-label">TimeTime</label>
+            <div class="cols-sm-10">
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-text-width" aria-hidden="true"></i></span>
+                    <input type="text" id="FatigueTimeTime" name="FatigueTimeTime" class="form-control" placeholder="Enter TimeTime" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+

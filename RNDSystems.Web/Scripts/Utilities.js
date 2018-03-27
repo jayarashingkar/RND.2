@@ -15,7 +15,8 @@ RND.ResultConstant = {
     EXCO: "Exco",
     MacroEtch: "Macro Etch",
     OpticalMount: "Optical Mount",
-    Hardness: "Hardness"
+    Hardness: "Hardness",
+    Fatigue: "Fatigue"
 };
 
 function GetRootDirectory() {

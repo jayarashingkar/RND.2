@@ -5,6 +5,7 @@
     $('#MacroEtchResult').hide();
     $('#OpticalMountResult').hide();
     $('#HardnessResult').hide();
+    $('#FatigueResult').hide();
     $('#btnSaveResult').hide();
 
     $('#TestStartDate').datepicker({ autoclose: true, todayHighlight: true, todayBtn: "linked" });
@@ -13,6 +14,7 @@
     $('#MacroEtchTestDate').datepicker({ autoclose: true, todayHighlight: true, todayBtn: "linked" });
     $('#OpticalMountTestDate').datepicker({ autoclose: true, todayHighlight: true, todayBtn: "linked" });
     $('#HardnessTestDate').datepicker({ autoclose: true, todayHighlight: true, todayBtn: "linked" });
+    $('#FatigueTestDate').datepicker({ autoclose: true, todayHighlight: true, todayBtn: "linked" });
 
 
  //   $('#TestStartDate').datepicker({ autoclose: true, todayHighlight: true, todayBtn: "linked" });
@@ -34,6 +36,10 @@
     if ($('#HardnessTestDate').val() === '') {
         $('#HardnessTestDate').datepicker("setDate", new Date());
     }
+    if ($('#FatigueTestDate').val() === '') {
+        $('#FatigueTestDate').datepicker("setDate", new Date());
+    }
+
     $('#lblReturnMessage').text('');
     $('#ddTestTypesManual').attr('data-live-search', 'true');
     $('#ddTestTypesManual').selectpicker();
@@ -49,6 +55,7 @@
             $('#MacroEtchResult').hide();
             $('#OpticalMountResult').hide();
             $('#HardnessResult').hide();
+            $('#FatigueResult').hide();
             $('#btnSaveResult').show();
         }
         else if (TestType == RND.ResultConstant.EXCO) {
@@ -57,6 +64,7 @@
             $('#MacroEtchResult').hide();
             $('#OpticalMountResult').hide();
             $('#HardnessResult').hide();
+            $('#FatigueResult').hide();
             $('#btnSaveResult').show();
         }
         else if (TestType == RND.ResultConstant.MacroEtch) {
@@ -65,6 +73,7 @@
             $('#MacroEtchResult').show();
             $('#OpticalMountResult').hide();
             $('#HardnessResult').hide();
+            $('#FatigueResult').hide();
             $('#btnSaveResult').show();
         }
         else if (TestType == RND.ResultConstant.OpticalMount) {
@@ -73,6 +82,7 @@
             $('#MacroEtchResult').hide();
             $('#OpticalMountResult').show();
             $('#HardnessResult').hide();
+            $('#FatigueResult').hide();
             $('#btnSaveResult').show();
         }
         else if (TestType == RND.ResultConstant.Hardness) {
@@ -81,6 +91,16 @@
             $('#MacroEtchResult').hide();
             $('#OpticalMountResult').hide();
             $('#HardnessResult').show();
+            $('#FatigueResult').hide();
+            $('#btnSaveResult').show();
+        }
+        else if (TestType == RND.ResultConstant.Fatigue) {
+            $('#SCCResult').hide();
+            $('#ExcoResult').hide();
+            $('#MacroEtchResult').hide();
+            $('#OpticalMountResult').hide();
+            $('#HardnessResult').hide();
+            $('#FatigueResult').show();
             $('#btnSaveResult').show();
         }
         debugger;
@@ -128,6 +148,7 @@
                $('#MacroEtchResult').hide();
                $('#OpticalMountResult').hide();
                $('#HardnessResult').hide();
+               $('#FatigueResult').hide();
                $('#btnSaveResult').hide();
                if (data.Success) {
 
@@ -186,6 +207,7 @@
                $('#MacroEtchResult').hide();
                $('#OpticalMountResult').hide();
                $('#HardnessResult').hide();
+               $('#FatigueResult').hide();
                $('#btnSaveResult').hide();
                if (data.Success) {
 
@@ -230,6 +252,8 @@
                    $('#SCCResult').hide();
                    $('#ExcoResult').hide();
                    $('#MacroEtchResult').hide();
+                   $('#HardnessResult').hide();
+                   $('#FatigueResult').hide();
                    $('#btnSaveResult').hide();
                    if (data.Success) {
 
@@ -273,6 +297,8 @@
                        $('#ExcoResult').hide();
                        $('#OpticalMountResult').hide();
                        $('#MacroEtchResult').hide();
+                       $('#HardnessResult').hide();
+                       $('#FatigueResult').hide();
                        $('#btnSaveResult').hide();
                        if (data.Success) {
 
@@ -322,6 +348,7 @@
                            $('#MacroEtchResult').hide();
                            $('#OpticalMountResult').hide();
                            $('#HardnessResult').hide();
+                           $('#FatigueResult').hide();
                            $('#btnSaveResult').hide();
                            if (data.Success) {
 
@@ -334,6 +361,75 @@
                            }
                        });
                     }
+                    else
+                        if (TestType == RND.ResultConstant.Fatigue) {
+                            var SpecimenDrawing = $.trim($("#SpecimenDrawing").val());
+                            var MinStress = $("#MinStress").val();
+                            var MaxStress = $("#MaxStress").val();
+                            var MinLoad = $("#MinLoad").val();
+                            var MaxLoad = $("#MaxLoad").val();
+                            var WidthOrDia = $("#WidthOrDia").val();
+                            var Thickness = $("#Thickness").val();
+                            var HoleDia = $("#HoleDia").val();
+                            var AvgChamferDepth = $("#AvgChamferDepth").val();
+                            var Frequency = $.trim($("#Frequency").val());
+                            var CyclesToFailure = $("#CyclesToFailure").val();
+                            var Roughness = $("#Roughness").val();
+                            var TestFrame = $.trim($("#TestFrame").val());
+                            var Comment = $.trim($("#Comment").val());
+                            var FractureLocation = $.trim($("#FractureLocation").val());
+                            var FatigueOperator = $.trim($("#FatigueOperator").val());
+                            var FatigueTestDate = $.trim($("#FatigueTestDate").val());
+                            var FatigueTimeTime = $.trim($("#FatigueTimeTime").val());
+                            var options5 = {
+                                SelectedTests: SelectedTests,
+                                SpecimenDrawing: SpecimenDrawing,
+                                MinStress: MinStress,
+                                MaxStress: MaxStress,
+                                MinLoad: MinLoad,
+                                MaxLoad: MaxLoad,
+                                WidthOrDia: WidthOrDia,
+                                Thickness: Thickness,
+                                HoleDia: HoleDia,
+                                AvgChamferDepth: AvgChamferDepth,
+                                Frequency: Frequency,
+                                CyclesToFailure: CyclesToFailure,
+                                Roughness: Roughness,
+                                TestFrame: TestFrame,
+                                Comment: Comment,
+                                FractureLocation: FractureLocation,
+                                Operator: FatigueOperator,
+                                TestDate: FatigueTestDate,
+                                TestTime: FatigueTimeTime
+                            };
+                            $.ajax({
+                                type: 'Post',
+                                url: Api + 'api/Fatigue',
+                                headers: {
+                                    Token: GetToken()
+                                },
+                                data: options5
+                            })
+                           .done(function (data) {
+
+                               $('#SCCResult').hide();
+                               $('#ExcoResult').hide();
+                               $('#MacroEtchResult').hide();
+                               $('#OpticalMountResult').hide();
+                               $('#FatigueResult').hide();
+                               $('#FatigueResult').hide();
+                               $('#btnSaveResult').hide();
+                               if (data.Success) {
+
+                                   var message = data.Message + ': successfully added'
+                                   $('#lblReturnMessage').text(message);
+                               }
+                               else {
+                                   // var message = TestType + ': did not get added'
+                                   $('#lblReturnMessage').text('ERROR inserting Results');
+                               }
+                           });
+                        }
 
         });
     

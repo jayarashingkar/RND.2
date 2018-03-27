@@ -252,6 +252,7 @@
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\AssignMaterialController.cs" />
     <Compile Include="Controllers\EXCOResultsController.cs" />
+    <Compile Include="Controllers\FatigueController.cs" />
     <Compile Include="Controllers\GridController.cs" />
     <Compile Include="Controllers\HardnessController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -348,6 +349,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\EXCOResults\" />
+    <Folder Include="Views\Fatigue\" />
     <Folder Include="Views\Grid\" />
     <Folder Include="Views\Hardness\" />
     <Folder Include="Views\ImportData\" />

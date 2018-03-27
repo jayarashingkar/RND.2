@@ -23,6 +23,5 @@ namespace RNDSystems.Models.ManualViewModels
         public string EntryBy { get; set; }
         public DateTime? EntryDate { get; set; }
         public char Completed { get; set; }
-
     }
 }
