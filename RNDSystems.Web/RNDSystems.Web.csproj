@@ -300,6 +300,7 @@
     <Content Include="Views\Results\OpticalMountResults.cshtml" />
     <Content Include="Views\Results\HardnessResults.cshtml" />
     <Content Include="Views\Results\FatigueResults.cshtml" />
+    <Content Include="Views\Results\IGCResults.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

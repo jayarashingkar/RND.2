@@ -256,6 +256,7 @@
     <Compile Include="Controllers\GridController.cs" />
     <Compile Include="Controllers\HardnessController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\IGCController.cs" />
     <Compile Include="Controllers\ImportDataController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\MacroEtchController.cs" />
@@ -352,6 +353,7 @@
     <Folder Include="Views\Fatigue\" />
     <Folder Include="Views\Grid\" />
     <Folder Include="Views\Hardness\" />
+    <Folder Include="Views\IGC\" />
     <Folder Include="Views\ImportData\" />
     <Folder Include="Views\MacroEtch\" />
     <Folder Include="Views\OpticalMount\" />

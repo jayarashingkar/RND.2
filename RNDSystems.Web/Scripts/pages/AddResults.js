@@ -6,8 +6,9 @@
     $('#OpticalMountResult').hide();
     $('#HardnessResult').hide();
     $('#FatigueResult').hide();
+    $('#IGCResult').hide();
     $('#btnSaveResult').hide();
-
+     
     $('#TestStartDate').datepicker({ autoclose: true, todayHighlight: true, todayBtn: "linked" });
     $('#TestEndDate').datepicker({ autoclose: true, todayHighlight: true, todayBtn: "linked" });
     $('#TestDate').datepicker({ autoclose: true, todayHighlight: true, todayBtn: "linked" });
@@ -15,8 +16,9 @@
     $('#OpticalMountTestDate').datepicker({ autoclose: true, todayHighlight: true, todayBtn: "linked" });
     $('#HardnessTestDate').datepicker({ autoclose: true, todayHighlight: true, todayBtn: "linked" });
     $('#FatigueTestDate').datepicker({ autoclose: true, todayHighlight: true, todayBtn: "linked" });
+    $('#IGCTestDate').datepicker({ autoclose: true, todayHighlight: true, todayBtn: "linked" });
 
-
+    
  //   $('#TestStartDate').datepicker({ autoclose: true, todayHighlight: true, todayBtn: "linked" });
     if ($('#TestStartDate').val() === '') {
         $('#TestStartDate').datepicker("setDate", new Date());
@@ -39,6 +41,9 @@
     if ($('#FatigueTestDate').val() === '') {
         $('#FatigueTestDate').datepicker("setDate", new Date());
     }
+    if ($('#IGCTestDate').val() === '') {
+        $('#IGCTestDate').datepicker("setDate", new Date());
+    }
 
     $('#lblReturnMessage').text('');
     $('#ddTestTypesManual').attr('data-live-search', 'true');
@@ -56,6 +61,7 @@
             $('#OpticalMountResult').hide();
             $('#HardnessResult').hide();
             $('#FatigueResult').hide();
+            $('#IGCResult').hide();
             $('#btnSaveResult').show();
         }
         else if (TestType == RND.ResultConstant.EXCO) {
@@ -65,6 +71,7 @@
             $('#OpticalMountResult').hide();
             $('#HardnessResult').hide();
             $('#FatigueResult').hide();
+            $('#IGCResult').hide();
             $('#btnSaveResult').show();
         }
         else if (TestType == RND.ResultConstant.MacroEtch) {
@@ -74,6 +81,7 @@
             $('#OpticalMountResult').hide();
             $('#HardnessResult').hide();
             $('#FatigueResult').hide();
+            $('#IGCResult').hide();
             $('#btnSaveResult').show();
         }
         else if (TestType == RND.ResultConstant.OpticalMount) {
@@ -83,6 +91,7 @@
             $('#OpticalMountResult').show();
             $('#HardnessResult').hide();
             $('#FatigueResult').hide();
+            $('#IGCResult').hide();
             $('#btnSaveResult').show();
         }
         else if (TestType == RND.ResultConstant.Hardness) {
@@ -92,6 +101,7 @@
             $('#OpticalMountResult').hide();
             $('#HardnessResult').show();
             $('#FatigueResult').hide();
+            $('#IGCResult').hide();
             $('#btnSaveResult').show();
         }
         else if (TestType == RND.ResultConstant.Fatigue) {
@@ -101,6 +111,17 @@
             $('#OpticalMountResult').hide();
             $('#HardnessResult').hide();
             $('#FatigueResult').show();
+            $('#IGCResult').hide();
+            $('#btnSaveResult').show();
+        }
+        else if (TestType == RND.ResultConstant.IGC) {
+            $('#SCCResult').hide();
+            $('#ExcoResult').hide();
+            $('#MacroEtchResult').hide();
+            $('#OpticalMountResult').hide();
+            $('#HardnessResult').hide();
+            $('#FatigueResult').hide();
+            $('#IGCResult').show();
             $('#btnSaveResult').show();
         }
         debugger;
@@ -149,6 +170,7 @@
                $('#OpticalMountResult').hide();
                $('#HardnessResult').hide();
                $('#FatigueResult').hide();
+               $('#IGCResult').hide();
                $('#btnSaveResult').hide();
                if (data.Success) {
 
@@ -208,6 +230,7 @@
                $('#OpticalMountResult').hide();
                $('#HardnessResult').hide();
                $('#FatigueResult').hide();
+               $('#IGCResult').hide();
                $('#btnSaveResult').hide();
                if (data.Success) {
 
@@ -380,8 +403,8 @@
                             var FractureLocation = $.trim($("#FractureLocation").val());
                             var FatigueOperator = $.trim($("#FatigueOperator").val());
                             var FatigueTestDate = $.trim($("#FatigueTestDate").val());
-                            var FatigueTimeTime = $.trim($("#FatigueTimeTime").val());
-                            var options5 = {
+                            var FatigueTestTime = $.trim($("#FatigueTestTime").val());
+                            var options7 = {
                                 SelectedTests: SelectedTests,
                                 SpecimenDrawing: SpecimenDrawing,
                                 MinStress: MinStress,
@@ -400,7 +423,7 @@
                                 FractureLocation: FractureLocation,
                                 Operator: FatigueOperator,
                                 TestDate: FatigueTestDate,
-                                TestTime: FatigueTimeTime
+                                TestTime: FatigueTestTime
                             };
                             $.ajax({
                                 type: 'Post',
@@ -408,7 +431,7 @@
                                 headers: {
                                     Token: GetToken()
                                 },
-                                data: options5
+                                data: options7
                             })
                            .done(function (data) {
 
@@ -418,6 +441,7 @@
                                $('#OpticalMountResult').hide();
                                $('#FatigueResult').hide();
                                $('#FatigueResult').hide();
+                               $('#IGCResult').hide();
                                $('#btnSaveResult').hide();
                                if (data.Success) {
 
@@ -430,6 +454,62 @@
                                }
                            });
                         }
+                        else
+                            if (TestType == RND.ResultConstant.IGC) {
+                                debugger;
+                                var IGCSubConduct = $.trim($("#IGCSubConduct").val());
+                                var IGCSurfConduct = $.trim($("#IGCSurfConduct").val());
+                                var IGCMinDepth = $.trim($("#IGCMinDepth").val());
+                                var IGCMaxDepth = $.trim($("#IGCMaxDepth").val());
+                                var IGCAvgDepth = $.trim($("#IGCAvgDepth").val());
+                                var IGCSpeciComment = $.trim($("#IGCSpeciComment").val());
+                                var IGCOperator = $.trim($("#IGCOperator").val());
+                                var IGCTestDate = $.trim($("#IGCTestDate").val());
+                                var IGCTimeHrs = $.trim($("#IGCTimeHrs").val());
+                                var IGCTimeMns = $.trim($("#IGCTimeMns").val());
+
+                                var options8 = {
+                                    SelectedTests: SelectedTests,
+                                    SubConduct: IGCSubConduct,
+                                    SurfConduct: IGCSurfConduct,
+                                    MinDepth: IGCMinDepth,
+                                    MaxDepth: IGCMaxDepth,
+                                    AvgDepth: IGCAvgDepth,
+                                    SpeciComment: IGCSpeciComment,
+                                    Operator: IGCOperator,
+                                    TestDate: IGCTestDate,
+                                    TimeHrs: IGCTimeHrs,
+                                    TimeMns: IGCTimeMns
+                                };
+                                $.ajax({
+                                    type: 'Post',
+                                    url: Api + 'api/IGC',
+                                    headers: {
+                                        Token: GetToken()
+                                    },
+                                    data: options8
+                                })
+                               .done(function (data) {
+
+                                   $('#SCCResult').hide();
+                                   $('#ExcoResult').hide();
+                                   $('#MacroEtchResult').hide();
+                                   $('#OpticalMountResult').hide();
+                                   $('#IGCResult').hide();
+                                   $('#IGCResult').hide();
+                                   $('#IGCResult').hide();
+                                   $('#btnSaveResult').hide();
+                                   if (data.Success) {
+
+                                       var message = data.Message + ': successfully added'
+                                       $('#lblReturnMessage').text(message);
+                                   }
+                                   else {
+                                       // var message = TestType + ': did not get added'
+                                       $('#lblReturnMessage').text('ERROR inserting Results');
+                                   }
+                               });
+                            }
 
         });
     

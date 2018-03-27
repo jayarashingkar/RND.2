@@ -47,6 +47,7 @@
     <Compile Include="ManualViewModels\EXCOViewModel.cs" />
     <Compile Include="ManualViewModels\FatigueViewModel.cs" />
     <Compile Include="ManualViewModels\HardnessViewModel.cs" />
+    <Compile Include="ManualViewModels\IGCViewModel.cs" />
     <Compile Include="ManualViewModels\MacroEtchViewModel.cs" />
     <Compile Include="ManualViewModels\ManualDataViewModel.cs" />
     <Compile Include="ManualViewModels\OpticalMountViewModel.cs" />
