@@ -8,6 +8,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Mvc;
 
 namespace RNDSystems.API.Controllers
 {
@@ -49,6 +50,9 @@ namespace RNDSystems.API.Controllers
                             break;
                         case "Reports":
                             ds = GetReports(option);
+                            break;
+                        case "Results":
+                            ds = GetResults(option);
                             break;
                         default:
                             break;
@@ -474,6 +478,71 @@ namespace RNDSystems.API.Controllers
             };
             return ds;
         }
+
+        private DataSearch<ImportDataViewModel> GetResults(DataGridoption option)
+        {
+            _logger.Debug("GetResults");
+
+            string message1 = "Records cannot be Entered Manully:";
+            string message = message1.Trim();
+
+            AdoHelper ado = new AdoHelper();
+            SqlDataReader reader = null;
+
+            List<ImportDataViewModel> lstResults = new List<ImportDataViewModel>();
+            List<SqlParameter> lstSqlParameter = new List<SqlParameter>();
+
+            lstSqlParameter.Add(new SqlParameter("@CurrentPage", option.pageIndex));
+            lstSqlParameter.Add(new SqlParameter("@NoOfRecords", option.pageSize));
+         
+            try
+            {
+
+                #region  Manual Entry
+                SqlParameter param0 = new SqlParameter("@SelectedTests", option.searchBy);
+                
+                using (reader = ado.ExecDataReaderProc("RNDCheckTestType_READ", "RND", new object[] { param0 }))
+                {
+                    if (reader.HasRows)
+                    {
+                        ImportDataViewModel ID = null;
+                        while (reader.Read())
+                        {
+                            ID = new ImportDataViewModel();
+
+                            ID.TestingNo = Convert.ToInt32(reader["TestingNo"]);
+                            ID.TestType = Convert.ToString(reader["TestType"]);
+                            ID.Active = Convert.ToChar(reader["Active"]);
+
+                            if (ID.Active != '3')
+                            {
+                                if (message.Trim() == message1.Trim())
+                                    message += ID.TestType;
+                                else
+                                    message += ", " + ID.TestType;
+                            }
+                            else
+                                lstResults.Add(ID);                          
+                        }
+                    }
+                }                
+                #endregion
+
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+            }
+            DataSearch<ImportDataViewModel> ds = new DataSearch<ImportDataViewModel>
+            {
+                items = lstResults,
+                // total = (lstResults != null && lstResults.Count > 0) ? lstResults[0].total : 0,
+                total = (lstResults != null && lstResults.Count > 0) ? lstResults.Count : 0,
+                Message = message
+            };
+            return ds;
+        }
+
 
         private DataSearch<RNDReports> GetReports(DataGridoption option)
         {

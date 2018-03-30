@@ -10,5 +10,6 @@ namespace RNDSystems.Models.ViewModels
     {
         public List<T> items { get; set; }
         public int total { get; set; }
+        public string Message { get; set; }
     }
 }

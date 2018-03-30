@@ -1,5 +1,4 @@
-﻿
-@model RNDSystems.Models.ManualViewModels.ManualDataViewModel
+﻿@model RNDSystems.Models.ViewModels.ImportDataViewModel
 @{
     ViewBag.Title = "MacroEtchResult";
 }
@@ -12,7 +11,6 @@
                 <div class="input-group">
                     <span class="input-group-addon"><i class="fa fa-text-width" aria-hidden="true"></i></span>
                     <input type="text" id="MaxRexGrainDepth" name="MaxRexGrainDepth" class="form-control" placeholder="Enter MaxRexGrainDepth" />
-                    <input type="hidden" name="SelectedTests" id="SelectedTests" value="@Model.SelectedTests" />
                 </div>
             </div>
         </div>
@@ -30,8 +28,6 @@
             </div>
         </div>
     </div>
-    @*</div>
-        <div class="row">*@
     <div class="col-md-3">
         <div class="form-group">
             <label for="lblMacroEtchOperator" class="cols-sm-2 control-label">Operator</label>
@@ -66,8 +62,6 @@
             </div>
         </div>
     </div>
-    @*</div>
-        <div class="row">*@
     <div class="col-md-3">
         <div class="form-group">
             <label for="lblMacroEtchTimeMns" class="cols-sm-2 control-label">TimeMns</label>

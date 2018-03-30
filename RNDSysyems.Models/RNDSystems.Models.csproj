@@ -49,7 +49,6 @@
     <Compile Include="ManualViewModels\HardnessViewModel.cs" />
     <Compile Include="ManualViewModels\IGCViewModel.cs" />
     <Compile Include="ManualViewModels\MacroEtchViewModel.cs" />
-    <Compile Include="ManualViewModels\ManualDataViewModel.cs" />
     <Compile Include="ManualViewModels\OpticalMountViewModel.cs" />
     <Compile Include="ManualViewModels\SCCViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -1,5 +1,5 @@
 ﻿
-@model RNDSystems.Models.ManualViewModels.ManualDataViewModel
+@model RNDSystems.Models.ViewModels.ImportDataViewModel
 @{
     ViewBag.Title = "AddResults";
 }
@@ -11,11 +11,20 @@
         <div class="row">
             <div class="col-md-3 pull-right">
                 <button id="btnBack" onclick="window.history.back();" class="btn btn-primary btn-large"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</button>
-                <input type="hidden" name="SelectedTests" id="SelectedTests" value="@Model.SelectedTests" />
+               <input type="hidden" name="SelectedTests" id="SelectedTests" value= @ViewBag.ddSelectedTests />
+
             </div>
         </div>
 
-        <label for="lblTestTypes" id="lblTestTypes" class="cols-sm-2 control-label bg-primary text-uppercase">Select Test Type</label>
+        @{Html.RenderPartial("_Repeater", "ResultsRepeater");}
+
+        <div class="row">
+            <label id="lblGridMessage" class="col-md-16 control-label bg-success"></label>
+        </div>
+        <div class="row">
+            <label id="lblReturnMessage" class="col-md-16 control-label bg-success"></label>
+        </div>
+        @*<label for="lblTestTypes" id="lblTestTypes" class="cols-sm-2 control-label bg-primary text-uppercase">Select Test Type</label>
         <div class="row">
             <div class="col-md-3">
                 <div class="form-group">
@@ -30,7 +39,7 @@
                     <div class="button btn btn-primary" id="btnAddNew">Add New</div>
                 </div>
             </div>
-        </div>
+        </div>*@
         <section>
             <div role="form" id="formAddSCC">
                 <div id="SCCResult" style="display:block" class="container">
@@ -84,7 +93,7 @@
                     </div>
                 </div>
             </div>
-            <div role="form" id="formAddFatigue">
+            @*<div role="form" id="formAddFatigue">
                 <div id="FatigueResult" style="display:block" class="container">
                     <div class="row">
                         <label for="" name="hdFatigue" id="hdFatigue" class="cols-sm-2 control-label bg-primary ">Fatigue</label>
@@ -93,7 +102,7 @@
                         @Html.Partial("FatigueResults")
                     </div>
                 </div>
-            </div>
+            </div>*@
             <div role="form" id="formAddIGC">
                 <div id="IGCResult" style="display:block" class="container">
                     <div class="row">
@@ -112,20 +121,19 @@
                 </div>
             </div>
         </div>
-        <div class="row">
-            <label id="lblReturnMessage" class="col-md-16 control-label bg-success"></label>
-        </div>
+        
 
     </div>
-    @*  @{Html.RenderPartial("_Repeater", "ImportDataRepeater");}*@
 </div>
-@section scripts{
-    @Scripts.Render("~/bundles/AddResults")
-    @*<script>
-            $(document).ready(function () {
-                LoadGrid("ImportDataRepeater");
-            });
-        </script>*@
+
+ @section scripts{
+@Scripts.Render("~/bundles/AddResults")
+    <script>
+        $(document).ready(function () {
+            LoadGrid("ResultsRepeater");
+        });
+    </script>
+}
 }
 
 

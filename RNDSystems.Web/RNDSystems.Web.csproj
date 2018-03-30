@@ -291,7 +291,6 @@
     <Content Include="Views\Options\SetOptions.cshtml" />
     <Content Include="Views\Options\StudyTypeOption.cshtml" />
     <Content Include="Views\Options\LocationOption.cshtml" />
-    <Content Include="Views\TestingMaterial\back upAddResults.cshtml" />
     <Content Include="Views\Results\SCCResult.cshtml" />
     <Content Include="Views\Results\AddResults.cshtml" />
     <Content Include="Views\Results\View.cshtml" />

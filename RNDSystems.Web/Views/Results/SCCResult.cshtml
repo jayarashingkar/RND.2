@@ -1,5 +1,4 @@
-﻿
-@model RNDSystems.Models.ManualViewModels.ManualDataViewModel
+﻿@model RNDSystems.Models.ViewModels.ImportDataViewModel
 @{
     ViewBag.Title = "SCCResult";
 }
@@ -10,9 +9,7 @@
         <div class="cols-sm-10">
             <div class="input-group">
                 <span class="input-group-addon"><i class="fa fa-text-width" aria-hidden="true"></i></span>
-                @*<input type="text" value="@Model.StressKsi" id="StressKsi" name="StressKsi" class="form-control" placeholder="Enter StressKsi" />*@
                 <input type="text" id="StressKsi" name="StressKsi" class="form-control" placeholder="Enter StressKsi" />
-                <input type="hidden" name="SelectedTests" id="SelectedTests" value="@Model.SelectedTests" />
             </div>
         </div>
     </div>
@@ -23,7 +20,6 @@
         <div class="cols-sm-10">
             <div class="input-group">
                 <span class="input-group-addon"><i class="fa fa-text-width" aria-hidden="true"></i></span>
-                @*<input type="text" value="@Model.TimeDays" id="TimeDays" name="TimeDays" class="form-control" placeholder="Enter TimeDays" />*@
                 <input type="text" id="TimeDays" name="TimeDays" class="form-control" placeholder="Enter TimeDays" />
 
             </div>
@@ -36,7 +32,6 @@
         <div class="cols-sm-10">
             <div class="input-group">
                 <span class="input-group-addon"><i class="fa fa-text-width" aria-hidden="true"></i></span>
-                @*<input type="text" value="@Model.TestStatus" id="TestStatus" name="TestStatus" class="form-control" placeholder="Enter TestStatus" />*@
                 <input type="text" id="TestStatus" name="TestStatus" class="form-control" placeholder="Enter TestStatus" />
 
             </div>
@@ -49,7 +44,6 @@
         <div class="cols-sm-10">
             <div class="input-group">
                 <span class="input-group-addon"><i class="fa fa-text-width" aria-hidden="true"></i></span>
-                @*<input type="text" value="@Model.SpeciComment" id="SpeciComment" name="SpeciComment" class="form-control" placeholder="Enter SpeciComment" />*@
                 <input type="text" id="SCCSpeciComment" name="SCCSpeciComment" class="form-control" placeholder="Enter SpeciComment" />
 
             </div>
@@ -62,7 +56,6 @@
         <div class="cols-sm-10">
             <div class="input-group">
                 <span class="input-group-addon"><i class="fa fa-text-width" aria-hidden="true"></i></span>
-                @*<input type="text" value="@Model.Operator" id="Operator" name="Operator" class="form-control" placeholder="Enter Operator" />*@
                 <input type="text" id="SCCOperator" name="SCCOperator" class="form-control" placeholder="Enter Operator" />
 
             </div>
@@ -93,35 +86,5 @@
         </div>
  
 </div>
-@*<div class="row">
-    <div class="col-md-3">
-        <div class="form-group">
-            <label for="lblTestStartDate" class="cols-sm-2 control-label">Test Start Date</label>
-            <div class="cols-sm-10">
-                <div class="input-group date">
-                    <input type="text" id="TestStartDate" name="TestStartDate" class="form-control"><span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-3">
-        <div class="form-group">
-            <label for="lblTestEndDate" class="cols-sm-2 control-label">Test End Date</label>
-            <div class="cols-sm-10">
-                <div class="input-group date">
-                    <input type="text" id="TestEndDate" name="TestEndDate" class="form-control"><span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>*@
 
-
-@*<div class="row">
-    <div class="col-md-3">
-        <div class="form-group">
-            <button type="submit" class="button btn btn-success" id="btnSCCResultSave">Save</button>
-        </div>
-    </div>
-</div>*@
 

@@ -1,6 +1,4 @@
-﻿
-
-@model RNDSystems.Models.ManualViewModels.ManualDataViewModel
+﻿@model RNDSystems.Models.ViewModels.ImportDataViewModel
 @{
     ViewBag.Title = "ExcoResult";
 }
@@ -13,7 +11,6 @@
                 <div class="input-group">
                     <span class="input-group-addon"><i class="fa fa-text-width" aria-hidden="true"></i></span>
                     <input type="text" id="ExcoRating" name="ExcoRating" class="form-control" placeholder="Enter ExcoRating" />
-                    <input type="hidden" name="SelectedTests" id="SelectedTests" value="@Model.SelectedTests" />
                 </div>
             </div>
         </div>
@@ -31,8 +28,6 @@
             </div>
         </div>
         </div>
-        @*</div>
-            <div class="row">*@
     <div class="col-md-3">
         <div class="form-group">
             <label for="lblFinalWT" class="cols-sm-2 control-label">FinalWT</label>
@@ -58,8 +53,6 @@
         </div>
      </div>
     <div class="col-md-3">
-        @*</div>
-            <div class="row">*@
         <div class="form-group">
             <label for="lblStartpH" class="cols-sm-2 control-label">StartpH</label>
             <div class="cols-sm-10">
@@ -96,8 +89,6 @@
             </div>
         </div>
         </div>
-        @*</div>
-            <div class="row">*@
     <div class="col-md-3">
         <div class="form-group">
             <label for="lblEXCOOperator" class="cols-sm-2 control-label">Operator</label>
@@ -132,8 +123,6 @@
             </div>
         </div>
     </div>
-        @*</div>
-            <div class="row">*@
     <div class="col-md-3">
         <div class="form-group">
             <label for="lblTimeMns" class="cols-sm-2 control-label">TimeMns</label>
@@ -159,13 +148,7 @@
         </div>
     </div>
     </div>
-@*<div class="row">
-        <div class="col-md-3">
-            <div class="form-group">
-                <button type="submit" class="button btn btn-success" id="btnSCCResultSave">Save</button>
-            </div>
-        </div>
-    </div>*@
+
 
 
 

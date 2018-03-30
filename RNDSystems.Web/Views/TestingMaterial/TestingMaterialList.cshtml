@@ -59,7 +59,7 @@
                                 @Html.DropDownList("ddlAvailableTT", ViewBag.ddlAvailableTT as IEnumerable<SelectListItem>, new { @class = "show-tick form-control" })
                             </div>
                         </div>
-                        <input type="hidden" name="SelectedTests" id="SelectedTests" value="@Model.SelectedTests" />
+                        @*<input type="hidden" name="SelectedTests" id="SelectedTests" value="@Model.SelectedTests" />*@
                         <input type="hidden" name="AvailableTT" id="AvailableTT" value="@Model.TestType" />
                     </div>
                 </div>

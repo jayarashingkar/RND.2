@@ -40,7 +40,7 @@ namespace RNDSystems.API.Controllers
 
                        sendMessage.Message = "";
                             using (SqlDataReader reader = ado.ExecDataReaderProc("RNDSCCResults_Insert", "RND", new object[] 
-                            { param1, param2, param3, param4, param5, param6, param7, param8, param9, param10}))
+                            {  param2, param3, param4, param5, param6, param7, param8, param9, param10}))
                             {
                                 if (reader.HasRows)
                                 {
@@ -60,7 +60,6 @@ namespace RNDSystems.API.Controllers
             {
                 _logger.Error(ex.Message);
                 sendMessage.Success = false;
-               // return new HttpResponseMessage(HttpStatusCode.InternalServerError);
             }
             return Serializer.ReturnContent(sendMessage, this.Configuration.Services.GetContentNegotiator(), this.Configuration.Formatters, this.Request);
         }

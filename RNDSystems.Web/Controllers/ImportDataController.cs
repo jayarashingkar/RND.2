@@ -22,18 +22,18 @@ namespace RNDSystems.Web.Controllers
         {
             _logger.Debug("ImportData");
             List<SelectListItem> ddTestTypes = null;
-            List<SelectListItem> ddWorkStudyId = null;
+         //   List<SelectListItem> ddWorkStudyId = null;
             // List<SelectListItem> ddTestNos = null;
             // ImportDataViewModel data = null;
          //   string[] strTestTypes = { "Tension", "Compression", "Bearing", "Shear", "Notch Yield", "Residual Strength", "Fracture Toughness", "Modulus Tension", "Modulus Compression", "Fatigue Testing"};
-            string strWorkStudyId = "Currently Unavailable" ;
+           // string strWorkStudyId = "Currently Unavailable" ;
 
             try
             {
                 if (WorkStudyId == null)
                 {
                     ddTestTypes = new List<SelectListItem>();
-                    ddWorkStudyId = new List<SelectListItem>();
+                  //  ddWorkStudyId = new List<SelectListItem>();
 
                     ImportDataViewModel data = new ImportDataViewModel();
 
@@ -52,33 +52,16 @@ namespace RNDSystems.Web.Controllers
                         }
                     });
                     task.Wait();
-
-                   // int intRowId = 0;
-                    //string strValue = string.Empty;
-                    //while (intRowId < strTestTypes.Length)
-                    //{
-                    //    strValue = strTestTypes[intRowId];
-                    //    //if (data != null)
-                    //    {
-                    //        ddTestTypes.Add(new SelectListItem
-                    //        {
-                    //            Value = strValue,
-                    //            Text = strValue,
-                    //            Selected = (Convert.ToString(data.TestType) == Convert.ToString(strValue)) ? true : false,
-                    //        });
-                    //    }
-
-                    //    intRowId += 1;
-                    //}
-
-                    ddWorkStudyId.Add(new SelectListItem
-                    {
-                        Value = strWorkStudyId,
-                        Text = strWorkStudyId,
-                        Selected = (Convert.ToString(data.WorkStudyID) == Convert.ToString(strWorkStudyId)) ? true : false,
-                    });
                     ViewBag.ddTestTypes = ddTestTypes;
-                    ViewBag.ddWorkStudyId = ddWorkStudyId;
+
+
+                    //ddWorkStudyId.Add(new SelectListItem
+                    //{
+                    //    Value = strWorkStudyId,
+                    //    Text = strWorkStudyId,
+                    //    Selected = (Convert.ToString(data.WorkStudyID) == Convert.ToString(strWorkStudyId)) ? true : false,
+                    //});
+                    //ViewBag.ddWorkStudyId = ddWorkStudyId;
                 }
                 else
                 {
@@ -92,10 +75,5 @@ namespace RNDSystems.Web.Controllers
             return View();
         }
 
-
-        //public ActionResult ImportData(string WorkStudyId)
-        //{
-
-        //}
     }
 }

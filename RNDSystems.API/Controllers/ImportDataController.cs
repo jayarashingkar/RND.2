@@ -19,7 +19,7 @@ namespace RNDSystems.API.Controllers
     {
         // GET: ImportData
         // public HttpResponseMessage Get(string WorkStudyId)
-        public HttpResponseMessage Get(string Active )
+        public HttpResponseMessage Get(string Active, string SelectedTests="none")
         {
             _logger.Debug("ImportData Get Called");
             SqlDataReader reader = null;
@@ -28,22 +28,19 @@ namespace RNDSystems.API.Controllers
             try
             {
                  CurrentUser user = ApiUser;
-                    ID = new ImportDataViewModel();
-                    AdoHelper ado = new AdoHelper();
+                  ID = new ImportDataViewModel();
+                AdoHelper ado = new AdoHelper();
 
-                    ID.ddTestType = new List<SelectListItem>() { GetInitialSelectItem() };
-
-                //ID.ddWorkStudyID = new List<SelectListItem>() { GetInitialSelectItem() };                                        
-                // SqlParameter param1 = new SqlParameter("@WorkStudyId", PM.WorkStudyID);
-
-                // using (reader = ado.ExecDataReaderProc("RNDTestTypes_READfromRNDTesting", "RND"))
+                 ID.ddTestType = new List<SelectListItem>() { GetInitialSelectItem() };
 
                 //Active = 2 for Import and Active = 3 for Manual Entry
-
-                SqlParameter param1 = new SqlParameter("@Active", Active);
-
-                using (reader = ado.ExecDataReaderProc("RNDImportTestList_READ", "RND", new object[] { param1 }))
+                if (Active == "2")
                 {
+                    #region  IMPORT
+                    SqlParameter param1 = new SqlParameter("@Active", Active);
+
+                    using (reader = ado.ExecDataReaderProc("RNDImportTestList_READ", "RND", new object[] { param1 }))
+                    {
                         if (reader.HasRows)
                         {
                             while (reader.Read())
@@ -60,26 +57,50 @@ namespace RNDSystems.API.Controllers
                                 }
                             }
                         }
-                        //using (reader = ado.ExecDataReaderProc("RNDTestWorkStudy_READ", "RND"))
-                        //{
-                        //    if (reader.HasRows)
-                        //    {
-                        //        while (reader.Read())
-                        //        {
-                        //            string WorkStudyID = Convert.ToString(reader["WorkStudyID"]);
-                        //            if ((WorkStudyID != " ") && (WorkStudyID != "") && (WorkStudyID != null))
-                        //            {
-                        //                ID.ddWorkStudyID.Add(new SelectListItem
-                        //                {
-                        //                    Value = WorkStudyID,
-                        //                    Text = WorkStudyID,
-                        //                    Selected = (ID.WorkStudyID == WorkStudyID) ? true : false,
-                        //                });
-                        //            }
-                        //        }
-                        //    }
-                        //}
                     }
+                    #endregion
+                }
+                #region  Manual Entry
+                //else
+                //    if (Active == "3")
+                //{
+                //    
+                //    SqlParameter param0 = new SqlParameter("@SelectedTests", SelectedTests);
+                //    string message = "";
+                //    using (reader = ado.ExecDataReaderProc("RNDCheckTestType_READ", "RND", new object[] { param0 }))
+                //    {
+                //        if (reader.HasRows)
+                //        {
+                //            while (reader.Read())
+                //            {
+                //                string TestingNo = Convert.ToString(reader["TestingNo"]);
+                //                string TestType = Convert.ToString(reader["TestType"]);
+                //                string TestListActive = Convert.ToString(reader["Active"]);
+
+                //                if (TestListActive != "3")
+                //                {                                    
+                //                    if (message == "")
+                //                        message += TestType;
+                //                    else
+                //                        message += ", " + TestType;
+                //                }
+                //                else
+                //                if ((TestType != " ") && (TestType != "") && (TestType != null))
+                //                {
+                //                    ID.ddTestType.Add(new SelectListItem
+                //                    {
+                //                        Value = TestType,
+                //                        Text = TestingNo,
+                //                        Selected = (ID.TestType == TestType) ? true : false,
+                //                    });
+                //                }
+                //            }
+                //        }
+                //    }
+                //   // ID.Message = message + ": cannot be Entered manully";
+                //  
+                //}
+                #endregion
                 return Serializer.ReturnContent(ID, this.Configuration.Services.GetContentNegotiator(), this.Configuration.Formatters, this.Request);
             }
             catch (Exception ex)
@@ -89,12 +110,6 @@ namespace RNDSystems.API.Controllers
             }
         }
 
-        //public HttpResponseMessage Get (int TestNo)
-        //{
-        //    //for manual entry- Get values from RNDTesting based on the selected TestNo.    
-        //Fill in the Data in ImportDataViewModel to send Web
-
-        //}
         public HttpResponseMessage Post(ApiViewModel selectedTestType)
         {            
             bool isSuccess = true;
@@ -103,7 +118,6 @@ namespace RNDSystems.API.Controllers
 
             string data = string.Empty;
             string filePath = selectedTestType.Message1;
-            //string custom = selectedTestType.Custom;
 
             List<string> TestTypes = selectedTestType.MessageList;          
             string TestType = selectedTestType.Message;
@@ -114,7 +128,6 @@ namespace RNDSystems.API.Controllers
             
             try
             {
-
                 if (filePath == "none")
                 {
                     //Import Default
@@ -128,7 +141,6 @@ namespace RNDSystems.API.Controllers
                                 errorMessage += tt;
                             else
                                 errorMessage += ", " + tt;
-                            // return Serializer.ReturnContent(sendMessage, this.Configuration.Services.GetContentNegotiator(), this.Configuration.Formatters, this.Request);
                         }
                         else
                         {
@@ -137,8 +149,6 @@ namespace RNDSystems.API.Controllers
                             else
                                 successMessage += ", " + tt;
                         }
-                        //return Serializer.ReturnContent(sendMessage, this.Configuration.Services.GetContentNegotiator(), this.Configuration.Formatters, this.Request);
-                        //break;
                     }
                     sendMessage.Message1 = errorMessage;
                     sendMessage.Message = successMessage;
@@ -151,18 +161,14 @@ namespace RNDSystems.API.Controllers
                     if (!sendMessage.Success)
                     {
                         sendMessage.Message1 = "Import Error for: " + TestType;
-                    }
-                      
-                }                   
-
-              //  return Serializer.ReturnContent(sendMessage, this.Configuration.Services.GetContentNegotiator(), this.Configuration.Formatters, this.Request);
+                    }                      
+                }                  
             }
             catch (Exception ex)
             {
                 _logger.Error(ex.Message);
                 sendMessage.Message1 = ex.Message.ToString();
                 sendMessage.Success = false;
-                // return new HttpResponseMessage(HttpStatusCode.InternalServerError);
             }
             return Serializer.ReturnContent(sendMessage, this.Configuration.Services.GetContentNegotiator(), this.Configuration.Formatters, this.Request);
         }
@@ -171,12 +177,10 @@ namespace RNDSystems.API.Controllers
             ApiViewModel sendMessage = new ApiViewModel();
             sendMessage.Message = "";
             sendMessage.Success = false;
-            //bool isSuccess = false;
             switch (tt)
             {
                 case "Tension":
                     {
-                        //implemented
                         if (filePath == "none")
                             filePath = "S:\\RD\\Database\\Export\\ForNewDataBase\\Tension.csv";
                         // filePath = "\\USCTRD01\\RDServer\\RD\\Database\\Export\\ForNewDataBase\\Modulus Tension.csv";
@@ -216,13 +220,11 @@ namespace RNDSystems.API.Controllers
                     }
                 case "Notch Yield":
                     {
-                        //implemented
                         sendMessage = ImportNotchYieldData(filePath);
                         break;
                     }
                 case "Residual Strength":
                     {
-                        //implemented
                         sendMessage = ImportResidualStrengthData(filePath);
                         break;
                     }
@@ -231,8 +233,6 @@ namespace RNDSystems.API.Controllers
                         if (filePath == "none")
                             filePath = "S:\\RD\\Database\\Export\\ForNewDataBase\\Fracture Toughness.csv";
                         //filePath = "\\USCTRD01\\RDServer\\RD\\Database\\Export\\ForNewDataBase\\Fracture Toughness.csv";
-
-                        //implemented
                         sendMessage = ImportFractureToughnessData(filePath);
                         break;
                     }
@@ -294,7 +294,6 @@ namespace RNDSystems.API.Controllers
                     var entry = textFieldParser.ReadFields();
                     listTensionData.Add(new TensionViewModel()
                     {
-                       // RecID = Convert.ToInt32(entry[0]),
                         WorkStudyID = Convert.ToString(entry[0]),
                         TestNo = Convert.ToInt32(entry[1]),
                         SubConduct = Convert.ToDecimal(entry[2]),
@@ -385,7 +384,6 @@ namespace RNDSystems.API.Controllers
                     var entry = textFieldParser.ReadFields();
                     listCompressionData.Add(new CompressionViewModel()
                     {
-                        // RecID = Convert.ToInt32(entry[0]),
                         WorkStudyID = Convert.ToString(entry[0]),
                         TestNo = Convert.ToInt32(entry[1]),
                         SubConduct = Convert.ToDecimal(entry[2]),
@@ -469,7 +467,6 @@ namespace RNDSystems.API.Controllers
                     var entry = textFieldParser.ReadFields();
                     listBearingData.Add(new BearingViewModel()
                     {
-                        // RecID = Convert.ToInt32(entry[0]),
                         WorkStudyID = Convert.ToString(entry[0]),
                         TestNo = Convert.ToInt32(entry[1]),
                         SubConduct = Convert.ToDecimal(entry[2]),
@@ -730,7 +727,6 @@ namespace RNDSystems.API.Controllers
                         {
                         listResidualStrengthData.Add(new ResidualStrengthViewModel()
                         {
-                            // RecID = Convert.ToInt32(entry[0]),
                             WorkStudyID = Convert.ToString(entry[0]),
                             TestNo = Convert.ToInt32(entry[1]),
                             SubConduct = Convert.ToDecimal(entry[2]),
@@ -937,7 +933,6 @@ namespace RNDSystems.API.Controllers
                     {
                         listModulusTensionData.Add(new ModulusTensionDataViewModel()
                         {
-                            // RecID = Convert.ToInt32(entry[0]),
                             WorkStudyID = Convert.ToString(entry[0]),
                             TestNo = Convert.ToInt32(entry[1]),
                             SubConduct = Convert.ToDecimal(entry[2]),
@@ -1027,7 +1022,6 @@ namespace RNDSystems.API.Controllers
                         } 
                             listModulusCompressionData.Add(new ModulusCompressionDataViewModel()
                         {
-                            // RecID = Convert.ToInt32(entry[0]),
                             WorkStudyID = Convert.ToString(entry[0]),
                             TestNo = Convert.ToInt32(entry[1]),
                             SubConduct = Convert.ToDecimal(entry[2]),
@@ -1074,7 +1068,6 @@ namespace RNDSystems.API.Controllers
                     }
                     introw++;
                 }
-                //SqlParameter param1 = new SqlParameter("@RecID", tension.RecID);
                 sendMessage.Success = true;
 
             }
