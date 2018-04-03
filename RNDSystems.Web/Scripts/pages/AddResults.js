@@ -514,7 +514,6 @@ function GridAddClicked(ele) {
                                        $('#IGCResult').hide();
                                        $('#btnSaveResult').hide();
                                        if (data.Success) {
-
                                            var message = data.Message + ': successfully added'
                                            $('#lblReturnMessage').text(message);
                                        }
@@ -523,14 +522,13 @@ function GridAddClicked(ele) {
                                        }
                                    });
                                 }
-
     });
-
-
 }
 
 
 $(document).ready(function () {
+
+    $(".repeater-header").remove();
     $('#SCCResult').hide();
     $('#ExcoResult').hide();
     $('#MacroEtchResult').hide();
