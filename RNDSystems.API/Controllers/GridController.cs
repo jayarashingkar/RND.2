@@ -1,6 +1,9 @@
 ﻿using RNDSystems.API.SQLHelper;
 using RNDSystems.Models;
 using RNDSystems.Models.ViewModels;
+//using RNDSystems.Models.ReportsViewModel;
+using RNDSystems.Models.TestViewModels;
+using RNDSystems.Models.ManualViewModels;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -48,8 +51,14 @@ namespace RNDSystems.API.Controllers
                         case "TestingMaterial":
                             ds = GetTestingMaterial(option);
                             break;
-                        case "Reports":
-                            ds = GetReports(option);
+                        //case "Reports":
+                        //    ds = GetReports(option);
+                        //    break;
+                        case "Tension":
+                            ds = GetTensionReports(option);
+                            break;
+                        case "Compression":
+                            ds = GetCompressionReports(option);
                             break;
                         case "Results":
                             ds = GetResults(option);
@@ -544,14 +553,14 @@ namespace RNDSystems.API.Controllers
         }
 
 
-        private DataSearch<RNDReports> GetReports(DataGridoption option)
+        private DataSearch<TensionViewModel> GetTensionReports(DataGridoption option)
         {
-            _logger.Debug("GetReports");
+            _logger.Debug("GetTensionReports");
 
             AdoHelper ado = new AdoHelper();
             SqlDataReader reader = null;
             
-            List<RNDReports> lstReports = new List<RNDReports>();
+            List<TensionViewModel> lstReports = new List<TensionViewModel>();
             List<SqlParameter> lstSqlParameter = new List<SqlParameter>();
 
             lstSqlParameter.Add(new SqlParameter("@CurrentPage", option.pageIndex));
@@ -559,33 +568,42 @@ namespace RNDSystems.API.Controllers
             AddSearchFilter(option, lstSqlParameter);
             try
             {
-                using (reader = ado.ExecDataReaderProc("RNDReports_Read", "RND", lstSqlParameter.Cast<object>().ToArray()))
+                using (reader = ado.ExecDataReaderProc("RNDTensionReports_Read", "RND", lstSqlParameter.Cast<object>().ToArray()))
                 {
                     if (reader.HasRows)
                     {
-                        RNDReports reports = null;
+                        TensionViewModel reports = null;
                         while (reader.Read())
                         {
-                            reports = new RNDReports();
+                            reports = new TensionViewModel();
+
+
                             reports.RecID = Convert.ToInt32(reader["RecID"]);
                             reports.WorkStudyID = Convert.ToString(reader["WorkStudyID"]);
                             reports.TestNo = Convert.ToInt32(reader["TestNo"]);
-                          //  reports.TestType = Convert.ToString(reader["TestType"]);
-                            reports.SubConduct = Convert.ToDouble(reader["SubConduct"]);
-                            reports.SurfConduct = Convert.ToDouble(reader["SurfConduct"]);
-                            reports.FtuKsi = Convert.ToDouble(reader["FtuKsi"]);
-                            reports.FtyKsi = Convert.ToDouble(reader["FtyKsi"]);
-                            reports.eElongation = Convert.ToDouble(reader["eElongation"]);
+
+                            reports.Alloy = Convert.ToString(reader["Alloy"]);
+                            reports.Temper = Convert.ToString(reader["Temper"]);
+                            reports.CustPart = Convert.ToString(reader["CustPart"]);
+                            reports.UACPart = Convert.ToDecimal(reader["UACPart"]);
+
+                            //  reports.TestType = Convert.ToString(reader["TestType"]);
+                            reports.SubConduct = Convert.ToDecimal(reader["SubConduct"]);
+                            reports.SurfConduct = Convert.ToDecimal(reader["SurfConduct"]);
+                            reports.FtuKsi = Convert.ToDecimal(reader["FtuKsi"]);
+                            reports.FtyKsi = Convert.ToDecimal(reader["FtyKsi"]);
+                            reports.eElongation = Convert.ToDecimal(reader["eElongation"]);
                             reports.SpeciComment = Convert.ToString(reader["SpeciComment"]);
                             reports.Operator = Convert.ToString(reader["Operator"]);
-                           // reports.TestDate = (!string.IsNullOrEmpty(reader["TestDate"].ToString())) ? Convert.ToDateTime(reader["TestDate"]) : (DateTime?)null;
+                            reports.TestDate = Convert.ToString(reader["TestDate"]); //(!string.IsNullOrEmpty(reader["TestDate"].ToString())) ? Convert.ToDateTime(reader["TestDate"]) : (DateTime?)null;
                             reports.TestTime = Convert.ToString(reader["TestTime"]);
-                            //reports.EntryDate = (!string.IsNullOrEmpty(reader["EntryDate"].ToString())) ? Convert.ToDateTime(reader["EntryDate"]) : (DateTime?)null;
+                            reports.EntryDate = (!string.IsNullOrEmpty(reader["EntryDate"].ToString())) ? Convert.ToDateTime(reader["EntryDate"]) : (DateTime?)null;
                             reports.EntryBy = Convert.ToString(reader["EntryBy"]);
                             reports.Completed = Convert.ToChar(reader["Completed"]);
-                            // reports.StudyDesc = Convert.ToString(reader["StudyDesc"]);
-                            reports.StudyDesc = "Test Data";
+                           
                             reports.total = Convert.ToInt32(reader["total"]);
+
+
                             lstReports.Add(reports);
                         }
                     }
@@ -595,7 +613,7 @@ namespace RNDSystems.API.Controllers
             {
                 _logger.Error(ex.Message);              
             }                       
-            DataSearch<RNDReports> ds = new DataSearch<RNDReports>
+            DataSearch<TensionViewModel> ds = new DataSearch<TensionViewModel>
             {
                 items = lstReports,
                 total = (lstReports != null && lstReports.Count > 0) ? lstReports[0].total : 0
@@ -603,6 +621,74 @@ namespace RNDSystems.API.Controllers
             return ds;
         }
 
+        private DataSearch<CompressionViewModel> GetCompressionReports(DataGridoption option)
+        {
+            _logger.Debug("GetCompressionReports");
+
+            AdoHelper ado = new AdoHelper();
+            SqlDataReader reader = null;
+
+            List<CompressionViewModel> lstReports = new List<CompressionViewModel>();
+            List<SqlParameter> lstSqlParameter = new List<SqlParameter>();
+
+            lstSqlParameter.Add(new SqlParameter("@CurrentPage", option.pageIndex));
+            lstSqlParameter.Add(new SqlParameter("@NoOfRecords", option.pageSize));
+            AddSearchFilter(option, lstSqlParameter);
+            try
+            {
+                using (reader = ado.ExecDataReaderProc("RNDCompressionReports_Read", "RND", lstSqlParameter.Cast<object>().ToArray()))
+                {
+                    if (reader.HasRows)
+                    {
+                        CompressionViewModel reports = null;
+                        while (reader.Read())
+                        {
+                            reports = new CompressionViewModel();
+
+
+
+                            reports.RecID = Convert.ToInt32(reader["RecID"]);
+                            reports.WorkStudyID = Convert.ToString(reader["WorkStudyID"]);
+                            reports.TestNo = Convert.ToInt32(reader["TestNo"]);
+
+                            reports.Alloy = Convert.ToString(reader["Alloy"]);
+                            reports.Temper = Convert.ToString(reader["Temper"]);
+                            reports.CustPart = Convert.ToString(reader["CustPart"]);
+                            reports.UACPart = Convert.ToDecimal(reader["UACPart"]);
+
+                            //  reports.TestType = Convert.ToString(reader["TestType"]);
+                            reports.SubConduct = Convert.ToDecimal(reader["SubConduct"]);
+                            reports.SurfConduct = Convert.ToDecimal(reader["SurfConduct"]);
+                            reports.FcyKsi = Convert.ToDecimal(reader["FcyKsi"]);
+                            reports.EcModulusMpsi = Convert.ToDecimal(reader["EcModulusMpsi"]);
+                           
+                            reports.SpeciComment = Convert.ToString(reader["SpeciComment"]);
+                            reports.Operator = Convert.ToString(reader["Operator"]);
+                            reports.TestDate = Convert.ToString(reader["TestDate"]); //(!string.IsNullOrEmpty(reader["TestDate"].ToString())) ? Convert.ToDateTime(reader["TestDate"]) : (DateTime?)null;
+                            reports.TestTime = Convert.ToString(reader["TestTime"]);
+                            reports.EntryDate = (!string.IsNullOrEmpty(reader["EntryDate"].ToString())) ? Convert.ToDateTime(reader["EntryDate"]) : (DateTime?)null;
+                            reports.EntryBy = Convert.ToString(reader["EntryBy"]);
+                            reports.Completed = Convert.ToChar(reader["Completed"]);
+
+                            reports.total = Convert.ToInt32(reader["total"]);
+
+
+                            lstReports.Add(reports);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+            }
+            DataSearch<CompressionViewModel> ds = new DataSearch<CompressionViewModel>
+            {
+                items = lstReports,
+                total = (lstReports != null && lstReports.Count > 0) ? lstReports[0].total : 0
+            };
+            return ds;
+        }
 
         private static int splitRec(string records, int count)
         {

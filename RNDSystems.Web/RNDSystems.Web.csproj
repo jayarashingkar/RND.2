@@ -211,7 +211,8 @@
     <Content Include="Scripts\pages\SetOptions.js" />
     <Content Include="Scripts\pages\ProcessingMaterial.js" />
     <Content Include="Scripts\pages\RegisteredUserList.js" />
-    <Content Include="Scripts\pages\Reports.js" />
+    <Content Include="Scripts\Reports\CompressionReports.js" />
+    <Content Include="Scripts\Reports\Reports.js" />
     <Content Include="Scripts\pages\SaveAssignMaterial.js" />
     <Content Include="Scripts\pages\SaveProcessingMaterial.js" />
     <Content Include="Scripts\pages\SaveRegisteredUser.js" />
@@ -219,6 +220,7 @@
     <Content Include="Scripts\pages\SaveWorkStudy.js" />
     <Content Include="Scripts\pages\TestingMaterial.js" />
     <Content Include="Scripts\pages\WorkStudyList.js" />
+    <Content Include="Scripts\Reports\TensionReports.js" />
     <Content Include="Scripts\rnd.login.js" />
     <Content Include="Scripts\rnd.scripts.js" />
     <Content Include="Scripts\SecuityConfig.js" />
@@ -255,7 +257,6 @@
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\StudyTypeViewModel.cs" />
     <Compile Include="ViewModels\RegisterViewModel.cs" />
-    <Compile Include="ViewModels\ReportsViewModel.cs" />
     <Compile Include="ViewModels\RNDWorkStudyViewModel.cs" />
     <Compile Include="ViewModels\TestingViewModel.cs" />
   </ItemGroup>
@@ -300,6 +301,8 @@
     <Content Include="Views\Results\HardnessResults.cshtml" />
     <Content Include="Views\Results\FatigueResults.cshtml" />
     <Content Include="Views\Results\IGCResults.cshtml" />
+    <Content Include="Views\RnDReports\TensionReportsList.cshtml" />
+    <Content Include="Views\RnDReports\CompressionReportslList.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

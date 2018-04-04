@@ -95,13 +95,24 @@ namespace RNDSystems.Web
          "~/Scripts/pages/AddResults.js"
          ));
 
-            bundles.Add(new ScriptBundle("~/bundles/Reports").Include(
-                      "~/Scripts/pages/Reports.js"
-                      ));
             bundles.Add(new ScriptBundle("~/bundles/SetOptions").Include(
                      "~/Scripts/pages/SetOptions.js"
                      ));
 
+
+            bundles.Add(new ScriptBundle("~/bundles/Reports").Include(
+                      "~/Scripts/Reports/Reports.js"
+                      ));
+
+            bundles.Add(new ScriptBundle("~/bundles/TensionReports").Include(
+                      "~/Scripts/Reports/TensionReports.js"
+                      ));
+
+            bundles.Add(new ScriptBundle("~/bundles/CompressionReports").Include(
+                   "~/Scripts/Reports/CompressionReports.js"
+                   ));
+
+            
             BundleTable.EnableOptimizations = false;
         }
     }

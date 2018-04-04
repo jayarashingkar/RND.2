@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using RNDSystems.Models;
 using RNDSystems.Models.ViewModels;
+using RNDSystems.Models.ReportsViewModel;
 using RNDSystems.Web.ViewModels;
 using System;
 using System.Text;
@@ -23,21 +24,21 @@ namespace RNDSystems.Web.Controllers
             List<SelectListItem> ddlWorkStudyID = null;
             List<SelectListItem> ddTestType = null;
 
-            RNDReports reports = null;           
+            ReportsViewModel reports = null;           
             try
             {
                 ddlWorkStudyID = new List<SelectListItem>();
                 ddTestType = new List<SelectListItem>();
-                reports = new RNDReports();
+                reports = new ReportsViewModel();
 
                 var client = GetHttpClient();
                 if (WorkStudyID == null)
                 {       
-                    var task = client.GetAsync(Api + "api/reports?recID=0&WorkStudyID=''").ContinueWith((res) =>
+                    var task = client.GetAsync(Api + "api/reports?recID=0&WorkStudyID=none").ContinueWith((res) =>
                     {
                         if (res.Result.IsSuccessStatusCode)
                         {
-                            reports = JsonConvert.DeserializeObject<RNDReports>(res.Result.Content.ReadAsStringAsync().Result);
+                            reports = JsonConvert.DeserializeObject<ReportsViewModel>(res.Result.Content.ReadAsStringAsync().Result);
                             if (reports != null)
                             {
                                 ddlWorkStudyID = reports.ddWorkStudyID;
@@ -53,7 +54,7 @@ namespace RNDSystems.Web.Controllers
                     {
                         if (res.Result.IsSuccessStatusCode)
                         {
-                            reports = JsonConvert.DeserializeObject<RNDReports>(res.Result.Content.ReadAsStringAsync().Result);
+                            reports = JsonConvert.DeserializeObject<ReportsViewModel>(res.Result.Content.ReadAsStringAsync().Result);
                             if (reports != null)
                             {
                                 ddlWorkStudyID = reports.ddWorkStudyID;
@@ -76,6 +77,40 @@ namespace RNDSystems.Web.Controllers
            // return View();
         }
 
+        //public ActionResult GetReport(string WorkStudyID, string TestType) 
+        //{
+        //    // api/grid - api -getreports - in grid 
+        //    // and send option of which testype report is needed 
+        //    //switch (TestType.Trim())
+        //    //{
+        //    //    case 'Tension':
+
+        //    //}
+        //}
+
+        public ActionResult TensionReportsList(string WorkStudyID)
+        {
+            // api/grid - api -getreports - in grid 
+            // and send option of which testype report is needed 
+            //switch (TestType.Trim())
+            //{
+            //    case 'Tension':
+
+            //}
+            return View();
+        }
+
+        public ActionResult CompressionReportslList(string WorkStudyID)
+        {
+            // api/grid - api -getreports - in grid 
+            // and send option of which testype report is needed 
+            //switch (TestType.Trim())
+            //{
+            //    case 'Tension':
+
+            //}
+            return View();
+        }
         [HttpPost]
         public ActionResult ExportToExcel(string ddlWorkStudyID, string ddTestType, string searchFromDate, string searchToDate)
         {
@@ -112,8 +147,8 @@ namespace RNDSystems.Web.Controllers
             ExportDataFilter.pageSize = 10000;
             ExportDataFilter.searchBy = SearchBy;
 
-            List<RNDReports> lstExportReports = new List<RNDReports>();
-            DataSearch<RNDReports> objReports = null;
+            List<ReportsViewModel> lstExportReports = new List<ReportsViewModel>();
+            DataSearch<ReportsViewModel> objReports = null;
 
             try
             {
@@ -122,7 +157,7 @@ namespace RNDSystems.Web.Controllers
                 {
                     if (res.Result.IsSuccessStatusCode)
                     {
-                        objReports = JsonConvert.DeserializeObject<DataSearch<RNDReports>>(res.Result.Content.ReadAsStringAsync().Result);
+                        objReports = JsonConvert.DeserializeObject<DataSearch<ReportsViewModel>>(res.Result.Content.ReadAsStringAsync().Result);
                     }
                 });
 
@@ -132,7 +167,7 @@ namespace RNDSystems.Web.Controllers
                 {
                     lstExportReports = objReports.items;
                     string fileName = "Reports" + "_" + DateTime.Now.ToString().Replace(" ", "").Replace("-", "").Replace(":", "");
-                    GetExcelFile<RNDReports>(lstExportReports, fileName);
+                    GetExcelFile<ReportsViewModel>(lstExportReports, fileName);
                 }
 
             }

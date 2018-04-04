@@ -24,5 +24,11 @@ namespace RNDSystems.Models.TestViewModels
         public string EntryBy { get; set; }
         public DateTime? EntryDate { get; set; }
         public char Completed { get; set; }
+
+        public string Alloy { get; set; }
+        public string Temper { get; set; }
+        public string CustPart { get; set; }
+        public decimal UACPart { get; set; }
+        public int total { get; set; }
     }
 }
