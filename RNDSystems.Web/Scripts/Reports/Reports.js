@@ -5,7 +5,7 @@
 //});
 
 $(document).ready(function () {
-    debugger;
+   
     $('#ddlWorkStudyID').attr('data-live-search', 'true');
     $('#ddlWorkStudyID').selectpicker();
 
@@ -21,7 +21,7 @@ $(document).ready(function () {
 });
 
 $('#ddlWorkStudyID').on('change', function () {
-    debugger;
+   
     var  WorkStudyID = $('#ddlWorkStudyID').val();
     var options = {
         WorkStudyID: WorkStudyID
@@ -35,11 +35,12 @@ $('#ddlWorkStudyID').on('change', function () {
         data: options
     })
        .done(function (data) {
-           debugger;
+          
            if (data && data.isSuccess) {
+          // if (data) {
                  $('#ddTestType').prop('disabled', false);
-               
-               // avialableTT dropdown menu
+            
+               // Populating TestType dropdown menu
 
                var outputSubTT = data.ddTestType;
                var option1SubTT = '<option value="' +
@@ -72,13 +73,18 @@ $('#ddlWorkStudyID').on('change', function () {
 $('#btnReport').on('click', function () {
 
     var TestType = $('#ddTestType').val();
+    var workStudyID = $('#ddlWorkStudyID').val();
 
+    debugger;
     switch (TestType.trim()) {
         case 'Tension':
             location.href = '/RnDReports/TensionReportsList?workStudyID=' + workStudyID;
             break;
         case 'Compression':
             location.href = '/RnDReports/CompressionReportslList?workStudyID=' + workStudyID;
+            break;
+        case 'Optical Mount':
+            location.href = '/RnDReports/OpticalMountReportslList?workStudyID=' + workStudyID;
             break;
         default:
             bootbox.alert('Invalid TestType');

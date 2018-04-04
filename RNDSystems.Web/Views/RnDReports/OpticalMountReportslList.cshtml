@@ -1,11 +1,9 @@
-﻿
-
-@model  RNDSystems.Models.TestViewModels.CompressionViewModel
+﻿@model RNDSystems.Models.ManualViewModels.OpticalMountViewModel
 @{
-    ViewBag.Title = "CompressionReportslList";
+    ViewBag.Title = "OpticalMountReportsList";
 }
 
-<div class="panel-heading">R&D Reports: Compression</div>
+<div class="panel-heading">R&D Reports: OpticalMount</div>
 <div class="panel-body">
     <div id="searchDiv" class="container">
         <div class="col-md-3 pull-right">
@@ -86,15 +84,16 @@
             </div>
         </div>
     </div>
-    @{Html.RenderPartial("_Repeater", "CompressionReportsRepeater");}
+    @{Html.RenderPartial("_Repeater", "OpticalMountReportsRepeater");}
 </div>
 
 
+
 @section scripts{
-    @Scripts.Render("~/bundles/CompressionReports")
+    @Scripts.Render("~/bundles/OpticalMountReports")
     <script>
     $(document).ready(function () {
-        LoadGrid("CompressionReportsRepeater");
+        LoadGrid("OpticalMountReportsRepeater");
     });
     </script>
 }

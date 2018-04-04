@@ -60,6 +60,9 @@ namespace RNDSystems.API.Controllers
                         case "Compression":
                             ds = GetCompressionReports(option);
                             break;
+                        case "OpticalMount":
+                            ds = GetOpticalMountReports(option);
+                            break;
                         case "Results":
                             ds = GetResults(option);
                             break;
@@ -553,13 +556,78 @@ namespace RNDSystems.API.Controllers
         }
 
 
+        private DataSearch<OpticalMountViewModel> GetOpticalMountReports(DataGridoption option)
+        {
+            _logger.Debug("GetOpticalMountReports");
+
+            AdoHelper ado = new AdoHelper();
+            SqlDataReader reader = null;
+            
+            List<OpticalMountViewModel> lstReports = new List<OpticalMountViewModel>();
+            List<SqlParameter> lstSqlParameter = new List<SqlParameter>();
+
+            lstSqlParameter.Add(new SqlParameter("@CurrentPage", option.pageIndex));
+            lstSqlParameter.Add(new SqlParameter("@NoOfRecords", option.pageSize));
+            AddSearchFilter(option, lstSqlParameter);
+            try
+            {
+                using (reader = ado.ExecDataReaderProc("RNDOpticalMountReports_Read", "RND", lstSqlParameter.Cast<object>().ToArray()))
+                {
+                    if (reader.HasRows)
+                    {
+                        OpticalMountViewModel reports = null;
+                        while (reader.Read())
+                        {
+                            reports = new OpticalMountViewModel();
+
+
+                            reports.RecID = Convert.ToInt32(reader["RecID"]);
+                            reports.WorkStudyID = Convert.ToString(reader["WorkStudyID"]);
+                            reports.TestingNo = Convert.ToInt32(reader["TestingNo"]);
+
+                            reports.Alloy = Convert.ToString(reader["Alloy"]);
+                            reports.Temper = Convert.ToString(reader["Temper"]);
+                            reports.CustPart = Convert.ToString(reader["CustPart"]);
+                            reports.UACPart = Convert.ToDecimal(reader["UACPart"]);
+
+                            //  reports.TestType = Convert.ToString(reader["TestType"]);
+                           
+                            reports.SpeciComment = Convert.ToString(reader["SpeciComment"]);
+                            reports.Operator = Convert.ToString(reader["Operator"]);
+                            reports.TestDate = (!string.IsNullOrEmpty(reader["TestDate"].ToString())) ? Convert.ToDateTime(reader["TestDate"]) : (DateTime?)null;
+                          //  reports.TestTime = Convert.ToString(reader["TestTime"]);
+                            reports.EntryDate = (!string.IsNullOrEmpty(reader["EntryDate"].ToString())) ? Convert.ToDateTime(reader["EntryDate"]) : (DateTime?)null;
+                            reports.EntryBy = Convert.ToString(reader["EntryBy"]);
+                            reports.Completed = Convert.ToChar(reader["Completed"]);
+                           
+                            reports.total = Convert.ToInt32(reader["total"]);
+
+
+                            lstReports.Add(reports);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);              
+            }                       
+            DataSearch<OpticalMountViewModel> ds = new DataSearch<OpticalMountViewModel>
+            {
+                items = lstReports,
+                total = (lstReports != null && lstReports.Count > 0) ? lstReports[0].total : 0
+            };
+            return ds;
+        }
+
+
         private DataSearch<TensionViewModel> GetTensionReports(DataGridoption option)
         {
             _logger.Debug("GetTensionReports");
 
             AdoHelper ado = new AdoHelper();
             SqlDataReader reader = null;
-            
+
             List<TensionViewModel> lstReports = new List<TensionViewModel>();
             List<SqlParameter> lstSqlParameter = new List<SqlParameter>();
 
@@ -600,7 +668,7 @@ namespace RNDSystems.API.Controllers
                             reports.EntryDate = (!string.IsNullOrEmpty(reader["EntryDate"].ToString())) ? Convert.ToDateTime(reader["EntryDate"]) : (DateTime?)null;
                             reports.EntryBy = Convert.ToString(reader["EntryBy"]);
                             reports.Completed = Convert.ToChar(reader["Completed"]);
-                           
+
                             reports.total = Convert.ToInt32(reader["total"]);
 
 
@@ -611,8 +679,8 @@ namespace RNDSystems.API.Controllers
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message);              
-            }                       
+                _logger.Error(ex.Message);
+            }
             DataSearch<TensionViewModel> ds = new DataSearch<TensionViewModel>
             {
                 items = lstReports,
@@ -620,6 +688,7 @@ namespace RNDSystems.API.Controllers
             };
             return ds;
         }
+
 
         private DataSearch<CompressionViewModel> GetCompressionReports(DataGridoption option)
         {

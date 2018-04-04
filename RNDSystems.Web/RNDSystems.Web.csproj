@@ -212,6 +212,7 @@
     <Content Include="Scripts\pages\ProcessingMaterial.js" />
     <Content Include="Scripts\pages\RegisteredUserList.js" />
     <Content Include="Scripts\Reports\CompressionReports.js" />
+    <Content Include="Scripts\Reports\OpticalMountReports.js" />
     <Content Include="Scripts\Reports\Reports.js" />
     <Content Include="Scripts\pages\SaveAssignMaterial.js" />
     <Content Include="Scripts\pages\SaveProcessingMaterial.js" />
@@ -303,6 +304,7 @@
     <Content Include="Views\Results\IGCResults.cshtml" />
     <Content Include="Views\RnDReports\TensionReportsList.cshtml" />
     <Content Include="Views\RnDReports\CompressionReportslList.cshtml" />
+    <Content Include="Views\RnDReports\OpticalMountReportslList.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

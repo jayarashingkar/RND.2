@@ -111,7 +111,9 @@ namespace RNDSystems.Web
             bundles.Add(new ScriptBundle("~/bundles/CompressionReports").Include(
                    "~/Scripts/Reports/CompressionReports.js"
                    ));
-
+            bundles.Add(new ScriptBundle("~/bundles/OpticalMountReports").Include(
+                "~/Scripts/Reports/OpticalMountReports.js"
+                ));
             
             BundleTable.EnableOptimizations = false;
         }

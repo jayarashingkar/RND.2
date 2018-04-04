@@ -53,7 +53,7 @@ namespace RNDSystems.API.Controllers
                 }
                 else
                 {
-                    SqlParameter param2 = new SqlParameter("@WorkStudyID", reports.WorkStudyID);
+                    SqlParameter param2 = new SqlParameter("@WorkStudyID", WorkStudyID);
                     using (reader = ado.ExecDataReaderProc("RNDGetTestTypeFromTesting", "RND", param2))
                     {
                         if (reader.HasRows)

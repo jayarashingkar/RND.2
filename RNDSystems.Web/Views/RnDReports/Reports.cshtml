@@ -88,11 +88,11 @@
     @*@{Html.RenderPartial("_Repeater", "ReportsRepeater");}*@
 </div>
 
-@*@section scripts{
+@section scripts{
     @Scripts.Render("~/bundles/Reports")
-<script>
+@*<script>
     $(document).ready(function () {
         LoadGrid("ReportsRepeater");
     });
-</script>
-}*@
+</script>*@
+}

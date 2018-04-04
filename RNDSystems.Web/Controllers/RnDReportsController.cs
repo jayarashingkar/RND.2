@@ -3,6 +3,8 @@ using RNDSystems.Models;
 using RNDSystems.Models.ViewModels;
 using RNDSystems.Models.ReportsViewModel;
 using RNDSystems.Web.ViewModels;
+using RNDSystems.Models.TestViewModels;
+using RNDSystems.Models.ManualViewModels;
 using System;
 using System.Text;
 using System.IO;
@@ -23,7 +25,7 @@ namespace RNDSystems.Web.Controllers
             _logger.Debug("Reports");
             List<SelectListItem> ddlWorkStudyID = null;
             List<SelectListItem> ddTestType = null;
-
+            bool isSuccess = false;
             ReportsViewModel reports = null;           
             try
             {
@@ -32,48 +34,46 @@ namespace RNDSystems.Web.Controllers
                 reports = new ReportsViewModel();
 
                 var client = GetHttpClient();
+                //  if (WorkStudyID == null)
+                //  {       
+                // var task = client.GetAsync(Api + "api/reports?recID=0&WorkStudyID=none").ContinueWith((res) =>
                 if (WorkStudyID == null)
-                {       
-                    var task = client.GetAsync(Api + "api/reports?recID=0&WorkStudyID=none").ContinueWith((res) =>
+                {                   
+                    WorkStudyID = "none";
+                }
+                var task = client.GetAsync(Api + "api/reports?recID=0&WorkStudyID=" + WorkStudyID).ContinueWith((res) =>
+                {
+                    if (res.Result.IsSuccessStatusCode)
                     {
-                        if (res.Result.IsSuccessStatusCode)
+                        isSuccess = true;
+                        reports = JsonConvert.DeserializeObject<ReportsViewModel>(res.Result.Content.ReadAsStringAsync().Result);
+                        if (reports != null)
                         {
-                            reports = JsonConvert.DeserializeObject<ReportsViewModel>(res.Result.Content.ReadAsStringAsync().Result);
-                            if (reports != null)
-                            {
-                                ddlWorkStudyID = reports.ddWorkStudyID;
-                                ddTestType = reports.ddTestType;
-                            }
-                        }                       
-                    });                   
-                   task.Wait();                    
+                            ddlWorkStudyID = reports.ddWorkStudyID;
+                            ddTestType = reports.ddTestType;
+                        }
+                    }
+                });
+
+                task.Wait();                   
+             
+                if (WorkStudyID == "none")
+                {
+                    ViewBag.ddlWorkStudyID = ddlWorkStudyID;
+                    ViewBag.ddTestType = ddTestType;
+                    return View(reports);
+
                 }
                 else
-                {
-                    var task = client.GetAsync(Api + "api/reports?recID=0&WorkStudyID=" +WorkStudyID).ContinueWith((res) =>
-                    {
-                        if (res.Result.IsSuccessStatusCode)
-                        {
-                            reports = JsonConvert.DeserializeObject<ReportsViewModel>(res.Result.Content.ReadAsStringAsync().Result);
-                            if (reports != null)
-                            {
-                                ddlWorkStudyID = reports.ddWorkStudyID;
-                                ddTestType = reports.ddTestType;
-                               // reports.WorkStudyID = WorkStudyID;
-                            }
-                        }
-                      
-                    });
-                    task.Wait();                
-                }
-                ViewBag.ddlWorkStudyID = ddlWorkStudyID;
-                ViewBag.ddTestType = ddTestType;
+                    return Json(new { isSuccess = isSuccess, ddTestType = ddTestType }, JsonRequestBehavior.AllowGet);
+
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _logger.Error(ex);
+                isSuccess = false;
             }
-            return View(reports);
+            return Json(new { isSuccess = isSuccess, ddTestType = ddTestType }, JsonRequestBehavior.AllowGet);
            // return View();
         }
 
@@ -87,7 +87,8 @@ namespace RNDSystems.Web.Controllers
 
         //    //}
         //}
-
+     
+            [HttpGet]
         public ActionResult TensionReportsList(string WorkStudyID)
         {
             // api/grid - api -getreports - in grid 
@@ -97,7 +98,12 @@ namespace RNDSystems.Web.Controllers
             //    case 'Tension':
 
             //}
-            return View();
+            TensionViewModel model = new TensionViewModel();
+            model.WorkStudyID = WorkStudyID;
+            //  return RedirectToAction("TensionReportsList", new { RecID =0, WorkStudyID = model.WorkStudyID });
+
+            // return View("TensionReportsList", model);
+            return View(model);
         }
 
         public ActionResult CompressionReportslList(string WorkStudyID)
@@ -109,8 +115,25 @@ namespace RNDSystems.Web.Controllers
             //    case 'Tension':
 
             //}
-            return View();
+            CompressionViewModel model = new CompressionViewModel();
+            model.WorkStudyID = WorkStudyID;
+            return View(model);
         }
+
+        public ActionResult OpticalMountReportslList(string WorkStudyID)
+        {
+            // api/grid - api -getreports - in grid 
+            // and send option of which testype report is needed 
+            //switch (TestType.Trim())
+            //{
+            //    case 'Tension':
+
+            //}
+            OpticalMountViewModel model = new OpticalMountViewModel();
+            model.WorkStudyID = WorkStudyID;
+            return View(model);
+        }
+
         [HttpPost]
         public ActionResult ExportToExcel(string ddlWorkStudyID, string ddTestType, string searchFromDate, string searchToDate)
         {

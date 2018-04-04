@@ -3,69 +3,74 @@
     ViewBag.Title = "TensionReportsList";
 }
 
-
 <div class="panel-heading">R&D Reports: Tension</div>
 <div class="panel-body">
     <div id="searchDiv" class="container">
         <div class="col-md-3 pull-right">
             <button id="btnBack" onclick="window.history.back();" class="btn btn-primary btn-large"><i class="fa fa-arrow-left" aria-hidden="true"></i>Back</button>
         </div>
-        <form action="ExportToExcel" method="post">
-            @*<form action="ViewReport" method="post">*@
-            <div class="row">
+        <div class="row">
+            <div class="col-md-3">
                 <div class="form-group">
-                    <label for="WorkStudyNumber" class="cols-sm-2 control-label">Work Study Number</label>
+                    <label for="WorkStudyID" class="cols-sm-2 control-label">R&D Study Number</label>
                     <div class="cols-sm-10">
                         <div class="input-group">
-                            <span class="input-group-addon"><i class="fa fa-book" aria-hidden="true"></i></span>
-                            <input type="text" value="@Model.WorkStudyID" id="WorkStudyNumber" name="WorkStudyNumber" class="form-control" placeholder="Enter Work Study Number" />
+                            <span class="input-group-addon"><i class="fa fa-text-width" aria-hidden="true"></i></span>
+                            <input type="text" value="@Model.WorkStudyID" id="WorkStudyID" name="WorkStudyID" class="form-control" placeholder="Enter WorkStudy ID" />
                             <input type="hidden" name="WorkStudyID" id="WorkStudyID" value="@Model.WorkStudyID" />
-                            <input type="hidden" name="TestType" id="TestType" value="Tension" />
                         </div>
                     </div>
-                </div>                
+                </div>
             </div>
-
-@*<div class="col-md-3"
-    @*<div class="col-md-3">
+        </div>
+        <div class="row">
+            <div class="col-md-3">
                 <div class="form-group">
-                    <label for="searchFromDate" class="cols-sm-2 control-label">From Date</label>
+                    <label for="Alloy" class="cols-sm-2 control-label">Alloy</label>
                     <div class="cols-sm-10">
                         <div class="input-group">
-                            <input type="text" id="searchFromDate" name="searchFromDate" class="form-control"><span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
+                            <span class="input-group-addon"><i class="fa fa-search" aria-hidden="true"></i></span>                          
+                            <input type="text" name="Alloy" id="Alloy" value="@Model.Alloy"  placeholder="Enter Alloy"/>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="col-md-3">
                 <div class="form-group">
-                    <label for="searchToDate" class="cols-sm-2 control-label">To Date</label>
+                    <label for="Temper" class="cols-sm-2 control-label">Temper</label>
                     <div class="cols-sm-10">
                         <div class="input-group">
-                            <input type="text" id="searchToDate" name="searchToDate" class="form-control"><span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
+                            <span class="input-group-addon"><i class="fa fa-search" aria-hidden="true"></i></span>
+                            <input type="text" name="Temper" id="Temper" value="@Model.Temper" placeholder="Enter Temper" />
+                        </div>
+                    </div>
+                </div>>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="UACPart" class="cols-sm-2 control-label">UACPart</label>
+                    <div class="cols-sm-10">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-search" aria-hidden="true"></i></span>
+                            <input type="text" name="UACPart" id="UACPart" value="@Model.UACPart" placeholder="Enter UACPart" />
                         </div>
                     </div>
                 </div>
             </div>
-        </div>*@
-
-            @*<div class="row">
-                    <label for="lblStudyDesc" class="col-md-3 control-label">Study Desciption</label>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="CustPart" class="cols-sm-2 control-label">CustPart</label>
                     <div class="cols-sm-10">
-                        <input type="text" value="@Model.StudyDesc" id="StudyDesc" name="StudyDesc" class="form-control" placeholder="Enter Study Description"/>
-                        <input type="hidden" name="StudyDesc" id="StudyDesc" value="@Model.StudyDesc"/>
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-search" aria-hidden="true"></i></span>
+                            <input type="text" name="CustPart" id="CustPart" value="@Model.CustPart" placeholder="Enter CustPart" />
+                        </div>
                     </div>
-                </div>*@
-
-            @*<div class="row">
-                <div class="col-md-3 pull-right">
-                    <button id="btnPrint" class="btn btn-info btn-large"><i class="fa fa-print" aria-hidden="true"></i>Print</button>
-                </div>
-                <div class="col-md-3 pull-right">
-                    <button id="btnSelectPrint" class="btn btn-info btn-large"><i class="fa fa-print" aria-hidden="true"></i>Export to Excel</button>
-                </div>
-            </div>*@
-        </form>
+                </div>>
+            </div>
+        </div>
         <div class="row">
             <div class="col-md-3">
                 <div class="form-group">
