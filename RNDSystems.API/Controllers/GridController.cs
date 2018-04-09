@@ -39,7 +39,6 @@ namespace RNDSystems.API.Controllers
                             ds = GetAssignMaterial(option);
                             break;
                         case "UACPartList":
-                           // ds = GetAssignMaterial(option);
                             ds = GetUACPartList(option);
                             break;
                         case "RegisteredUser":
@@ -51,10 +50,7 @@ namespace RNDSystems.API.Controllers
                         case "TestingMaterial":
                             ds = GetTestingMaterial(option);
                             break;
-                        //case "Reports":
-                        //    ds = GetReports(option);
-                        //    break;
-                        case "Tension":
+                       case "Tension":
                             ds = GetTensionReports(option);
                             break;
                         case "Compression":
@@ -78,8 +74,6 @@ namespace RNDSystems.API.Controllers
                 return new HttpResponseMessage(HttpStatusCode.InternalServerError);
             }
         }
-
-
         /// <summary>
         /// Retrieve the Registered User Details data and Assign to Grid
         /// </summary>
@@ -595,7 +589,8 @@ namespace RNDSystems.API.Controllers
                             reports.SpeciComment = Convert.ToString(reader["SpeciComment"]);
                             reports.Operator = Convert.ToString(reader["Operator"]);
                             reports.TestDate = (!string.IsNullOrEmpty(reader["TestDate"].ToString())) ? Convert.ToDateTime(reader["TestDate"]) : (DateTime?)null;
-                          //  reports.TestTime = Convert.ToString(reader["TestTime"]);
+                            reports.TimeHrs = Convert.ToString(reader["TimeHrs"]);
+                            reports.TimeMns = Convert.ToString(reader["TimeMns"]);
                             reports.EntryDate = (!string.IsNullOrEmpty(reader["EntryDate"].ToString())) ? Convert.ToDateTime(reader["EntryDate"]) : (DateTime?)null;
                             reports.EntryBy = Convert.ToString(reader["EntryBy"]);
                             reports.Completed = Convert.ToChar(reader["Completed"]);
@@ -633,9 +628,10 @@ namespace RNDSystems.API.Controllers
 
             lstSqlParameter.Add(new SqlParameter("@CurrentPage", option.pageIndex));
             lstSqlParameter.Add(new SqlParameter("@NoOfRecords", option.pageSize));
-            AddSearchFilter(option, lstSqlParameter);
             try
             {
+                AddSearchFilter(option, lstSqlParameter);
+          
                 using (reader = ado.ExecDataReaderProc("RNDTensionReports_Read", "RND", lstSqlParameter.Cast<object>().ToArray()))
                 {
                     if (reader.HasRows)
@@ -644,7 +640,6 @@ namespace RNDSystems.API.Controllers
                         while (reader.Read())
                         {
                             reports = new TensionViewModel();
-
 
                             reports.RecID = Convert.ToInt32(reader["RecID"]);
                             reports.WorkStudyID = Convert.ToString(reader["WorkStudyID"]);
@@ -670,8 +665,6 @@ namespace RNDSystems.API.Controllers
                             reports.Completed = Convert.ToChar(reader["Completed"]);
 
                             reports.total = Convert.ToInt32(reader["total"]);
-
-
                             lstReports.Add(reports);
                         }
                     }
@@ -688,7 +681,6 @@ namespace RNDSystems.API.Controllers
             };
             return ds;
         }
-
 
         private DataSearch<CompressionViewModel> GetCompressionReports(DataGridoption option)
         {
@@ -714,8 +706,6 @@ namespace RNDSystems.API.Controllers
                         {
                             reports = new CompressionViewModel();
 
-
-
                             reports.RecID = Convert.ToInt32(reader["RecID"]);
                             reports.WorkStudyID = Convert.ToString(reader["WorkStudyID"]);
                             reports.TestNo = Convert.ToInt32(reader["TestNo"]);
@@ -730,7 +720,7 @@ namespace RNDSystems.API.Controllers
                             reports.SurfConduct = Convert.ToDecimal(reader["SurfConduct"]);
                             reports.FcyKsi = Convert.ToDecimal(reader["FcyKsi"]);
                             reports.EcModulusMpsi = Convert.ToDecimal(reader["EcModulusMpsi"]);
-                           
+
                             reports.SpeciComment = Convert.ToString(reader["SpeciComment"]);
                             reports.Operator = Convert.ToString(reader["Operator"]);
                             reports.TestDate = Convert.ToString(reader["TestDate"]); //(!string.IsNullOrEmpty(reader["TestDate"].ToString())) ? Convert.ToDateTime(reader["TestDate"]) : (DateTime?)null;
@@ -740,7 +730,6 @@ namespace RNDSystems.API.Controllers
                             reports.Completed = Convert.ToChar(reader["Completed"]);
 
                             reports.total = Convert.ToInt32(reader["total"]);
-
 
                             lstReports.Add(reports);
                         }

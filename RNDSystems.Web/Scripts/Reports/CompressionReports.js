@@ -91,15 +91,18 @@
       }
 ];
 
+$(document).ready(function () {
+    $('#ddlWorkStudyID').attr('data-live-search', 'true');
+    $('#ddlWorkStudyID').selectpicker();
 
-
-$(document).ready(function () {    
+    $('#TestType').prop('disabled', true);
+    //  $('#TestType').attr('disabled', true);   
 });
 
 
 function customColumnRenderer(helpers, callback) {
     // determine what column is being rendered
-    var column = helpers.columnAttr;  
+    var column = helpers.columnAttr;
     var rowData = helpers.rowData;
     var customMarkup = helpers.item.text();
     helpers.item.html(customMarkup);
@@ -109,8 +112,8 @@ function customColumnRenderer(helpers, callback) {
 function customRowRenderer(helpers, callback) {
     // let's get the id and add it to the "tr" DOM element
     var item = helpers.item;
-    //  item.attr('id', 'row' + helpers.rowData.RecID);
-    item.attr('id', 'row' + helpers.rowData.TestingNo);
+    item.attr('id', 'row' + helpers.rowData.RecID);
+    //item.attr('id', 'row' + helpers.rowData.TestingNo);
     callback();
 }
 
@@ -124,24 +127,16 @@ function customDataSource(options, callback) {
     var search = '';
     var flag = true;
 
-    //if ($('#searchFromDate').val()) {
-    //    var searchFromDate = $('#searchFromDate').datepicker();
-    //    searchFromDate = $("#searchFromDate").data('datepicker').getFormattedDate('yyyy-mm-dd');
-    //    if (searchFromDate && searchFromDate !== '')
-    //        search += ';' + 'searchFromDate:' + searchFromDate;
-    //}
-    //if ($('#searchToDate').val()) {
-    //    var searchToDate = $('#searchToDate').datepicker();
-    //    searchToDate = $("#searchToDate").data('datepicker').getFormattedDate('yyyy-mm-dd');
-    //    if (searchToDate && searchToDate !== '')
-    //        search += ';' + 'searchToDate:' + searchToDate;
-    //}
-   
-
-
-    if ($('#WorkStudyID').val())
-        search += ';' + 'WorkStudyID:' + $('#WorkStudyID').val();
-
+    if ($('#ddlWorkStudyID').val())
+        search += ';' + 'WorkStudyID:' + $('#ddlWorkStudyID').val();
+    if ($('#Alloy').val())
+        search += ';' + 'Alloy:' + $('#Alloy').val();
+    if ($('#Temper').val())
+        search += ';' + 'Temper:' + $('#Temper').val();
+    if ($('#UACPart').val())
+        search += ';' + 'UACPart:' + $('#UACPart').val();
+    if ($('#CustPart').val())
+        search += ';' + 'CustPart:' + $('#CustPart').val();
     search += ';' + 'TestType:' + 'Compression';
 
     var options = {
@@ -186,35 +181,69 @@ function customDataSource(options, callback) {
                 items: items
             };
 
-
             // invoke callback to render repeater
             callback(dataSource);
         });
-
-
-
 }
 
-$('#btnSearch').on('click', function () {  
-    $('#ReportsRepeater').repeater('render');
+$('#btnSearch').on('click', function () {
+    $('#CompressionReportsRepeater').repeater('render');
 });
 
+$('#btnExcelReport').on('click', function () {
+
+    debugger;
+    //  var search = '';
+
+    search = '';
+    var WorkStudy = $('#ddlWorkStudyID').val();
+
+    if ((WorkStudy != '-1') || (WorkStudy != null))
+        search += ';' + 'WorkStudyID:' + WorkStudy;
+    if ($('#Alloy').val() != '')
+        search += ';' + 'Alloy:' + $('#Alloy').val();
+    if ($('#Temper').val() != '')
+        search += ';' + 'Temper:' + $('#Temper').val();
+    if ($('#UACPart').val() != '')
+        search += ';' + 'UACPart:' + $('#UACPart').val();
+    if ($('#CustPart').val() != '')
+        search += ';' + 'CustPart:' + $('#CustPart').val();
+    search += ';' + 'TestType:' + 'Compression';
+
+    var ExportDataFilter = {
+        Screen: 'Compression',
+        pageIndex: 0,
+        pageSize: 10000,
+        //sortDirection: options.sortDirection,
+        // sortBy: options.sortProperty,
+        filterBy: 'all',
+        searchBy: search
+    };
+
+    // call API, posting options
+    $.ajax({
+        type: 'post',
+        url: GetRootDirectory() + '/RnDReports/ExportToExcel',
+        headers: {
+            Token: GetToken()
+        },
+        data: ExportDataFilter
+    })
+        .done(function (data) {
+            bootbox.alert('Report Exported');
+        });
+    ;
+});
 
 $('#btnClear').on('click', function () {
-    //check if this should be dopbox - currently keep text for search
-    $('#searchWorkStudyNumber').val('');
-    $('#StudyType').selectpicker('val', "-1");
-    $('#Plant').selectpicker('val', "-1");
-    $('#StudyStatus').selectpicker('val', "-1")
-    //$('#searchFromDate').val('');
-    //$('#searchToDate').val('');
-    $('#ReportsRepeater').repeater('render');
+    //check if this should be dopbox - currently keep text for search    
+    $('#ddlWorkStudyID').selectpicker('val', "-1");
+    $('#Alloy').val('');
+    $('#Temper').val('');
+    $('#UACPart').val('');
+    $('#CustPart').val('');
+    search = '';
+    search += ';' + 'TestType:' + 'Compression';
+    $('#CompressionReportsRepeater').repeater('render');
     return false;
-});
-
-//$('#searchFromDate').datepicker({ autoclose: true, todayHighlight: true, todayBtn: "linked" });
-//$('#searchFromDate').datepicker("setDate", new Date(new Date().setFullYear(new Date().getFullYear() - 1)));
-//$('#searchToDate').datepicker({ autoclose: true, todayHighlight: true, todayBtn: "linked" });
-//$('#searchToDate').datepicker("setDate", new Date());
-
 });

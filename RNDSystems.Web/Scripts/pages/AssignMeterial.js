@@ -199,15 +199,13 @@ function customDataSource(options, callback) {
       if ($('#searchUACPartNo').val()) {            
             search += ';' + 'UACPart:' + $('#searchUACPartNo').val();
         }           
-    }
-    
+    }    
     if ($('#searchAlloy').val())
         search += ';' + 'AlloyTypes:' + $('#searchAlloy').val();
 
     if ($('#searchTemper').val())
         search += ';' + 'TemperTypes:' + $('#searchTemper').val();
-    //if ($('#Plant').val())
-    //    search += ';' + 'Plant:' + $('#Plant').val();
+
     if (typeof isUACGrid !== 'undefined' && isUACGrid) {
         var options = {
             Screen: 'UACPartList',

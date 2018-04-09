@@ -104,8 +104,34 @@ namespace RNDSystems.Web.Controllers
             gridview.RenderControl(objHtmlTextWriter);
             Response.Output.Write(objStringWriter.ToString());          
             Response.Flush();
-            Response.End();
+            Response.End();          
             return View();
+
+        }
+        public ActionResult GetExcelFile<T>(IEnumerable<T> dataSource, string fileName, bool report)
+        {
+            try
+            {
+                GridView gridview = new GridView();
+                gridview.DataSource = dataSource;
+                gridview.DataBind();
+                Response.Clear();
+                Response.Buffer = true;
+                Response.ContentType = "application/ms-excel";
+                Response.AppendHeader("content-disposition", "attachment; filename=" + fileName + ".xls");
+                Response.Charset = "";
+                StringWriter objStringWriter = new StringWriter();
+                HtmlTextWriter objHtmlTextWriter = new HtmlTextWriter(objStringWriter);
+                gridview.RenderControl(objHtmlTextWriter);
+                Response.Output.Write(objStringWriter.ToString());
+                Response.Flush();
+                Response.End();               
+            }
+           catch(Exception ex)
+            {
+                _logger.Error(ex);
+            }
+            return View("TensionReports");
         }
     }
 }

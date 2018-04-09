@@ -11,7 +11,7 @@ namespace RNDSystems.Models.TestViewModels
     public class TensionViewModel
     {
         public int RecID { get; set; }
-        public string WorkStudyID { get; set; }   
+        public string WorkStudyID { get; set; }       
         public int TestNo { get; set; }
         public decimal SubConduct { get; set; }
         public decimal SurfConduct { get; set; }
@@ -26,6 +26,7 @@ namespace RNDSystems.Models.TestViewModels
         public string EntryBy { get; set; }
         public DateTime? EntryDate { get; set; }
         public char Completed { get; set; }
+
 
         public string Alloy { get; set; }
         public string Temper { get; set; }

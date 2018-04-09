@@ -20,62 +20,100 @@ namespace RNDSystems.Web.Controllers
     public class RnDReportsController : BaseController
     {
         // GET: RnDReports
-        public ActionResult Reports(string WorkStudyID)
+
+        #region Reports 
+        //public ActionResult Reports(string WorkStudyID)     
+        //{
+        //    _logger.Debug("Reports");
+        //    List<SelectListItem> ddlWorkStudyID = null;
+        //    List<SelectListItem> ddTestType = null;
+        //    bool isSuccess = false;
+        //    ReportsViewModel reports = null;           
+        //    try
+        //    {
+        //        ddlWorkStudyID = new List<SelectListItem>();
+        //        ddTestType = new List<SelectListItem>();
+        //        reports = new ReportsViewModel();
+
+        //        var client = GetHttpClient();
+        //        //  if (WorkStudyID == null)
+        //        //  {       
+        //        // var task = client.GetAsync(Api + "api/reports?recID=0&WorkStudyID=none").ContinueWith((res) =>
+        //        if (WorkStudyID == null)
+        //        {                   
+        //            WorkStudyID = "none";
+        //        }
+        //        var task = client.GetAsync(Api + "api/reports?recID=0&WorkStudyID=" + WorkStudyID).ContinueWith((res) =>
+        //        {
+        //            if (res.Result.IsSuccessStatusCode)
+        //            {
+        //                isSuccess = true;
+        //                reports = JsonConvert.DeserializeObject<ReportsViewModel>(res.Result.Content.ReadAsStringAsync().Result);
+        //                if (reports != null)
+        //                {
+        //                    ddlWorkStudyID = reports.ddWorkStudyID;
+        //                    ddTestType = reports.ddTestType;
+        //                }
+        //            }
+        //        });
+
+        //        task.Wait();                   
+
+        //        if (WorkStudyID == "none")
+        //        {
+        //            ViewBag.ddlWorkStudyID = ddlWorkStudyID;
+        //            ViewBag.ddTestType = ddTestType;
+        //            return View(reports);
+
+        //        }
+        //        else
+        //            return Json(new { isSuccess = isSuccess, ddTestType = ddTestType }, JsonRequestBehavior.AllowGet);
+
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        _logger.Error(ex);
+        //        isSuccess = false;
+        //    }
+        //    return Json(new { isSuccess = isSuccess, ddTestType = ddTestType }, JsonRequestBehavior.AllowGet);
+        //   // return View();
+        //}
+        #endregion
+       // public ActionResult Reports(string TestType)
+        public ActionResult Reports()
         {
             _logger.Debug("Reports");
-            List<SelectListItem> ddlWorkStudyID = null;
             List<SelectListItem> ddTestType = null;
-            bool isSuccess = false;
-            ReportsViewModel reports = null;           
+            ReportsViewModel reports = null;
             try
             {
-                ddlWorkStudyID = new List<SelectListItem>();
                 ddTestType = new List<SelectListItem>();
                 reports = new ReportsViewModel();
 
                 var client = GetHttpClient();
-                //  if (WorkStudyID == null)
-                //  {       
-                // var task = client.GetAsync(Api + "api/reports?recID=0&WorkStudyID=none").ContinueWith((res) =>
-                if (WorkStudyID == null)
-                {                   
-                    WorkStudyID = "none";
-                }
-                var task = client.GetAsync(Api + "api/reports?recID=0&WorkStudyID=" + WorkStudyID).ContinueWith((res) =>
+               
+                var task = client.GetAsync(Api + "api/reports?recID=0").ContinueWith((res) =>
                 {
                     if (res.Result.IsSuccessStatusCode)
                     {
-                        isSuccess = true;
+                        //isSuccess = true;
                         reports = JsonConvert.DeserializeObject<ReportsViewModel>(res.Result.Content.ReadAsStringAsync().Result);
                         if (reports != null)
-                        {
-                            ddlWorkStudyID = reports.ddWorkStudyID;
+                        {                            
                             ddTestType = reports.ddTestType;
                         }
                     }
                 });
 
-                task.Wait();                   
-             
-                if (WorkStudyID == "none")
-                {
-                    ViewBag.ddlWorkStudyID = ddlWorkStudyID;
-                    ViewBag.ddTestType = ddTestType;
-                    return View(reports);
-
-                }
-                else
-                    return Json(new { isSuccess = isSuccess, ddTestType = ddTestType }, JsonRequestBehavior.AllowGet);
-
+                task.Wait();
+                ViewBag.ddTestType = ddTestType;
             }
             catch (Exception ex)
             {
                 _logger.Error(ex);
-                isSuccess = false;
             }
-            return Json(new { isSuccess = isSuccess, ddTestType = ddTestType }, JsonRequestBehavior.AllowGet);
-           // return View();
-        }
+            return View(reports);
+       }
 
         //public ActionResult GetReport(string WorkStudyID, string TestType) 
         //{
@@ -87,119 +125,220 @@ namespace RNDSystems.Web.Controllers
 
         //    //}
         //}
-     
-            [HttpGet]
-        public ActionResult TensionReportsList(string WorkStudyID)
+
+
+
+        public ActionResult TensionReportsList(string TestType)
         {
-            // api/grid - api -getreports - in grid 
-            // and send option of which testype report is needed 
-            //switch (TestType.Trim())
-            //{
-            //    case 'Tension':
+            ReportsViewModel model = new ReportsViewModel();
 
-            //}
-            TensionViewModel model = new TensionViewModel();
-            model.WorkStudyID = WorkStudyID;
-            //  return RedirectToAction("TensionReportsList", new { RecID =0, WorkStudyID = model.WorkStudyID });
-
-            // return View("TensionReportsList", model);
-            return View(model);
-        }
-
-        public ActionResult CompressionReportslList(string WorkStudyID)
-        {
-            // api/grid - api -getreports - in grid 
-            // and send option of which testype report is needed 
-            //switch (TestType.Trim())
-            //{
-            //    case 'Tension':
-
-            //}
-            CompressionViewModel model = new CompressionViewModel();
-            model.WorkStudyID = WorkStudyID;
-            return View(model);
-        }
-
-        public ActionResult OpticalMountReportslList(string WorkStudyID)
-        {
-            // api/grid - api -getreports - in grid 
-            // and send option of which testype report is needed 
-            //switch (TestType.Trim())
-            //{
-            //    case 'Tension':
-
-            //}
-            OpticalMountViewModel model = new OpticalMountViewModel();
-            model.WorkStudyID = WorkStudyID;
-            return View(model);
-        }
-
-        [HttpPost]
-        public ActionResult ExportToExcel(string ddlWorkStudyID, string ddTestType, string searchFromDate, string searchToDate)
-        {
-            //Remove later - for testing purpose only
-            ddTestType = "Tension";
-
-            _logger.Debug("WorkSutdyList ExportToExcel");
-            string SearchBy = "";
-            DataGridoption ExportDataFilter = new DataGridoption();
-
-            if (!string.IsNullOrEmpty(ddlWorkStudyID))
-            {
-                SearchBy = SearchBy + ";" + "WorkStudyID:" + ddlWorkStudyID;
-            }
-
-            if (!string.IsNullOrEmpty(ddTestType))
-            {
-                SearchBy = SearchBy + ";" + "TestType:" + ddTestType;
-            }
-
-            if (!string.IsNullOrEmpty(searchFromDate))
-            {
-                SearchBy = SearchBy + ";" + "searchFromDate:" + searchFromDate;
-            }
-
-            if (!string.IsNullOrEmpty(searchToDate))
-            {
-                SearchBy = SearchBy + ";" + "searchToDate:" + searchToDate;
-            }
-
-            ExportDataFilter.Screen = "Reports";
-            ExportDataFilter.filterBy = "all";
-            ExportDataFilter.pageIndex = 0;
-            ExportDataFilter.pageSize = 10000;
-            ExportDataFilter.searchBy = SearchBy;
-
-            List<ReportsViewModel> lstExportReports = new List<ReportsViewModel>();
-            DataSearch<ReportsViewModel> objReports = null;
-
+            model.TestType = "Tension";
+            List<SelectListItem> ddlWorkStudyID = null;                 
             try
             {
+                ddlWorkStudyID = new List<SelectListItem>();
+
                 var client = GetHttpClient();
-                var task = client.PostAsJsonAsync(Api + "api/Grid", ExportDataFilter).ContinueWith((res) =>
+                var task = client.GetAsync(Api + "api/reports?recID=0&TestType=" + TestType).ContinueWith((res) =>            
+                {
+                if (res.Result.IsSuccessStatusCode)
+                {
+
+                    model = JsonConvert.DeserializeObject<ReportsViewModel>(res.Result.Content.ReadAsStringAsync().Result);
+                    if (model != null)
+                    {
+                        ddlWorkStudyID = model.ddWorkStudyID;                        
+                    }
+                }
+                });                
+                task.Wait();
+                ViewBag.ddlWorkStudyID = ddlWorkStudyID;
+                ViewBag.TestType = TestType;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex); 
+            }
+            return View("TensionReportsList");
+        }
+
+        public ActionResult CompressionReportsList(string TestType)
+        {
+            ReportsViewModel model = new ReportsViewModel();
+
+            model.TestType = "Compression";
+            List<SelectListItem> ddlWorkStudyID = null;
+            try
+            {
+                ddlWorkStudyID = new List<SelectListItem>();
+
+                var client = GetHttpClient();
+                var task = client.GetAsync(Api + "api/reports?recID=0&TestType=" + TestType).ContinueWith((res) =>
                 {
                     if (res.Result.IsSuccessStatusCode)
                     {
-                        objReports = JsonConvert.DeserializeObject<DataSearch<ReportsViewModel>>(res.Result.Content.ReadAsStringAsync().Result);
+
+                        model = JsonConvert.DeserializeObject<ReportsViewModel>(res.Result.Content.ReadAsStringAsync().Result);
+                        if (model != null)
+                        {
+                            ddlWorkStudyID = model.ddWorkStudyID;
+
+                        }
                     }
                 });
-
                 task.Wait();
-
-                if (objReports != null && objReports.items != null && objReports.items.Count > 0)
-                {
-                    lstExportReports = objReports.items;
-                    string fileName = "Reports" + "_" + DateTime.Now.ToString().Replace(" ", "").Replace("-", "").Replace(":", "");
-                    GetExcelFile<ReportsViewModel>(lstExportReports, fileName);
-                }
-
+                ViewBag.ddlWorkStudyID = ddlWorkStudyID;
+                ViewBag.TestType = TestType;
             }
             catch (Exception ex)
             {
                 _logger.Error(ex);
             }
-            return RedirectToAction("Reports");
+            return View("CompressionReportsList");
+        }
+        
+         public ActionResult OpticalMountReportsList(string TestType)
+        {
+            ReportsViewModel model = new ReportsViewModel();
+
+            model.TestType = "OpticalMount";
+            List<SelectListItem> ddlWorkStudyID = null;
+            try
+            {
+                ddlWorkStudyID = new List<SelectListItem>();
+
+                var client = GetHttpClient();
+                var task = client.GetAsync(Api + "api/reports?recID=0&TestType=" + TestType).ContinueWith((res) =>
+                {
+                    if (res.Result.IsSuccessStatusCode)
+                    {
+
+                        model = JsonConvert.DeserializeObject<ReportsViewModel>(res.Result.Content.ReadAsStringAsync().Result);
+                        if (model != null)
+                        {
+                            ddlWorkStudyID = model.ddWorkStudyID;
+                        }
+                    }
+                });
+                task.Wait();
+                ViewBag.ddlWorkStudyID = ddlWorkStudyID;
+                ViewBag.TestType = TestType;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex);
+            }
+            return View("OpticalMountReportsList");
+        }
+        // public ViewResult MacroEtchReportsList(string WorkStudyID)
+        public ActionResult MacroEtchReportsList(string TestType)
+        {
+            // api/grid - api -getreports - in grid 
+            // and send option of which testype report is needed 
+            //switch (TestType.Trim())
+            //{
+            //    case 'Tension':
+
+            //}
+          //  MacroEtchViewModel model = new MacroEtchViewModel();
+           // model.WorkStudyID = WorkStudyID;
+           // return RedirectToAction("MacroEtchReportsList");
+            return View("MacroEtchReportsList");
         }
 
+        [HttpPost]
+
+        // public ActionResult ExportToExcel(int test, string TestType , string SearchBy)
+        //     public ActionResult ExportToExcel(DataGridoption ExportDataFilter)
+        public void ExportToExcel(DataGridoption ExportDataFilter)
+        {
+             _logger.Debug("ExportToExcel");
+ 
+           string TestType = ExportDataFilter.Screen;
+            try
+            {
+                switch (TestType.Trim())
+                {
+                    case "Tension":                       
+                         ExportTension(ExportDataFilter );
+                        break;
+                    case "Compression":
+                        ExportCompression(ExportDataFilter);
+                        break;
+                    case "OpticalMount":
+                        ExportOpticalMount(ExportDataFilter);
+                        break;
+                    default: break;
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex);
+            }
+           // return RedirectToAction("Reports");
+       }
+
+        private void ExportTension( DataGridoption ExportDataFilter)
+        {
+            var client = GetHttpClient();
+              List<TensionViewModel> lstExportTension = new List<TensionViewModel>();
+
+              DataSearch <TensionViewModel> objTension = null;
+            var Tensiontask = client.PostAsJsonAsync(Api + "api/Grid", ExportDataFilter).ContinueWith((res) =>
+            {
+                if (res.Result.IsSuccessStatusCode)
+                {
+                    objTension = JsonConvert.DeserializeObject<DataSearch<TensionViewModel>>(res.Result.Content.ReadAsStringAsync().Result);
+                }
+            });
+            Tensiontask.Wait();
+            if (objTension != null && objTension.items != null && objTension.items.Count > 0)
+            {
+                lstExportTension = objTension.items;
+                string fileName = "TensionReport" + "_" + DateTime.Now.ToString().Replace(" ", "").Replace("-", "").Replace(":", "");
+                GetExcelFile<TensionViewModel>(lstExportTension, fileName, true);
+            }         
+        }
+
+        private void ExportCompression(DataGridoption ExportDataFilter)
+        {
+            var client = GetHttpClient();
+            List<CompressionViewModel> lstExportCompression = new List<CompressionViewModel>();
+            DataSearch<CompressionViewModel> objCompression = null;
+            var Compressiontask = client.PostAsJsonAsync(Api + "api/Grid", ExportDataFilter).ContinueWith((res) =>
+            {
+                if (res.Result.IsSuccessStatusCode)
+                {
+                    objCompression = JsonConvert.DeserializeObject<DataSearch<CompressionViewModel>>(res.Result.Content.ReadAsStringAsync().Result);
+                }
+            });
+            Compressiontask.Wait();
+            if (objCompression != null && objCompression.items != null && objCompression.items.Count > 0)
+            {
+                lstExportCompression = objCompression.items;
+                string fileName = "Compression" + "_" + DateTime.Now.ToString().Replace(" ", "").Replace("-", "").Replace(":", "");
+                GetExcelFile<CompressionViewModel>(lstExportCompression, fileName);
+            }
+        }
+        private void ExportOpticalMount(DataGridoption ExportDataFilter)
+        {
+            var client = GetHttpClient();
+            List<OpticalMountViewModel> lstExportOpticalMount = new List<OpticalMountViewModel>();
+            DataSearch<OpticalMountViewModel> objOpticalMount = null;
+            var OpticalMounttask = client.PostAsJsonAsync(Api + "api/Grid", ExportDataFilter).ContinueWith((res) =>
+            {
+                if (res.Result.IsSuccessStatusCode)
+                {
+                    objOpticalMount = JsonConvert.DeserializeObject<DataSearch<OpticalMountViewModel>>(res.Result.Content.ReadAsStringAsync().Result);
+                }
+            });
+            OpticalMounttask.Wait();
+            if (objOpticalMount != null && objOpticalMount.items != null && objOpticalMount.items.Count > 0)
+            {
+                lstExportOpticalMount = objOpticalMount.items;
+                string fileName = "OpticalMount" + "_" + DateTime.Now.ToString().Replace(" ", "").Replace("-", "").Replace(":", "");
+                GetExcelFile<OpticalMountViewModel>(lstExportOpticalMount, fileName);
+            }
+        }
     }
 }

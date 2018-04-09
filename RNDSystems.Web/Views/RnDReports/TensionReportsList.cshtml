@@ -1,4 +1,4 @@
-﻿@model  RNDSystems.Models.TestViewModels.TensionViewModel
+﻿
 @{
     ViewBag.Title = "TensionReportsList";
 }
@@ -12,15 +12,28 @@
         <div class="row">
             <div class="col-md-3">
                 <div class="form-group">
-                    <label for="WorkStudyID" class="cols-sm-2 control-label">R&D Study Number</label>
+                    <label for="TestType" class="cols-sm-2 control-label">TestType</label>
                     <div class="cols-sm-10">
                         <div class="input-group">
                             <span class="input-group-addon"><i class="fa fa-text-width" aria-hidden="true"></i></span>
-                            <input type="text" value="@Model.WorkStudyID" id="WorkStudyID" name="WorkStudyID" class="form-control" placeholder="Enter WorkStudy ID" />
-                            <input type="hidden" name="WorkStudyID" id="WorkStudyID" value="@Model.WorkStudyID" />
+                            <input type="text" value="@ViewBag.TestType" id="TestType" name="TestType" class="form-control" />                            
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="lblddWorkStudyID" class="cols-sm-2 control-label">WorkStudyID</label>                   
+                        @Html.DropDownList("ddlWorkStudyID", ViewBag.ddlWorkStudyID as IEnumerable<SelectListItem>, new { @class = "show-tick" })                
+                </div>
+            </div>
+            <div class="col-md-3 pull-right">
+                <button id="btnPrint" class="btn btn-info btn-large"><i class="fa fa-list-alt " aria-hidden="true" ></i>Print Report</button>
+            </div>
+            <div class="col-md-3 pull-right">
+                <button id="btnExcelReport" class="btn btn-info btn-large"><i class="fa fa-list-alt" aria-hidden="true"></i>Export to Excel</button>
             </div>
         </div>
         <div class="row">
@@ -30,7 +43,7 @@
                     <div class="cols-sm-10">
                         <div class="input-group">
                             <span class="input-group-addon"><i class="fa fa-search" aria-hidden="true"></i></span>                          
-                            <input type="text" name="Alloy" id="Alloy" value="@Model.Alloy"  placeholder="Enter Alloy"/>
+                            <input type="text" name="Alloy" id="Alloy"  class="form-control" placeholder="Enter Alloy"/>
                         </div>
                     </div>
                 </div>
@@ -41,10 +54,10 @@
                     <div class="cols-sm-10">
                         <div class="input-group">
                             <span class="input-group-addon"><i class="fa fa-search" aria-hidden="true"></i></span>
-                            <input type="text" name="Temper" id="Temper" value="@Model.Temper" placeholder="Enter Temper" />
+                            <input type="text" name="Temper" id="Temper" class="form-control"  placeholder="Enter Temper" />
                         </div>
                     </div>
-                </div>>
+                </div>
             </div>
         </div>
         <div class="row">
@@ -54,7 +67,7 @@
                     <div class="cols-sm-10">
                         <div class="input-group">
                             <span class="input-group-addon"><i class="fa fa-search" aria-hidden="true"></i></span>
-                            <input type="text" name="UACPart" id="UACPart" value="@Model.UACPart" placeholder="Enter UACPart" />
+                            <input type="text" name="UACPart" id="UACPart" class="form-control" placeholder="Enter UACPart" />
                         </div>
                     </div>
                 </div>
@@ -65,10 +78,10 @@
                     <div class="cols-sm-10">
                         <div class="input-group">
                             <span class="input-group-addon"><i class="fa fa-search" aria-hidden="true"></i></span>
-                            <input type="text" name="CustPart" id="CustPart" value="@Model.CustPart" placeholder="Enter CustPart" />
+                            <input type="text" name="CustPart" id="CustPart"  class="form-control"  placeholder="Enter CustPart" />
                         </div>
                     </div>
-                </div>>
+                </div>
             </div>
         </div>
         <div class="row">
@@ -83,7 +96,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div>    
     @{Html.RenderPartial("_Repeater", "TensionReportsRepeater");}
 </div>
 

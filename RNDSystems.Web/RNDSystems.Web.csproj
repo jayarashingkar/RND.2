@@ -303,8 +303,9 @@
     <Content Include="Views\Results\FatigueResults.cshtml" />
     <Content Include="Views\Results\IGCResults.cshtml" />
     <Content Include="Views\RnDReports\TensionReportsList.cshtml" />
-    <Content Include="Views\RnDReports\CompressionReportslList.cshtml" />
-    <Content Include="Views\RnDReports\OpticalMountReportslList.cshtml" />
+    <Content Include="Views\RnDReports\CompressionReportsList.cshtml" />
+    <Content Include="Views\RnDReports\OpticalMountReportsList.cshtml" />
+    <Content Include="Views\RnDReports\MacroEtchReportsList.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

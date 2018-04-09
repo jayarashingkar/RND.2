@@ -449,7 +449,7 @@ $(document).ready(function () {
     });
 
     $('#btnAddTesting').on('click', function () {
-        debugger;
+       // debugger;
         avialableTT = $('#ddlTestType').val();       
         if ((avialableTT == "-1") || (avialableTT == null) || (avialableTT == ""))
         {

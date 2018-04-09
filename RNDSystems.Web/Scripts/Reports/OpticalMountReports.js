@@ -34,6 +34,26 @@
         property: 'UACPart',
         sortable: true,
     },
+{
+    label: 'SpeciComment',
+    property: 'SpeciComment',
+    sortable: true,
+},
+   {
+       label: 'Operator',
+       property: 'Operator',
+       sortable: true,
+   },
+   {
+       label: 'TestDate',
+       property: 'TestDate',
+       sortable: true,
+   },
+    {
+        label: 'TestTime',
+        property: 'TestTime',
+        sortable: true,
+    },
     {
         label: 'EntryBy',
         property: 'EntryBy',
@@ -52,7 +72,11 @@
 ];
 
 $(document).ready(function () {
-    debugger;
+    $('#ddlWorkStudyID').attr('data-live-search', 'true');
+    $('#ddlWorkStudyID').selectpicker();
+
+    $('#TestType').prop('disabled', true);
+    //  $('#TestType').attr('disabled', true);   
 });
 
 
@@ -83,21 +107,16 @@ function customDataSource(options, callback) {
     var search = '';
     var flag = true;
 
-    //if ($('#searchFromDate').val()) {
-    //    var searchFromDate = $('#searchFromDate').datepicker();
-    //    searchFromDate = $("#searchFromDate").data('datepicker').getFormattedDate('yyyy-mm-dd');
-    //    if (searchFromDate && searchFromDate !== '')
-    //        search += ';' + 'searchFromDate:' + searchFromDate;
-    //}
-    //if ($('#searchToDate').val()) {
-    //    var searchToDate = $('#searchToDate').datepicker();
-    //    searchToDate = $("#searchToDate").data('datepicker').getFormattedDate('yyyy-mm-dd');
-    //    if (searchToDate && searchToDate !== '')
-    //        search += ';' + 'searchToDate:' + searchToDate;
-    //}
-    if ($('#WorkStudyID').val())
-        search += ';' + 'WorkStudyID:' + $('#WorkStudyID').val();
-
+    if ($('#ddlWorkStudyID').val())
+        search += ';' + 'WorkStudyID:' + $('#ddlWorkStudyID').val();
+    if ($('#Alloy').val())
+        search += ';' + 'Alloy:' + $('#Alloy').val();
+    if ($('#Temper').val())
+        search += ';' + 'Temper:' + $('#Temper').val();
+    if ($('#UACPart').val())
+        search += ';' + 'UACPart:' + $('#UACPart').val();
+    if ($('#CustPart').val())
+        search += ';' + 'CustPart:' + $('#CustPart').val();
     search += ';' + 'TestType:' + 'OpticalMount';
 
     var options = {
@@ -109,7 +128,7 @@ function customDataSource(options, callback) {
         filterBy: options.filter.value || '',
         searchBy: search || ''
     };
-    debugger;
+
     // call API, posting options
     $.ajax({
         type: 'post',
@@ -120,7 +139,6 @@ function customDataSource(options, callback) {
         data: options
     })
         .done(function (data) {
-            debugger;
             var items = data.items;
             var totalItems = data.total;
             var totalPages = Math.ceil(totalItems / pageSize);
@@ -152,21 +170,60 @@ $('#btnSearch').on('click', function () {
     $('#OpticalMountReportsRepeater').repeater('render');
 });
 
+$('#btnExcelReport').on('click', function () {
+
+    debugger;
+    //  var search = '';
+
+    search = '';
+    var WorkStudy = $('#ddlWorkStudyID').val();
+
+    if ((WorkStudy != '-1') || (WorkStudy != null))
+        search += ';' + 'WorkStudyID:' + WorkStudy;
+    if ($('#Alloy').val() != '')
+        search += ';' + 'Alloy:' + $('#Alloy').val();
+    if ($('#Temper').val() != '')
+        search += ';' + 'Temper:' + $('#Temper').val();
+    if ($('#UACPart').val() != '')
+        search += ';' + 'UACPart:' + $('#UACPart').val();
+    if ($('#CustPart').val() != '')
+        search += ';' + 'CustPart:' + $('#CustPart').val();
+    search += ';' + 'TestType:' + 'OpticalMount';
+
+    var ExportDataFilter = {
+        Screen: 'OpticalMount',
+        pageIndex: 0,
+        pageSize: 10000,
+        //sortDirection: options.sortDirection,
+        // sortBy: options.sortProperty,
+        filterBy: 'all',
+        searchBy: search
+    };
+
+    // call API, posting options
+    $.ajax({
+        type: 'post',
+        url: GetRootDirectory() + '/RnDReports/ExportToExcel',
+        headers: {
+            Token: GetToken()
+        },
+        data: ExportDataFilter
+    })
+        .done(function (data) {
+            bootbox.alert('Report Exported');
+        });
+    ;
+});
 
 $('#btnClear').on('click', function () {
-    //check if this should be dopbox - currently keep text for search
-    //$('#searchWorkStudyNumber').val('');
-    //$('#StudyType').selectpicker('val', "-1");
-    //$('#Plant').selectpicker('val', "-1");
-    //$('#StudyStatus').selectpicker('val', "-1")
-    //$('#searchFromDate').val('');
-    //$('#searchToDate').val('');
+    //check if this should be dopbox - currently keep text for search    
+    $('#ddlWorkStudyID').selectpicker('val', "-1");
+    $('#Alloy').val('');
+    $('#Temper').val('');
+    $('#UACPart').val('');
+    $('#CustPart').val('');
+    search = '';
+    search += ';' + 'TestType:' + 'OpticalMount';
     $('#OpticalMountReportsRepeater').repeater('render');
     return false;
 });
-
-//$('#searchFromDate').datepicker({ autoclose: true, todayHighlight: true, todayBtn: "linked" });
-//$('#searchFromDate').datepicker("setDate", new Date(new Date().setFullYear(new Date().getFullYear() - 1)));
-//$('#searchToDate').datepicker({ autoclose: true, todayHighlight: true, todayBtn: "linked" });
-//$('#searchToDate').datepicker("setDate", new Date());
-

@@ -13,6 +13,5 @@ namespace RNDSystems.Models.ReportsViewModel
         public List<SelectListItem> ddTestNo { get; set; }
         public string TestType { get; set; }
         public List<SelectListItem> ddTestType { get; set; }
-
     }
 }
