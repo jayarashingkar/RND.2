@@ -33,8 +33,6 @@ namespace RNDSystems.Web.Controllers
                 if (WorkStudyId == null)
                 {
                     ddTestTypes = new List<SelectListItem>();
-                  //  ddWorkStudyId = new List<SelectListItem>();
-
                     ImportDataViewModel data = new ImportDataViewModel();
 
                     var client = GetHttpClient();
@@ -47,21 +45,11 @@ namespace RNDSystems.Web.Controllers
                             if (data != null)
                             {
                                  ddTestTypes = data.ddTestType;
-                                //ddWorkStudyId = data.ddWorkStudyID;
                             }
                         }
                     });
                     task.Wait();
-                    ViewBag.ddTestTypes = ddTestTypes;
-
-
-                    //ddWorkStudyId.Add(new SelectListItem
-                    //{
-                    //    Value = strWorkStudyId,
-                    //    Text = strWorkStudyId,
-                    //    Selected = (Convert.ToString(data.WorkStudyID) == Convert.ToString(strWorkStudyId)) ? true : false,
-                    //});
-                    //ViewBag.ddWorkStudyId = ddWorkStudyId;
+                    ViewBag.ddTestTypes = ddTestTypes;                    
                 }
                 else
                 {

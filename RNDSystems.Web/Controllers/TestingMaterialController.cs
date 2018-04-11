@@ -131,7 +131,7 @@ namespace RNDSystems.Web.Controllers
             int intRowId;
             int intCount = 25;
 
-            string[] strOrient = { " ", "L", "LT", "L-T", "L-S", "T-L", "T-S", "S-L", "S-T", "Custom" };
+            string[] strOrient = { " ", "L", "LT", "ST", "L-T", "L-S", "T-L", "T-S", "S-L", "S-T", "Custom" };
             string[] strLocOne = { " ", "Front", "Middle", "Back", "Low Con" };
             string[] strTesLab = { "Canton", "Anaheim", "WMTR", "ATS" };
 

@@ -596,6 +596,17 @@ namespace RNDSystems.API.Controllers
                 if (TestingMaterial.SpeciComment == null)
                         TestingMaterial.SpeciComment = "";
 
+                string PieceNo = TestingMaterial.PieceNo;
+                if ((PieceNo.Trim()) == "-1")
+                {
+                    TestingMaterial.PieceNo = "";
+                }
+                string Hole = TestingMaterial.Hole;
+                if ((Hole.Trim()) == "-1")
+                {
+                    TestingMaterial.Hole = "";
+                }
+
                 SqlParameter param1 = new SqlParameter("@WorkStudyID", TestingMaterial.WorkStudyID);
                 SqlParameter param2 = new SqlParameter("@LotID", TestingMaterial.LotID);
                 SqlParameter param3 = new SqlParameter("@MillLotNo", MillLotNo);
