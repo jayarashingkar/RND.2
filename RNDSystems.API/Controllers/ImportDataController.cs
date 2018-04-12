@@ -254,7 +254,7 @@ namespace RNDSystems.API.Controllers
                         sendMessage = ImportModulusCompressionData(filePath);
                         break;
                     }
-                case "Fatigue Testing":
+                case "Fatigue":
                     {
                         if (filePath == "none")
                             filePath = "S:\\RD\\Database\\Export\\ForNewDataBase\\Fatigue Testing.csv";
