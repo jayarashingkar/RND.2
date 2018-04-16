@@ -157,7 +157,6 @@ public HttpResponseMessage Post(RNDWorkStudy workStudy)
 
         if (workStudy.RecId > 0)
         {
-
                     SqlParameter param20 = new SqlParameter("@EntryBy", workStudy.EntryBy);
                     SqlParameter param16 = new SqlParameter("@RecId", workStudy.RecId);
                     ado.ExecScalarProc("RNDWorkStudy_Update", "RND", new object[] { param1, param2, param4, param5, param6, param7, param8, param9, param10, param11, param20, param13, param14, param15, param16, param17, param18, param19 });

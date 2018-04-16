@@ -608,8 +608,8 @@ namespace RNDSystems.API.Controllers
                 }
                 if (TestingMaterial.TestLab == null)
                     TestingMaterial.TestLab = "Canton";
-                if (TestingMaterial.Location3 = null)
-                    TestingMaterial.Location3 = ""
+                if (TestingMaterial.Location3 == null)
+                    TestingMaterial.Location3 = "";
                 SqlParameter param1 = new SqlParameter("@WorkStudyID", TestingMaterial.WorkStudyID);
                 SqlParameter param2 = new SqlParameter("@LotID", TestingMaterial.LotID);
                 SqlParameter param3 = new SqlParameter("@MillLotNo", MillLotNo);
