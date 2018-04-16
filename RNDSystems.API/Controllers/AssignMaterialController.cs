@@ -119,7 +119,7 @@ namespace RNDSystems.API.Controllers
         // public HttpResponseMessage Get(int MillLotNo, int recID)
           public HttpResponseMessage Get(int MillLotNo, int recID, string DataBaseName)
       //  public HttpResponseMessage Get(decimal UACPART, int recID, string DataBaseName)
-                {
+        {
             _logger.Debug("Assign Material Mill Lot No Get Called");
             SqlDataReader reader = null;
             RNDMaterial AM = null;
@@ -269,6 +269,15 @@ public HttpResponseMessage Post(RNDMaterial AssignMaterial)
             {
                 CurrentUser user = ApiUser;
                 AdoHelper ado = new AdoHelper();
+                if (AssignMaterial.Hole == null)
+                    AssignMaterial.Hole = "";
+                if (AssignMaterial.PieceNo == null)
+                    AssignMaterial.PieceNo = "";
+                if (AssignMaterial.DBCntry == null)
+                    AssignMaterial.DBCntry = "NO";
+                if (AssignMaterial.CustPart == null)
+                    AssignMaterial.CustPart = "";
+
                 SqlParameter param1 = new SqlParameter("@WorkStudyID", AssignMaterial.WorkStudyID);
                 SqlParameter param2 = new SqlParameter("@SoNum", AssignMaterial.SoNum);
                 SqlParameter param3 = new SqlParameter("@MillLotNo", AssignMaterial.MillLotNo);
@@ -282,7 +291,8 @@ public HttpResponseMessage Post(RNDMaterial AssignMaterial)
                 SqlParameter param11 = new SqlParameter("@PieceNo", AssignMaterial.PieceNo);
                 SqlParameter param12 = new SqlParameter("@Comment", AssignMaterial.Comment);
                 SqlParameter param13 = new SqlParameter("@EntryDate", DateTime.Now);
-                SqlParameter param14 = new SqlParameter("@EntryBy", user.UserId);
+                //  SqlParameter param14 = new SqlParameter("@EntryBy", user.UserId);
+                SqlParameter param14 = new SqlParameter("@EntryBy", user.UserName);
                 SqlParameter param15 = new SqlParameter("@DBCntry", AssignMaterial.DBCntry);
              //   SqlParameter param16 = new SqlParameter("@RCS", AssignMaterial.RCS);
 

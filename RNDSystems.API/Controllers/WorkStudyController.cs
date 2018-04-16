@@ -143,22 +143,29 @@ public HttpResponseMessage Post(RNDWorkStudy workStudy)
         SqlParameter param9 = new SqlParameter("@DueDate", workStudy.DueDate);
         SqlParameter param10 = new SqlParameter("@CompleteDate", workStudy.CompleteDate);
         SqlParameter param11 = new SqlParameter("@Plant", workStudy.Plant);
-        SqlParameter param12 = new SqlParameter("@EntryBy", user.UserId);
+        //  SqlParameter param12 = new SqlParameter("@EntryBy", user.UserId);
+      //  SqlParameter param12 = new SqlParameter("@EntryBy", user.UserName);
         SqlParameter param13 = new SqlParameter("@EntryDate", DateTime.Now);
+        string TempID = Convert.ToString(DateTime.Now) + user.UserName;
         SqlParameter param14 = new SqlParameter("@TempID", workStudy.TempID);
         SqlParameter param15 = new SqlParameter("@StudyScope", workStudy.StudyScope);
         SqlParameter param17 = new SqlParameter("@Experimentation", workStudy.Experimentation);
         SqlParameter param18 = new SqlParameter("@FinalSummary", workStudy.FinalSummary);
         SqlParameter param19 = new SqlParameter("@Uncertainty", workStudy.Uncertainty);
+        //string TempID = param13 + param12
+        //SqlParameter param20 = new SqlParameter("@TempID", TempID);
 
         if (workStudy.RecId > 0)
         {
-            SqlParameter param16 = new SqlParameter("@RecId", workStudy.RecId);
-            ado.ExecScalarProc("RNDWorkStudy_Update", "RND", new object[] { param1, param2, param4, param5, param6, param7, param8, param9, param10, param11, param12, param13, param14, param15, param16, param17, param18, param19 });
+
+                    SqlParameter param20 = new SqlParameter("@EntryBy", workStudy.EntryBy);
+                    SqlParameter param16 = new SqlParameter("@RecId", workStudy.RecId);
+                    ado.ExecScalarProc("RNDWorkStudy_Update", "RND", new object[] { param1, param2, param4, param5, param6, param7, param8, param9, param10, param11, param20, param13, param14, param15, param16, param17, param18, param19 });
         }
         else
         {
-            using (SqlDataReader reader = ado.ExecDataReaderProc("RNDWorkStudy_Insert", "RND", new object[] { param1, param2, param4, param5, param6, param7, param8, param9, param10, param11, param12, param13, param14, param15, param17, param18, param19 }))
+                    SqlParameter param12 = new SqlParameter("@EntryBy", user.UserName);
+                    using (SqlDataReader reader = ado.ExecDataReaderProc("RNDWorkStudy_Insert", "RND", new object[] { param1, param2, param4, param5, param6, param7, param8, param9, param10, param11, param12, param13, param14, param15, param17, param18, param19 }))
             {
                 if (reader.HasRows)
                 {

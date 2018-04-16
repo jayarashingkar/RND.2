@@ -1,16 +1,13 @@
 ﻿$(document).ready(function () {
-
+    
     var selectedLotID;
     var selectedTT;
-
     var TestingNo = $('#TestingNo').val;
         
     $('#WorkStudyID').prop("readonly", true);
-
     $('#Replica').attr('data-live-search', 'true');
-
-
-    if ($('#TestingNo').val() == '0') {
+    
+    if ($('#TestingNo').val() == 0) {
         //Setting Default values while adding new Test
         //Not application while EDIT
         $("#TestLab").val('Canton');
@@ -131,15 +128,9 @@
             },
         });
     });
-    //start here
-
-
-
     $('#ddTestLab').change(function () {
+        debugger;
         var TestLab = ($(this).find("option:selected").val()).trim();
-        //var checkValue = $("#TestLab").val();
-      
-        //if (checkValue != '')
             $("#TestLab").val(TestLab);
     });
 

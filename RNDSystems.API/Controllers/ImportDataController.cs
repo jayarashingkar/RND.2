@@ -327,7 +327,8 @@ namespace RNDSystems.API.Controllers
                     SqlParameter param11 = new SqlParameter("@Operator", listTensionData[introw].Operator);
                     SqlParameter param12 = new SqlParameter("@TestDate", listTensionData[introw].TestDate);
                     SqlParameter param13 = new SqlParameter("@TestTime", listTensionData[introw].TestTime);
-                    SqlParameter param14 = new SqlParameter("@EntryBy", user.UserId);
+                    // SqlParameter param14 = new SqlParameter("@EntryBy", user.UserId);
+                    SqlParameter param14 = new SqlParameter("@EntryBy", user.UserName);
                     SqlParameter param15 = new SqlParameter("@EntryDate", DateTime.Now);
                     SqlParameter param16 = new SqlParameter("@Completed", '1');
 
@@ -413,7 +414,8 @@ namespace RNDSystems.API.Controllers
                     SqlParameter param9 = new SqlParameter("@Operator", listCompressionData[introw].Operator);
                     SqlParameter param10 = new SqlParameter("@TestDate", listCompressionData[introw].TestDate);
                     SqlParameter param11 = new SqlParameter("@TestTime", listCompressionData[introw].TestTime);
-                    SqlParameter param12 = new SqlParameter("@EntryBy", user.UserId);
+                    //SqlParameter param12 = new SqlParameter("@EntryBy", user.UserId);
+                    SqlParameter param12 = new SqlParameter("@EntryBy", user.UserName);
                     SqlParameter param13 = new SqlParameter("@EntryDate", DateTime.Now);
                     SqlParameter param14 = new SqlParameter("@Completed", '1');
 
@@ -498,7 +500,8 @@ namespace RNDSystems.API.Controllers
                     SqlParameter param10 = new SqlParameter("@Operator", listBearingData[introw].Operator);
                     SqlParameter param11 = new SqlParameter("@TestDate", listBearingData[introw].TestDate);
                     SqlParameter param12 = new SqlParameter("@TestTime", listBearingData[introw].TestTime);
-                    SqlParameter param13 = new SqlParameter("@EntryBy", user.UserId);
+                    //SqlParameter param13 = new SqlParameter("@EntryBy", user.UserId);
+                    SqlParameter param13 = new SqlParameter("@EntryBy", user.UserName);
                     SqlParameter param14 = new SqlParameter("@EntryDate", DateTime.Now);
                     SqlParameter param15 = new SqlParameter("@Completed", '1');
 
@@ -580,7 +583,8 @@ namespace RNDSystems.API.Controllers
                     SqlParameter param8 = new SqlParameter("@Operator", listShearData[introw].Operator);
                     SqlParameter param9 = new SqlParameter("@TestDate", listShearData[introw].TestDate);
                     SqlParameter param10 = new SqlParameter("@TestTime", listShearData[introw].TestTime);
-                    SqlParameter param11 = new SqlParameter("@EntryBy", user.UserId);
+                    //SqlParameter param11 = new SqlParameter("@EntryBy", user.UserId);
+                    SqlParameter param11 = new SqlParameter("@EntryBy", user.UserName);
                     SqlParameter param12 = new SqlParameter("@EntryDate", DateTime.Now);
                     SqlParameter param13 = new SqlParameter("@Completed", '1');
 
@@ -668,7 +672,8 @@ namespace RNDSystems.API.Controllers
                     SqlParameter param10 = new SqlParameter("@Operator", listNotchYieldData[introw].Operator);
                     SqlParameter param11 = new SqlParameter("@TestDate", listNotchYieldData[introw].TestDate);
                     SqlParameter param12 = new SqlParameter("@TestTime", listNotchYieldData[introw].TestTime);
-                    SqlParameter param13 = new SqlParameter("@EntryBy", user.UserId);
+                    // SqlParameter param13 = new SqlParameter("@EntryBy", user.UserId);
+                    SqlParameter param13 = new SqlParameter("@EntryBy", user.UserName);
                     SqlParameter param14 = new SqlParameter("@EntryDate", DateTime.Now);
                     SqlParameter param15 = new SqlParameter("@Completed", '1');
 
@@ -765,7 +770,8 @@ namespace RNDSystems.API.Controllers
                     SqlParameter param13 = new SqlParameter("@Operator", listResidualStrengthData[introw].Operator);
                     SqlParameter param14 = new SqlParameter("@TestDate", listResidualStrengthData[introw].TestDate);
                     SqlParameter param15 = new SqlParameter("@TestTime", listResidualStrengthData[introw].TestDate);
-                    SqlParameter param16 = new SqlParameter("@EntryBy", user.UserId);
+                    // SqlParameter param16 = new SqlParameter("@EntryBy", user.UserId);
+                    SqlParameter param16 = new SqlParameter("@EntryBy", user.UserName);
                     SqlParameter param17 = new SqlParameter("@EntryDate", DateTime.Now);
                     SqlParameter param18 = new SqlParameter("@Completed", '1');
 
@@ -876,7 +882,8 @@ namespace RNDSystems.API.Controllers
                     SqlParameter param17 = new SqlParameter("@Operator", listFractureToughnessData[introw].Operator);
                     SqlParameter param18 = new SqlParameter("@TestDate", listFractureToughnessData[introw].TestDate);
                     SqlParameter param19 = new SqlParameter("@TestTime", "");
-                    SqlParameter param20 = new SqlParameter("@EntryBy", user.UserId);
+                    //SqlParameter param20 = new SqlParameter("@EntryBy", user.UserId);
+                    SqlParameter param20 = new SqlParameter("@EntryBy", user.UserName);
                     SqlParameter param21 = new SqlParameter("@EntryDate", DateTime.Now);
                     SqlParameter param22 = new SqlParameter("@Completed", '1');
 
@@ -961,7 +968,8 @@ namespace RNDSystems.API.Controllers
                     SqlParameter param8 = new SqlParameter("@Operator", listModulusTensionData[introw].Operator);
                     SqlParameter param9 = new SqlParameter("@TestDate", listModulusTensionData[introw].TestDate);
                     SqlParameter param10 = new SqlParameter("@TestTime", "");
-                    SqlParameter param11 = new SqlParameter("@EntryBy", user.UserId);
+                    //SqlParameter param11 = new SqlParameter("@EntryBy", user.UserId);
+                    SqlParameter param11 = new SqlParameter("@EntryBy", user.UserName);
                     SqlParameter param12 = new SqlParameter("@EntryDate", DateTime.Now);
                     SqlParameter param13 = new SqlParameter("@Completed", '1');
 
@@ -1050,7 +1058,8 @@ namespace RNDSystems.API.Controllers
                     SqlParameter param8 = new SqlParameter("@Operator", listModulusCompressionData[introw].Operator);
                     SqlParameter param9 = new SqlParameter("@TestDate", listModulusCompressionData[introw].TestDate);
                     SqlParameter param10 = new SqlParameter("@TestTime", "");
-                    SqlParameter param11 = new SqlParameter("@EntryBy", user.UserId);
+                    //SqlParameter param11 = new SqlParameter("@EntryBy", user.UserId);
+                    SqlParameter param11 = new SqlParameter("@EntryBy", user.UserName);
                     SqlParameter param12 = new SqlParameter("@EntryDate", DateTime.Now);
                     SqlParameter param13 = new SqlParameter("@Completed", '1');
 
@@ -1161,7 +1170,8 @@ namespace RNDSystems.API.Controllers
                     SqlParameter param19 = new SqlParameter("@Operator", listFatigueTestingData[introw].Operator);
                     SqlParameter param20 = new SqlParameter("@TestDate", listFatigueTestingData[introw].TestDate);
                     SqlParameter param21 = new SqlParameter("@TestTime", "");
-                    SqlParameter param22 = new SqlParameter("@EntryBy", user.UserId);
+                    //SqlParameter param22 = new SqlParameter("@EntryBy", user.UserId);
+                    SqlParameter param22 = new SqlParameter("@EntryBy", user.UserName);
                     SqlParameter param23 = new SqlParameter("@EntryDate", DateTime.Now);
                     SqlParameter param24 = new SqlParameter("@Completed", '1');
 

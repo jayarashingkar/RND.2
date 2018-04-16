@@ -606,7 +606,10 @@ namespace RNDSystems.API.Controllers
                 {
                     TestingMaterial.Hole = "";
                 }
-
+                if (TestingMaterial.TestLab == null)
+                    TestingMaterial.TestLab = "Canton";
+                if (TestingMaterial.Location3 = null)
+                    TestingMaterial.Location3 = ""
                 SqlParameter param1 = new SqlParameter("@WorkStudyID", TestingMaterial.WorkStudyID);
                 SqlParameter param2 = new SqlParameter("@LotID", TestingMaterial.LotID);
                 SqlParameter param3 = new SqlParameter("@MillLotNo", MillLotNo);
@@ -628,7 +631,8 @@ namespace RNDSystems.API.Controllers
                 SqlParameter param19 = new SqlParameter("@Status", TestingMaterial.Status);
                 SqlParameter param20 = new SqlParameter("@Selected", TestingMaterial.Selected);
                 SqlParameter param21 = new SqlParameter("@EntryDate", DateTime.Now);
-                SqlParameter param22 = new SqlParameter("@EntryBy", user.UserId);
+                // SqlParameter param22 = new SqlParameter("@EntryBy", user.UserId);
+                SqlParameter param22 = new SqlParameter("@EntryBy", user.UserName);
                 SqlParameter param23 = new SqlParameter("@TestLab", TestingMaterial.TestLab);
                 SqlParameter param24 = new SqlParameter("@Printed", TestingMaterial.Printed);
                 SqlParameter param25 = new SqlParameter("@Replica", TestingMaterial.Replica);
