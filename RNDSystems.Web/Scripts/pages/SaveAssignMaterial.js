@@ -81,7 +81,7 @@
     $("#MillLotNo").change(function () {
          if (SelectedDataBase != 'NO') {
             //automatically fills up the values CustPart,UACPart,Alloy,Temper,SoNum
-
+            
             var RecID = $("#RecID").val();
 
             if ((RecID == "0" || RecID == undefined) && $('#MillLotNo').val()) {
@@ -104,6 +104,7 @@
                     dataType: "json",
                     contentType: "application/json;charset=utf-8",
                     success: function (data) {
+                      
                         if (data && data.MillLotNo > 0) {
                             $('#SaveAssignMaterial').bootstrapValidator('resetForm', true);
                             $("#CustPart").val(data.CustPart);
@@ -133,7 +134,8 @@
                            
                         }
                         else {
-                      
+                         
+                            bootbox.alert(data.Comment);                      
                             JqueryFunction.ReadOnly();
                             $('#btnSelected').prop('disabled', true);
                             

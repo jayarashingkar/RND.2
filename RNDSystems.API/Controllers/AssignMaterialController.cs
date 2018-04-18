@@ -197,6 +197,58 @@ namespace RNDSystems.API.Controllers
                     }
                     */
                 }                
+               // return Serializer.ReturnContent(AM, this.Configuration.Services.GetContentNegotiator(), this.Configuration.Formatters, this.Request);
+            }
+            catch (Exception ex)
+            {
+                // _logger.Error(ex.Message);
+                //return new HttpResponseMessage(HttpStatusCode.InternalServerError);
+                AM.MillLotNo = 0;
+                AM.Comment = ex.Message;
+            }
+            return Serializer.ReturnContent(AM, this.Configuration.Services.GetContentNegotiator(), this.Configuration.Formatters, this.Request);
+
+        }
+
+        /*
+        /// <summary>
+        /// Retrieve the Temper dropdown values based on the Alloy
+        /// </summary>
+        /// <param name="Alloy">Selected Alloy</param>
+        /// <param name="MillLotID">MillLot ID</param>
+        /// <param name="recID">RecID is not required</param>
+        /// <returns></returns>
+        public HttpResponseMessage Get(string Alloy, int MillLotID )
+        {
+            _logger.Debug("Assign Material Alloy selected index changed Get Called");
+            SqlDataReader reader = null;
+            RNDMaterial AM = null;
+            try
+            {
+                CurrentUser user = ApiUser;
+                AM = new RNDMaterial();
+                AdoHelper ado = new AdoHelper();
+                AM.ddlTemper = new List<SelectListItem>() { GetInitialSelectItem() };
+                if (!string.IsNullOrEmpty(Alloy))
+                {
+                    SqlParameter param1 = new SqlParameter("@Alloy", Alloy);
+
+                    using (reader = ado.ExecDataReaderProc("RNDUACVALIDTEMPER_READBYALLOY", true, new object[] { param1 }))
+                    {
+                        if (reader.HasRows)
+                        {
+                            while (reader.Read())
+                            {
+                                AM.ddlTemper.Add(new SelectListItem
+                                {
+                                    Value = Convert.ToString(reader["TEMPER"]),
+                                    Text = Convert.ToString(reader["TEMPER"]),
+                                    //Selected = (AM.Alloy == Convert.ToString(reader["ALLOY"])) ? true : false,
+                                });
+                            }
+                        }
+                    }
+                }
                 return Serializer.ReturnContent(AM, this.Configuration.Services.GetContentNegotiator(), this.Configuration.Formatters, this.Request);
             }
             catch (Exception ex)
@@ -205,62 +257,14 @@ namespace RNDSystems.API.Controllers
                 return new HttpResponseMessage(HttpStatusCode.InternalServerError);
             }
         }
-
-/*
-/// <summary>
-/// Retrieve the Temper dropdown values based on the Alloy
-/// </summary>
-/// <param name="Alloy">Selected Alloy</param>
-/// <param name="MillLotID">MillLot ID</param>
-/// <param name="recID">RecID is not required</param>
-/// <returns></returns>
-public HttpResponseMessage Get(string Alloy, int MillLotID )
-{
-    _logger.Debug("Assign Material Alloy selected index changed Get Called");
-    SqlDataReader reader = null;
-    RNDMaterial AM = null;
-    try
-    {
-        CurrentUser user = ApiUser;
-        AM = new RNDMaterial();
-        AdoHelper ado = new AdoHelper();
-        AM.ddlTemper = new List<SelectListItem>() { GetInitialSelectItem() };
-        if (!string.IsNullOrEmpty(Alloy))
-        {
-            SqlParameter param1 = new SqlParameter("@Alloy", Alloy);
-
-            using (reader = ado.ExecDataReaderProc("RNDUACVALIDTEMPER_READBYALLOY", true, new object[] { param1 }))
-            {
-                if (reader.HasRows)
-                {
-                    while (reader.Read())
-                    {
-                        AM.ddlTemper.Add(new SelectListItem
-                        {
-                            Value = Convert.ToString(reader["TEMPER"]),
-                            Text = Convert.ToString(reader["TEMPER"]),
-                            //Selected = (AM.Alloy == Convert.ToString(reader["ALLOY"])) ? true : false,
-                        });
-                    }
-                }
-            }
-        }
-        return Serializer.ReturnContent(AM, this.Configuration.Services.GetContentNegotiator(), this.Configuration.Formatters, this.Request);
-    }
-    catch (Exception ex)
-    {
-        _logger.Error(ex.Message);
-        return new HttpResponseMessage(HttpStatusCode.InternalServerError);
-    }
-}
-*/
-// POST: api/AssignMaterial
-/// <summary>
-/// Save or Update the Assign Material
-/// </summary>
-/// <param name="AssignMaterial"></param>
-/// <returns></returns>
-public HttpResponseMessage Post(RNDMaterial AssignMaterial)
+        */
+        // POST: api/AssignMaterial
+        /// <summary>
+        /// Save or Update the Assign Material
+        /// </summary>
+        /// <param name="AssignMaterial"></param>
+        /// <returns></returns>
+        public HttpResponseMessage Post(RNDMaterial AssignMaterial)
         {
             _logger.Debug("Assign Material Post Called");
 
