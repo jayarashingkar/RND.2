@@ -7,6 +7,7 @@
     //$('#ddTestTypesDefault').selectpicker();
 
     //Currently disabled - Can be used in next version for Manual Import
+   
 
     $('#ddWorkStudyId').attr({ 'data-live-search': 'true', 'data-width': '90%' }).selectpicker();
     $('#ddWorkStudyId').attr("disabled", "disabled");
@@ -120,6 +121,7 @@
         if (!filePath.includes(selectedTestType)) {
             errorMsg = "Import Error: Please check the correct file is imported";
         }
+
        // var options = {
        //    // MessageList: selectedTestTypes,
        //     Message: selectedTestType,
@@ -150,6 +152,12 @@
        //            $('#lblImported').text(data.Message);
        //        }
        //    }
-       //});
+        //});
+
     });
+
+    debugger;
+    if (($('#results').val() != "") || ($('#results').val() != null))
+        $('#lblImported').val($('#results').val());
+
 });

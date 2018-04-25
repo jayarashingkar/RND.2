@@ -175,21 +175,10 @@ namespace RNDSystems.API.Controllers
         public HttpResponseMessage Get(int id , string results, string selectedTestType)
         {
             string[] token = results.Split(',');
-            ImportDataViewModel ID = null;
-
+           // ImportDataViewModel ID = null;
+            ApiViewModel importData = new ApiViewModel();
             if (token != null )
-            {
-                ApiViewModel importData = new ApiViewModel();
-
-                //var fileName = Path.GetFileName(file.FileName);
-                //BinaryReader b = new BinaryReader(file.InputStream);
-                //byte[] binData = b.ReadBytes(file.ContentLength);
-                //string results = System.Text.Encoding.UTF8.GetString(binData);
-
-                ////results.HasFieldsEnclosedInQuotes = false;
-                ////results.Delimiters = new[] { "," };
-                //string[] token = results.Split(',');
-
+            {              
                 #region switch TestType
                 switch (selectedTestType)
                 {
@@ -206,17 +195,17 @@ namespace RNDSystems.API.Controllers
                         }
                     case "Bearing":
                         {
-
+                            importData = UploadBearing(token);
                             break;
                         }
                     case "Shear":
                         {
-
+                            importData = UploadShear(token);
                             break;
                         }
                     case "Notch Yield":
                         {
-
+                            importData = UploadNotchYield(token);
                             break;
                         }
                     case "Residual Strength":
@@ -250,7 +239,7 @@ namespace RNDSystems.API.Controllers
 
                 #endregion
             }
-            return Serializer.ReturnContent(ID, this.Configuration.Services.GetContentNegotiator(), this.Configuration.Formatters, this.Request);
+            return Serializer.ReturnContent(importData, this.Configuration.Services.GetContentNegotiator(), this.Configuration.Formatters, this.Request);
 
         }
 
@@ -505,7 +494,6 @@ namespace RNDSystems.API.Controllers
                
                 string fileValue = File.ReadAllText(filePath);
 
-
                 var textFieldParser = new TextFieldParser(new StringReader(File.ReadAllText(filePath)))
                 {
                     Delimiters = new string[] { "," }
@@ -531,8 +519,6 @@ namespace RNDSystems.API.Controllers
                 textFieldParser.Close();
 
                 sendMessage = SaveCompressionData(listCompressionData);
-
-
                 sendMessage.Success = true;
 
             }
@@ -594,7 +580,7 @@ namespace RNDSystems.API.Controllers
 
                     CompressionList.Add(CompressionData);
                 }
-                SaveCompressionData(CompressionList);
+                importData = SaveCompressionData(CompressionList);
 
             }
             catch (Exception ex)
@@ -605,7 +591,7 @@ namespace RNDSystems.API.Controllers
 
             return importData;
         }
-        ApiViewModel SaveCompressionData(List<CompressionViewModel> listCompressionData)
+        private ApiViewModel SaveCompressionData(List<CompressionViewModel> listCompressionData)
         {
                ApiViewModel sendMessage = new ApiViewModel();
                 sendMessage.Message = "";
@@ -650,8 +636,8 @@ namespace RNDSystems.API.Controllers
                         }
 
                 sendMessage.Success = true;
-
-                }
+                sendMessage.Message = "Compression data saved";
+            }
                 catch (Exception ex)
                 {
                     _logger.Error(ex.Message);
@@ -663,6 +649,7 @@ namespace RNDSystems.API.Controllers
 
         }
         #endregion
+
         #region Bearing
 
         public List<BearingViewModel> listBearingData { get; set; }
@@ -702,6 +689,89 @@ namespace RNDSystems.API.Controllers
                 }
                 textFieldParser.Close();
 
+                sendMessage = SaveBearingData(listBearingData);
+
+                sendMessage.Success = true;
+
+            }
+               
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                sendMessage.Success = false;
+                sendMessage.Message = ex.Message.ToString();
+
+            }
+            return sendMessage;
+        }
+        private ApiViewModel UploadBearing(string[] token)
+        {
+            ApiViewModel importData = new ApiViewModel();
+            //var client = GetHttpClient();
+            List<BearingViewModel> BearingList = new List<BearingViewModel>();
+            string[] splitnew = null;
+            int i = 0;
+
+            try
+            {
+                i = 0;
+                while (i < token.Length - 1)
+                {
+                    token[i] = token[i].Replace("\"", "");
+                    token[i] = token[i].Replace("\"/", "");
+                    i++;
+                }
+
+                i = 0;
+                while (i < token.Length - 1)
+                {
+                    BearingViewModel BearingData = new BearingViewModel();
+                    //i = 0;
+                    if (token[i].Contains("\n") && splitnew[1] != null)
+                    {
+                        BearingData.WorkStudyID = splitnew[1]; i++;
+                    }
+                    else
+                    {
+                        BearingData.WorkStudyID = Convert.ToString(token[i]); i++;
+                    }
+
+                    BearingData.TestNo = Convert.ToInt32(token[i]); i++;
+                    BearingData.SubConduct = Convert.ToDecimal(token[i]); i++;
+                    BearingData.SurfConduct = Convert.ToDecimal(token[i]); i++;
+                    BearingData.eDCalc = Convert.ToDecimal(token[i]); i++;
+                    BearingData.FbruKsi = Convert.ToDecimal(token[i]); i++;
+                    BearingData.FbryKsi = Convert.ToDecimal(token[i]); i++;
+                    BearingData.SpeciComment = Convert.ToString(token[i]); i++;
+                    BearingData.Operator = Convert.ToString(token[i]); i++;
+                    BearingData.TestDate = Convert.ToString(token[i]); i++;
+
+                    if ((token[i]).Contains("\n"))
+                        splitnew = token[i].Split(new[] { "\r\n" }, StringSplitOptions.None);
+                    BearingData.TestTime = Convert.ToString(splitnew[0]);
+
+                    BearingList.Add(BearingData);
+                }
+                importData = SaveBearingData(BearingList);
+
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                importData.Message = ex.Message;
+            }
+
+            return importData;
+        }
+
+        private ApiViewModel SaveBearingData(List<BearingViewModel> listBearingData)
+        {
+            ApiViewModel sendMessage = new ApiViewModel();
+            sendMessage.Message = "";
+            sendMessage.Success = false;
+
+            try
+            {
                 CurrentUser user = ApiUser;
                 AdoHelper ado = new AdoHelper();
                 int introw = 0;
@@ -714,7 +784,7 @@ namespace RNDSystems.API.Controllers
                     SqlParameter param6 = new SqlParameter("@eDCalc", listBearingData[introw].eDCalc);
                     SqlParameter param7 = new SqlParameter("@FbruKsi", listBearingData[introw].FbruKsi);
                     SqlParameter param8 = new SqlParameter("@FbryKsi", listBearingData[introw].FbryKsi);
-                    SqlParameter param9 = new SqlParameter("@SpeciComment", listBearingData[introw].SpeciComment);                  
+                    SqlParameter param9 = new SqlParameter("@SpeciComment", listBearingData[introw].SpeciComment);
                     SqlParameter param10 = new SqlParameter("@Operator", listBearingData[introw].Operator);
                     SqlParameter param11 = new SqlParameter("@TestDate", listBearingData[introw].TestDate);
                     SqlParameter param12 = new SqlParameter("@TestTime", listBearingData[introw].TestTime);
@@ -738,7 +808,7 @@ namespace RNDSystems.API.Controllers
                     introw++;
                 }
                 sendMessage.Success = true;
-
+                sendMessage.Message = "Bearing data saved";
             }
             catch (Exception ex)
             {
@@ -748,8 +818,9 @@ namespace RNDSystems.API.Controllers
 
             }
             return sendMessage;
+       
         }
-
+    
         #endregion
         #region Shear
         public List<ShearViewModel> listShearData { get; set; }
@@ -789,16 +860,98 @@ namespace RNDSystems.API.Controllers
                 }
                 textFieldParser.Close();
 
+                sendMessage = SaveShearData(listShearData);
+
+                sendMessage.Success = true;
+
+
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                sendMessage.Success = false;
+                sendMessage.Message = ex.Message.ToString();
+
+            }
+            return sendMessage;
+        }
+
+        private ApiViewModel UploadShear(string[] token)
+        {
+            ApiViewModel importData = new ApiViewModel();
+            //var client = GetHttpClient();
+            List<ShearViewModel> ShearList = new List<ShearViewModel>();
+            string[] splitnew = null;
+            int i = 0;
+
+            try
+            {
+                i = 0;
+                while (i < token.Length - 1)
+                {
+                    token[i] = token[i].Replace("\"", "");
+                    token[i] = token[i].Replace("\"/", "");
+                    i++;
+                }
+
+                i = 0;
+                while (i < token.Length - 1)
+                {
+                    ShearViewModel ShearData = new ShearViewModel();
+                    //i = 0;
+                    if (token[i].Contains("\n") && splitnew[1] != null)
+                    {
+                        ShearData.WorkStudyID = splitnew[1]; i++;
+                    }
+                    else
+                    {
+                        ShearData.WorkStudyID = Convert.ToString(token[i]); i++;
+                    }
+                                 
+                    ShearData.TestNo = Convert.ToInt32(token[i]); i++;
+                    ShearData.SubConduct = Convert.ToDecimal(token[i]); i++;
+                    ShearData.SurfConduct = Convert.ToDecimal(token[i]); i++;
+                    ShearData.FsuKsi = Convert.ToDecimal(token[i]); i++;
+                    ShearData.SpeciComment = Convert.ToString(token[i]); i++;
+                    ShearData.Operator = Convert.ToString(token[i]); i++;
+                    ShearData.TestDate = Convert.ToString(token[i]); i++;
+
+                    if ((token[i]).Contains("\n"))
+                        splitnew = token[i].Split(new[] { "\r\n" }, StringSplitOptions.None);
+                    ShearData.TestTime = Convert.ToString(splitnew[0]);
+
+                    ShearList.Add(ShearData);
+                }
+                importData = SaveShearData(ShearList);
+
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                importData.Message = ex.Message;
+            }
+
+            return importData;
+        }
+
+        private ApiViewModel SaveShearData(List<ShearViewModel> listShearData)
+        {
+            ApiViewModel sendMessage = new ApiViewModel();
+            sendMessage.Message = "";
+            sendMessage.Success = false;
+
+            try
+            {
                 CurrentUser user = ApiUser;
                 AdoHelper ado = new AdoHelper();
-                int introw = 0;
+                int introw = 0;               
                 while (introw < listShearData.Count)
                 {
                     SqlParameter param2 = new SqlParameter("@WorkStudyID", listShearData[introw].WorkStudyID);
                     SqlParameter param3 = new SqlParameter("@TestNo", listShearData[introw].TestNo);
                     SqlParameter param4 = new SqlParameter("@SubConduct", listShearData[introw].SubConduct);
                     SqlParameter param5 = new SqlParameter("@SurfConduct", listShearData[introw].SurfConduct);
-                    SqlParameter param6 = new SqlParameter("@FsuKsi", listShearData[introw].FsuKsi);                   
+                    SqlParameter param6 = new SqlParameter("@FsuKsi", listShearData[introw].FsuKsi);
                     SqlParameter param7 = new SqlParameter("@SpeciComment", listShearData[introw].SpeciComment);
                     SqlParameter param8 = new SqlParameter("@Operator", listShearData[introw].Operator);
                     SqlParameter param9 = new SqlParameter("@TestDate", listShearData[introw].TestDate);
@@ -823,7 +976,7 @@ namespace RNDSystems.API.Controllers
                     introw++;
                 }
                 sendMessage.Success = true;
-
+                sendMessage.Message = "Shear data saved";
             }
             catch (Exception ex)
             {
@@ -833,6 +986,7 @@ namespace RNDSystems.API.Controllers
 
             }
             return sendMessage;
+
         }
 
         #endregion
@@ -876,7 +1030,86 @@ namespace RNDSystems.API.Controllers
                     }
                 }
                 textFieldParser.Close();
+                sendMessage = SaveNotchYieldData(listNotchYieldData);              
 
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                sendMessage.Success = false;
+                sendMessage.Message = ex.Message.ToString();
+
+            }
+            return sendMessage;
+        }
+        
+        private ApiViewModel UploadNotchYield(string[] token)
+        {
+            ApiViewModel importData = new ApiViewModel();
+            //var client = GetHttpClient();
+            List<NotchYieldViewModel> NotchYieldList = new List<NotchYieldViewModel>();
+            string[] splitnew = null;
+            int i = 0;
+
+            try
+            {
+                i = 0;
+                while (i < token.Length - 1)
+                {
+                    token[i] = token[i].Replace("\"", "");
+                    token[i] = token[i].Replace("\"/", "");
+                    i++;
+                }
+
+                i = 0;
+                while (i < token.Length - 1)
+                {
+                    NotchYieldViewModel NotchYieldData = new NotchYieldViewModel();
+                    //i = 0;
+                    if (token[i].Contains("\n") && splitnew[1] != null)
+                    {
+                        NotchYieldData.WorkStudyID = splitnew[1]; i++;
+                    }
+                    else
+                    {
+                        NotchYieldData.WorkStudyID = Convert.ToString(token[i]); i++;
+                    }
+                    NotchYieldData.TestNo = Convert.ToInt32(token[i]); i++;
+                    NotchYieldData.SubConduct = Convert.ToDecimal(token[i]); i++;
+                    NotchYieldData.SurfConduct = Convert.ToDecimal(token[i]); i++;
+                    NotchYieldData.NotchStrengthKsi = Convert.ToDecimal(token[i]); i++;
+                    NotchYieldData.YieldStrengthKsi = Convert.ToDecimal(token[i]); i++;
+                    NotchYieldData.NotchYieldRatio = Convert.ToDecimal(token[i]); i++;
+                    NotchYieldData.SpeciComment = Convert.ToString(token[i]); i++;
+                    NotchYieldData.Operator = Convert.ToString(token[i]); i++;
+                    NotchYieldData.TestDate = Convert.ToString(token[i]); i++;
+
+                    if ((token[i]).Contains("\n"))
+                        splitnew = token[i].Split(new[] { "\r\n" }, StringSplitOptions.None);
+                    NotchYieldData.TestTime = Convert.ToString(splitnew[0]);
+
+                    NotchYieldList.Add(NotchYieldData);
+                }
+                importData = SaveNotchYieldData(NotchYieldList);
+
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message);
+                importData.Message = ex.Message;
+            }
+
+            return importData;
+        }
+
+        private ApiViewModel SaveNotchYieldData(List<NotchYieldViewModel> listNotchYieldData)
+        {
+            ApiViewModel sendMessage = new ApiViewModel();
+            sendMessage.Message = "";
+            sendMessage.Success = false;
+
+            try
+            {
                 CurrentUser user = ApiUser;
                 AdoHelper ado = new AdoHelper();
                 int introw = 0;
@@ -888,7 +1121,7 @@ namespace RNDSystems.API.Controllers
                     SqlParameter param5 = new SqlParameter("@SurfConduct", listNotchYieldData[introw].SurfConduct);
                     SqlParameter param6 = new SqlParameter("@NotchStrengthKsi", listNotchYieldData[introw].NotchStrengthKsi);
                     SqlParameter param7 = new SqlParameter("@YieldStrengthKsi", listNotchYieldData[introw].YieldStrengthKsi);
-                    SqlParameter param8 = new SqlParameter("@NotchYieldRatio", listNotchYieldData[introw].NotchYieldRatio);                   
+                    SqlParameter param8 = new SqlParameter("@NotchYieldRatio", listNotchYieldData[introw].NotchYieldRatio);
                     SqlParameter param9 = new SqlParameter("@SpeciComment", listNotchYieldData[introw].SpeciComment);
                     SqlParameter param10 = new SqlParameter("@Operator", listNotchYieldData[introw].Operator);
                     SqlParameter param11 = new SqlParameter("@TestDate", listNotchYieldData[introw].TestDate);
@@ -913,7 +1146,7 @@ namespace RNDSystems.API.Controllers
                     introw++;
                 }
                 sendMessage.Success = true;
-
+                sendMessage.Message = "NotchYield data saved";
             }
             catch (Exception ex)
             {
@@ -923,8 +1156,8 @@ namespace RNDSystems.API.Controllers
 
             }
             return sendMessage;
-        }
 
+        }
         #endregion
         #region ResidualStrength
         /// <summary>
@@ -1317,6 +1550,7 @@ namespace RNDSystems.API.Controllers
         }
 
         #endregion
+
         #region FatigueTesting
         public List<FatigueTestingDataViewModel> listFatigueTestingData { get; set; }
 
