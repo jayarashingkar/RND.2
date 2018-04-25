@@ -176,8 +176,6 @@ function customColumnRenderer(helpers, callback) {
     callback();
 }
 
-
-
 $('#btnSelectPrint').on('click', function () {
     if (SelectedTests == null)
         SelectedTests = "";

@@ -18,6 +18,8 @@ namespace RNDSystems.Models.ViewModels
         public char Active { get; set; }
         public int total { get; set; }
         public string SelectedTests { get; set; }
+        public string results;
+        public string filename;
 
     }
 }

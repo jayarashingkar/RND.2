@@ -15,12 +15,21 @@
 
        @* <label for="lblImportTypes" class="cols-sm-2 control-label">Select Import Type:</label>*@ 
         <label for="lblImportTypes"  id="lblImportTypes"  class="cols-sm-2 control-label bg-primary text-uppercase">Select Import Type</label>
+        @*<input type="hidden" name="WorkStudyID" id="WorkStudyID" value="@Model.WorkStudyID" />*@
         @*<form>              
             <input type="radio" id="Default" value="Default" name="ImportRadio" checked>Default<br>
             <input type="radio" id="Custom" value="Custom" name="ImportRadio">Custom        
         </form>*@
        
         <div class="row">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="lblddTestTypes" class="cols-sm-2 control-label">Test Type</label>
+                    <div class="cols-sm-10">
+                        @Html.DropDownList("ddTestTypes", ViewBag.ddTestTypes as IEnumerable<SelectListItem>, new { @class = "show-tick form-control", data_size = "6" })
+                    </div>
+                </div>
+            </div>
                 <div class="col-md-3 ">                  
                     <form>
                         <input type="radio" id="Default" value="Default" name="ImportRadio" checked>Default<br>
@@ -35,56 +44,57 @@
                 </div>
         </div>
         @*<br><label for="" style="color:blue; text-decoration:underline; text-decoration-color: darkblue"class="cols-sm-2 control-label" >Import Default</label>*@
-        <br><label for="hdImportDefault" id="hdImportDefault"  class="cols-sm-2 control-label bg-info text-uppercase">Import Default</label>
+
+@*@using (Html.BeginForm("Upload", "ImportData", FormMethod.Post, new { enctype = "multipart/form-data" }))*@
+
+           <br><label for="hdImportDefault" id="hdImportDefault"  class="cols-sm-2 control-label bg-info text-uppercase">Import Default</label>
         <div class="row">
-                <div class="col-md-3">
+                @*<div class="col-md-3">
                     <div class="form-group">
                         <label for="lblddTestTypes" class="cols-sm-2 control-label">Test Type</label>
                         <div class="cols-sm-10">
-                            @Html.DropDownList("ddTestTypesDefault", ViewBag.ddTestTypes as IEnumerable<SelectListItem>, new { @class = "show-tick", data_size = "6" })
+                            @Html.DropDownList("ddTestTypesDefault", ViewBag.ddTestTypesDefault as IEnumerable<SelectListItem>, new { @class = "show-tick", data_size = "6" })
                         </div>
                     </div>
-                </div>
+                </div>*@
             <div class="col-md-6">
                 <div class="form-group">
                     <div class="button btn btn-success" id="btnImportDefault">Import Default</div>
                 </div>
             </div>
         </div>
-       
+
         <br><label for="hdImport"  id="hdImport" class="cols-sm-2 control-label bg-info text-uppercase">Import Custom</label>
-            <div class="row">
-                <div class="col-md-3">                    
-                    <div class="form-group">
-                        <label for="lblddTestTypes" class="cols-sm-2 control-label">Test Type</label>
-                        <div class="cols-sm-10">
-                            @Html.DropDownList("ddTestTypes", ViewBag.ddTestTypes as IEnumerable<SelectListItem>, new { @class = "show-tick", data_size = "6" })
-                        </div>
+        
+@using (Html.BeginForm("Upload", "ImportData", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{ 
+    <div class="row">
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-3">
+                        @*<input type="file" id="filePath1" name="filePath1" class="hidden" />*@
+
+                        <input type="file"  id="file" name="file" class="hidden" />
+                        <input type="text" id="filePathChoose" name="filePathChoose" class="form-control" placeholder='Choose a file...' />
+                        <input type="text" id="selectedTestType" name="selectedTestType" class="hidden" />
+                    </div>
+                    <div class="col-md-3">
+                        <button class="btn btn-default btn-choose" id="Choose" name="Choose" type="button">Choose</button>
                     </div>
                 </div>
-                <div class="col-md-6">
-                    <div class="row">
-                        <div class="col-md-3">
-                            <input type="file" id="filePath1" name="filePath1" class="hidden" />
-                            <input type="text" id="filePathChoose" name="filePathChoose" class="form-control" placeholder='Choose a file...' />
-                        </div>
-                        <div class="col-md-3">
-                            <button class="btn btn-default btn-choose" id="Choose" name="Choose" type="button">Choose</button>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="form-group">
-                            <button type="submit" class="btn btn-success " id="Import" name="Import">Import</button>
-                            <button type="reset" class="btn btn-danger" id="Reset" name="Reset">Reset</button>
-                        </div>
+                <div class="row">
+                    <div class="form-group">
+                        <button type="submit" value="Upload" class="save" id="Import" name="Import"><i class="btn btn-success"></i>Import</button>
+                        <button type="reset" class="btn btn-danger" id="Reset" name="Reset">Reset</button>
                     </div>
                 </div>
             </div>
-          
+        </div>
+}   
             <div class="row">
                 <div class="col-md-16">
                     <h4>
-                        <label id="lblFileName" class="col-md-16 control-label bg-primary"></label>
+                        <label id="lblFileName" class="col-md-16 control-label bg-primary" ></label>
                     </h4>
                 </div>
             </div>
@@ -93,10 +103,12 @@
                 <div class="col-md-16">
                     <h4>
                         <label id="lblError" class="col-md-16 control-label btn-danger"></label><br> 
-                        <label id="lblImported" class="col-md-16 control-label bg-success"></label>                     
+                        <label id="lblImported" class="col-md-16 control-label bg-success">@ViewBag.Message</label>
+                        @*<label id="lblImported" class="col-md-16 control-label bg-success"></label>*@                    
                     </h4>
                 </div>
             </div>
+
 
       @*  <br><label for="hdManualEntry" id="hdManualEntry" class="cols-sm-2 control-label bg-info text-uppercase text-muted">Manual Entry</label>*@
             @*<div class="row">
