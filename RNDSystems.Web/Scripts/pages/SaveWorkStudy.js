@@ -137,28 +137,7 @@
                         }
                     }
                 }
-            },
-            //CompleteDate: {
-            //    excluded: false,
-            //    validators: {
-            //        callback: {
-            //            message: 'Complete Date is required.',
-            //            callback: function (value, validator, $field) {
-            //                debugger;
-            //                var options = validator.getFieldElements('StudyStatus').val();
-            //                var CompletedDate = validator.getFieldElements('CompleteDate').val();
-            //                if (options.trim() == "3") {
-            //                    if (CompletedDate == '')
-            //                        return false;
-            //                    else
-            //                        return true;
-            //                }                                
-            //                else
-            //                    return true;
-            //            }
-            //        }
-            //    }
-            //},
+            },           
         }
     });
 });

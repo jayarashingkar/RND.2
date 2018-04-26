@@ -213,9 +213,6 @@ $('#btnSearch').on('click', function () {
 });
 
 $('#btnExcelReport').on('click', function () {
-  
-    debugger;
-    //  var search = '';
 
     search = '';
     var WorkStudy = $('#ddlWorkStudyID').val();

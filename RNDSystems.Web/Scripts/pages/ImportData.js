@@ -104,8 +104,7 @@
     });
 
     //try 
-    $("#Import").click(function () {
-        //debugger;
+    $("#Import").click(function () {   
        selectedTestType = $.trim($("#ddTestTypes").val());
        $("#selectedTestType").val(selectedTestType);
 
@@ -156,7 +155,7 @@
 
     });
 
-    debugger;
+  //  debugger;
     if (($('#results').val() != "") || ($('#results').val() != null))
         $('#lblImported').val($('#results').val());
 

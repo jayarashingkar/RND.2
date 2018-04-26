@@ -147,10 +147,7 @@ function GridAddClicked(ele) {
         $('#IGCResult').show();
     }
     $("#btnSaveResult").click(function () {
-        debugger;
-
-
-        if (TestType == RND.ResultConstant.SCC) {
+         if (TestType == RND.ResultConstant.SCC) {
 
             var StressKsi = $.trim($("#StressKsi").val());
             var TimeDays = $.trim($("#TimeDays").val());

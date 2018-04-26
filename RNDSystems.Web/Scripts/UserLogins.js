@@ -273,7 +273,6 @@ $('#btnAdd').on('click', function (event, param) {
         }
     });
     if (document.getElementById("hdnPermission").value == "ReadOnly") {
-        debugger;
         dialog.find('button[data-bb-handler=confirm]').attr('disabled', 'disabled');
     }
     dialog.find('#PermissionLevel').selectpicker();

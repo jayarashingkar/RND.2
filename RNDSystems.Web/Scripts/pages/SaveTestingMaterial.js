@@ -128,8 +128,7 @@
             },
         });
     });
-    $('#ddTestLab').change(function () {
-        debugger;
+    $('#ddTestLab').change(function () {        
         var TestLab = ($(this).find("option:selected").val()).trim();
             $("#TestLab").val(TestLab);
     });

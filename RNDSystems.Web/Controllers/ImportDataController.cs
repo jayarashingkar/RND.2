@@ -70,7 +70,6 @@ namespace RNDSystems.Web.Controllers
 
 
         [HttpPost]
-        //     public ActionResult Upload(HttpPostedFileBase file, ImportDataViewModel model)
         public ActionResult Upload(HttpPostedFileBase file, string selectedTestType)
         {
             ApiViewModel importData = new ApiViewModel();
