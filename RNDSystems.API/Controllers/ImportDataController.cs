@@ -24,7 +24,7 @@ namespace RNDSystems.API.Controllers
         public HttpResponseMessage Get(string Active, string SelectedTests="none")
         {
             _logger.Debug("ImportData Get Called");
-            SqlDataReader reader = null;
+          //  SqlDataReader reader = null;
             ImportDataViewModel ID = null;
 
             try
@@ -41,7 +41,7 @@ namespace RNDSystems.API.Controllers
                     #region  IMPORT
                     SqlParameter param1 = new SqlParameter("@Active", Active);
 
-                    using (reader = ado.ExecDataReaderProc("RNDImportTestList_READ", "RND", new object[] { param1 }))
+                    using (SqlDataReader reader = ado.ExecDataReaderProc("RNDImportTestList_READ", "RND", new object[] { param1 }))
                     {
                         if (reader.HasRows)
                         {
@@ -58,6 +58,10 @@ namespace RNDSystems.API.Controllers
                                     });
                                 }
                             }
+                        }
+                        if (ado._conn != null && ado._conn.State == System.Data.ConnectionState.Open)
+                        {
+                            ado._conn.Close(); ado._conn.Dispose();
                         }
                     }
                     #endregion
@@ -447,6 +451,10 @@ namespace RNDSystems.API.Controllers
                                 listTensionData[introw].RecID = Convert.ToInt32(reader["RecId"].ToString());
                             }
                         }
+                        if (ado._conn != null && ado._conn.State == System.Data.ConnectionState.Open)
+                        {
+                            ado._conn.Close(); ado._conn.Dispose();
+                        }
                     }
                     introw++;
                 }
@@ -632,7 +640,12 @@ namespace RNDSystems.API.Controllers
                                         listCompressionData[introw].RecID = Convert.ToInt32(reader["RecId"].ToString());
                                     }
                                 }
-                            }
+
+                        if (ado._conn != null && ado._conn.State == System.Data.ConnectionState.Open)
+                        {
+                            ado._conn.Close(); ado._conn.Dispose();
+                        }
+                    }
                             introw++;
 
                         }
@@ -806,6 +819,10 @@ namespace RNDSystems.API.Controllers
                                 listBearingData[introw].RecID = Convert.ToInt32(reader["RecId"].ToString());
                             }
                         }
+                        if (ado._conn != null && ado._conn.State == System.Data.ConnectionState.Open)
+                        {
+                            ado._conn.Close(); ado._conn.Dispose();
+                        }
                     }
                     introw++;
                 }
@@ -973,6 +990,10 @@ namespace RNDSystems.API.Controllers
                             {
                                 listShearData[introw].RecID = Convert.ToInt32(reader["RecId"].ToString());
                             }
+                        }
+                        if (ado._conn != null && ado._conn.State == System.Data.ConnectionState.Open)
+                        {
+                            ado._conn.Close(); ado._conn.Dispose();
                         }
                     }
                     introw++;
@@ -1144,6 +1165,10 @@ namespace RNDSystems.API.Controllers
                             {
                                 listNotchYieldData[introw].RecID = Convert.ToInt32(reader["RecId"].ToString());
                             }
+                        }
+                        if (ado._conn != null && ado._conn.State == System.Data.ConnectionState.Open)
+                        {
+                            ado._conn.Close(); ado._conn.Dispose();
                         }
                     }
                     introw++;
@@ -1329,6 +1354,10 @@ namespace RNDSystems.API.Controllers
                             {
                                 listResidualStrengthData[introw].RecID = Convert.ToInt32(reader["RecId"].ToString());
                             }
+                        }
+                        if (ado._conn != null && ado._conn.State == System.Data.ConnectionState.Open)
+                        {
+                            ado._conn.Close(); ado._conn.Dispose();
                         }
                     }
                     introw++;
@@ -1550,6 +1579,10 @@ namespace RNDSystems.API.Controllers
                                 listFractureToughnessData[introw].RecID = Convert.ToInt32(reader["RecId"].ToString());
                             }
                         }
+                        if (ado._conn != null && ado._conn.State == System.Data.ConnectionState.Open)
+                        {
+                            ado._conn.Close(); ado._conn.Dispose();
+                        }
                     }
                     introw++;
                 }
@@ -1716,6 +1749,10 @@ namespace RNDSystems.API.Controllers
                             {
                                 listModulusTensionData[introw].RecID = Convert.ToInt32(reader["RecId"].ToString());
                             }
+                        }
+                        if (ado._conn != null && ado._conn.State == System.Data.ConnectionState.Open)
+                        {
+                            ado._conn.Close(); ado._conn.Dispose();
                         }
                     }
                     introw++;
@@ -1890,6 +1927,10 @@ namespace RNDSystems.API.Controllers
                             {
                                 listModulusCompressionData[introw].RecID = Convert.ToInt32(reader["RecId"].ToString());
                             }
+                        }
+                        if (ado._conn != null && ado._conn.State == System.Data.ConnectionState.Open)
+                        {
+                            ado._conn.Close(); ado._conn.Dispose();
                         }
                     }
                     introw++;
@@ -2117,6 +2158,10 @@ namespace RNDSystems.API.Controllers
                             {
                                 listFatigueTestingData[introw].RecID = Convert.ToInt32(reader["RecId"].ToString());
                             }
+                        }
+                        if (ado._conn != null && ado._conn.State == System.Data.ConnectionState.Open)
+                        {
+                            ado._conn.Close(); ado._conn.Dispose();
                         }
                     }
                     introw++;

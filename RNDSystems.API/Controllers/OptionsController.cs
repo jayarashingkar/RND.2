@@ -112,7 +112,7 @@ namespace RNDSystems.API.Controllers
 
         public HttpResponseMessage Post(OptionsViewModel option)
         {
-         //   string data = string.Empty;
+            //   string data = string.Empty;
             try
             {
                 CurrentUser user = ApiUser;
@@ -132,17 +132,21 @@ namespace RNDSystems.API.Controllers
                             //}
                             //else
                             //{
-                                // using (SqlDataReader reader = ado.ExecDataReaderProc("StudyType_Insert", "RND", new object[] { param2, param3 }))
-                                using (SqlDataReader reader = ado.ExecDataReaderProc("RNDStudyType_Insert", "RND", new object[] { param2 }))
+                            // using (SqlDataReader reader = ado.ExecDataReaderProc("StudyType_Insert", "RND", new object[] { param2, param3 }))
+                            using (SqlDataReader reader = ado.ExecDataReaderProc("RNDStudyType_Insert", "RND", new object[] { param2 }))
+                            {
+                                if (reader.HasRows)
                                 {
-                                    if (reader.HasRows)
+                                    while (reader.Read())
                                     {
-                                        while (reader.Read())
-                                        {
                                         option.RecId = Convert.ToInt32(reader["RecId"]);
-                                        }
                                     }
                                 }
+                                if (ado._conn != null && ado._conn.State == System.Data.ConnectionState.Open)
+                                {
+                                    ado._conn.Close(); ado._conn.Dispose();
+                                }
+                            }
 
                             //}
                             break;
@@ -151,7 +155,7 @@ namespace RNDSystems.API.Controllers
                         {
                             //SqlParameter param2 = new SqlParameter("@Plant", option.Plant);
                             SqlParameter param3 = new SqlParameter("@PlantDesc", option.PlantDesc);
-                            SqlParameter param4 = new SqlParameter("@PlantState", option.PlantState);                            
+                            SqlParameter param4 = new SqlParameter("@PlantState", option.PlantState);
                             SqlParameter param5 = new SqlParameter("@PlantType", option.PlantType);
                             //if (option.RecId > 0)
                             //{
@@ -162,17 +166,21 @@ namespace RNDSystems.API.Controllers
                             //}
                             //else
                             //{
-                                //using (SqlDataReader reader = ado.ExecDataReaderProc("RNDLocation_Insert", "RND", new object[] { param2, param3, param4, param5 }))
-                                using (SqlDataReader reader = ado.ExecDataReaderProc("RNDLocation_Insert", "RND", new object[] { param3, param4, param5 }))
+                            //using (SqlDataReader reader = ado.ExecDataReaderProc("RNDLocation_Insert", "RND", new object[] { param2, param3, param4, param5 }))
+                            using (SqlDataReader reader = ado.ExecDataReaderProc("RNDLocation_Insert", "RND", new object[] { param3, param4, param5 }))
+                            {
+                                if (reader.HasRows)
                                 {
-                                    if (reader.HasRows)
+                                    while (reader.Read())
                                     {
-                                        while (reader.Read())
-                                        {
-                                            option.RecId = Convert.ToInt32(reader["RecId"].ToString());
-                                        }
+                                        option.RecId = Convert.ToInt32(reader["RecId"].ToString());
                                     }
                                 }
+                                if (ado._conn != null && ado._conn.State == System.Data.ConnectionState.Open)
+                                {
+                                    ado._conn.Close(); ado._conn.Dispose();
+                                }
+                            }
 
                             //}
                             break;
@@ -180,7 +188,7 @@ namespace RNDSystems.API.Controllers
                         }
                     default:
                         break;
-                }    
+                }
             }
             catch (Exception ex)
             {
@@ -190,7 +198,7 @@ namespace RNDSystems.API.Controllers
             return Serializer.ReturnContent(option, this.Configuration.Services.GetContentNegotiator(), this.Configuration.Formatters, this.Request);
         }
 
-       //public HttpResponseMessage Delete(ApiViewModel data)
+        //public HttpResponseMessage Delete(ApiViewModel data)
         //{
         //    int id = Convert.ToInt32(data.Message);
         //    string optionType = data.Message1;

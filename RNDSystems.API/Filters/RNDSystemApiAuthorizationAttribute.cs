@@ -14,7 +14,7 @@ using System.Web.Http.Filters;
 namespace RNDSystems.API.Filters
 {
     [EnableCors(origins: "*", headers: "*", methods: "*")]
-    public class RNDSystemApiAuthorizationAttribute: AuthorizationFilterAttribute
+    public class RNDSystemApiAuthorizationAttribute : AuthorizationFilterAttribute
     {
         #region Log4net
 
@@ -67,11 +67,11 @@ namespace RNDSystems.API.Filters
                     {
                         //Map the token with database token to get user details
                         //Sample                        
-                        SqlDataReader reader = null;
+                        //SqlDataReader reader = null;
                         CurrentUser dbCUser = null;
                         AdoHelper ado = new AdoHelper();
                         SqlParameter param1 = new SqlParameter("@Token", token);
-                        using (reader = ado.ExecDataReaderProc("RNDGetUser_ReadByID", "RND", new object[] { param1 }))
+                        using (SqlDataReader reader = ado.ExecDataReaderProc("RNDGetUser_ReadByID", "RND", new object[] { param1 }))
                         {
                             if (reader.HasRows && reader.Read())
                             {
@@ -79,7 +79,12 @@ namespace RNDSystems.API.Filters
                                 dbCUser.UserId = Convert.ToInt32(reader["UserId"]);
                                 dbCUser.UserName = Convert.ToString(reader["UserName"]);
                                 dbCUser.FullName = Convert.ToString(reader["FullName"]);
-                            }                           
+                            }
+                            if (ado._conn != null && ado._conn.State == System.Data.ConnectionState.Open)
+                            {
+                                ado._conn.Close();
+                                ado._conn.Dispose();
+                            }
                         }
                         //var user = new CurrentUser { UserId = 1, UserName = "User 1", FullName = "Test User" };
                         if (dbCUser != null)

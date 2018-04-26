@@ -50,7 +50,7 @@ namespace RNDSystems.API.Controllers
                         case "TestingMaterial":
                             ds = GetTestingMaterial(option);
                             break;
-                       case "Tension":
+                        case "Tension":
                             ds = GetTensionReports(option);
                             break;
                         case "Compression":
@@ -82,13 +82,13 @@ namespace RNDSystems.API.Controllers
         private DataSearch<RNDLogin> GetRegisteredUser(DataGridoption option)
         {
             AdoHelper ado = new AdoHelper();
-            SqlDataReader reader = null;
+            //SqlDataReader reader = null;
             List<RNDLogin> lstRNDLogin = new List<RNDLogin>();
             List<SqlParameter> lstSqlParameter = new List<SqlParameter>();
             lstSqlParameter.Add(new SqlParameter("@CurrentPage", option.pageIndex));
             lstSqlParameter.Add(new SqlParameter("@NoOfRecords", option.pageSize));
             AddSearchFilter(option, lstSqlParameter);
-            using (reader = ado.ExecDataReaderProc("RNDRegisteredUser_Read", "RND", lstSqlParameter.Cast<object>().ToArray()))
+            using (SqlDataReader reader = ado.ExecDataReaderProc("RNDRegisteredUser_Read", "RND", lstSqlParameter.Cast<object>().ToArray()))
             {
                 if (reader.HasRows)
                 {
@@ -108,6 +108,10 @@ namespace RNDSystems.API.Controllers
                         lstRNDLogin.Add(UD);
                     }
                 }
+                if (ado._conn != null && ado._conn.State == System.Data.ConnectionState.Open)
+                {
+                    ado._conn.Close(); ado._conn.Dispose();
+                }
             }
             DataSearch<RNDLogin> ds = new DataSearch<RNDLogin>
             {
@@ -126,7 +130,7 @@ namespace RNDSystems.API.Controllers
         private DataSearch<RNDWorkStudy> GetWorkStudies(DataGridoption option)
         {
             AdoHelper ado = new AdoHelper();
-            SqlDataReader reader = null;
+            //SqlDataReader reader = null;
             List<RNDWorkStudy> lstWorkStudy = new List<RNDWorkStudy>();
             List<SqlParameter> lstSqlParameter = new List<SqlParameter>();
             lstSqlParameter.Add(new SqlParameter("@CurrentPage", option.pageIndex));
@@ -134,7 +138,7 @@ namespace RNDSystems.API.Controllers
             AddSearchFilter(option, lstSqlParameter);
             try
             {
-                using (reader = ado.ExecDataReaderProc("RNDWorkStudy_Read", "RND", lstSqlParameter.Cast<object>().ToArray()))
+                using (SqlDataReader reader = ado.ExecDataReaderProc("RNDWorkStudy_Read", "RND", lstSqlParameter.Cast<object>().ToArray()))
                 {
                     if (reader.HasRows)
                     {
@@ -168,6 +172,10 @@ namespace RNDSystems.API.Controllers
                             lstWorkStudy.Add(WS);
                         }
                     }
+                    if (ado._conn != null && ado._conn.State == System.Data.ConnectionState.Open)
+                    {
+                        ado._conn.Close(); ado._conn.Dispose();
+                    }
                 }
             }
             catch (Exception ex)
@@ -178,7 +186,7 @@ namespace RNDSystems.API.Controllers
             DataSearch<RNDWorkStudy> ds = new DataSearch<RNDWorkStudy>
             {
                 items = lstWorkStudy,
-                 total = (lstWorkStudy != null && lstWorkStudy.Count > 0) ? lstWorkStudy[0].total : 0              
+                total = (lstWorkStudy != null && lstWorkStudy.Count > 0) ? lstWorkStudy[0].total : 0
             };
             return ds;
         }
@@ -191,7 +199,7 @@ namespace RNDSystems.API.Controllers
         private DataSearch<RNDMaterial> GetUACPartList(DataGridoption option)
         {
             AdoHelper ado = new AdoHelper();
-            SqlDataReader reader = null;
+            //SqlDataReader reader = null;
             List<RNDMaterial> lstAssignMaterial = new List<RNDMaterial>();
             //SqlParameter param1 = new SqlParameter("@CurrentPage", option.pageIndex);
             //SqlParameter param2 = new SqlParameter("@NoOfRecords", option.pageSize);
@@ -201,7 +209,7 @@ namespace RNDSystems.API.Controllers
             AddSearchFilter(option, lstSqlParameter);
             try
             {
-                using (reader = ado.ExecDataReaderProc("RNDUACPartList_Read", "RND", lstSqlParameter.Cast<object>().ToArray()))
+                using (SqlDataReader reader = ado.ExecDataReaderProc("RNDUACPartList_Read", "RND", lstSqlParameter.Cast<object>().ToArray()))
                 {
                     if (reader.HasRows)
                     {
@@ -252,6 +260,10 @@ namespace RNDSystems.API.Controllers
                             RecID++;
                         }
                     }
+                    if (ado._conn != null && ado._conn.State == System.Data.ConnectionState.Open)
+                    {
+                        ado._conn.Close(); ado._conn.Dispose();
+                    }
                 }
             }
             catch (Exception ex)
@@ -260,7 +272,7 @@ namespace RNDSystems.API.Controllers
             }
 
 
-           DataSearch<RNDMaterial> ds = new DataSearch<RNDMaterial>
+            DataSearch<RNDMaterial> ds = new DataSearch<RNDMaterial>
             {
                 items = lstAssignMaterial,
                 total = (lstAssignMaterial != null && lstAssignMaterial.Count > 0) ? lstAssignMaterial[0].total : 0
@@ -279,7 +291,7 @@ namespace RNDSystems.API.Controllers
         private DataSearch<RNDMaterial> GetAssignMaterial(DataGridoption option)
         {
             AdoHelper ado = new AdoHelper();
-            SqlDataReader reader = null;
+            // SqlDataReader reader = null;
             List<RNDMaterial> lstAssignMaterial = new List<RNDMaterial>();
             //SqlParameter param1 = new SqlParameter("@CurrentPage", option.pageIndex);
             //SqlParameter param2 = new SqlParameter("@NoOfRecords", option.pageSize);
@@ -287,13 +299,13 @@ namespace RNDSystems.API.Controllers
             lstSqlParameter.Add(new SqlParameter("@CurrentPage", option.pageIndex));
             lstSqlParameter.Add(new SqlParameter("@NoOfRecords", option.pageSize));
             AddSearchFilter(option, lstSqlParameter);
-            using (reader = ado.ExecDataReaderProc("RNDAssignMaterial_Read", "RND", lstSqlParameter.Cast<object>().ToArray()))
+            using (SqlDataReader reader = ado.ExecDataReaderProc("RNDAssignMaterial_Read", "RND", lstSqlParameter.Cast<object>().ToArray()))
             {
                 if (reader.HasRows)
                 {
                     RNDMaterial AM = null;
                     while (reader.Read())
-                    {                        
+                    {
                         AM = new RNDMaterial();
                         AM.total = Convert.ToInt32(reader["total"]);
                         AM.RecID = Convert.ToInt32(reader["RecID"]);
@@ -312,10 +324,14 @@ namespace RNDSystems.API.Controllers
                         AM.EntryDate = (!string.IsNullOrEmpty(reader["EntryDate"].ToString())) ? Convert.ToDateTime(reader["EntryDate"]) : (DateTime?)null;
                         AM.EntryBy = Convert.ToString(reader["EntryBy"]);
                         AM.DBCntry = Convert.ToString(reader["DBCntry"]);
-                      //  AM.RCS = Convert.ToChar(reader["RCS"]);
-                        
+                        //  AM.RCS = Convert.ToChar(reader["RCS"]);
+
                         lstAssignMaterial.Add(AM);
                     }
+                }
+                if (ado._conn != null && ado._conn.State == System.Data.ConnectionState.Open)
+                {
+                    ado._conn.Close(); ado._conn.Dispose();
                 }
             }
             DataSearch<RNDMaterial> ds = new DataSearch<RNDMaterial>
@@ -335,11 +351,11 @@ namespace RNDSystems.API.Controllers
         private DataSearch<RNDProcessing> GetProcessingMaterial(DataGridoption option)
         {
             _logger.Debug("GetProcessingMaterial");
-            
-            SqlDataReader reader = null;            
+
+            //SqlDataReader reader = null;            
             AdoHelper ado = new AdoHelper();
 
-            List<RNDProcessing> lstProcessingMaterial = new List<RNDProcessing>();            
+            List<RNDProcessing> lstProcessingMaterial = new List<RNDProcessing>();
             List<SqlParameter> lstSqlParameter = new List<SqlParameter>();
 
             lstSqlParameter.Add(new SqlParameter("@CurrentPage", option.pageIndex));
@@ -347,7 +363,7 @@ namespace RNDSystems.API.Controllers
             AddSearchFilter(option, lstSqlParameter);
             try
             {
-                using (reader = ado.ExecDataReaderProc("RNDProcessingMaterial_Read", "RND", lstSqlParameter.Cast<object>().ToArray()))
+                using (SqlDataReader reader = ado.ExecDataReaderProc("RNDProcessingMaterial_Read", "RND", lstSqlParameter.Cast<object>().ToArray()))
                 {
                     if (reader.HasRows)
                     {
@@ -409,11 +425,15 @@ namespace RNDSystems.API.Controllers
                             lstProcessingMaterial.Add(PM);
                         }
                     }
+                    if (ado._conn != null && ado._conn.State == System.Data.ConnectionState.Open)
+                    {
+                        ado._conn.Close(); ado._conn.Dispose();
+                    }
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                _logger.Error(ex.Message);               
+                _logger.Error(ex.Message);
             }
             DataSearch<RNDProcessing> ds = new DataSearch<RNDProcessing>
             {
@@ -428,15 +448,15 @@ namespace RNDSystems.API.Controllers
             _logger.Debug("GetTestingMaterial");
 
             AdoHelper ado = new AdoHelper();
-            SqlDataReader reader = null;
+            //SqlDataReader reader = null;
 
             List<RNDTesting> lstTestingMaterial = new List<RNDTesting>();
             List<SqlParameter> lstSqlParameter = new List<SqlParameter>();
-          
+
             lstSqlParameter.Add(new SqlParameter("@CurrentPage", option.pageIndex));
             lstSqlParameter.Add(new SqlParameter("@NoOfRecords", option.pageSize));
             AddSearchFilter(option, lstSqlParameter);
-            using (reader = ado.ExecDataReaderProc("RNDTestingMaterial_Read", "RND", lstSqlParameter.Cast<object>().ToArray()))
+            using (SqlDataReader reader = ado.ExecDataReaderProc("RNDTestingMaterial_Read", "RND", lstSqlParameter.Cast<object>().ToArray()))
             {
                 if (reader.HasRows)
                 {
@@ -471,10 +491,14 @@ namespace RNDSystems.API.Controllers
                         TM.TestLab = Convert.ToString(reader["TestLab"]);
                         TM.Printed = Convert.ToChar(reader["Printed"]);
                         TM.Replica = Convert.ToString(reader["Replica"]);
-                      //  TM.RCS = (!string.IsNullOrEmpty(reader["RCS"].ToString())) ? Convert.ToChar(reader["RCS"]) : (char?)null;
+                        //  TM.RCS = (!string.IsNullOrEmpty(reader["RCS"].ToString())) ? Convert.ToChar(reader["RCS"]) : (char?)null;
 
                         lstTestingMaterial.Add(TM);
                     }
+                }
+                if (ado._conn != null && ado._conn.State == System.Data.ConnectionState.Open)
+                {
+                    ado._conn.Close(); ado._conn.Dispose();
                 }
             }
             DataSearch<RNDTesting> ds = new DataSearch<RNDTesting>
@@ -493,21 +517,21 @@ namespace RNDSystems.API.Controllers
             string message = message1.Trim();
 
             AdoHelper ado = new AdoHelper();
-            SqlDataReader reader = null;
+            //SqlDataReader reader = null;
 
             List<ImportDataViewModel> lstResults = new List<ImportDataViewModel>();
             List<SqlParameter> lstSqlParameter = new List<SqlParameter>();
 
             lstSqlParameter.Add(new SqlParameter("@CurrentPage", option.pageIndex));
             lstSqlParameter.Add(new SqlParameter("@NoOfRecords", option.pageSize));
-         
+
             try
             {
 
                 #region  Manual Entry
                 SqlParameter param0 = new SqlParameter("@SelectedTests", option.searchBy);
-                
-                using (reader = ado.ExecDataReaderProc("RNDCheckTestType_READ", "RND", new object[] { param0 }))
+
+                using (SqlDataReader reader = ado.ExecDataReaderProc("RNDCheckTestType_READ", "RND", new object[] { param0 }))
                 {
                     if (reader.HasRows)
                     {
@@ -528,10 +552,14 @@ namespace RNDSystems.API.Controllers
                                     message += ", " + ID.TestType;
                             }
                             else
-                                lstResults.Add(ID);                          
+                                lstResults.Add(ID);
                         }
                     }
-                }                
+                    if (ado._conn != null && ado._conn.State == System.Data.ConnectionState.Open)
+                    {
+                        ado._conn.Close(); ado._conn.Dispose();
+                    }
+                }
                 #endregion
 
             }
@@ -555,8 +583,8 @@ namespace RNDSystems.API.Controllers
             _logger.Debug("GetOpticalMountReports");
 
             AdoHelper ado = new AdoHelper();
-            SqlDataReader reader = null;
-            
+            // SqlDataReader reader = null;
+
             List<OpticalMountViewModel> lstReports = new List<OpticalMountViewModel>();
             List<SqlParameter> lstSqlParameter = new List<SqlParameter>();
 
@@ -565,7 +593,7 @@ namespace RNDSystems.API.Controllers
             AddSearchFilter(option, lstSqlParameter);
             try
             {
-                using (reader = ado.ExecDataReaderProc("RNDOpticalMountReports_Read", "RND", lstSqlParameter.Cast<object>().ToArray()))
+                using (SqlDataReader reader = ado.ExecDataReaderProc("RNDOpticalMountReports_Read", "RND", lstSqlParameter.Cast<object>().ToArray()))
                 {
                     if (reader.HasRows)
                     {
@@ -585,7 +613,7 @@ namespace RNDSystems.API.Controllers
                             reports.UACPart = Convert.ToDecimal(reader["UACPart"]);
 
                             //  reports.TestType = Convert.ToString(reader["TestType"]);
-                           
+
                             reports.SpeciComment = Convert.ToString(reader["SpeciComment"]);
                             reports.Operator = Convert.ToString(reader["Operator"]);
                             reports.TestDate = (!string.IsNullOrEmpty(reader["TestDate"].ToString())) ? Convert.ToDateTime(reader["TestDate"]) : (DateTime?)null;
@@ -594,19 +622,23 @@ namespace RNDSystems.API.Controllers
                             reports.EntryDate = (!string.IsNullOrEmpty(reader["EntryDate"].ToString())) ? Convert.ToDateTime(reader["EntryDate"]) : (DateTime?)null;
                             reports.EntryBy = Convert.ToString(reader["EntryBy"]);
                             reports.Completed = Convert.ToChar(reader["Completed"]);
-                           
+
                             reports.total = Convert.ToInt32(reader["total"]);
 
 
                             lstReports.Add(reports);
                         }
                     }
+                    if (ado._conn != null && ado._conn.State == System.Data.ConnectionState.Open)
+                    {
+                        ado._conn.Close(); ado._conn.Dispose();
+                    }
                 }
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.Message);              
-            }                       
+                _logger.Error(ex.Message);
+            }
             DataSearch<OpticalMountViewModel> ds = new DataSearch<OpticalMountViewModel>
             {
                 items = lstReports,
@@ -621,7 +653,7 @@ namespace RNDSystems.API.Controllers
             _logger.Debug("GetTensionReports");
 
             AdoHelper ado = new AdoHelper();
-            SqlDataReader reader = null;
+            //SqlDataReader reader = null;
 
             List<TensionViewModel> lstReports = new List<TensionViewModel>();
             List<SqlParameter> lstSqlParameter = new List<SqlParameter>();
@@ -631,8 +663,8 @@ namespace RNDSystems.API.Controllers
             try
             {
                 AddSearchFilter(option, lstSqlParameter);
-          
-                using (reader = ado.ExecDataReaderProc("RNDTensionReports_Read", "RND", lstSqlParameter.Cast<object>().ToArray()))
+
+                using (SqlDataReader reader = ado.ExecDataReaderProc("RNDTensionReports_Read", "RND", lstSqlParameter.Cast<object>().ToArray()))
                 {
                     if (reader.HasRows)
                     {
@@ -668,6 +700,10 @@ namespace RNDSystems.API.Controllers
                             lstReports.Add(reports);
                         }
                     }
+                    if (ado._conn != null && ado._conn.State == System.Data.ConnectionState.Open)
+                    {
+                        ado._conn.Close(); ado._conn.Dispose();
+                    }
                 }
             }
             catch (Exception ex)
@@ -687,7 +723,7 @@ namespace RNDSystems.API.Controllers
             _logger.Debug("GetCompressionReports");
 
             AdoHelper ado = new AdoHelper();
-            SqlDataReader reader = null;
+            //SqlDataReader reader = null;
 
             List<CompressionViewModel> lstReports = new List<CompressionViewModel>();
             List<SqlParameter> lstSqlParameter = new List<SqlParameter>();
@@ -697,7 +733,7 @@ namespace RNDSystems.API.Controllers
             AddSearchFilter(option, lstSqlParameter);
             try
             {
-                using (reader = ado.ExecDataReaderProc("RNDCompressionReports_Read", "RND", lstSqlParameter.Cast<object>().ToArray()))
+                using (SqlDataReader reader = ado.ExecDataReaderProc("RNDCompressionReports_Read", "RND", lstSqlParameter.Cast<object>().ToArray()))
                 {
                     if (reader.HasRows)
                     {
@@ -733,6 +769,10 @@ namespace RNDSystems.API.Controllers
 
                             lstReports.Add(reports);
                         }
+                    }
+                    if (ado._conn != null && ado._conn.State == System.Data.ConnectionState.Open)
+                    {
+                        ado._conn.Close(); ado._conn.Dispose();
                     }
                 }
             }

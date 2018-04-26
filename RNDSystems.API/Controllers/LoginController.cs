@@ -24,7 +24,7 @@ namespace RNDSystems.API.Controllers
         public HttpResponseMessage Get(string userName)
         {
             _logger.Debug("Login Get called");
-            SqlDataReader reader = null;
+            //SqlDataReader reader = null;
             RNDUserSecurityAnswer answer = null;
             try
             {
@@ -35,7 +35,7 @@ namespace RNDSystems.API.Controllers
                 if (!string.IsNullOrEmpty(userName))
                 {
                     SqlParameter param1 = new SqlParameter("@UserName", userName);
-                    using (reader = ado.ExecDataReaderProc("RNDUserSecurityAnswers_Read", "RND", new object[] { param1 }))
+                    using (SqlDataReader reader = ado.ExecDataReaderProc("RNDUserSecurityAnswers_Read", "RND", new object[] { param1 }))
                     {
                         if (reader.HasRows)
                         {
@@ -49,6 +49,10 @@ namespace RNDSystems.API.Controllers
                                 });
                                 answer.RNDSecurityQuestionId = Convert.ToInt32(reader["RNDSecurityQuestionId"]);
                             }
+                        }
+                        if (ado._conn != null && ado._conn.State == System.Data.ConnectionState.Open)
+                        {
+                            ado._conn.Close(); ado._conn.Dispose();
                         }
                     }
                 }
@@ -68,7 +72,7 @@ namespace RNDSystems.API.Controllers
         /// <returns></returns>
         public HttpResponseMessage Post(RNDLogin login)
         {
-            SqlDataReader reader = null;
+            //SqlDataReader reader = null;
             RNDLogin dbUser = null;
             ApiViewModel VM = null;
             try
@@ -78,7 +82,7 @@ namespace RNDSystems.API.Controllers
                 {
                     AdoHelper ado = new AdoHelper();
                     SqlParameter param1 = new SqlParameter("@UserName", login.UserName);
-                    using (reader = ado.ExecDataReaderProc("RNDLogin_ReadByID", "RND", new object[] { param1 }))
+                    using (SqlDataReader reader = ado.ExecDataReaderProc("RNDLogin_ReadByID", "RND", new object[] { param1 }))
                     {
                         if (reader.HasRows && reader.Read())
                         {
@@ -116,6 +120,11 @@ namespace RNDSystems.API.Controllers
                         }
                         else
                             VM.Message = MessageConstants.InvalidUser;
+
+                        if (ado._conn != null && ado._conn.State == System.Data.ConnectionState.Open)
+                        {
+                            ado._conn.Close(); ado._conn.Dispose();
+                        }
                     }
                 }
             }
@@ -129,7 +138,7 @@ namespace RNDSystems.API.Controllers
 
         public HttpResponseMessage Get(string UserName, string UserAnswer)
         {
-            SqlDataReader reader = null;
+            // SqlDataReader reader = null;
             RNDLogin dbUser = null;
             ApiViewModel VM = null;
             try
@@ -140,7 +149,7 @@ namespace RNDSystems.API.Controllers
                     AdoHelper ado = new AdoHelper();
                     SqlParameter param1 = new SqlParameter("@UserName", UserName);
                     SqlParameter param2 = new SqlParameter("@UserAnswer", UserAnswer);
-                    using (reader = ado.ExecDataReaderProc("RNDResetPassword", "RND", new object[] { param1, param2 }))
+                    using (SqlDataReader reader = ado.ExecDataReaderProc("RNDResetPassword", "RND", new object[] { param1, param2 }))
                     {
                         if (reader.HasRows && reader.Read())
                         {
@@ -167,6 +176,11 @@ namespace RNDSystems.API.Controllers
                         }
                         else
                             VM.Message = MessageConstants.InvalidUser;
+
+                        if (ado._conn != null && ado._conn.State == System.Data.ConnectionState.Open)
+                        {
+                            ado._conn.Close(); ado._conn.Dispose();
+                        }
                     }
                 }
             }
@@ -185,9 +199,9 @@ namespace RNDSystems.API.Controllers
         /// <returns></returns>
         public HttpResponseMessage Put(RNDUserSecurityAnswer answer)
         {
-            SqlDataReader reader = null;
+            //SqlDataReader reader = null;
             ApiViewModel VM = new ApiViewModel();
-          //  RNDLogin dbUser = null;
+            //  RNDLogin dbUser = null;
             try
             {
                 //    VM = new ApiViewModel();
@@ -209,7 +223,7 @@ namespace RNDSystems.API.Controllers
                     SqlParameter param4 = new SqlParameter("@PasswordHash", strPasswordHash);
                     SqlParameter param5 = new SqlParameter("@PasswordSalt", strSaltTemp);
 
-                    using (reader = ado.ExecDataReaderProc("RNDUserPasswordReset", "RND", new object[] { param1, param2, param3, param4, param5 }))
+                    using (SqlDataReader reader = ado.ExecDataReaderProc("RNDUserPasswordReset", "RND", new object[] { param1, param2, param3, param4, param5 }))
                     {
                         if (reader.HasRows && reader.Read())
                         {
@@ -222,11 +236,16 @@ namespace RNDSystems.API.Controllers
                             }
                             else
                             {
-                                VM.Custom = new RNDLogin { Password = newPassword, StatusCode=userStatus };
+                                VM.Custom = new RNDLogin { Password = newPassword, StatusCode = userStatus };
                             }
                         }
                         else
                             VM.Message = MessageConstants.InvalidUser;
+
+                        if (ado._conn != null && ado._conn.State == System.Data.ConnectionState.Open)
+                        {
+                            ado._conn.Close(); ado._conn.Dispose();
+                        }
                     }
                 }
             }

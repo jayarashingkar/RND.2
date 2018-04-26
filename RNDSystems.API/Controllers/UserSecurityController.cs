@@ -22,7 +22,7 @@ namespace RNDSystems.API.Controllers
         public HttpResponseMessage Get(int recID)
         {
             _logger.Debug("UserSecurity Get called");
-            SqlDataReader reader = null;
+            //SqlDataReader reader = null;
             RNDUserSecurityAnswer security = null;
             try
             {
@@ -36,7 +36,7 @@ namespace RNDSystems.API.Controllers
                 }
                 else
                 {
-                    using (reader = ado.ExecDataReaderProc("RNDSecurityQuestions_READ", "RND", null))
+                    using (SqlDataReader reader = ado.ExecDataReaderProc("RNDSecurityQuestions_READ", "RND", null))
                     {
                         if (reader.HasRows)
                         {
@@ -48,6 +48,10 @@ namespace RNDSystems.API.Controllers
                                     Text = Convert.ToString(reader["Question"]),
                                 });
                             }
+                        }
+                        if (ado._conn != null && ado._conn.State == System.Data.ConnectionState.Open)
+                        {
+                            ado._conn.Close(); ado._conn.Dispose();
                         }
                     }
                 }

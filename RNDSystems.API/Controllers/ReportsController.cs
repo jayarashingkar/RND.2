@@ -91,18 +91,18 @@ namespace RNDSystems.API.Controllers
             try
             {
                 // string WorkStudyID = "";
-                SqlDataReader reader = null;
+                //SqlDataReader reader = null;
 
                 CurrentUser user = ApiUser;
                 AdoHelper ado = new AdoHelper();
 
                 reports.ddTestType = new List<SelectListItem>() { GetInitialSelectItem() };
                 reports.ddWorkStudyID = new List<SelectListItem>() { GetInitialSelectItem() };
-            
+
                 if (TestType != "none")
                 {
                     SqlParameter param2 = new SqlParameter("@TestType", TestType);
-                    using (reader = ado.ExecDataReaderProc("RNDGetWorkStudyFromTesting", "RND", param2))
+                    using (SqlDataReader reader = ado.ExecDataReaderProc("RNDGetWorkStudyFromTesting", "RND", param2))
                     {
                         if (reader.HasRows)
                         {
@@ -116,20 +116,24 @@ namespace RNDSystems.API.Controllers
                                 });
                             }
                         }
+                        if (ado._conn != null && ado._conn.State == System.Data.ConnectionState.Open)
+                        {
+                            ado._conn.Close(); ado._conn.Dispose();
+                        }
                     }
                     reports.TestType = TestType;
                 }
                 else
                 {
                     SqlParameter param3 = new SqlParameter("@Active", '1');
-                    using (reader = ado.ExecDataReaderProc("RNDTestType_READ", "RND"))
+                    using (SqlDataReader reader = ado.ExecDataReaderProc("RNDTestType_READ", "RND"))
                     {
                         if (reader.HasRows)
                         {
                             while (reader.Read())
                             {
                                 string TestTypes = (Convert.ToString(reader["TestDesc"])).Trim();
-                              
+
                                 if ((TestTypes != null) && (TestTypes != "") && (TestTypes != "Please Select") && (TestTypes != "-1"))
                                 {
                                     reports.ddTestType.Add(new SelectListItem
@@ -140,6 +144,10 @@ namespace RNDSystems.API.Controllers
                                     });
                                 }
                             }
+                        }
+                        if (ado._conn != null && ado._conn.State == System.Data.ConnectionState.Open)
+                        {
+                            ado._conn.Close(); ado._conn.Dispose();
                         }
                     }
                 }

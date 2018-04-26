@@ -9,7 +9,7 @@ namespace RNDSystems.API.SQLHelper
     {
         // Internal members
         protected string _connString = null;
-        protected SqlConnection _conn = null;
+        protected internal SqlConnection _conn = null;
         protected SqlTransaction _trans = null;
         protected bool _disposed = false;
 
@@ -47,8 +47,22 @@ namespace RNDSystems.API.SQLHelper
         // Creates a SqlConnection using the current connection string
         protected void Connect()
         {
-            _conn = new SqlConnection(_connString);
-            _conn.Open();
+            if (_conn != null)
+            {
+                if (_conn.ConnectionString != _connString || _conn.State != ConnectionState.Open)
+                {
+                    _conn = new SqlConnection(_connString);
+                    _conn.Open();
+                }
+
+
+            }
+            else
+            {
+                _conn = new SqlConnection(_connString);
+                _conn.Open();
+            }
+
         }
 
         /// <summary>
@@ -147,10 +161,23 @@ namespace RNDSystems.API.SQLHelper
         /// <returns>The number of rows affected</returns>
         public int ExecNonQuery(string qry, string DbName = "RND", params object[] args)
         {
-            using (SqlCommand cmd = CreateCommand(qry, CommandType.Text, DbName, args))
+            try
             {
-                return cmd.ExecuteNonQuery();
+
+                using (SqlCommand cmd = CreateCommand(qry, CommandType.Text, DbName, args))
+                {
+                    return cmd.ExecuteNonQuery();
+                }
             }
+            finally
+            {
+                if (this._conn != null && this._conn.State == System.Data.ConnectionState.Open)
+                {
+                    this._conn.Close();
+                    this._conn.Dispose();
+                }
+            }
+
         }
 
         /// <summary>
@@ -162,10 +189,22 @@ namespace RNDSystems.API.SQLHelper
         /// <returns>The number of rows affected</returns>
         public int ExecNonQueryProc(string proc, string DbName = "RND", params object[] args)
         {
-            using (SqlCommand cmd = CreateCommand(proc, CommandType.StoredProcedure, DbName, args))
+            try
             {
-                return cmd.ExecuteNonQuery();
+                using (SqlCommand cmd = CreateCommand(proc, CommandType.StoredProcedure, DbName, args))
+                {
+                    return cmd.ExecuteNonQuery();
+                }
             }
+            finally
+            {
+                if (this._conn != null && this._conn.State == System.Data.ConnectionState.Open)
+                {
+                    this._conn.Close();
+                    this._conn.Dispose();
+                }
+            }
+
         }
 
         /// <summary>
@@ -177,10 +216,23 @@ namespace RNDSystems.API.SQLHelper
         /// <returns>Value of first column and first row of the results</returns>
         public object ExecScalar(string qry, string DbName = "RND", params object[] args)
         {
-            using (SqlCommand cmd = CreateCommand(qry, CommandType.Text, DbName, args))
+            try
             {
-                return cmd.ExecuteScalar();
+
+                using (SqlCommand cmd = CreateCommand(qry, CommandType.Text, DbName, args))
+                {
+                    return cmd.ExecuteScalar();
+                }
             }
+            finally
+            {
+                if (this._conn != null && this._conn.State == System.Data.ConnectionState.Open)
+                {
+                    this._conn.Close();
+                    this._conn.Dispose();
+                }
+            }
+
         }
 
         /// <summary>
@@ -192,10 +244,23 @@ namespace RNDSystems.API.SQLHelper
         /// <returns>Value of first column and first row of the results</returns>
         public object ExecScalarProc(string qry, string DbName = "RND", params object[] args)
         {
-            using (SqlCommand cmd = CreateCommand(qry, CommandType.StoredProcedure, DbName, args))
+            try
             {
-                return cmd.ExecuteScalar();
+
+                using (SqlCommand cmd = CreateCommand(qry, CommandType.StoredProcedure, DbName, args))
+                {
+                    return cmd.ExecuteScalar();
+                }
             }
+            finally
+            {
+                if (this._conn != null && this._conn.State == System.Data.ConnectionState.Open)
+                {
+                    this._conn.Close();
+                    this._conn.Dispose();
+                }
+            }
+
         }
 
         /// <summary>
@@ -207,10 +272,12 @@ namespace RNDSystems.API.SQLHelper
         /// <returns>Results as a SqlDataReader</returns>
         public SqlDataReader ExecDataReader(string qry, string DbName = "RND", params object[] args)
         {
+
             using (SqlCommand cmd = CreateCommand(qry, CommandType.Text, DbName, args))
             {
                 return cmd.ExecuteReader();
             }
+
         }
 
         /// <summary>
@@ -222,10 +289,12 @@ namespace RNDSystems.API.SQLHelper
         /// <returns>Results as a SqlDataReader</returns>
         public SqlDataReader ExecDataReaderProc(string qry, string DbName = "RND", params object[] args)
         {
+
             using (SqlCommand cmd = CreateCommand(qry, CommandType.StoredProcedure, DbName, args))
             {
                 return cmd.ExecuteReader();
             }
+
         }
 
         /// <summary>
@@ -237,12 +306,23 @@ namespace RNDSystems.API.SQLHelper
         /// <returns>Results as a DataSet</returns>
         public DataSet ExecDataSet(string qry, string DbName = "RND", params object[] args)
         {
-            using (SqlCommand cmd = CreateCommand(qry, CommandType.Text, DbName, args))
+            try
             {
-                SqlDataAdapter adapt = new SqlDataAdapter(cmd);
-                DataSet ds = new DataSet();
-                adapt.Fill(ds);
-                return ds;
+                using (SqlCommand cmd = CreateCommand(qry, CommandType.Text, DbName, args))
+                {
+                    SqlDataAdapter adapt = new SqlDataAdapter(cmd);
+                    DataSet ds = new DataSet();
+                    adapt.Fill(ds);
+                    return ds;
+                }
+            }
+            finally
+            {
+                if (this._conn != null && this._conn.State == System.Data.ConnectionState.Open)
+                {
+                    this._conn.Close();
+                    this._conn.Dispose();
+                }
             }
         }
 
@@ -255,12 +335,23 @@ namespace RNDSystems.API.SQLHelper
         /// <returns>Results as a DataSet</returns>
         public DataSet ExecDataSetProc(string qry, string DbName = "RND", params object[] args)
         {
-            using (SqlCommand cmd = CreateCommand(qry, CommandType.StoredProcedure, DbName, args))
+            try
             {
-                SqlDataAdapter adapt = new SqlDataAdapter(cmd);
-                DataSet ds = new DataSet();
-                adapt.Fill(ds);
-                return ds;
+                using (SqlCommand cmd = CreateCommand(qry, CommandType.StoredProcedure, DbName, args))
+                {
+                    SqlDataAdapter adapt = new SqlDataAdapter(cmd);
+                    DataSet ds = new DataSet();
+                    adapt.Fill(ds);
+                    return ds;
+                }
+            }
+            finally
+            {
+                if (this._conn != null && this._conn.State == System.Data.ConnectionState.Open)
+                {
+                    this._conn.Close();
+                    this._conn.Dispose();
+                }
             }
         }
 
@@ -309,8 +400,19 @@ namespace RNDSystems.API.SQLHelper
 
         public void Dispose()
         {
+            if (_conn != null)
+            {
+                Rollback();
+                if (_conn.State == ConnectionState.Open)
+                {
+                    _conn.Close();
+                }
+                _conn.Dispose();
+                _conn = null;
+            }
             Dispose(true);
             GC.SuppressFinalize(this);
+
         }
 
         protected virtual void Dispose(bool disposing)
@@ -323,6 +425,10 @@ namespace RNDSystems.API.SQLHelper
                     if (_conn != null)
                     {
                         Rollback();
+                        if (_conn.State == ConnectionState.Open)
+                        {
+                            _conn.Close();
+                        }
                         _conn.Dispose();
                         _conn = null;
                     }

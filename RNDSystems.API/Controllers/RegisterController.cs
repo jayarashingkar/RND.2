@@ -21,7 +21,7 @@ namespace RNDSystems.API.Controllers
         public HttpResponseMessage Get(int UserId)
         {
             _logger.Debug("Register Get Called");
-            SqlDataReader reader = null;
+            // SqlDataReader reader = null;
             RNDLogin NUR = null;
             try
             {
@@ -32,7 +32,7 @@ namespace RNDSystems.API.Controllers
                 if (UserId > 0)
                 {
                     SqlParameter param1 = new SqlParameter("@UserId", UserId);
-                    using (reader = ado.ExecDataReaderProc("RNDRegisteredUser_ReadByID", "RND", new object[] { param1 }))
+                    using (SqlDataReader reader = ado.ExecDataReaderProc("RNDRegisteredUser_ReadByID", "RND", new object[] { param1 }))
                     {
                         if (reader.HasRows)
                         {
@@ -45,9 +45,13 @@ namespace RNDSystems.API.Controllers
                                 NUR.PermissionLevel = Convert.ToString(reader["PermissionLevel"]).Trim();
                             }
                         }
+                        if (ado._conn != null && ado._conn.State == System.Data.ConnectionState.Open)
+                        {
+                            ado._conn.Close(); ado._conn.Dispose();
+                        }
                     }
                 }
-                using (reader = ado.ExecDataReaderProc("RNDUserPermissionLevel_READ", "RND", null))
+                using (SqlDataReader reader = ado.ExecDataReaderProc("RNDUserPermissionLevel_READ", "RND", null))
                 {
                     if (reader.HasRows)
                     {
@@ -60,6 +64,10 @@ namespace RNDSystems.API.Controllers
                                 Selected = (NUR.PermissionLevel == Convert.ToString(reader["PermissionLevel"])) ? true : false,
                             });
                         }
+                    }
+                    if (ado._conn != null && ado._conn.State == System.Data.ConnectionState.Open)
+                    {
+                        ado._conn.Close(); ado._conn.Dispose();
                     }
                 }
                 return Serializer.ReturnContent(NUR, this.Configuration.Services.GetContentNegotiator(), this.Configuration.Formatters, this.Request);

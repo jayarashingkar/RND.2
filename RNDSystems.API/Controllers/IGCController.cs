@@ -40,7 +40,7 @@ namespace RNDSystems.API.Controllers
                 SqlParameter param11 = new SqlParameter("@MinDepth", ManulEntryData.MinDepth);
                 SqlParameter param12 = new SqlParameter("@MaxDepth", ManulEntryData.MaxDepth);
                 SqlParameter param13 = new SqlParameter("@AvgDepth", ManulEntryData.AvgDepth);
-               
+
                 sendMessage.Message = "";
                 using (SqlDataReader reader = ado.ExecDataReaderProc("RNDIGCResults_Insert", "RND", new object[]
                 { param1, param2, param3, param4, param5, param6, param7, param8,param9, param10, param11, param12, param13}))
@@ -56,6 +56,10 @@ namespace RNDSystems.API.Controllers
                                 sendMessage.Message += ", " + sendMessage.Custom;
                         }
                         sendMessage.Success = true;
+                    }
+                    if (ado._conn != null && ado._conn.State == System.Data.ConnectionState.Open)
+                    {
+                        ado._conn.Close(); ado._conn.Dispose();
                     }
                 }
             }

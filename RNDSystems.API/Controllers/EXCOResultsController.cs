@@ -43,7 +43,7 @@ namespace RNDSystems.API.Controllers
                 SqlParameter param13 = new SqlParameter("@TimeHrs", ManulEntryData.TimeHrs);
                 SqlParameter param14 = new SqlParameter("@TimeMns", ManulEntryData.TimeMns);
                 SqlParameter param15 = new SqlParameter("@BatchNo", ManulEntryData.BatchNo);
-               
+
                 sendMessage.Message = "";
                 using (SqlDataReader reader = ado.ExecDataReaderProc("RNDEXCOResults_Insert", "RND", new object[]
                 { param1, param2, param3, param4, param5, param6, param7, param8, param9, param10,param11, param12,
@@ -60,6 +60,10 @@ namespace RNDSystems.API.Controllers
                                 sendMessage.Message += ", " + sendMessage.Custom;
                         }
                         sendMessage.Success = true;
+                    }
+                    if (ado._conn != null && ado._conn.State == System.Data.ConnectionState.Open)
+                    {
+                        ado._conn.Close(); ado._conn.Dispose();
                     }
                 }
             }

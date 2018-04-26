@@ -52,6 +52,10 @@ namespace RNDSystems.API.Controllers
                         }
                         sendMessage.Success = true;
                     }
+                    if (ado._conn != null && ado._conn.State == System.Data.ConnectionState.Open)
+                    {
+                        ado._conn.Close(); ado._conn.Dispose();
+                    }
                 }
             }
             catch (Exception ex)

@@ -16,7 +16,7 @@ namespace RNDSystems.API.Controllers
         public HttpResponseMessage Get(int recID, int MillLotNo, string WorkStudyId)
         {
             _logger.Debug("Processing Get Called");
-            SqlDataReader reader = null;
+            // SqlDataReader reader = null;
             RNDProcessing PM = null;
 
             CurrentUser user = ApiUser;
@@ -33,7 +33,7 @@ namespace RNDSystems.API.Controllers
                     SqlParameter param0 = new SqlParameter("@WorkStudyID", WorkStudyId);
                     SqlParameter param1 = new SqlParameter("@MillLotNo", MillLotNo);
 
-                    using (reader = ado.ExecDataReaderProc("RNDHole_READByMillLotNo", "RND", param0, param1))
+                    using (SqlDataReader reader = ado.ExecDataReaderProc("RNDHole_READByMillLotNo", "RND", param0, param1))
                     {
                         if (reader.HasRows)
                         {
@@ -52,10 +52,14 @@ namespace RNDSystems.API.Controllers
 
                             }
                         }
+                        if (ado._conn != null && ado._conn.State == System.Data.ConnectionState.Open)
+                        {
+                            ado._conn.Close(); ado._conn.Dispose();
+                        }
                     }
                     SqlParameter param2 = new SqlParameter("@WorkStudyID", WorkStudyId);
                     SqlParameter param3 = new SqlParameter("@MillLotNo", MillLotNo);
-                    using (reader = ado.ExecDataReaderProc("RNDPcNo_READByMilLotNo", "RND", param2, param3))
+                    using (SqlDataReader reader = ado.ExecDataReaderProc("RNDPcNo_READByMilLotNo", "RND", param2, param3))
                     {
                         if (reader.HasRows)
                         {
@@ -72,6 +76,10 @@ namespace RNDSystems.API.Controllers
                                     });
                                 }
                             }
+                        }
+                        if (ado._conn != null && ado._conn.State == System.Data.ConnectionState.Open)
+                        {
+                            ado._conn.Close(); ado._conn.Dispose();
                         }
                     }
                 }
@@ -116,7 +124,7 @@ namespace RNDSystems.API.Controllers
         public HttpResponseMessage Get(string WorkStudyId, int recID)
         {
             _logger.Debug("Processing Get Called");
-            SqlDataReader reader = null;
+            //SqlDataReader reader = null;
             RNDProcessing PM = null;
 
             CurrentUser user = ApiUser;
@@ -134,7 +142,7 @@ namespace RNDSystems.API.Controllers
                 if (!string.IsNullOrEmpty(WorkStudyId))
                 {
                     SqlParameter param0 = new SqlParameter("@WorkStudyID", WorkStudyId);
-                    using (reader = ado.ExecDataReaderProc("RNDMillLotNo_READ", "RND", param0))
+                    using (SqlDataReader reader = ado.ExecDataReaderProc("RNDMillLotNo_READ", "RND", param0))
                     {
                         if (reader.HasRows)
                         {
@@ -148,11 +156,15 @@ namespace RNDSystems.API.Controllers
                                 });
                             }
                         }
+                        if (ado._conn != null && ado._conn.State == System.Data.ConnectionState.Open)
+                        {
+                            ado._conn.Close(); ado._conn.Dispose();
+                        }
                     }
 
                     SqlParameter param1 = new SqlParameter("@WorkStudyId", WorkStudyId);
 
-                    using (reader = ado.ExecDataReaderProc("RNDHTLogID_Read", "RND", param1))
+                    using (SqlDataReader reader = ado.ExecDataReaderProc("RNDHTLogID_Read", "RND", param1))
                     {
                         if (reader.HasRows)
                         {
@@ -170,28 +182,36 @@ namespace RNDSystems.API.Controllers
                                 }
                             }
                         }
+                        if (ado._conn != null && ado._conn.State == System.Data.ConnectionState.Open)
+                        {
+                            ado._conn.Close(); ado._conn.Dispose();
+                        }
                     }
 
                     SqlParameter param2 = new SqlParameter("@WorkStudyId", WorkStudyId);
 
-                    using (reader = ado.ExecDataReaderProc("RNDAgeLotID_Read", "RND", param2))
+                    using (SqlDataReader reader = ado.ExecDataReaderProc("RNDAgeLotID_Read", "RND", param2))
                     {
                         if (reader.HasRows)
                         {
                             while (reader.Read())
                             {
                                 string AgeLotID = Convert.ToString(reader["AgeLotID"]);
-                              
+
                                 if ((AgeLotID != " ") && (AgeLotID != "") && (AgeLotID != null))
                                 {
                                     PM.ddAgeLotID.Add(new SelectListItem
                                     {
                                         Value = AgeLotID,
-                                         Text = AgeLotID,                                       
+                                        Text = AgeLotID,
                                         Selected = (PM.AgeLotID == AgeLotID) ? true : false,
                                     });
                                 }
                             }
+                        }
+                        if (ado._conn != null && ado._conn.State == System.Data.ConnectionState.Open)
+                        {
+                            ado._conn.Close(); ado._conn.Dispose();
                         }
                     }
 
@@ -215,7 +235,7 @@ namespace RNDSystems.API.Controllers
         public HttpResponseMessage Get(int recID)
         {
             _logger.Debug("Processing Get Called");
-            SqlDataReader reader = null;
+            //SqlDataReader reader = null;
             RNDProcessing PM = null;
 
             try
@@ -233,7 +253,7 @@ namespace RNDSystems.API.Controllers
                 if (recID > 0)
                 {
                     SqlParameter param1 = new SqlParameter("@RecId", recID);
-                    using (reader = ado.ExecDataReaderProc("RNDProcessingMaterial_ReadByID", "RND", new object[] { param1 }))
+                    using (SqlDataReader reader = ado.ExecDataReaderProc("RNDProcessingMaterial_ReadByID", "RND", new object[] { param1 }))
                     {
                         if (reader.HasRows)
                         {
@@ -290,6 +310,10 @@ namespace RNDSystems.API.Controllers
                                 PM.total = Convert.ToInt32(reader["total"]);
                             }
                         }
+                        if (ado._conn != null && ado._conn.State == System.Data.ConnectionState.Open)
+                        {
+                            ado._conn.Close(); ado._conn.Dispose();
+                        }
                     }
                     //populate all the dropdowns
                     //start here 
@@ -312,7 +336,7 @@ namespace RNDSystems.API.Controllers
                         SqlParameter param2 = new SqlParameter("@WorkStudyId", PM.WorkStudyID);
                         SqlParameter param3 = new SqlParameter("@MillLotNo", PM.MillLotNo);
 
-                        using (reader = ado.ExecDataReaderProc("RNDHole_READByMillLotNo", "RND", param2, param3))
+                        using (SqlDataReader reader = ado.ExecDataReaderProc("RNDHole_READByMillLotNo", "RND", param2, param3))
                         {
                             if (reader.HasRows)
                             {
@@ -330,10 +354,14 @@ namespace RNDSystems.API.Controllers
                                     }
                                 }
                             }
+                            if (ado._conn != null && ado._conn.State == System.Data.ConnectionState.Open)
+                            {
+                                ado._conn.Close(); ado._conn.Dispose();
+                            }
                         }
                         SqlParameter param4 = new SqlParameter("@WorkStudyId", PM.WorkStudyID);
                         SqlParameter param5 = new SqlParameter("@MillLotNo", PM.MillLotNo);
-                        using (reader = ado.ExecDataReaderProc("RNDPcNo_READByMilLotNo", "RND", param4, param5))
+                        using (SqlDataReader reader = ado.ExecDataReaderProc("RNDPcNo_READByMilLotNo", "RND", param4, param5))
                         {
                             if (reader.HasRows)
                             {
@@ -352,9 +380,13 @@ namespace RNDSystems.API.Controllers
                                     }
                                 }
                             }
+                            if (ado._conn != null && ado._conn.State == System.Data.ConnectionState.Open)
+                            {
+                                ado._conn.Close(); ado._conn.Dispose();
+                            }
                         }
                         SqlParameter param6 = new SqlParameter("@WorkStudyId", PM.WorkStudyID);
-                        using (reader = ado.ExecDataReaderProc("RNDMillLotNo_READ", "RND", param6))
+                        using (SqlDataReader reader = ado.ExecDataReaderProc("RNDMillLotNo_READ", "RND", param6))
                         {
                             if (reader.HasRows)
                             {
@@ -367,6 +399,10 @@ namespace RNDSystems.API.Controllers
                                         Selected = (PM.MillLotNo == Convert.ToInt32(reader["MillLotNo"])) ? true : false,
                                     });
                                 }
+                            }
+                            if (ado._conn != null && ado._conn.State == System.Data.ConnectionState.Open)
+                            {
+                                ado._conn.Close(); ado._conn.Dispose();
                             }
                         }
                     }
@@ -440,8 +476,8 @@ namespace RNDSystems.API.Controllers
                 SqlParameter param3 = new SqlParameter("@GroupType", GroupType);
 
                 //if (recId in SelectedRecords ) 
-                   ado.ExecScalarProc("RNDGroupName_Insert", "RND", new object[] { param1, param2, param3 });
-               // ado.ExecScalarProc("RNDGroupName_Insert", "RND", new object[] { param1, param3 });
+                ado.ExecScalarProc("RNDGroupName_Insert", "RND", new object[] { param1, param2, param3 });
+                // ado.ExecScalarProc("RNDGroupName_Insert", "RND", new object[] { param1, param3 });
             }
             catch (Exception ex)
             {
@@ -474,7 +510,7 @@ namespace RNDSystems.API.Controllers
                 if (ProcessingMaterial.Hole == null)
                     ProcessingMaterial.Hole = "";
 
-                string PieceNo = ProcessingMaterial.PieceNo;                
+                string PieceNo = ProcessingMaterial.PieceNo;
                 if ((PieceNo.Trim()) == "-1")
                 {
                     ProcessingMaterial.PieceNo = "";
