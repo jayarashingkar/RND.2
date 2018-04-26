@@ -20,21 +20,21 @@ namespace RNDSystems.API.Controllers
         public HttpResponseMessage Get(int recID)
         {
             _logger.Debug("Assign Material Get Called");
-            SqlDataReader reader = null;
+            //SqlDataReader reader = null;
             RNDMaterial AM = null;
             try
             {
                 CurrentUser user = ApiUser;
                 AM = new RNDMaterial();
                 AdoHelper ado = new AdoHelper();
-               
+
                 AM.ddlAlloy = new List<SelectListItem>() { GetInitialSelectItem() };
                 AM.ddlTemper = new List<SelectListItem>() { GetInitialSelectItem() };
-                
+
                 if (recID > 0)
                 {
                     SqlParameter param1 = new SqlParameter("@RecId", recID);
-                    using (reader = ado.ExecDataReaderProc("RNDAssignMaterial_ReadByID", "RND", new object[] { param1 }))
+                    using (SqlDataReader reader = ado.ExecDataReaderProc("RNDAssignMaterial_ReadByID", "RND", new object[] { param1 }))
                     {
                         if (reader.HasRows)
                         {
@@ -47,7 +47,7 @@ namespace RNDSystems.API.Controllers
                                 AM.CustPart = Convert.ToString(reader["CustPart"]);
                                 AM.UACPart = Convert.ToDecimal(reader["UACPart"]);
                                 AM.Alloy = Convert.ToString(reader["Alloy"]);
-                                AM.Temper = Convert.ToString(reader["Temper"]); 
+                                AM.Temper = Convert.ToString(reader["Temper"]);
                                 AM.GageThickness = Convert.ToString(reader["GageThickness"]);
                                 AM.Location2 = Convert.ToString(reader["Location2"]);
                                 AM.Hole = Convert.ToString(reader["Hole"]);
@@ -59,48 +59,14 @@ namespace RNDSystems.API.Controllers
                                 //AM.RCS = Convert.ToChar(reader["RCS"]);
                             }
                         }
-                        /*
-                        SqlParameter param0 = new SqlParameter("@MillLotID", AM.MillLotNo);
-                        using (reader = ado.ExecDataReaderProc("RNDUACPART_READ", true, param0))
+                        if (ado._conn != null && ado._conn.State == System.Data.ConnectionState.Open)
                         {
-                            if (reader.HasRows)
-                            {
-                                while (reader.Read())
-                                {
-                                    AM.ddlAlloy.Add(new SelectListItem
-                                    {
-                                        Value = Convert.ToString(reader["ALLOY"]),
-                                        Text = Convert.ToString(reader["ALLOY"]),
-                                        Selected = (AM.Alloy == Convert.ToString(reader["ALLOY"])) ? true : false,
-                                    });
-                                }
-                            }
+                            ado._conn.Close(); ado._conn.Dispose();
                         }
 
-                        if (!string.IsNullOrEmpty(AM.Alloy))
-                        {
-                             param0 = new SqlParameter("@Alloy", AM.Alloy);
-
-                            using (reader = ado.ExecDataReaderProc("RNDUACVALIDTEMPER_READBYALLOY", true, new object[] { param0 }))
-                            {
-                                if (reader.HasRows)
-                                {
-                                    while (reader.Read())
-                                    {
-                                        AM.ddlTemper.Add(new SelectListItem
-                                        {
-                                            Value = Convert.ToString(reader["TEMPER"]),
-                                            Text = Convert.ToString(reader["TEMPER"]),
-                                            Selected = (AM.Temper == Convert.ToString(reader["TEMPER"])) ? true : false,
-                                        });
-                                    }
-                                }
-                            }
-                        }
-                        */
                     }
                 }
-                
+
                 return Serializer.ReturnContent(AM, this.Configuration.Services.GetContentNegotiator(), this.Configuration.Formatters, this.Request);
             }
             catch (Exception ex)
@@ -117,11 +83,11 @@ namespace RNDSystems.API.Controllers
         /// <param name="recID"></param>
         /// <returns></returns>
         // public HttpResponseMessage Get(int MillLotNo, int recID)
-          public HttpResponseMessage Get(int MillLotNo, int recID, string DataBaseName)
-      //  public HttpResponseMessage Get(decimal UACPART, int recID, string DataBaseName)
+        public HttpResponseMessage Get(int MillLotNo, int recID, string DataBaseName)
+        //  public HttpResponseMessage Get(decimal UACPART, int recID, string DataBaseName)
         {
             _logger.Debug("Assign Material Mill Lot No Get Called");
-            SqlDataReader reader = null;
+            //  SqlDataReader reader = null;
             RNDMaterial AM = null;
             string DBName;// = "RDBPROD";
             try
@@ -131,13 +97,13 @@ namespace RNDSystems.API.Controllers
                 AdoHelper ado = new AdoHelper();
                 AM.ddlAlloy = new List<SelectListItem>() { GetInitialSelectItem() };
                 if (MillLotNo > 0)
-               // if (UACPART > 0)
+                // if (UACPART > 0)
                 {
-                     SqlParameter param1 = new SqlParameter("@MillLotID", MillLotNo);
-                  //  SqlParameter param1 = new SqlParameter("@UACPART", UACPART);
+                    SqlParameter param1 = new SqlParameter("@MillLotID", MillLotNo);
+                    //  SqlParameter param1 = new SqlParameter("@UACPART", UACPART);
 
                     switch (DataBaseName)
-                    {                        
+                    {
                         case "ROM":
                             DBName = "ROPROD";//Romania Productin Database
                             break;
@@ -145,17 +111,17 @@ namespace RNDSystems.API.Controllers
                             DBName = "RDBPROD";//US Production Database
                             break;
                         case "NO":
-                           //No Database selected 
+                            //No Database selected 
                             DBName = "NO";
                             break;
                         default:
                             DBName = "RDBPROD";//US Production Database
                             break;
-                    }    
-                         
-                        if (DBName != "NO")
+                    }
+
+                    if (DBName != "NO")
                     {
-                        using (reader = ado.ExecDataReaderProc("RNDUACPART_READ", DBName, new object[] { param1 }))
+                        using (SqlDataReader reader = ado.ExecDataReaderProc("RNDUACPART_READ", DBName, new object[] { param1 }))
                         {
                             if (reader.HasRows)
                             {
@@ -170,7 +136,12 @@ namespace RNDSystems.API.Controllers
                                     AM.SoNum = Convert.ToString(reader["SoNum"]);
                                 }
                             }
+                            if (ado._conn != null && ado._conn.State == System.Data.ConnectionState.Open)
+                            {
+                                ado._conn.Close(); ado._conn.Dispose();
+                            }
                         }
+
                     }
                     else
                     {
@@ -196,18 +167,17 @@ namespace RNDSystems.API.Controllers
                         }
                     }
                     */
-                }                
-               // return Serializer.ReturnContent(AM, this.Configuration.Services.GetContentNegotiator(), this.Configuration.Formatters, this.Request);
+                }
+                //return Serializer.ReturnContent(AM, this.Configuration.Services.GetContentNegotiator(), this.Configuration.Formatters, this.Request);
             }
             catch (Exception ex)
             {
-                // _logger.Error(ex.Message);
-                //return new HttpResponseMessage(HttpStatusCode.InternalServerError);
+                _logger.Error(ex.Message);
+                // return new HttpResponseMessage(HttpStatusCode.InternalServerError);
                 AM.MillLotNo = 0;
                 AM.Comment = ex.Message;
             }
             return Serializer.ReturnContent(AM, this.Configuration.Services.GetContentNegotiator(), this.Configuration.Formatters, this.Request);
-
         }
 
         /*
@@ -281,7 +251,6 @@ namespace RNDSystems.API.Controllers
                     AssignMaterial.DBCntry = "NO";
                 if (AssignMaterial.CustPart == null)
                     AssignMaterial.CustPart = "";
-
                 SqlParameter param1 = new SqlParameter("@WorkStudyID", AssignMaterial.WorkStudyID);
                 SqlParameter param2 = new SqlParameter("@SoNum", AssignMaterial.SoNum);
                 SqlParameter param3 = new SqlParameter("@MillLotNo", AssignMaterial.MillLotNo);
@@ -295,15 +264,16 @@ namespace RNDSystems.API.Controllers
                 SqlParameter param11 = new SqlParameter("@PieceNo", AssignMaterial.PieceNo);
                 SqlParameter param12 = new SqlParameter("@Comment", AssignMaterial.Comment);
                 SqlParameter param13 = new SqlParameter("@EntryDate", DateTime.Now);
-                //  SqlParameter param14 = new SqlParameter("@EntryBy", user.UserId);
+              //  SqlParameter param14 = new SqlParameter("@EntryBy", user.UserId);
                 SqlParameter param14 = new SqlParameter("@EntryBy", user.UserName);
+
                 SqlParameter param15 = new SqlParameter("@DBCntry", AssignMaterial.DBCntry);
-             //   SqlParameter param16 = new SqlParameter("@RCS", AssignMaterial.RCS);
+                //   SqlParameter param16 = new SqlParameter("@RCS", AssignMaterial.RCS);
 
                 if (AssignMaterial.RecID > 0)
                 {
                     SqlParameter param17 = new SqlParameter("@RecId", AssignMaterial.RecID);
-                    ado.ExecScalarProc("RNDAssignMaterial_Update", "RND", new object[] { param1, param2, param3, param4, param5, param6, param7, param8, param9, param10, param11, param12, param13, param14, param15,   param17 });
+                    ado.ExecScalarProc("RNDAssignMaterial_Update", "RND", new object[] { param1, param2, param3, param4, param5, param6, param7, param8, param9, param10, param11, param12, param13, param14, param15, param17 });
                 }
                 else
                 {
@@ -311,7 +281,7 @@ namespace RNDSystems.API.Controllers
                 }
             }
             catch (Exception ex)
-            { 
+            {
                 _logger.Error(ex.Message);
                 return new HttpResponseMessage(HttpStatusCode.InternalServerError);
             }
