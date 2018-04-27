@@ -60,7 +60,7 @@
                 </div>*@
             <div class="col-md-6">
                 <div class="form-group">
-                    <div class="button btn btn-success" id="btnImportDefault">Import Default</div>
+                    <div class="button btn btn-success" id="btnImportDefault"><i class="fa fa-download" aria-hidden="true"></i>Import Default</div>
                 </div>
             </div>
         </div>
@@ -83,23 +83,25 @@
                         <button class="btn btn-default btn-choose" id="Choose" name="Choose" type="button">Choose</button>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-md-3">
-                        @*<button type="submit" value="Upload" class="save" id="Import" name="Import"><i class="btn btn-success"></i>Import</button>*@
-                        <button type="submit" value="Upload" class="save btn-success" id="Import" name="Import">Import</button>
-                    </div>
-                    <div class="col-md-3">
-                        <button type="reset" class="btn btn-danger" id="Reset" name="Reset">Reset</button>
-                    </div>
-                </div>
                 @*<div class="row">
                     <div class="col-md-3">
-                        <div class="form-group">
-                            <button type="submit" value="Upload" class="save" id="Import" name="Import"><i class="btn btn-success"></i>Import</button>
-                            <button type="reset" class="btn btn-danger" id="Reset" name="Reset">Reset</button>
-                        </div>
+                        <button type="submit" value="Upload" class="save btn-success btn-large" id="Import" name="Import">Import</button>
+                    </div>
+                    <div class="col-md-3">
+                        <button type="reset" class="btn btn-danger btn-large" id="Reset" name="Reset">Reset</button>
                     </div>
                 </div>*@
+
+
+                <div class="row">
+                    <div class="col-md-3">                      
+                        <button type="submit" value="Upload" class="save btn btn-success btn-large" id="Import" name="Import"><i class="fa fa-download" aria-hidden="true"></i>Import</button>
+                     </div>
+                    <div class="col-md-3">
+                        <button type="reset" class="btn btn-danger btn-large" id="Reset" name="Reset"><i class="fa fa-undo" aria-hidden="true"></i> Reset</button>
+                    </div>
+                </div>
+               
             </div>
         </div>
 }   
