@@ -189,7 +189,6 @@ namespace RNDSystems.API.Controllers
                     case "Tension":
                         {
                             importData = UploadTension(token);
-
                             break;
                         }
                     case "Compression":
@@ -238,7 +237,7 @@ namespace RNDSystems.API.Controllers
                             importData = UploadFatigue(token);
                             break;
                         }
-                    default:
+                    default:                       
                         break;
 
                 }

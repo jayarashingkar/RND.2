@@ -35,7 +35,7 @@ namespace RNDSystems.Web.Controllers
                     if (res.Result.IsSuccessStatusCode)
                     {
                         RNDProcessing rndProcessing = JsonConvert.DeserializeObject<RNDProcessing>(res.Result.Content.ReadAsStringAsync().Result);
-                        if (rndProcessing!=null)
+                        if (rndProcessing != null)
                         {
                             ddHTLogID = rndProcessing.ddHTLogID;
                             ddAgeLotID = rndProcessing.ddAgeLotID;
@@ -44,9 +44,9 @@ namespace RNDSystems.Web.Controllers
                     }
                 });
                 task.Wait();
-                ViewBag.ddHTLogID = ddHTLogID;
-                ViewBag.ddAgeLotID = ddAgeLotID;
-                ViewBag.ddMillLotNo = ddMillLotNo;
+                ViewBag.ddHTLogID = ddHTLogID ?? (new List<SelectListItem>() { new SelectListItem() { Text = " ", Value = " " } }); ;
+                ViewBag.ddAgeLotID = ddAgeLotID ?? (new List<SelectListItem>() { new SelectListItem() { Text = " ", Value = " " } }); ;
+                ViewBag.ddMillLotNo = ddMillLotNo ?? (new List<SelectListItem>() { new SelectListItem() { Text = " ", Value = " " } }); ;
 
                 processing = new RNDProcessing
                 {
@@ -59,7 +59,7 @@ namespace RNDSystems.Web.Controllers
             }
             return View(processing);
         }
-               
+
         /// <summary>
         /// Retrieve Processing Material List details for Update
         /// </summary>
@@ -72,17 +72,17 @@ namespace RNDSystems.Web.Controllers
             RNDProcessing processing = null;
 
             List<SelectListItem> ddSHTStartHrs = null;
-          
+
             List<SelectListItem> ddArtStartHrs = null;
             List<SelectListItem> ddSHTStartMin = null;
-          
+
             List<SelectListItem> ddArtStartMin = null;
-        //    List<SelectListItem> ddlRCS = null;
+            //    List<SelectListItem> ddlRCS = null;
 
             List<SelectListItem> ddlMillLotNo = null;
             List<SelectListItem> ddlPieceNo = null;
-            List<SelectListItem> ddlHole = null;         
-           
+            List<SelectListItem> ddlHole = null;
+
             string strValue = string.Empty;
             int totalMinutes = 59;
             int intRowId = 0;
@@ -99,18 +99,18 @@ namespace RNDSystems.Web.Controllers
                         {
                             processing = JsonConvert.DeserializeObject<RNDProcessing>(res.Result.Content.ReadAsStringAsync().Result);
                             if (processing != null)
-                            {                               
+                            {
                                 ddlMillLotNo = processing.ddMillLotNo;
                                 ddlHole = processing.ddHole;
                                 ddlPieceNo = processing.ddPieceNo;
                             }
                         }
                     });
-                    task.Wait();                   
+                    task.Wait();
                 }
                 //ends here
                 else
-                {                   
+                {
                     var task = client.GetAsync(Api + "api/Processing?recID=" + id + "&workStudyID=" + workStudyId).ContinueWith((res) =>
                     {
                         if (res.Result.IsSuccessStatusCode)
@@ -136,8 +136,8 @@ namespace RNDSystems.Web.Controllers
                 ddArtStartHrs = new List<SelectListItem>();
                 ddSHTStartMin = new List<SelectListItem>();
                 ddArtStartMin = new List<SelectListItem>();
-              //  ddlRCS = new List<SelectListItem>();
-                
+                //  ddlRCS = new List<SelectListItem>();
+
                 while (intRowId <= totalMinutes)
                 {
                     if (intRowId > 9)
@@ -148,8 +148,8 @@ namespace RNDSystems.Web.Controllers
                     {
                         strValue = "0" + Convert.ToString(intRowId);
                     }
-                    
-                    if(intRowId < 24)
+
+                    if (intRowId < 24)
                     {
                         ddSHTStartHrs.Add(new SelectListItem
                         {
@@ -163,7 +163,7 @@ namespace RNDSystems.Web.Controllers
                             Text = strValue,
                             Selected = (Convert.ToString(processing.ArtStartHrs) == Convert.ToString(strValue)) ? true : false,
                         });
-                       
+
                     }
 
                     ddSHTStartMin.Add(new SelectListItem
@@ -178,7 +178,7 @@ namespace RNDSystems.Web.Controllers
                         Text = strValue,
                         Selected = (Convert.ToString(processing.ArtStartMns) == Convert.ToString(strValue)) ? true : false,
                     });
-                   
+
                     intRowId += 1;
                 }
 
@@ -195,16 +195,16 @@ namespace RNDSystems.Web.Controllers
                 //    Selected = (Convert.ToString(processing.RCS) == Convert.ToString('1')) ? true : false,
                 //});    
 
-                ViewBag.ddSHTStartHours = ddSHTStartHrs;
-                ViewBag.ddArtStartHours = ddArtStartHrs;
-                ViewBag.ddSHTStartMinutes = ddSHTStartMin;
-                ViewBag.ddArtStartMinutes = ddArtStartMin;
+                ViewBag.ddSHTStartHours = ddSHTStartHrs ?? (new List<SelectListItem>() { new SelectListItem() { Text = " ", Value = " " } });
+                ViewBag.ddArtStartHours = ddArtStartHrs ?? (new List<SelectListItem>() { new SelectListItem() { Text = " ", Value = " " } });
+                ViewBag.ddSHTStartMinutes = ddSHTStartMin ?? (new List<SelectListItem>() { new SelectListItem() { Text = " ", Value = " " } });
+                ViewBag.ddArtStartMinutes = ddArtStartMin ?? (new List<SelectListItem>() { new SelectListItem() { Text = " ", Value = " " } });
 
-                ViewBag.ddlMillLotNo = ddlMillLotNo;
-                ViewBag.ddlHole = ddlHole;
-                ViewBag.ddlPieceNo = ddlPieceNo;
+                ViewBag.ddlMillLotNo = ddlMillLotNo ?? (new List<SelectListItem>() { new SelectListItem() { Text = " ", Value = " " } });
+                ViewBag.ddlHole = ddlHole ?? (new List<SelectListItem>() { new SelectListItem() { Text = " ", Value = " " } });
+                ViewBag.ddlPieceNo = ddlPieceNo ?? (new List<SelectListItem>() { new SelectListItem() { Text = " ", Value = " " } });
 
-               // ViewBag.ddlRCS = ddlRCS;
+                // ViewBag.ddlRCS = ddlRCS;
             }
             catch (Exception ex)
             {
@@ -222,7 +222,7 @@ namespace RNDSystems.Web.Controllers
         public ActionResult SaveProcessingMaterial(RNDProcessing model)
         {
             var client = GetHttpClient();
-            
+
             try
             {
                 var task = client.PostAsJsonAsync(Api + "api/Processing", model).ContinueWith((res) =>

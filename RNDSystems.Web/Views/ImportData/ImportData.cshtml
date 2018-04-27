@@ -84,11 +84,22 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="form-group">
-                        <button type="submit" value="Upload" class="save" id="Import" name="Import"><i class="btn btn-success"></i>Import</button>
+                    <div class="col-md-3">
+                        @*<button type="submit" value="Upload" class="save" id="Import" name="Import"><i class="btn btn-success"></i>Import</button>*@
+                        <button type="submit" value="Upload" class="save btn-success" id="Import" name="Import">Import</button>
+                    </div>
+                    <div class="col-md-3">
                         <button type="reset" class="btn btn-danger" id="Reset" name="Reset">Reset</button>
                     </div>
                 </div>
+                @*<div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <button type="submit" value="Upload" class="save" id="Import" name="Import"><i class="btn btn-success"></i>Import</button>
+                            <button type="reset" class="btn btn-danger" id="Reset" name="Reset">Reset</button>
+                        </div>
+                    </div>
+                </div>*@
             </div>
         </div>
 }   
@@ -103,47 +114,15 @@
             <div class="row">
                 <div class="col-md-16">
                     <h4>
-                        <label id="lblError" class="col-md-16 control-label btn-danger"></label><br> 
-                        <label id="lblImported" class="col-md-16 control-label bg-success"></label>
+                        <label id="lblError" class="col-md-16 control-label btn-danger"></label><br>     
+                        <i class="bg-success"></i>                                     
+                            @Html.Label("lblImported", (string)@ViewBag.result)                         
                         @*<label id="lblImported" class="col-md-16 control-label bg-success"></label>*@                    
                     </h4>
                 </div>
             </div>
-
-
-      @*  <br><label for="hdManualEntry" id="hdManualEntry" class="cols-sm-2 control-label bg-info text-uppercase text-muted">Manual Entry</label>*@
-            @*<div class="row">
-                <div class="col-md-3">
-                    <div class="form-group disabled">
-                        <label for="lblddWorkStudyId" class="cols-sm-2 control-label">WorkStudyID</label>
-                        <div class="cols-sm-10">
-                            @Html.DropDownList("ddWorkStudyId", ViewBag.ddWorkStudyId as IEnumerable<SelectListItem>, new { @class = "show-tick" })
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-3">
-                    <div class="form-group disabled">
-                        <label for="lblddTestNos" class="cols-sm-2 control-label">Test Number</label>
-                        <div class="cols-sm-10">
-                            @Html.DropDownList("ddTestNos", ViewBag.ddWorkStudyId as IEnumerable<SelectListItem>, new { @class = "show-tick" })
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-3">
-                    <button id="btnOpenTest" class="btn btn-success disabled"><i class="fa fa-plus" aria-hidden="true"></i>Open Test</button>
-                </div>
-
-            </div>*@
         </div>
-@*  @{Html.RenderPartial("_Repeater", "ImportDataRepeater");}*@
 </div>
 @section scripts{
-    @Scripts.Render("~/bundles/ImportData")
-    @*<script>
-            $(document).ready(function () {
-                LoadGrid("ImportDataRepeater");
-            });
-        </script>*@
+    @Scripts.Render("~/bundles/ImportData")   
 }

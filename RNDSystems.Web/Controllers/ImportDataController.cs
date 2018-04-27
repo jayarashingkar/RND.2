@@ -31,9 +31,7 @@ namespace RNDSystems.Web.Controllers
             ImportDataViewModel data = new ImportDataViewModel();
             try
             {
-               if (result == null)             
-                {
-                    data.results = "";
+                   data.results = "";
                     ddTestTypes = new List<SelectListItem>();               
                     var client = GetHttpClient();
                     //   var task = client.GetAsync(Api + "api/ImportData?WorkStudyId=none").ContinueWith((res) =>
@@ -51,17 +49,14 @@ namespace RNDSystems.Web.Controllers
                     task.Wait();
                     ViewBag.ddTestTypes = ddTestTypes;
                     ViewBag.ddTestTypesDefault = ddTestTypes;
-                }
-                else
-                {
-                     data.results = TempData["results"].ToString(); 
-                   // data.results = result;
-                    // populate ddTestNos by sending the WorkStudyId as parameter
-                }
+                    ViewBag.result = " ";
+                    if (result != null)                       
+                        ViewBag.result = result;
+                      
             }
             catch (Exception ex)
             {
-                data.results = ex.ToString();
+                ViewBag.result = ex.ToString();
                 _logger.Error(ex);
               
             }
@@ -72,6 +67,7 @@ namespace RNDSystems.Web.Controllers
         [HttpPost]
         public ActionResult Upload(HttpPostedFileBase file, string selectedTestType)
         {
+           // TempData["result"] = " ";
             ApiViewModel importData = new ApiViewModel();
             try
             {               
@@ -83,25 +79,33 @@ namespace RNDSystems.Web.Controllers
                     byte[] binData = b.ReadBytes(file.ContentLength);
                     string results = System.Text.Encoding.UTF8.GetString(binData);
 
-                    var task = client.GetAsync(Api + "api/ImportData?id=0" + "&results=" + results + "&selectedTestType=" + selectedTestType).ContinueWith((res) =>
+                    string strfileName = fileName.ToString();
+                    if (!strfileName.Contains(selectedTestType))
+                        importData.Message = "Please check the correct file is imported";
+                    else if  (selectedTestType == "-1")
+                        importData.Message = "Please select the Test Type";
+                    else
                     {
-                        if (res.Result.IsSuccessStatusCode)
+                        var task = client.GetAsync(Api + "api/ImportData?id=0" + "&results=" + results + "&selectedTestType=" + selectedTestType).ContinueWith((res) =>
                         {
-                            importData = JsonConvert.DeserializeObject<ApiViewModel>(res.Result.Content.ReadAsStringAsync().Result);
-                        }
-                    });
-                    task.Wait();               
+                            if (res.Result.IsSuccessStatusCode)
+                            {
+                                importData = JsonConvert.DeserializeObject<ApiViewModel>(res.Result.Content.ReadAsStringAsync().Result);
+                            }
+                        });
+                        task.Wait();
+                    }                 
                 }
+                else
+                    importData.Message = "Please check the correct file is imported";
             }
             catch (Exception ex)
             {
                 _logger.Error(ex.Message);
                 importData.Message = ex.ToString();
             }
-            TempData["result"] = importData.Message;
-            return RedirectToAction("ImportData");
-            // return RedirectToAction("ImportData", new { result = importData.Message });
-
+          
+             return RedirectToAction("ImportData", new { result = importData.Message });
         }
         
     }

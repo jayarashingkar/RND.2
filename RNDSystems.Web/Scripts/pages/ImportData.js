@@ -15,12 +15,13 @@
     $('#ddTestNos').attr("disabled", "disabled");
 
     var selectedTestType =""; 
-  
+ 
     $("#btnImportDefault").prop('disabled', true);
  //   $("#ddTestTypesDefault").prop("disabled", true);
     $("#Import").prop('disabled', true);
+    $("#Choose").prop('disabled', true);
   //  $("#ddTestTypes").prop('disabled', true);
-
+  
     $("#btnSelectImport").click(function () {
            
         var importType = $("input:radio[name='ImportRadio']:checked").val();
@@ -38,6 +39,7 @@
             $("#btnImportDefault").prop('disabled', true);
          //   $("#ddTestTypesDefault").prop("disabled", true);
             $("#Import").prop('disabled', false);
+            $("#Choose").prop('disabled', false);
       //      $("#ddTestTypes").prop('disabled', false);
 
             $("#hdImport").addClass("bg-primary").removeClass("bg-info");
@@ -93,8 +95,7 @@
     });    
 
     $("#Choose").click(function () {      
-        //$("#filePath1").click();
-        // $("#filePathChoose").val($("#filePath1").val());
+      
         $("#file").click();
         $("#filePathChoose").val($("#file").val());
     });
@@ -104,22 +105,24 @@
     });
 
     //try 
-    $("#Import").click(function () {   
-       selectedTestType = $.trim($("#ddTestTypes").val());
-       $("#selectedTestType").val(selectedTestType);
-
+    $("#Import").click(function () {
+        if (selectedTestType == '-1')
+            bootbox.alert("Please select Test Type");
+        else{
+            selectedTestType = $.trim($("#ddTestTypes").val());
+            $("#selectedTestType").val(selectedTestType);
+        }
+      
         var filePath = "";
-        //if ($("#filePath1").val() != null) {
-        //    filePath = $.trim($("#filePath1").val());
-        //}
         if ($("#file").val() != null) {
             filePath = $.trim($("#file").val());
         }
         $('#lblFileName').text("Importing file: " + filePath);
-        var errorMsg;
-        if (!filePath.includes(selectedTestType)) {
-            errorMsg = "Import Error: Please check the correct file is imported";
-        }
+        //var errorMsg;
+        //if (!filePath.includes(selectedTestType)) {
+        //    errorMsg = "Import Error: Please check the correct file is imported";
+        //    $('#lblError').text(errorMsg);
+        //}
 
        // var options = {
        //    // MessageList: selectedTestTypes,
@@ -152,11 +155,8 @@
        //        }
        //    }
         //});
-
+       
     });
-
-  //  debugger;
-    if (($('#results').val() != "") || ($('#results').val() != null))
-        $('#lblImported').val($('#results').val());
+    $('#lblImported').addClass("bg-success");
 
 });
