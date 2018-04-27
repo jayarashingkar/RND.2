@@ -112,13 +112,19 @@
             </div>
 
             <div class="row">
-                <div class="col-md-16">
-                    <h4>
-                        <label id="lblError" class="col-md-16 control-label btn-danger"></label><br>     
-                        <i class="bg-success"></i>                                     
-                            @Html.Label("lblImported", (string)@ViewBag.result)                         
-                        @*<label id="lblImported" class="col-md-16 control-label bg-success"></label>*@                    
-                    </h4>
+                <div style="font-size:18px" class="col-md-16">
+                   
+                        @*<label id="lblError" class="col-md-16 control-label btn-danger"></label>*@<br>    
+                    <div style="color:red">
+                        <label for="" name="lblError" id="lblError" class="cols-sm-2 control-label">@Html.Raw(ViewBag.error)</label><br>
+                        @*@Html.Label("lblImported", (string)@ViewBag.result)*@
+                    </div>
+                        <div style="color:green">
+                            <label for="" name="lblMessage" id="lblMessage" class="cols-sm-2 control-label">@Html.Raw(ViewBag.result)</label>
+                            @*@Html.Label("lblImported", (string)@ViewBag.result)*@
+                        </div>
+                            @*<label id="lblImported" class="col-md-16 control-label bg-success"></label>*@
+
                 </div>
             </div>
         </div>

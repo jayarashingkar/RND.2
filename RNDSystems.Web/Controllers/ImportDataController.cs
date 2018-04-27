@@ -46,17 +46,25 @@ namespace RNDSystems.Web.Controllers
                             }
                         }
                     });
-                    task.Wait();
-                    ViewBag.ddTestTypes = ddTestTypes;
-                    ViewBag.ddTestTypesDefault = ddTestTypes;
-                    ViewBag.result = " ";
-                    if (result != null)                       
+                task.Wait();
+                ViewBag.ddTestTypes = ddTestTypes;
+                ViewBag.ddTestTypesDefault = ddTestTypes;
+                ViewBag.result = " ";
+
+                ViewBag.error = " ";
+                if (result != null)
+                {
+                    if (result.Contains("data saved"))
                         ViewBag.result = result;
+                    else
+                        ViewBag.error = result;
+                }                    
+                       
                       
             }
             catch (Exception ex)
             {
-                ViewBag.result = ex.ToString();
+                ViewBag.error = ex.ToString();
                 _logger.Error(ex);
               
             }
