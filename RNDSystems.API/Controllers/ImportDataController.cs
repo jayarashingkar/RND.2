@@ -77,78 +77,171 @@ namespace RNDSystems.API.Controllers
             }
         }
 
+
         ApiViewModel ImportData(string tt, string filePath)
         {
             ApiViewModel sendMessage = new ApiViewModel();
             sendMessage.Message = "";
             sendMessage.Success = false;
+
+            DataTableReturn dataTable = new DataTableReturn();
             switch (tt)
             {
                 case "Tension":
                     {
                         if (filePath == "none")
                             filePath = "S:\\RD\\Database\\Export\\ForNewDataBase\\Tension.csv";
-                        sendMessage = UploadTension(Common.Parser.CsvToDataTable(filePath, false));
+
+                        dataTable = Common.Parser.CsvToDataTable(filePath, false);
+                        if (dataTable.Success)
+                            sendMessage = UploadTension(dataTable.data);
+                        else
+                        {
+                            sendMessage.Message = dataTable.Message;
+                            sendMessage.Success = dataTable.Success;
+                        }
+                      //  sendMessage = UploadTension(Common.Parser.CsvToDataTable(filePath, false));
                         break;
                     }
                 case "Compression":
                     {
                         if (filePath == "none")
                             filePath = "S:\\RD\\Database\\Export\\ForNewDataBase\\Compression.csv";
-                        sendMessage = UploadCompression(Common.Parser.CsvToDataTable(filePath, false));
+                        dataTable = Common.Parser.CsvToDataTable(filePath, false);
+                        if (dataTable.Success)
+                            sendMessage = UploadCompression(dataTable.data);
+                        else
+                        {
+                            sendMessage.Message = dataTable.Message;
+                            sendMessage.Success = dataTable.Success;
+                        }
+                      //  sendMessage = UploadCompression(Common.Parser.CsvToDataTable(filePath, false));
                         break;
                     }
                 case "Bearing":
                     {
                         if (filePath == "none")
                             filePath = "S:\\RD\\Database\\Export\\ForNewDataBase\\Bearing.csv";
-                        sendMessage = UploadBearing(Common.Parser.CsvToDataTable(filePath, false));
+                        dataTable = Common.Parser.CsvToDataTable(filePath, false);
+                        if (dataTable.Success)
+                            sendMessage = UploadBearing(dataTable.data);
+                        else
+                        {
+                            sendMessage.Message = dataTable.Message;
+                            sendMessage.Success = dataTable.Success;
+                        }
+                        //sendMessage = UploadBearing(Common.Parser.CsvToDataTable(filePath, false));
                         break;
                     }
                 case "Shear":
                     {
                         if (filePath == "none")
                             filePath = "S:\\RD\\Database\\Export\\ForNewDataBase\\Shear.csv";
-                        sendMessage = UploadShear(Common.Parser.CsvToDataTable(filePath, false));
+
+                        dataTable = Common.Parser.CsvToDataTable(filePath, false);
+                        if (dataTable.Success)
+                            sendMessage = UploadShear(dataTable.data);
+                        else
+                        {
+                            sendMessage.Message = dataTable.Message;
+                            sendMessage.Success = dataTable.Success;
+                        }
+                       // sendMessage = UploadShear(Common.Parser.CsvToDataTable(filePath, false));
                         break;
                     }
                 case "Notch Yield":
                     {
-                        sendMessage = UploadNotchYield(Common.Parser.CsvToDataTable(filePath, true));
+                        if (filePath == "none")
+                            filePath = "S:\\RD\\Database\\Export\\ForNewDataBase\\Notch Yield.csv";
+
+                        dataTable = Common.Parser.CsvToDataTable(filePath, false);
+                        if (dataTable.Success)
+                            sendMessage = UploadNotchYield(dataTable.data);
+                        else
+                        {
+                            sendMessage.Message = dataTable.Message;
+                            sendMessage.Success = dataTable.Success;
+                        }
+
+                       // sendMessage = UploadNotchYield(Common.Parser.CsvToDataTable(filePath, true));
                         break;
                     }
                 case "Residual Strength":
                     {
-                        sendMessage = UploadResidualStrength(Common.Parser.CsvToDataTable(filePath, true));
+                        if (filePath == "none")
+                            filePath = "S:\\RD\\Database\\Export\\ForNewDataBase\\Residual Strength.csv";
+
+                        dataTable = Common.Parser.CsvToDataTable(filePath, false);
+                        if (dataTable.Success)
+                            sendMessage = UploadResidualStrength(dataTable.data);
+                        else
+                        {
+                            sendMessage.Message = dataTable.Message;
+                            sendMessage.Success = dataTable.Success;
+                        }
+                     //   sendMessage = UploadResidualStrength(Common.Parser.CsvToDataTable(filePath, true));
                         break;
                     }
                 case "Fracture Toughness":
                     {
                         if (filePath == "none")
                             filePath = "S:\\RD\\Database\\Export\\ForNewDataBase\\Fracture Toughness.csv";
-                        sendMessage = UploadFractureToughness(Common.Parser.CsvToDataTable(filePath, false));
+                        dataTable = Common.Parser.CsvToDataTable(filePath, false);
+                        if (dataTable.Success)
+                            sendMessage = UploadFractureToughness(dataTable.data);
+                        else
+                        {
+                            sendMessage.Message = dataTable.Message;
+                            sendMessage.Success = dataTable.Success;
+                        }
+
+                     //   sendMessage = UploadFractureToughness(Common.Parser.CsvToDataTable(filePath, false));
                         break;
                     }
                 case "Modulus Tension":
                     {
                         if (filePath == "none")
                             filePath = "S:\\RD\\Database\\Export\\ForNewDataBase\\Modulus Tension.csv";
-                        sendMessage = UploadModulusTension(Common.Parser.CsvToDataTable(filePath, false));
+                        dataTable = Common.Parser.CsvToDataTable(filePath, false);
+                        if (dataTable.Success)
+                            sendMessage = UploadModulusTension(dataTable.data);
+                        else
+                        {
+                            sendMessage.Message = dataTable.Message;
+                            sendMessage.Success = dataTable.Success;
+                        }
+                     //   sendMessage = UploadModulusTension(Common.Parser.CsvToDataTable(filePath, false));
                         break;
                     }
                 case "Modulus Compression":
                     {
                         if (filePath == "none")
                             filePath = "S:\\RD\\Database\\Export\\ForNewDataBase\\Modulus Compression.csv";
-                        sendMessage = UploadModulusCompression(Common.Parser.CsvToDataTable(filePath, false));
+                        dataTable = Common.Parser.CsvToDataTable(filePath, false);
+                        if (dataTable.Success)
+                            sendMessage = UploadModulusCompression(dataTable.data);
+                        else
+                        {
+                            sendMessage.Message = dataTable.Message;
+                            sendMessage.Success = dataTable.Success;
+                        }
+                      //  sendMessage = UploadModulusCompression(Common.Parser.CsvToDataTable(filePath, false));
                         break;
                     }
                 case "Fatigue":
                     {
                         if (filePath == "none")
                             filePath = "S:\\RD\\Database\\Export\\ForNewDataBase\\Fatigue Testing.csv";
-                         sendMessage = UploadFatigue(Common.Parser.CsvToDataTable(filePath, false));
-                       
+                        dataTable = Common.Parser.CsvToDataTable(filePath, false);
+                        if (dataTable.Success)
+                            sendMessage = UploadFatigue(dataTable.data);
+                        else
+                        {
+                            sendMessage.Message = dataTable.Message;
+                            sendMessage.Success = dataTable.Success;
+                        }
+                       // sendMessage = UploadFatigue(Common.Parser.CsvToDataTable(filePath, false));
+
                         break;
                     }
                 default:
@@ -162,65 +255,147 @@ namespace RNDSystems.API.Controllers
         {
             //var data= Common.Parser.CsvToDataTable(path,false);
             ApiViewModel importData = new ApiViewModel();
-            importData = ImportData(selectedTestType, path);
+            DataTableReturn dataTable = new DataTableReturn();
+          //  importData = ImportData(selectedTestType, path);
 
             #region manual entry switch
-            //switch (selectedTestType)
-            //{
-            //    case "Tension":
-            //        {
-            //            importData = UploadTension(Common.Parser.CsvToDataTable(path, false));
-            //            break;
-            //        }
-            //    case "Compression":
-            //        {
-            //            importData = UploadCompression(Common.Parser.CsvToDataTable(path, false));
-            //            break;
-            //        }
-            //    case "Bearing":
-            //        {
-            //            importData = UploadBearing(Common.Parser.CsvToDataTable(path, false));
-            //            break;
-            //        }
-            //    case "Shear":
-            //        {
-            //            importData = UploadShear(Common.Parser.CsvToDataTable(path, false));
-            //            break;
-            //        }
-            //    case "Notch Yield":
-            //        {
-            //            importData = UploadNotchYield(Common.Parser.CsvToDataTable(path, true));
-            //            break;
-            //        }
-            //    case "Residual Strength":
-            //        {
-            //            importData = UploadResidualStrength(Common.Parser.CsvToDataTable(path, true));
+            switch (selectedTestType)
+            {
+                case "Tension":
+                    {
+                        dataTable = Common.Parser.CsvToDataTable(path, false);
+                        if (dataTable.Success)
+                            importData = UploadTension(dataTable.data);
+                        else
+                        {
+                            importData.Message = dataTable.Message;
+                            importData.Success = dataTable.Success;
+                        }
+                          
+                      //  importData = UploadTension(Common.Parser.CsvToDataTable(path, false));
+                        break;
+                    }
+                case "Compression":
+                    {
+                        dataTable = Common.Parser.CsvToDataTable(path, false);
+                        if (dataTable.Success)
+                            importData = UploadCompression(dataTable.data);
+                        else
+                        {
+                            importData.Message = dataTable.Message;
+                            importData.Success = dataTable.Success;
+                        }
+                        // importData = UploadCompression(Common.Parser.CsvToDataTable(path, false));
+                        break;
+                    }
+                case "Bearing":
+                    {
+                        dataTable = Common.Parser.CsvToDataTable(path, false);
+                        if (dataTable.Success)
+                            importData = UploadBearing(dataTable.data);
+                        else
+                        {
+                            importData.Message = dataTable.Message;
+                            importData.Success = dataTable.Success;
+                        }
+                        //importData = UploadBearing(Common.Parser.CsvToDataTable(path, false));
+                        break;
+                    }
+                case "Shear":
+                    {
+                        dataTable = Common.Parser.CsvToDataTable(path, false);
+                        if (dataTable.Success)
+                            importData = UploadShear(dataTable.data);
+                        else
+                        {
+                            importData.Message = dataTable.Message;
+                            importData.Success = dataTable.Success;
+                        }
+                        //importData = UploadShear(Common.Parser.CsvToDataTable(path, false));
+                        break;
+                    }
+                case "Notch Yield":
+                    {
+                        dataTable = Common.Parser.CsvToDataTable(path, false);
+                        if (dataTable.Success)
+                            importData = UploadNotchYield(dataTable.data);
+                        else
+                        {
+                            importData.Message = dataTable.Message;
+                            importData.Success = dataTable.Success;
+                        }
+                       // importData = UploadNotchYield(Common.Parser.CsvToDataTable(path, true));
+                        break;
+                    }
+                case "Residual Strength":
+                    {
+                        dataTable = Common.Parser.CsvToDataTable(path, false);
+                        if (dataTable.Success)
+                            importData = UploadResidualStrength(dataTable.data);
+                        else
+                        {
+                            importData.Message = dataTable.Message;
+                            importData.Success = dataTable.Success;
+                        }
+                        //importData = UploadResidualStrength(Common.Parser.CsvToDataTable(path, true));
 
-            //            break;
-            //        }
-            //    case "Fracture Toughness":
-            //        {
-            //            importData = UploadFractureToughness(Common.Parser.CsvToDataTable(path, false));
-            //            break;
-            //        }
-            //    case "Modulus Tension":
-            //        {
-            //            importData = UploadModulusTension(Common.Parser.CsvToDataTable(path, false));
-            //            break;
-            //        }
-            //    case "Modulus Compression":
-            //        {
-            //            importData = UploadModulusCompression(Common.Parser.CsvToDataTable(path, false));
-            //            break;
-            //        }
-            //    case "Fatigue":
-            //        {
-            //            importData = UploadFatigue(Common.Parser.CsvToDataTable(path, false));
-            //            break;
-            //        }
-            //    default:
-            //        break;
-            //}
+                        break;
+                    }
+                case "Fracture Toughness":
+                    {
+                        dataTable = Common.Parser.CsvToDataTable(path, false);
+                        if (dataTable.Success)
+                            importData = UploadFractureToughness(dataTable.data);
+                        else
+                        {
+                            importData.Message = dataTable.Message;
+                            importData.Success = dataTable.Success;
+                        }
+                     //   importData = UploadFractureToughness(Common.Parser.CsvToDataTable(path, false));
+                        break;
+                    }
+                case "Modulus Tension":
+                    {
+                        dataTable = Common.Parser.CsvToDataTable(path, false);
+                        if (dataTable.Success)
+                            importData = UploadModulusTension(dataTable.data);
+                        else
+                        {
+                            importData.Message = dataTable.Message;
+                            importData.Success = dataTable.Success;
+                        }
+                     //   importData = UploadModulusTension(Common.Parser.CsvToDataTable(path, false));
+                        break;
+                    }
+                case "Modulus Compression":
+                    {
+                        dataTable = Common.Parser.CsvToDataTable(path, false);
+                        if (dataTable.Success)
+                            importData = UploadModulusCompression(dataTable.data);
+                        else
+                        {
+                            importData.Message = dataTable.Message;
+                            importData.Success = dataTable.Success;
+                        }
+                       // importData = UploadModulusCompression(Common.Parser.CsvToDataTable(path, false));
+                        break;
+                    }
+                case "Fatigue":
+                    {
+                        dataTable = Common.Parser.CsvToDataTable(path, false);
+                        if (dataTable.Success)
+                            importData = UploadFatigue(dataTable.data);
+                        else
+                        {
+                            importData.Message = dataTable.Message;
+                            importData.Success = dataTable.Success;
+                        }
+                        //importData = UploadFatigue(Common.Parser.CsvToDataTable(path, false));
+                        break;
+                    }
+                default:
+                    break;
+            }
             #endregion
 
             return Serializer.ReturnContent(importData, this.Configuration.Services.GetContentNegotiator(), this.Configuration.Formatters, this.Request);
@@ -318,9 +493,11 @@ namespace RNDSystems.API.Controllers
                         }
                     }
                     introw++;
-                }
-                sendMessage.Success = true;
 
+                }
+
+                sendMessage.Success = true;
+                sendMessage.Message = "Tension data saved";
             }
             catch (Exception ex)
             {

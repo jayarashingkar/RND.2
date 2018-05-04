@@ -86,6 +86,7 @@
     <Compile Include="TestViewModels\ResidualStrengthViewModel.cs" />
     <Compile Include="TestViewModels\TensionViewModel.cs" />
     <Compile Include="ViewModels\ApiViewModel.cs" />
+    <Compile Include="ViewModels\DataTableReturn.cs" />
     <Compile Include="ViewModels\DataGridoption.cs" />
     <Compile Include="ViewModels\DataSearch.cs" />
     <Compile Include="ViewModels\ImportDataViewModel.cs" />
