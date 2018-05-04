@@ -14,6 +14,8 @@ using System.IO;
 using System.Text;
 using Newtonsoft.Json;
 using System.Web;
+using System.Data;
+using System.Text.RegularExpressions;
 
 namespace RNDSystems.API.Controllers
 {
@@ -21,19 +23,19 @@ namespace RNDSystems.API.Controllers
     {
         // GET: ImportData
         // public HttpResponseMessage Get(string WorkStudyId)
-        public HttpResponseMessage Get(string Active, string SelectedTests="none")
+        public HttpResponseMessage Get(string Active, string SelectedTests = "none")
         {
             _logger.Debug("ImportData Get Called");
-          //  SqlDataReader reader = null;
+            //  SqlDataReader reader = null;
             ImportDataViewModel ID = null;
 
             try
             {
-                 CurrentUser user = ApiUser;
-                  ID = new ImportDataViewModel();
+                CurrentUser user = ApiUser;
+                ID = new ImportDataViewModel();
                 AdoHelper ado = new AdoHelper();
 
-                 ID.ddTestType = new List<SelectListItem>() { GetInitialSelectItem() };
+                ID.ddTestType = new List<SelectListItem>() { GetInitialSelectItem() };
 
                 //Active = 2 for Import and Active = 3 for Manual Entry
                 if (Active == "2")
@@ -86,84 +88,67 @@ namespace RNDSystems.API.Controllers
                     {
                         if (filePath == "none")
                             filePath = "S:\\RD\\Database\\Export\\ForNewDataBase\\Tension.csv";
-                        // filePath = "\\USCTRD01\\RDServer\\RD\\Database\\Export\\ForNewDataBase\\Modulus Tension.csv";
-
-                        sendMessage = ImportTensionData(filePath);
+                        sendMessage = UploadTension(Common.Parser.CsvToDataTable(filePath, false));
                         break;
                     }
                 case "Compression":
                     {
                         if (filePath == "none")
                             filePath = "S:\\RD\\Database\\Export\\ForNewDataBase\\Compression.csv";
-
-                        //if (custom == "custom")
-                        //    filePath = filePath + "\\TestImport.csv";
-
-                        //  filePath = "S:\\TestImport.csv";
-                        // filePath = "\\USCTRD01\\RDServer\\RD\\Database\\Export\\ForNewDataBase\\Compression.csv";
-                        sendMessage = ImportCompressionData(filePath);
+                        sendMessage = UploadCompression(Common.Parser.CsvToDataTable(filePath, false));
                         break;
                     }
                 case "Bearing":
                     {
                         if (filePath == "none")
                             filePath = "S:\\RD\\Database\\Export\\ForNewDataBase\\Bearing.csv";
-                        //  filePath = "\\USCTRD01\\RDServer\\RD\\Database\\Export\\ForNewDataBase\\Bearing.csv";
-                        sendMessage = ImportBearingData(filePath);
+                        sendMessage = UploadBearing(Common.Parser.CsvToDataTable(filePath, false));
                         break;
                     }
                 case "Shear":
                     {
                         if (filePath == "none")
                             filePath = "S:\\RD\\Database\\Export\\ForNewDataBase\\Shear.csv";
-                        //  filePath = "\\USCTRD01\\RDServer\\RD\\Database\\Export\\ForNewDataBase\\Shear.csv";
-
-                        sendMessage = ImportShearData(filePath);
+                        sendMessage = UploadShear(Common.Parser.CsvToDataTable(filePath, false));
                         break;
                     }
                 case "Notch Yield":
                     {
-                        sendMessage = ImportNotchYieldData(filePath);
+                        sendMessage = UploadNotchYield(Common.Parser.CsvToDataTable(filePath, true));
                         break;
                     }
                 case "Residual Strength":
                     {
-                        sendMessage = ImportResidualStrengthData(filePath);
+                        sendMessage = UploadResidualStrength(Common.Parser.CsvToDataTable(filePath, true));
                         break;
                     }
                 case "Fracture Toughness":
                     {
                         if (filePath == "none")
                             filePath = "S:\\RD\\Database\\Export\\ForNewDataBase\\Fracture Toughness.csv";
-                        //filePath = "\\USCTRD01\\RDServer\\RD\\Database\\Export\\ForNewDataBase\\Fracture Toughness.csv";
-                        sendMessage = ImportFractureToughnessData(filePath);
+                        sendMessage = UploadFractureToughness(Common.Parser.CsvToDataTable(filePath, false));
                         break;
                     }
                 case "Modulus Tension":
                     {
                         if (filePath == "none")
                             filePath = "S:\\RD\\Database\\Export\\ForNewDataBase\\Modulus Tension.csv";
-                        // filePath = "\\USCTRD01\\RDServer\\RD\\Database\\Export\\ForNewDataBase\\Fracture Toughness.csv";
-
-                        sendMessage = ImportModulusTensionData(filePath);
+                        sendMessage = UploadModulusTension(Common.Parser.CsvToDataTable(filePath, false));
                         break;
                     }
                 case "Modulus Compression":
                     {
                         if (filePath == "none")
                             filePath = "S:\\RD\\Database\\Export\\ForNewDataBase\\Modulus Compression.csv";
-                        //  filePath = "\\USCTRD01\\RDServer\\RD\\Database\\Export\\ForNewDataBase\\Modulus Compression.csv";
-
-                        sendMessage = ImportModulusCompressionData(filePath);
+                        sendMessage = UploadModulusCompression(Common.Parser.CsvToDataTable(filePath, false));
                         break;
                     }
                 case "Fatigue":
                     {
                         if (filePath == "none")
                             filePath = "S:\\RD\\Database\\Export\\ForNewDataBase\\Fatigue Testing.csv";
-                        //  filePath = "\\USCTRD01\\RDServer\\RD\\Database\\Export\\ForNewDataBase\\Fatigue Testing.csv";
-
-                        sendMessage = ImportFatigueTestingData(filePath);
+                         sendMessage = UploadFatigue(Common.Parser.CsvToDataTable(filePath, false));
+                       
                         break;
                     }
                 default:
@@ -173,232 +158,109 @@ namespace RNDSystems.API.Controllers
             return sendMessage;
 
         }
-
-
-        // public HttpResponseMessage Get(HttpPostedFileBase file, string selectedTestType)
-        public HttpResponseMessage Get(int id , string results, string selectedTestType)
+        public HttpResponseMessage Get(int id, string path, string selectedTestType)
         {
-            string[] token = results.Split(',');
-           // ImportDataViewModel ID = null;
+            //var data= Common.Parser.CsvToDataTable(path,false);
             ApiViewModel importData = new ApiViewModel();
-            if (token != null )
-            {              
-                #region switch TestType
-                switch (selectedTestType)
-                {
-                    case "Tension":
-                        {
-                            importData = UploadTension(token);
-                            break;
-                        }
-                    case "Compression":
-                        {
-                            importData = UploadCompression(token);
-                            break;
-                        }
-                    case "Bearing":
-                        {
-                            importData = UploadBearing(token);
-                            break;
-                        }
-                    case "Shear":
-                        {
-                            importData = UploadShear(token);
-                            break;
-                        }
-                    case "Notch Yield":
-                        {
-                            importData = UploadNotchYield(token);
-                            break;
-                        }
-                    case "Residual Strength":
-                        {
-                            importData = UploadResidualStrength(token);
-                            
-                            break;
-                        }
-                    case "Fracture Toughness":
-                        {
-                            importData = UploadFractureToughness(token);
-                            break;
-                        }
-                    case "Modulus Tension":
-                        {
-                            importData = UploadModulusTension(token);
-                            break;
-                        }
-                    case "Modulus Compression":
-                        {
-                            importData = UploadModulusCompression(token);
-                            break;
-                        }
-                    case "Fatigue":
-                        {
-                            importData = UploadFatigue(token);
-                            break;
-                        }
-                    default:                       
-                        break;
+            importData = ImportData(selectedTestType, path);
 
-                }
+            #region manual entry switch
+            //switch (selectedTestType)
+            //{
+            //    case "Tension":
+            //        {
+            //            importData = UploadTension(Common.Parser.CsvToDataTable(path, false));
+            //            break;
+            //        }
+            //    case "Compression":
+            //        {
+            //            importData = UploadCompression(Common.Parser.CsvToDataTable(path, false));
+            //            break;
+            //        }
+            //    case "Bearing":
+            //        {
+            //            importData = UploadBearing(Common.Parser.CsvToDataTable(path, false));
+            //            break;
+            //        }
+            //    case "Shear":
+            //        {
+            //            importData = UploadShear(Common.Parser.CsvToDataTable(path, false));
+            //            break;
+            //        }
+            //    case "Notch Yield":
+            //        {
+            //            importData = UploadNotchYield(Common.Parser.CsvToDataTable(path, true));
+            //            break;
+            //        }
+            //    case "Residual Strength":
+            //        {
+            //            importData = UploadResidualStrength(Common.Parser.CsvToDataTable(path, true));
 
-                #endregion
-            }
+            //            break;
+            //        }
+            //    case "Fracture Toughness":
+            //        {
+            //            importData = UploadFractureToughness(Common.Parser.CsvToDataTable(path, false));
+            //            break;
+            //        }
+            //    case "Modulus Tension":
+            //        {
+            //            importData = UploadModulusTension(Common.Parser.CsvToDataTable(path, false));
+            //            break;
+            //        }
+            //    case "Modulus Compression":
+            //        {
+            //            importData = UploadModulusCompression(Common.Parser.CsvToDataTable(path, false));
+            //            break;
+            //        }
+            //    case "Fatigue":
+            //        {
+            //            importData = UploadFatigue(Common.Parser.CsvToDataTable(path, false));
+            //            break;
+            //        }
+            //    default:
+            //        break;
+            //}
+            #endregion
+
             return Serializer.ReturnContent(importData, this.Configuration.Services.GetContentNegotiator(), this.Configuration.Formatters, this.Request);
 
         }
 
         #region Tension
-        //public HttpResponseMessage Post(DataSearch<TensionViewModel> ds)
-        //{
-        //    ApiViewModel importData = new ApiViewModel();
-        //    try
-        //    {
-        //        importData = SaveTensionData(ds.items);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        _logger.Error(ex.Message);
-        //        // return new HttpResponseMessage(HttpStatusCode.InternalServerError);
-        //        importData.Message = ex.Message.ToString();
-        //    }
-        //    return Serializer.ReturnContent(importData, this.Configuration.Services.GetContentNegotiator(), this.Configuration.Formatters, this.Request);
-
-        //}
-
-        public List<TensionViewModel> listTensionData { get; set; }
-
-        ApiViewModel ImportTensionData(string filePath)
+        private ApiViewModel UploadTension(DataTable data)
         {
             ApiViewModel sendMessage = new ApiViewModel();
+            var listTensionData = new List<TensionViewModel>();
             sendMessage.Message = "";
             sendMessage.Success = false;
-
             try
             {
-                listTensionData = new List<TensionViewModel>();
-                //tensionData 
-                
-                var textFieldParser = new TextFieldParser(new StringReader(File.ReadAllText(filePath)))
+                var tensionData = new List<TensionViewModel>();
+                foreach (DataRow row in data.Rows)
                 {
-                    Delimiters = new string[] { "," }
-                };
-
-                while (!textFieldParser.EndOfData)
-                {
-                    var entry = textFieldParser.ReadFields();
+                    if (row[0] == null || row[0].ToString().Trim() == "" || new Regex("[^ -~]+").IsMatch(row[0].ToString().Trim()))
+                    {
+                        continue;
+                    }
                     listTensionData.Add(new TensionViewModel()
                     {
-                        WorkStudyID = Convert.ToString(entry[0]),
-                        TestNo = Convert.ToInt32(entry[1]),
-                        SubConduct = Convert.ToDecimal(entry[2]),
-                        SurfConduct = Convert.ToDecimal(entry[3]),
-                        FtuKsi = Convert.ToDecimal(entry[4]),
-                        FtyKsi = Convert.ToDecimal(entry[5]),
-                        eElongation = Convert.ToDecimal(entry[6]),
-                        EModulusMpsi = Convert.ToDecimal(entry[7]),
-                        SpeciComment = Convert.ToString(entry[8]),
-                        Operator = Convert.ToString(entry[9]),
-                        TestDate = Convert.ToString(entry[10]),
-                        TestTime = Convert.ToString(entry[11])                       
-                });
+                        WorkStudyID = Convert.ToString(row[0]),
+                        TestNo = Convert.ToInt32(row[1]),
+                        SubConduct = Convert.ToDecimal(row[2]),
+                        SurfConduct = Convert.ToDecimal(row[3]),
+                        FtuKsi = Convert.ToDecimal(row[4]),
+                        FtyKsi = Convert.ToDecimal(row[5]),
+                        eElongation = Convert.ToDecimal(row[6]),
+                        EModulusMpsi = Convert.ToDecimal(row[7]),
+                        SpeciComment = Convert.ToString(row[8]),
+                        Operator = Convert.ToString(row[9]),
+                        TestDate = Convert.ToString(row[10]),
+                        TestTime = Convert.ToString(row[11])
+                    });
+
                 }
-                textFieldParser.Close();
-
-                sendMessage = SaveTensionData(listTensionData);
-
-                //CurrentUser user = ApiUser;
-                //AdoHelper ado = new AdoHelper();
-                //int introw = 0;
-                //while (introw<listTensionData.Count)
-                //{
-                //    SqlParameter param2 = new SqlParameter("@WorkStudyID", Convert.ToString(listTensionData[introw].WorkStudyID));
-                //    SqlParameter param3 = new SqlParameter("@TestNo", listTensionData[introw].TestNo);
-                //    SqlParameter param4 = new SqlParameter("@SubConduct", listTensionData[introw].SubConduct);
-                //    SqlParameter param5 = new SqlParameter("@SurfConduct", listTensionData[introw].SurfConduct);
-                //    SqlParameter param6 = new SqlParameter("@FtuKsi", listTensionData[introw].FtuKsi);
-                //    SqlParameter param7 = new SqlParameter("@FtyKsi", listTensionData[introw].FtyKsi);
-                //    SqlParameter param8 = new SqlParameter("@eElongation", listTensionData[introw].eElongation);
-                //    SqlParameter param9 = new SqlParameter("@EModulusMpsi", listTensionData[introw].EModulusMpsi);
-                //    SqlParameter param10 = new SqlParameter("@SpeciComment", listTensionData[introw].SpeciComment);
-                //    SqlParameter param11 = new SqlParameter("@Operator", listTensionData[introw].Operator);
-                //    SqlParameter param12 = new SqlParameter("@TestDate", listTensionData[introw].TestDate);
-                //    SqlParameter param13 = new SqlParameter("@TestTime", listTensionData[introw].TestTime);
-                //    // SqlParameter param14 = new SqlParameter("@EntryBy", user.UserId);
-                //    SqlParameter param14 = new SqlParameter("@EntryBy", user.UserName);
-                //    SqlParameter param15 = new SqlParameter("@EntryDate", DateTime.Now);
-                //    SqlParameter param16 = new SqlParameter("@Completed", '1');
-
-                //    using (SqlDataReader reader = ado.ExecDataReaderProc("RNDTension_Insert", "RND", new object[] 
-                //    {  param2,param3, param4, param5, param6, param7, param8, param9, param10,
-                //        param11, param12, param13, param14, param15, param16}))
-                //    {
-                //        if (reader.HasRows)
-                //        {
-                //            while (reader.Read())
-                //            {
-                //                listTensionData[introw].RecID = Convert.ToInt32(reader["RecId"].ToString());
-                //            }
-                //        }
-                //    }
-                //    introw++;
-                //}
-                sendMessage.Success = true;
-               
-            }
-            catch(Exception ex)
-            {
-                _logger.Error(ex.Message);
-                sendMessage.Success = false;
-                sendMessage.Message = ex.Message.ToString();
-                
-            }
-            return sendMessage;
-        }
-        private ApiViewModel UploadTension(string[] token)
-        {
-            
-           ApiViewModel sendMessage = new ApiViewModel();
-            sendMessage.Message = "";
-            sendMessage.Success = false;
-
-            // var client = GetHttpClient();
-            List<TensionViewModel> tensionList = new List<TensionViewModel>();
-            string[] splitnew = null;
-            int i = 0;
-            try
-            {
-                while (i < token.Length - 1)
-                {
-                    TensionViewModel tensionData = new TensionViewModel();
-                    //i = 0;
-                    if (token[i].Contains("\n") && splitnew[1] != null)
-                    {
-                        tensionData.WorkStudyID = splitnew[1]; i++;
-                    }
-                    else
-                    {
-                        tensionData.WorkStudyID = Convert.ToString(token[i]); i++;
-                    }
-
-                    tensionData.TestNo = Convert.ToInt32(token[i]); i++;
-                    tensionData.SubConduct = Convert.ToDecimal(token[i]); i++;
-                    tensionData.SurfConduct = Convert.ToDecimal(token[i]); i++;
-                    tensionData.FtuKsi = Convert.ToDecimal(token[i]); i++;
-                    tensionData.FtyKsi = Convert.ToDecimal(token[i]); i++; ;
-                    tensionData.eElongation = Convert.ToDecimal(token[i]); i++;
-                    tensionData.EModulusMpsi = Convert.ToDecimal(token[i]); i++;
-                    tensionData.SpeciComment = Convert.ToString(token[i]); i++;
-                    tensionData.Operator = Convert.ToString(token[i]); i++;
-                    tensionData.TestDate = Convert.ToString(token[i]); i++;
-
-                    if ((token[i]).Contains("\n"))
-                        splitnew = token[i].Split(new[] { "\r\n" }, StringSplitOptions.None);
-                    tensionData.TestTime = Convert.ToString(splitnew[0]);
-
-                    tensionList.Add(tensionData);
-                }
-                SaveTensionData(tensionList);
+                return SaveTensionData(listTensionData);
             }
             catch (Exception ex)
             {
@@ -409,7 +271,7 @@ namespace RNDSystems.API.Controllers
             }
             return sendMessage;
         }
-        ApiViewModel SaveTensionData(List<TensionViewModel> listTensionData)
+        private ApiViewModel SaveTensionData(List<TensionViewModel> listTensionData)
         {
             ApiViewModel sendMessage = new ApiViewModel();
             sendMessage.Message = "";
@@ -469,127 +331,35 @@ namespace RNDSystems.API.Controllers
             }
             return sendMessage;
         }
+
         #endregion
-
         #region Compression
-        //public HttpResponseMessage Post(DataSearch<CompressionViewModel> ds)
-        //{
-        //    ApiViewModel importData = new ApiViewModel();
-        //    try
-        //    {
-        //        importData = SaveCompressionData(ds.items);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        _logger.Error(ex.Message);
-        //        // return new HttpResponseMessage(HttpStatusCode.InternalServerError);
-        //        importData.Message = ex.Message.ToString();
-        //    }
-        //    return Serializer.ReturnContent(importData, this.Configuration.Services.GetContentNegotiator(), this.Configuration.Formatters, this.Request);
-
-        //}
-        //public List<CompressionViewModel> listCompressionData { get; set; }
-
-        ApiViewModel ImportCompressionData(string filePath)
-        {
-            ApiViewModel sendMessage = new ApiViewModel();
-            sendMessage.Message = "";
-            sendMessage.Success = false;
-
-            try
-            {
-                List<CompressionViewModel> listCompressionData = new List<CompressionViewModel>();
-                // CompressionData 
-               
-                string fileValue = File.ReadAllText(filePath);
-
-                var textFieldParser = new TextFieldParser(new StringReader(File.ReadAllText(filePath)))
-                {
-                    Delimiters = new string[] { "," }
-                };
-
-                while (!textFieldParser.EndOfData)
-                {
-                    var entry = textFieldParser.ReadFields();
-                    listCompressionData.Add(new CompressionViewModel()
-                    {
-                        WorkStudyID = Convert.ToString(entry[0]),
-                        TestNo = Convert.ToInt32(entry[1]),
-                        SubConduct = Convert.ToDecimal(entry[2]),
-                        SurfConduct = Convert.ToDecimal(entry[3]),
-                        FcyKsi = Convert.ToDecimal(entry[4]),
-                        EcModulusMpsi = Convert.ToDecimal(entry[5]),
-                        SpeciComment = Convert.ToString(entry[6]),
-                        Operator = Convert.ToString(entry[7]),
-                        TestDate = Convert.ToString(entry[8]),
-                        TestTime = Convert.ToString(entry[9])
-                    });
-                }
-                textFieldParser.Close();
-
-                sendMessage = SaveCompressionData(listCompressionData);
-                sendMessage.Success = true;
-
-            }
-            catch (Exception ex)
-            {
-                _logger.Error(ex.Message);
-                sendMessage.Success = false;
-                sendMessage.Message = ex.Message.ToString();
-
-            }
-            return sendMessage;
-        }
-
-        private ApiViewModel UploadCompression(string[] token)
+        private ApiViewModel UploadCompression(DataTable data)
         {
             ApiViewModel importData = new ApiViewModel();
-            //var client = GetHttpClient();
             List<CompressionViewModel> CompressionList = new List<CompressionViewModel>();
-            string[] splitnew = null;
-            int i = 0;
-
             try
             {
-                i = 0;
-                while (i < token.Length - 1)
+                foreach (DataRow row in data.Rows)
                 {
-                    token[i] = token[i].Replace("\"", "");
-                    token[i] = token[i].Replace("\"/", "");
-                    i++;
-                }
-
-                i = 0;
-                while (i < token.Length - 1)
-                {
+                    if (row[0] == null || row[0].ToString().Trim() == "" || new Regex("[^ -~]+").IsMatch(row[0].ToString().Trim()))
+                    {
+                        continue;
+                    }
                     CompressionViewModel CompressionData = new CompressionViewModel();
-                    //i = 0;
-                    if (token[i].Contains("\n") && splitnew[1] != null)
-                    {
-                        CompressionData.WorkStudyID = splitnew[1]; i++;
-                    }
-                    else
-                    {
-
-                        CompressionData.WorkStudyID = Convert.ToString(token[i]); i++;
-                    }
-                    CompressionData.TestNo = Convert.ToInt32(token[i]); i++;
-                    CompressionData.SubConduct = Convert.ToDecimal(token[i]); i++;
-                    CompressionData.SurfConduct = Convert.ToDecimal(token[i]); i++;
-                    CompressionData.FcyKsi = Convert.ToDecimal(token[i]); i++;
-
-                    CompressionData.EcModulusMpsi = Convert.ToDecimal(token[i]); i++;
-                    CompressionData.SpeciComment = Convert.ToString(token[i]); i++;
-                    CompressionData.Operator = Convert.ToString(token[i]); i++;
-                    CompressionData.TestDate = Convert.ToString(token[i]); i++;
-
-                    if ((token[i]).Contains("\n"))
-                        splitnew = token[i].Split(new[] { "\r\n" }, StringSplitOptions.None);
-                    CompressionData.TestTime = Convert.ToString(splitnew[0]);
-
+                    CompressionData.WorkStudyID = Convert.ToString(row[0]);
+                    CompressionData.TestNo = Convert.ToInt32(row[1]);
+                    CompressionData.SubConduct = Convert.ToDecimal(row[2]);
+                    CompressionData.SurfConduct = Convert.ToDecimal(row[3]);
+                    CompressionData.FcyKsi = Convert.ToDecimal(row[4]);
+                    CompressionData.EcModulusMpsi = Convert.ToDecimal(row[5]);
+                    CompressionData.SpeciComment = Convert.ToString(row[6]);
+                    CompressionData.Operator = Convert.ToString(row[7]);
+                    CompressionData.TestDate = Convert.ToString(row[8]);
+                    CompressionData.TestTime = Convert.ToString(row[9]);
                     CompressionList.Add(CompressionData);
                 }
-                importData = SaveCompressionData(CompressionList);
+                return SaveCompressionData(CompressionList);
 
             }
             catch (Exception ex)
@@ -597,118 +367,60 @@ namespace RNDSystems.API.Controllers
                 _logger.Error(ex.Message);
                 importData.Message = ex.Message;
             }
-
             return importData;
         }
         private ApiViewModel SaveCompressionData(List<CompressionViewModel> listCompressionData)
         {
-               ApiViewModel sendMessage = new ApiViewModel();
-                sendMessage.Message = "";
-                sendMessage.Success = false;
+            ApiViewModel sendMessage = new ApiViewModel();
+            sendMessage.Message = "";
+            sendMessage.Success = false;
 
-                try
+            try
+            {
+                CurrentUser user = ApiUser;
+                AdoHelper ado = new AdoHelper();
+                int introw = 0;
+                while (introw < listCompressionData.Count)
                 {
-                        CurrentUser user = ApiUser;
-                        AdoHelper ado = new AdoHelper();
-                        int introw = 0;
-                        while (introw < listCompressionData.Count)
-                        {
-                            SqlParameter param2 = new SqlParameter("@WorkStudyID", listCompressionData[introw].WorkStudyID);
-                            SqlParameter param3 = new SqlParameter("@TestNo", listCompressionData[introw].TestNo);
-                            SqlParameter param4 = new SqlParameter("@SubConduct", listCompressionData[introw].SubConduct);
-                            SqlParameter param5 = new SqlParameter("@SurfConduct", listCompressionData[introw].SurfConduct);
-                            SqlParameter param6 = new SqlParameter("@FcyKsi", listCompressionData[introw].FcyKsi);
-                            SqlParameter param7 = new SqlParameter("@EcModulusMpsi", listCompressionData[introw].EcModulusMpsi);
-                            SqlParameter param8 = new SqlParameter("@SpeciComment", listCompressionData[introw].SpeciComment);
-                            SqlParameter param9 = new SqlParameter("@Operator", listCompressionData[introw].Operator);
-                            SqlParameter param10 = new SqlParameter("@TestDate", listCompressionData[introw].TestDate);
-                            SqlParameter param11 = new SqlParameter("@TestTime", listCompressionData[introw].TestTime);
-                            //SqlParameter param12 = new SqlParameter("@EntryBy", user.UserId);
-                            SqlParameter param12 = new SqlParameter("@EntryBy", user.UserName);
-                            SqlParameter param13 = new SqlParameter("@EntryDate", DateTime.Now);
-                            SqlParameter param14 = new SqlParameter("@Completed", '1');
+                    SqlParameter param2 = new SqlParameter("@WorkStudyID", listCompressionData[introw].WorkStudyID);
+                    SqlParameter param3 = new SqlParameter("@TestNo", listCompressionData[introw].TestNo);
+                    SqlParameter param4 = new SqlParameter("@SubConduct", listCompressionData[introw].SubConduct);
+                    SqlParameter param5 = new SqlParameter("@SurfConduct", listCompressionData[introw].SurfConduct);
+                    SqlParameter param6 = new SqlParameter("@FcyKsi", listCompressionData[introw].FcyKsi);
+                    SqlParameter param7 = new SqlParameter("@EcModulusMpsi", listCompressionData[introw].EcModulusMpsi);
+                    SqlParameter param8 = new SqlParameter("@SpeciComment", listCompressionData[introw].SpeciComment);
+                    SqlParameter param9 = new SqlParameter("@Operator", listCompressionData[introw].Operator);
+                    SqlParameter param10 = new SqlParameter("@TestDate", listCompressionData[introw].TestDate);
+                    SqlParameter param11 = new SqlParameter("@TestTime", listCompressionData[introw].TestTime);
+                    //SqlParameter param12 = new SqlParameter("@EntryBy", user.UserId);
+                    SqlParameter param12 = new SqlParameter("@EntryBy", user.UserName);
+                    SqlParameter param13 = new SqlParameter("@EntryDate", DateTime.Now);
+                    SqlParameter param14 = new SqlParameter("@Completed", '1');
 
-                            using (SqlDataReader reader = ado.ExecDataReaderProc("RNDCompression_Insert", "RND", new object[]
-                            {  param2,param3, param4, param5, param6, param7, param8, param9, param10,
+                    using (SqlDataReader reader = ado.ExecDataReaderProc("RNDCompression_Insert", "RND", new object[]
+                    {  param2,param3, param4, param5, param6, param7, param8, param9, param10,
                                 param11, param12, param13, param14}))
+                    {
+                        if (reader.HasRows)
+                        {
+                            while (reader.Read())
                             {
-                                if (reader.HasRows)
-                                {
-                                    while (reader.Read())
-                                    {
-                                        listCompressionData[introw].RecID = Convert.ToInt32(reader["RecId"].ToString());
-                                    }
-                                }
+                                listCompressionData[introw].RecID = Convert.ToInt32(reader["RecId"].ToString());
+                            }
+                        }
 
                         if (ado._conn != null && ado._conn.State == System.Data.ConnectionState.Open)
                         {
                             ado._conn.Close(); ado._conn.Dispose();
                         }
                     }
-                            introw++;
+                    introw++;
 
-                        }
+                }
 
                 sendMessage.Success = true;
                 sendMessage.Message = "Compression data saved";
             }
-                catch (Exception ex)
-                {
-                    _logger.Error(ex.Message);
-                    sendMessage.Success = false;
-                    sendMessage.Message = ex.Message.ToString();
-
-                }
-                return sendMessage;
-
-        }
-        #endregion
-
-        #region Bearing
-
-        public List<BearingViewModel> listBearingData { get; set; }
-
-        ApiViewModel ImportBearingData(string filePath)
-        {
-            ApiViewModel sendMessage = new ApiViewModel();
-            sendMessage.Message = "";
-            sendMessage.Success = false;
-            try
-            {
-                listBearingData = new List<BearingViewModel>();
-                // Bearing Data 
-         
-                var textFieldParser = new TextFieldParser(new StringReader(File.ReadAllText(filePath)))
-                {
-                    Delimiters = new string[] { "," }
-                };
-
-                while (!textFieldParser.EndOfData)
-                {
-                    var entry = textFieldParser.ReadFields();
-                    listBearingData.Add(new BearingViewModel()
-                    {
-                        WorkStudyID = Convert.ToString(entry[0]),
-                        TestNo = Convert.ToInt32(entry[1]),
-                        SubConduct = Convert.ToDecimal(entry[2]),
-                        SurfConduct = Convert.ToDecimal(entry[3]),
-                        eDCalc = Convert.ToDecimal(entry[4]),
-                        FbruKsi = Convert.ToDecimal(entry[5]),
-                        FbryKsi = Convert.ToDecimal(entry[6]),
-                        SpeciComment = Convert.ToString(entry[7]),
-                        Operator = Convert.ToString(entry[8]),
-                        TestDate = Convert.ToString(entry[9]),
-                        TestTime = Convert.ToString(entry[10])
-                    });
-                }
-                textFieldParser.Close();
-
-                sendMessage = SaveBearingData(listBearingData);
-
-                sendMessage.Success = true;
-
-            }
-               
             catch (Exception ex)
             {
                 _logger.Error(ex.Message);
@@ -717,67 +429,50 @@ namespace RNDSystems.API.Controllers
 
             }
             return sendMessage;
-        }
-        private ApiViewModel UploadBearing(string[] token)
-        {
-            ApiViewModel importData = new ApiViewModel();
-            //var client = GetHttpClient();
-            List<BearingViewModel> BearingList = new List<BearingViewModel>();
-            string[] splitnew = null;
-            int i = 0;
 
+        }
+        #endregion
+        #region Bearing
+        ApiViewModel UploadBearing(DataTable data)
+        {
+            ApiViewModel sendMessage = new ApiViewModel();
+            sendMessage.Message = "";
+            sendMessage.Success = false;
             try
             {
-                i = 0;
-                while (i < token.Length - 1)
+                var listBearingData = new List<BearingViewModel>();
+
+                foreach (DataRow row in data.Rows)
                 {
-                    token[i] = token[i].Replace("\"", "");
-                    token[i] = token[i].Replace("\"/", "");
-                    i++;
-                }
-
-                i = 0;
-                while (i < token.Length - 1)
-                {
-                    BearingViewModel BearingData = new BearingViewModel();
-                    //i = 0;
-                    if (token[i].Contains("\n") && splitnew[1] != null)
+                    if (row[0] == null || row[0].ToString().Trim() == "" || new Regex("[^ -~]+").IsMatch(row[0].ToString().Trim()))
                     {
-                        BearingData.WorkStudyID = splitnew[1]; i++;
+                        continue;
                     }
-                    else
+                    listBearingData.Add(new BearingViewModel()
                     {
-                        BearingData.WorkStudyID = Convert.ToString(token[i]); i++;
-                    }
-
-                    BearingData.TestNo = Convert.ToInt32(token[i]); i++;
-                    BearingData.SubConduct = Convert.ToDecimal(token[i]); i++;
-                    BearingData.SurfConduct = Convert.ToDecimal(token[i]); i++;
-                    BearingData.eDCalc = Convert.ToDecimal(token[i]); i++;
-                    BearingData.FbruKsi = Convert.ToDecimal(token[i]); i++;
-                    BearingData.FbryKsi = Convert.ToDecimal(token[i]); i++;
-                    BearingData.SpeciComment = Convert.ToString(token[i]); i++;
-                    BearingData.Operator = Convert.ToString(token[i]); i++;
-                    BearingData.TestDate = Convert.ToString(token[i]); i++;
-
-                    if ((token[i]).Contains("\n"))
-                        splitnew = token[i].Split(new[] { "\r\n" }, StringSplitOptions.None);
-                    BearingData.TestTime = Convert.ToString(splitnew[0]);
-
-                    BearingList.Add(BearingData);
+                        WorkStudyID = Convert.ToString(row[0]),
+                        TestNo = Convert.ToInt32(row[1]),
+                        SubConduct = Convert.ToDecimal(row[2]),
+                        SurfConduct = Convert.ToDecimal(row[3]),
+                        eDCalc = Convert.ToDecimal(row[4]),
+                        FbruKsi = Convert.ToDecimal(row[5]),
+                        FbryKsi = Convert.ToDecimal(row[6]),
+                        SpeciComment = Convert.ToString(row[7]),
+                        Operator = Convert.ToString(row[8]),
+                        TestDate = Convert.ToString(row[9]),
+                        TestTime = Convert.ToString(row[10])
+                    });
                 }
-                importData = SaveBearingData(BearingList);
-
+                return SaveBearingData(listBearingData);
             }
             catch (Exception ex)
             {
                 _logger.Error(ex.Message);
-                importData.Message = ex.Message;
+                sendMessage.Success = false;
+                sendMessage.Message = ex.Message.ToString();
             }
-
-            return importData;
+            return sendMessage;
         }
-
         private ApiViewModel SaveBearingData(List<BearingViewModel> listBearingData)
         {
             ApiViewModel sendMessage = new ApiViewModel();
@@ -836,122 +531,44 @@ namespace RNDSystems.API.Controllers
 
             }
             return sendMessage;
-       
+
         }
-    
         #endregion
         #region Shear
-        public List<ShearViewModel> listShearData { get; set; }
-
-        ApiViewModel ImportShearData(string filePath)
-        {
-            ApiViewModel sendMessage = new ApiViewModel();
-            sendMessage.Message = "";
-            sendMessage.Success = false; 
-
-            try
-            {
-                listShearData = new List<ShearViewModel>();
-                // Shear Data 
-                
-                var textFieldParser = new TextFieldParser(new StringReader(File.ReadAllText(filePath)))
-                {
-                    Delimiters = new string[] { "," }
-                };
-
-                while (!textFieldParser.EndOfData)
-                {
-                    var entry = textFieldParser.ReadFields();
-                    listShearData.Add(new ShearViewModel()
-                    {
-                        // RecID = Convert.ToInt32(entry[0]),
-                        WorkStudyID = Convert.ToString(entry[0]),
-                        TestNo = Convert.ToInt32(entry[1]),
-                        SubConduct = Convert.ToDecimal(entry[2]),
-                        SurfConduct = Convert.ToDecimal(entry[3]),
-                        FsuKsi = Convert.ToDecimal(entry[4]),                       
-                        SpeciComment = Convert.ToString(entry[5]),
-                        Operator = Convert.ToString(entry[6]),
-                        TestDate = Convert.ToString(entry[7]),
-                        TestTime = Convert.ToString(entry[8])
-                    });
-                }
-                textFieldParser.Close();
-
-                sendMessage = SaveShearData(listShearData);
-
-                sendMessage.Success = true;
-
-
-            }
-            catch (Exception ex)
-            {
-                _logger.Error(ex.Message);
-                sendMessage.Success = false;
-                sendMessage.Message = ex.Message.ToString();
-
-            }
-            return sendMessage;
-        }
-
-        private ApiViewModel UploadShear(string[] token)
+        private ApiViewModel UploadShear(DataTable data)
         {
             ApiViewModel importData = new ApiViewModel();
-            //var client = GetHttpClient();
             List<ShearViewModel> ShearList = new List<ShearViewModel>();
-            string[] splitnew = null;
-            int i = 0;
-
             try
             {
-                i = 0;
-                while (i < token.Length - 1)
+                foreach (DataRow row in data.Rows)
                 {
-                    token[i] = token[i].Replace("\"", "");
-                    token[i] = token[i].Replace("\"/", "");
-                    i++;
-                }
-
-                i = 0;
-                while (i < token.Length - 1)
-                {
-                    ShearViewModel ShearData = new ShearViewModel();
-                    //i = 0;
-                    if (token[i].Contains("\n") && splitnew[1] != null)
+                    if (row[0] == null || row[0].ToString().Trim() == "" || new Regex("[^ -~]+").IsMatch(row[0].ToString().Trim()))
                     {
-                        ShearData.WorkStudyID = splitnew[1]; i++;
+                        continue;
                     }
-                    else
+                    ShearList.Add(new ShearViewModel()
                     {
-                        ShearData.WorkStudyID = Convert.ToString(token[i]); i++;
-                    }
-                                 
-                    ShearData.TestNo = Convert.ToInt32(token[i]); i++;
-                    ShearData.SubConduct = Convert.ToDecimal(token[i]); i++;
-                    ShearData.SurfConduct = Convert.ToDecimal(token[i]); i++;
-                    ShearData.FsuKsi = Convert.ToDecimal(token[i]); i++;
-                    ShearData.SpeciComment = Convert.ToString(token[i]); i++;
-                    ShearData.Operator = Convert.ToString(token[i]); i++;
-                    ShearData.TestDate = Convert.ToString(token[i]); i++;
-
-                    if ((token[i]).Contains("\n"))
-                        splitnew = token[i].Split(new[] { "\r\n" }, StringSplitOptions.None);
-                    ShearData.TestTime = Convert.ToString(splitnew[0]);
-
-                    ShearList.Add(ShearData);
+                        WorkStudyID = Convert.ToString(row[0]),
+                        TestNo = Convert.ToInt32(row[1]),
+                        SubConduct = Convert.ToDecimal(row[2]),
+                        SurfConduct = Convert.ToDecimal(row[3]),
+                        FsuKsi = Convert.ToDecimal(row[4]),
+                        SpeciComment = Convert.ToString(row[5]),
+                        Operator = Convert.ToString(row[6]),
+                        TestDate = Convert.ToString(row[7]),
+                        TestTime = Convert.ToString(row[8])
+                    });
                 }
-                importData = SaveShearData(ShearList);
-
+                return SaveShearData(ShearList);
             }
             catch (Exception ex)
             {
                 _logger.Error(ex.Message);
                 importData.Message = ex.Message;
             }
-
             return importData;
         }
-
         private ApiViewModel SaveShearData(List<ShearViewModel> listShearData)
         {
             ApiViewModel sendMessage = new ApiViewModel();
@@ -962,7 +579,7 @@ namespace RNDSystems.API.Controllers
             {
                 CurrentUser user = ApiUser;
                 AdoHelper ado = new AdoHelper();
-                int introw = 0;               
+                int introw = 0;
                 while (introw < listShearData.Count)
                 {
                     SqlParameter param2 = new SqlParameter("@WorkStudyID", listShearData[introw].WorkStudyID);
@@ -1010,121 +627,46 @@ namespace RNDSystems.API.Controllers
             return sendMessage;
 
         }
-
         #endregion
-        #region NotchYield File with heading
-
-        public List<NotchYieldViewModel> listNotchYieldData { get; set; }
-        ApiViewModel ImportNotchYieldData(string filePath)
-        {
-            ApiViewModel sendMessage = new ApiViewModel();
-            sendMessage.Message = "";
-            sendMessage.Success = false;
-            try
-            {
-                listNotchYieldData = new List<NotchYieldViewModel>();
-                // FractureToughness
-                var textFieldParser = new TextFieldParser(new StringReader(File.ReadAllText(filePath)))
-                {
-                    Delimiters = new string[] { "," }
-                };
-
-                while (!textFieldParser.EndOfData)
-                {
-                    var entry = textFieldParser.ReadFields();
-                    if (entry[0] != "WorkStudyID" && entry[0] != "")
-                    {
-                        listNotchYieldData.Add(new NotchYieldViewModel()
-                        {
-                            // RecID = Convert.ToInt32(entry[0]),
-                            WorkStudyID = Convert.ToString(entry[0]),
-                            TestNo = Convert.ToInt32(entry[1]),
-                            SubConduct = Convert.ToDecimal(entry[2]),
-                            SurfConduct = Convert.ToDecimal(entry[3]),
-                            NotchStrengthKsi = Convert.ToDecimal(entry[4]),
-                            YieldStrengthKsi = Convert.ToDecimal(entry[5]),
-                            NotchYieldRatio = Convert.ToDecimal(entry[6]),                            
-                            SpeciComment = Convert.ToString(entry[7]),
-                            Operator = Convert.ToString(entry[8]),
-                            TestDate = Convert.ToString(entry[9]),
-                            TestTime = Convert.ToString(entry[10])
-                        });
-                    }
-                }
-                textFieldParser.Close();
-                sendMessage = SaveNotchYieldData(listNotchYieldData);              
-
-            }
-            catch (Exception ex)
-            {
-                _logger.Error(ex.Message);
-                sendMessage.Success = false;
-                sendMessage.Message = ex.Message.ToString();
-
-            }
-            return sendMessage;
-        }
-        
-        private ApiViewModel UploadNotchYield(string[] token)
+        #region NotchYield
+        private ApiViewModel UploadNotchYield(DataTable data)
         {
             ApiViewModel importData = new ApiViewModel();
-            //var client = GetHttpClient();
             List<NotchYieldViewModel> NotchYieldList = new List<NotchYieldViewModel>();
-            string[] splitnew = null;
-            int i = 0;
-
             try
             {
-                //i = 0;
-                //while (i < token.Length - 1)
-                //{
-                //    token[i] = token[i].Replace("\"", "");
-                //    token[i] = token[i].Replace("\"/", "");
-                //    i++;
-                //}
-
-                i = 10;
-
-                while (i < token.Length - 1)
+                foreach (DataRow row in data.Rows)
                 {
-                    NotchYieldViewModel NotchYieldData = new NotchYieldViewModel();
-                    //i = 0;
-                    if (token[i].Contains("\n") && splitnew[1] != null)
+                    if (row[0] == null || row[0].ToString().Trim() == "" || new Regex("[^ -~]+").IsMatch(row[0].ToString().Trim()))
                     {
-                        NotchYieldData.WorkStudyID = splitnew[1]; i++;
+                        continue;
                     }
-                    else
-                    {
-                        NotchYieldData.WorkStudyID = Convert.ToString(token[i]); i++;
-                    }
-                    NotchYieldData.TestNo = Convert.ToInt32(token[i]); i++;
-                    NotchYieldData.SubConduct = Convert.ToDecimal(token[i]); i++;
-                    NotchYieldData.SurfConduct = Convert.ToDecimal(token[i]); i++;
-                    NotchYieldData.NotchStrengthKsi = Convert.ToDecimal(token[i]); i++;
-                    NotchYieldData.YieldStrengthKsi = Convert.ToDecimal(token[i]); i++;
-                    NotchYieldData.NotchYieldRatio = Convert.ToDecimal(token[i]); i++;
-                    NotchYieldData.SpeciComment = Convert.ToString(token[i]); i++;
-                    NotchYieldData.Operator = Convert.ToString(token[i]); i++;
-                    NotchYieldData.TestDate = Convert.ToString(token[i]); i++;
-
-                    if ((token[i]).Contains("\n"))
-                        splitnew = token[i].Split(new[] { "\r\n" }, StringSplitOptions.None);
-                    NotchYieldData.TestTime = Convert.ToString(splitnew[0]);
-
-                    NotchYieldList.Add(NotchYieldData);
+                    NotchYieldList.Add(
+                        new NotchYieldViewModel()
+                        {
+                            WorkStudyID = Convert.ToString(row[0]),
+                            TestNo = Convert.ToInt32(row[1]),
+                            SubConduct = Convert.ToDecimal(row[2]),
+                            SurfConduct = Convert.ToDecimal(row[3]),
+                            NotchStrengthKsi = Convert.ToDecimal(row[4]),
+                            YieldStrengthKsi = Convert.ToDecimal(row[5]),
+                            NotchYieldRatio = Convert.ToDecimal(row[6]),
+                            SpeciComment = Convert.ToString(row[7]),
+                            Operator = Convert.ToString(row[8]),
+                            TestDate = Convert.ToString(row[9]),
+                            TestTime = Convert.ToString(row[10])
+                        }
+                        );
                 }
-                importData = SaveNotchYieldData(NotchYieldList);
-
+                return SaveNotchYieldData(NotchYieldList);
             }
             catch (Exception ex)
             {
                 _logger.Error(ex.Message);
                 importData.Message = ex.Message;
             }
-
             return importData;
         }
-
         private ApiViewModel SaveNotchYieldData(List<NotchYieldViewModel> listNotchYieldData)
         {
             ApiViewModel sendMessage = new ApiViewModel();
@@ -1186,120 +728,38 @@ namespace RNDSystems.API.Controllers
 
         }
         #endregion
-        #region ResidualStrength  File with heading
-        /// <summary>
-        /// ResidualStrength
-        /// </summary>
-        /// <returns></returns>
-        public List<ResidualStrengthViewModel> listResidualStrengthData { get; set; }
-
-        ApiViewModel ImportResidualStrengthData(string filePath)
-        {
-            ApiViewModel sendMessage = new ApiViewModel();
-            sendMessage.Message = "";
-            sendMessage.Success = false;
-            try
-            {
-                listResidualStrengthData = new List<ResidualStrengthViewModel>();
-                // ResidualStrength
-               
-                var textFieldParser = new TextFieldParser(new StringReader(File.ReadAllText(filePath)))
-                {
-                    Delimiters = new string[] { "," }
-                };
-
-                while (!textFieldParser.EndOfData)
-                {
-                    var entry = textFieldParser.ReadFields();
-                    if (entry[0] != "WorkStudyID" && entry[0] != "")
-                        {
-                        listResidualStrengthData.Add(new ResidualStrengthViewModel()
-                        {
-                            WorkStudyID = Convert.ToString(entry[0]),
-                            TestNo = Convert.ToInt32(entry[1]),
-                            SubConduct = Convert.ToDecimal(entry[2]),
-                            SurfConduct = Convert.ToDecimal(entry[3]),
-                            Validity = Convert.ToString(entry[4]),
-                            ResidualStrength = Convert.ToDecimal(entry[5]),
-                            PmaxLBS = Convert.ToDecimal(entry[6]),
-                            WIn = Convert.ToDecimal(entry[7]),
-                            BIn = Convert.ToDecimal(entry[8]),
-                            AvgFinalPreCrack = Convert.ToDecimal(entry[9]),                            
-                            SpeciComment = Convert.ToString(entry[10]),
-                            Operator = Convert.ToString(entry[11]),
-                            TestDate = Convert.ToString(entry[12]),
-                            TestTime = Convert.ToString(entry[13])                          
-                        });
-                    }
-                }
-                textFieldParser.Close();
-
-                sendMessage = SaveResidualStrengthData(listResidualStrengthData);
-                sendMessage.Success = true;
-            }
-            catch (Exception ex)
-            {
-                _logger.Error(ex.Message);
-                sendMessage.Success = false;
-                sendMessage.Message = ex.Message.ToString();
-
-            }
-            return sendMessage;
-        }
-
-        private ApiViewModel UploadResidualStrength(string[] token)
+        #region ResidualStrength
+        private ApiViewModel UploadResidualStrength(DataTable data)
         {
             ApiViewModel importData = new ApiViewModel();
-            //var client = GetHttpClient();
             List<ResidualStrengthViewModel> ResidualStrengthList = new List<ResidualStrengthViewModel>();
-            string[] splitnew = null;
-            int i = 0;
-
             try
             {
-                i = 0;
-                while (i < token.Length - 1)
+                foreach (DataRow row in data.Rows)
                 {
-                    token[i] = token[i].Replace("\"", "");
-                    token[i] = token[i].Replace("\"/", "");
-                    i++;
-                }
-
-                i = 0;
-                while (i < token.Length - 1)
-                {
-                    ResidualStrengthViewModel ResidualStrengthData = new ResidualStrengthViewModel();
-                    //i = 0;
-                    if (token[i].Contains("\n") && splitnew[1] != null)
+                    if (row[0] == null || row[0].ToString().Trim() == "" || new Regex("[^ -~]+").IsMatch(row[0].ToString().Trim()))
                     {
-                        ResidualStrengthData.WorkStudyID = splitnew[1]; i++;
+                        continue;
                     }
-                    else
+                    ResidualStrengthList.Add(new ResidualStrengthViewModel()
                     {
-                        ResidualStrengthData.WorkStudyID = Convert.ToString(token[i]); i++;
-                    }
-                                    
-                    ResidualStrengthData.TestNo = Convert.ToInt32(token[i]); i++;
-                    ResidualStrengthData.SubConduct = Convert.ToDecimal(token[i]); i++;
-                    ResidualStrengthData.SurfConduct = Convert.ToDecimal(token[i]); i++;
-                    ResidualStrengthData.Validity = Convert.ToString(token[i]); i++;
-                    ResidualStrengthData.ResidualStrength = Convert.ToDecimal(token[i]); i++;
-                    ResidualStrengthData.PmaxLBS = Convert.ToDecimal(token[i]); i++;
-                    ResidualStrengthData.WIn = Convert.ToDecimal(token[i]); i++;
-                    ResidualStrengthData.BIn = Convert.ToDecimal(token[i]); i++;
-                    ResidualStrengthData.AvgFinalPreCrack = Convert.ToDecimal(token[i]); i++;                    
-                    ResidualStrengthData.SpeciComment = Convert.ToString(token[i]); i++;
-                    ResidualStrengthData.Operator = Convert.ToString(token[i]); i++;
-                    ResidualStrengthData.TestDate = Convert.ToString(token[i]); i++;
-
-                    if ((token[i]).Contains("\n"))
-                        splitnew = token[i].Split(new[] { "\r\n" }, StringSplitOptions.None);
-                    ResidualStrengthData.TestTime = Convert.ToString(splitnew[0]);
-
-                    ResidualStrengthList.Add(ResidualStrengthData);
+                        WorkStudyID = Convert.ToString(row[0]),
+                        TestNo = Convert.ToInt32(row[1]),
+                        SubConduct = Convert.ToDecimal(row[2]),
+                        SurfConduct = Convert.ToDecimal(row[3]),
+                        Validity = Convert.ToString(row[4]),
+                        ResidualStrength = Convert.ToDecimal(row[5]),
+                        PmaxLBS = Convert.ToDecimal(row[6]),
+                        WIn = Convert.ToDecimal(row[7]),
+                        BIn = Convert.ToDecimal(row[8]),
+                        AvgFinalPreCrack = Convert.ToDecimal(row[9]),
+                        SpeciComment = Convert.ToString(row[10]),
+                        Operator = Convert.ToString(row[11]),
+                        TestDate = Convert.ToString(row[12]),
+                        TestTime = Convert.ToString(row[13])
+                    });
                 }
-                importData = SaveResidualStrengthData(ResidualStrengthList);
-
+                return SaveResidualStrengthData(ResidualStrengthList);
             }
             catch (Exception ex)
             {
@@ -1309,13 +769,11 @@ namespace RNDSystems.API.Controllers
 
             return importData;
         }
-
         private ApiViewModel SaveResidualStrengthData(List<ResidualStrengthViewModel> listResidualStrengthData)
         {
             ApiViewModel sendMessage = new ApiViewModel();
             sendMessage.Message = "";
             sendMessage.Success = false;
-
             try
             {
                 CurrentUser user = ApiUser;
@@ -1374,162 +832,56 @@ namespace RNDSystems.API.Controllers
             return sendMessage;
 
         }
-
-        #endregion 
+        #endregion
         #region FractureToughness
-        /// <summary>
-        /// Fracture Toughness
-        /// </summary>
-        public List<FractureToughnessViewModel> listFractureToughnessData { get; set; }
-
-        ApiViewModel ImportFractureToughnessData(string filePath)
-        {
-            ApiViewModel sendMessage = new ApiViewModel();
-            sendMessage.Message = "";
-            sendMessage.Success = false;
-            try
-            {
-                listFractureToughnessData = new List<FractureToughnessViewModel>();
-                // FractureToughness
-           
-                var textFieldParser = new TextFieldParser(new StringReader(File.ReadAllText(filePath)))
-                {
-                    Delimiters = new string[] { "," }
-                };
-
-                while (!textFieldParser.EndOfData)
-                {
-                    var entry = textFieldParser.ReadFields();
-                    if (entry[0]!="")
-                    {
-                        listFractureToughnessData.Add(new FractureToughnessViewModel()
-                        {
-                            // RecID = Convert.ToInt32(entry[0]),
-                            WorkStudyID = Convert.ToString(entry[0]),
-                            TestNo = Convert.ToInt32(entry[1]),
-                            SubConduct = Convert.ToDecimal(entry[2]),
-                            SurfConduct = Convert.ToDecimal(entry[3]),
-                            Validity = Convert.ToString(entry[4]),
-                            KKsiIn = Convert.ToDecimal(entry[5]),
-                            KmaxKsiIn = Convert.ToDecimal(entry[6]),
-                            PqLBS = Convert.ToDecimal(entry[7]),
-                            PmaxLBS = Convert.ToDecimal(entry[8]),
-                            aOIn = Convert.ToDecimal(entry[9]),
-                            WIn = Convert.ToDecimal(entry[10]),
-                            BIn = Convert.ToDecimal(entry[11]),
-                            BnIn = Convert.ToDecimal(entry[12]),
-                            AvgFinalPreCrack = Convert.ToDecimal(entry[13]),
-                            SpeciComment = Convert.ToString(entry[14]),
-                            Operator = Convert.ToString(entry[15]),
-                            TestDate = Convert.ToString(entry[16]),
-                            EntryDate = Convert.ToString(entry[17]),
-                            blank1 = Convert.ToString(entry[18]),
-                            blank2 = Convert.ToString(entry[19]),
-                            blank3 = Convert.ToString(entry[20]),
-                            blank4 = Convert.ToString(entry[21]),
-                        });
-                    }                    
-                }
-                textFieldParser.Close();
-                sendMessage = SaveFractureToughnessData(listFractureToughnessData);
-            }
-            catch (Exception ex)
-            {
-                _logger.Error(ex.Message);
-                sendMessage.Success = false;
-                sendMessage.Message = ex.Message.ToString();
-
-            }
-            return sendMessage;
-        }
-
-        private ApiViewModel UploadFractureToughness(string[] token)
+        private ApiViewModel UploadFractureToughness(DataTable data)
         {
             ApiViewModel importData = new ApiViewModel();
-            //var client = GetHttpClient();
             List<FractureToughnessViewModel> FractureToughnessList = new List<FractureToughnessViewModel>();
-            string[] splitnew = null;
-            int i = 0;
-
             try
             {
-                i = 0;
-                while (i < token.Length - 1)
+                foreach (DataRow row in data.Rows)
                 {
-                    token[i] = token[i].Replace("\"", "");
-                    token[i] = token[i].Replace("\"/", "");
-                    i++;
-                }
 
-                i = 0;
-              
-                while (i < token.Length - 1)
-                {
-                    FractureToughnessViewModel FractureToughnessData = new FractureToughnessViewModel();
-                    //i = 0;
-                    if ((token[i] != "")&& (token[i] != "\r\n"))
+                    if (row[0] == null || row[0].ToString().Trim() == "" || new Regex("[^ -~]+").IsMatch(row[0].ToString().Trim()))
                     {
-                        if (token[i].Contains("\n") && splitnew[1] != null && splitnew[1] != "")
-                        {
-                            FractureToughnessData.WorkStudyID = splitnew[1]; i++;
-                        }
-                        else
-                        {                            
-                            FractureToughnessData.WorkStudyID = Convert.ToString(token[i]); i++;
-                        }
-                        FractureToughnessData.TestNo = Convert.ToInt32(token[i]); i++;
-                        FractureToughnessData.SubConduct = Convert.ToDecimal(token[i]); i++;
-                        FractureToughnessData.SurfConduct = Convert.ToDecimal(token[i]); i++;
-                        FractureToughnessData.Validity = Convert.ToString(token[i]); i++;
-                        FractureToughnessData.KKsiIn = Convert.ToDecimal(token[i]); i++;
-                        FractureToughnessData.KmaxKsiIn = Convert.ToDecimal(token[i]); i++;
-                        FractureToughnessData.PqLBS = Convert.ToDecimal(token[i]); i++;
-                        FractureToughnessData.PmaxLBS = Convert.ToDecimal(token[i]); i++;
-                        FractureToughnessData.aOIn = Convert.ToDecimal(token[i]); i++;
-                        FractureToughnessData.WIn = Convert.ToDecimal(token[i]); i++;
-                        FractureToughnessData.BIn = Convert.ToDecimal(token[i]); i++;
-                        FractureToughnessData.BnIn = Convert.ToDecimal(token[i]); i++;
-                        FractureToughnessData.AvgFinalPreCrack = Convert.ToDecimal(token[i]); i++;
-                        FractureToughnessData.SpeciComment = Convert.ToString(token[i]); i++;
-                        FractureToughnessData.Operator = Convert.ToString(token[i]); i++;
-                        FractureToughnessData.TestDate = Convert.ToString(token[i]); i++;
-                        FractureToughnessData.EntryDate = Convert.ToString(token[i]); i++;
-
-                        FractureToughnessData.blank1 = Convert.ToString(token[i]); i++;
-                        FractureToughnessData.blank2 = Convert.ToString(token[i]); i++;
-                        FractureToughnessData.blank3 = Convert.ToString(token[i]); i++;
-
-
-                        if ((token[i]).Contains("\n"))
-                            splitnew = token[i].Split(new[] { "\r\n" }, StringSplitOptions.None);
-                       // FractureToughnessData.blank4 = Convert.ToString(token[i]); i++;
-
-                        FractureToughnessList.Add(FractureToughnessData);
+                        continue;
                     }
-                    else
+                    FractureToughnessList.Add(new FractureToughnessViewModel()
                     {
-                       
-                        if (token[i] == "\r\n")
-                            i++;
-                                              
-                        while (!token[i].Contains("\n"))
-                            i++;
-                        if ((token[i]).Contains("\n"))
-                            splitnew = token[i].Split(new[] { "\r\n" }, StringSplitOptions.None);
-                    }
+                        WorkStudyID = Convert.ToString(row[0]),
+                        TestNo = Convert.ToInt32(row[1]),
+                        SubConduct = Convert.ToDecimal(row[2]),
+                        SurfConduct = Convert.ToDecimal(row[3]),
+                        Validity = Convert.ToString(row[4]),
+                        KKsiIn = Convert.ToDecimal(row[5]),
+                        KmaxKsiIn = Convert.ToDecimal(row[6]),
+                        PqLBS = Convert.ToDecimal(row[7]),
+                        PmaxLBS = Convert.ToDecimal(row[8]),
+                        aOIn = Convert.ToDecimal(row[9]),
+                        WIn = Convert.ToDecimal(row[10]),
+                        BIn = Convert.ToDecimal(row[11]),
+                        BnIn = Convert.ToDecimal(row[12]),
+                        AvgFinalPreCrack = Convert.ToDecimal(row[13]),
+                        SpeciComment = Convert.ToString(row[14]),
+                        Operator = Convert.ToString(row[15]),
+                        TestDate = Convert.ToString(row[16]),
+                        EntryDate = Convert.ToString(row[17]),
+                        blank1 = row[18] == null ? "" : Convert.ToString(row[18]),
+                        blank2 = row[19] == null ? "" : Convert.ToString(row[19]),
+                        blank3 = row[20] == null ? "" : Convert.ToString(row[20]),
+                        // blank4 = Convert.ToString(row[21]),
+                    });
                 }
-                importData = SaveFractureToughnessData(FractureToughnessList);
-
+                return SaveFractureToughnessData(FractureToughnessList);
             }
             catch (Exception ex)
             {
                 _logger.Error(ex.Message);
                 importData.Message = ex.Message;
             }
-
             return importData;
         }
-
         private ApiViewModel SaveFractureToughnessData(List<FractureToughnessViewModel> listFractureToughnessData)
         {
             ApiViewModel sendMessage = new ApiViewModel();
@@ -1596,110 +948,37 @@ namespace RNDSystems.API.Controllers
 
             }
             return sendMessage;
-
         }
-
-
         #endregion
         #region ModulusTension
-        public List<ModulusTensionDataViewModel> listModulusTensionData { get; set; }
-
-        ApiViewModel ImportModulusTensionData(string filePath)
-        {
-            ApiViewModel sendMessage = new ApiViewModel();
-            sendMessage.Message = "";
-            sendMessage.Success = false;
-            try
-            {
-                listModulusTensionData = new List<ModulusTensionDataViewModel>();
-                // ModulusTensionData
-           
-                var textFieldParser = new TextFieldParser(new StringReader(File.ReadAllText(filePath)))
-                {
-                    Delimiters = new string[] { "," }
-                };
-
-                while (!textFieldParser.EndOfData)
-                {
-                    var entry = textFieldParser.ReadFields();
-                    if (entry[0] != "")
-                    {
-                        listModulusTensionData.Add(new ModulusTensionDataViewModel()
-                        {
-                            WorkStudyID = Convert.ToString(entry[0]),
-                            TestNo = Convert.ToInt32(entry[1]),
-                            SubConduct = Convert.ToDecimal(entry[2]),
-                            SurfConduct = Convert.ToDecimal(entry[3]),
-                            EModulusTension = Convert.ToDecimal(entry[4]),                            
-                            SpeciComment = Convert.ToString(entry[5]),
-                            Operator = Convert.ToString(entry[6]),
-                            TestDate = Convert.ToString(entry[7]),
-                            EntryDate = Convert.ToString(entry[8])
-                        });
-                    }
-                }
-                textFieldParser.Close();
-                sendMessage = SaveModulusTensionData(listModulusTensionData);
-                sendMessage.Success = true;
-
-            }
-            catch (Exception ex)
-            {
-                _logger.Error(ex.Message);
-                sendMessage.Success = false;
-                sendMessage.Message = ex.Message.ToString();
-
-            }
-            return sendMessage;
-        }
-        private ApiViewModel UploadModulusTension(string[] token)
+        private ApiViewModel UploadModulusTension(DataTable data)
         {
             ApiViewModel importData = new ApiViewModel();
-            //var client = GetHttpClient();
             List<ModulusTensionDataViewModel> ModulusTensionList = new List<ModulusTensionDataViewModel>();
-            string[] splitnew = null;
-            int i = 0;
-
             try
             {
-                i = 0;
-                while (i < token.Length - 1)
+                foreach (DataRow row in data.Rows)
                 {
-                    token[i] = token[i].Replace("\"", "");
-                    token[i] = token[i].Replace("\"/", "");
-                    i++;
-                }
-
-                i = 0;
-                while (i < token.Length - 1)
-                {
-                    ModulusTensionDataViewModel ModulusTensionData = new ModulusTensionDataViewModel();
-                    //i = 0;
-                    if (token[i].Contains("\n") && splitnew[1] != null)
+                    if (row[0] == null || row[0].ToString().Trim() == "" || new Regex("[^ -~]+").IsMatch(row[0].ToString().Trim()))
                     {
-                        ModulusTensionData.WorkStudyID = splitnew[1]; i++;
+                        continue;
                     }
-                    else
+                    ModulusTensionList.Add(new ModulusTensionDataViewModel()
                     {
-                        ModulusTensionData.WorkStudyID = Convert.ToString(token[i]); i++;
-                    }
+                        WorkStudyID = Convert.ToString(row[0]),
+                        TestNo = Convert.ToInt32(row[1]),
+                        SubConduct = Convert.ToDecimal(row[2]),
+                        SurfConduct = Convert.ToDecimal(row[3]),
+                        EModulusTension = Convert.ToDecimal(row[4]),
+                        SpeciComment = Convert.ToString(row[5]),
+                        Operator = Convert.ToString(row[6]),
+                        TestDate = Convert.ToString(row[7]),
+                        TestTime = Convert.ToString(row[8])
 
-                    ModulusTensionData.TestNo = Convert.ToInt32(token[i]); i++;
-                    ModulusTensionData.SubConduct = Convert.ToDecimal(token[i]); i++;
-                    ModulusTensionData.SurfConduct = Convert.ToDecimal(token[i]); i++;
-                    ModulusTensionData.EModulusTension = Convert.ToDecimal(token[i]); i++;
-                    ModulusTensionData.SpeciComment = Convert.ToString(token[i]); i++;
-                    ModulusTensionData.Operator = Convert.ToString(token[i]); i++;
-                    ModulusTensionData.TestDate = Convert.ToString(token[i]); i++;
 
-                    if ((token[i]).Contains("\n"))
-                        splitnew = token[i].Split(new[] { "\r\n" }, StringSplitOptions.None);
-                    ModulusTensionData.TestTime = Convert.ToString(splitnew[0]);
-
-                    ModulusTensionList.Add(ModulusTensionData);
+                    });
                 }
-                importData = SaveModulusTensionData(ModulusTensionList);
-
+                return SaveModulusTensionData(ModulusTensionList);
             }
             catch (Exception ex)
             {
@@ -1709,7 +988,6 @@ namespace RNDSystems.API.Controllers
 
             return importData;
         }
-
         private ApiViewModel SaveModulusTensionData(List<ModulusTensionDataViewModel> listModulusTensionData)
 
         {
@@ -1769,126 +1047,44 @@ namespace RNDSystems.API.Controllers
             return sendMessage;
 
         }
-
         #endregion
         #region ModulusCompression
-        public List<ModulusCompressionDataViewModel> listModulusCompressionData { get; set; }
-
-        ApiViewModel ImportModulusCompressionData(string filePath)
-        {
-            ApiViewModel sendMessage = new ApiViewModel();
-            sendMessage.Message = "";
-            sendMessage.Success = false;
-            try
-            {
-                listModulusCompressionData = new List<ModulusCompressionDataViewModel>();
-                // ModulusCompressionData
-              //  string filePath = "C:\\New Development\\RND\\New Development\\CSV\\Modulus Compression.csv";
-
-                var textFieldParser = new TextFieldParser(new StringReader(File.ReadAllText(filePath)))
-                {
-                    Delimiters = new string[] { "," }
-                };
-
-                while (!textFieldParser.EndOfData)
-                {
-                    var entry = textFieldParser.ReadFields();
-                    if (entry[0] != "")
-                    {
-                        if (entry[4] == "****")
-                        {
-                            entry[4] = "0.0";
-                        } 
-                            listModulusCompressionData.Add(new ModulusCompressionDataViewModel()
-                        {
-                            WorkStudyID = Convert.ToString(entry[0]),
-                            TestNo = Convert.ToInt32(entry[1]),
-                            SubConduct = Convert.ToDecimal(entry[2]),
-                            SurfConduct = Convert.ToDecimal(entry[3]),                          
-                             EModulusCompression = Convert.ToDecimal(entry[4]),                              
-                            SpeciComment = Convert.ToString(entry[5]),
-                            Operator = Convert.ToString(entry[6]),
-                            TestDate = Convert.ToString(entry[7]),
-                            EntryDate = Convert.ToString(entry[8])
-                        });
-                    }
-                }
-                textFieldParser.Close();
-                sendMessage = SaveModulusCompressionData(listModulusCompressionData);                
-                sendMessage.Success = true;
-
-            }
-            catch (Exception ex)
-            {
-                _logger.Error(ex.Message);
-                sendMessage.Success = false;
-                sendMessage.Message = ex.Message.ToString();
-
-            }
-            return sendMessage;
-        }
-        private ApiViewModel UploadModulusCompression(string[] token)
+        private ApiViewModel UploadModulusCompression(DataTable data)
         {
             ApiViewModel importData = new ApiViewModel();
-            //var client = GetHttpClient();
             List<ModulusCompressionDataViewModel> ModulusCompressionList = new List<ModulusCompressionDataViewModel>();
-            string[] splitnew = null;
-            int i = 0;
-
             try
             {
-                i = 0;
-                while (i < token.Length - 1)
+                foreach (DataRow row in data.Rows)
                 {
-                    token[i] = token[i].Replace("\"", "");
-                    token[i] = token[i].Replace("\"/", "");
-                    i++;
+                    if (row[0] == null || row[0].ToString().Trim() == "" || new Regex("[^ -~]+").IsMatch(row[0].ToString().Trim()))
+                    {
+                        continue;
+                    }
+                    ModulusCompressionList.Add(new ModulusCompressionDataViewModel()
+                    {
+                        WorkStudyID = Convert.ToString(row[0]),
+                        TestNo = Convert.ToInt32(row[1]),
+                        SubConduct = Convert.ToDecimal(row[2]),
+                        SurfConduct = Convert.ToDecimal(row[3]),
+                        EModulusCompression = Convert.ToDecimal(row[4]),
+                        SpeciComment = Convert.ToString(row[5]),
+                        Operator = Convert.ToString(row[6]),
+                        TestDate = Convert.ToString(row[7]),
+                        TestTime = Convert.ToString(row[8])
+
+                    });
+
                 }
-
-                i = 0;
-                while (i < token.Length - 1)
-                {
-                    ModulusCompressionDataViewModel ModulusCompressionData = new ModulusCompressionDataViewModel();
-                    //i = 0;
-                   
-                    if (token[i].Contains("\n") && splitnew[1] != null)
-                    {
-                        ModulusCompressionData.WorkStudyID = splitnew[1]; i++;
-                    }
-                    else
-                    {
-                        ModulusCompressionData.WorkStudyID = Convert.ToString(token[i]); i++;
-                    }
-                    ModulusCompressionData.TestNo = Convert.ToInt32(token[i]); i++;
-                    ModulusCompressionData.SubConduct = Convert.ToDecimal(token[i]); i++;
-                    ModulusCompressionData.SurfConduct = Convert.ToDecimal(token[i]); i++;
-                    if (token[i] == "****")
-                    {
-                        token[i] = "0.0";
-                    }
-                    ModulusCompressionData.EModulusCompression = Convert.ToDecimal(token[i]); i++;
-                    ModulusCompressionData.SpeciComment = Convert.ToString(token[i]); i++;
-                    ModulusCompressionData.Operator = Convert.ToString(token[i]); i++;
-                    ModulusCompressionData.TestDate = Convert.ToString(token[i]); i++;
-
-                    if ((token[i]).Contains("\n"))
-                        splitnew = token[i].Split(new[] { "\r\n" }, StringSplitOptions.None);
-                    ModulusCompressionData.TestTime = Convert.ToString(splitnew[0]);
-
-                    ModulusCompressionList.Add(ModulusCompressionData);
-                }
-                importData = SaveModulusCompressionData(ModulusCompressionList);
-
+                return SaveModulusCompressionData(ModulusCompressionList);
             }
             catch (Exception ex)
             {
                 _logger.Error(ex.Message);
                 importData.Message = ex.Message;
             }
-
             return importData;
         }
-
         private ApiViewModel SaveModulusCompressionData(List<ModulusCompressionDataViewModel> listModulusCompressionData)
         {
             ApiViewModel sendMessage = new ApiViewModel();
@@ -1948,155 +1144,49 @@ namespace RNDSystems.API.Controllers
 
         }
         #endregion
-
-        #region FatigueTesting
-        public List<FatigueTestingDataViewModel> listFatigueTestingData { get; set; }
-
-        ApiViewModel ImportFatigueTestingData(string filePath)
-        {
-            ApiViewModel sendMessage = new ApiViewModel();
-            sendMessage.Message = "";
-            sendMessage.Success = false;
-            try
-            {
-                listFatigueTestingData = new List<FatigueTestingDataViewModel>();
-                // FatigueTestingData
-           
-                var textFieldParser = new TextFieldParser(new StringReader(File.ReadAllText(filePath)))
-                {
-                    Delimiters = new string[] { "," }
-                };
-
-                while (!textFieldParser.EndOfData)
-                {
-                    var entry = textFieldParser.ReadFields();
-                    if (entry[0] != "")
-                    {
-                        if (entry[13] == "")
-                        {
-                            entry[13] = "0.0";
-                        }
-
-                        listFatigueTestingData.Add(new FatigueTestingDataViewModel()
-                        {
-                            WorkStudyID = Convert.ToString(entry[0]),
-                            TestNo = Convert.ToInt32(entry[1]),
-                            SpecimenDrawing = Convert.ToString(entry[2]),
-                            MinStress = Convert.ToDecimal(entry[3]),
-                            MaxStress = Convert.ToDecimal(entry[4]),
-                            MinLoad = Convert.ToDecimal(entry[5]),
-                            MaxLoad = Convert.ToDecimal(entry[6]),
-                            WidthOrDia = Convert.ToDecimal(entry[7]),
-                            Thickness = Convert.ToDecimal(entry[8]),
-                            HoleDia = Convert.ToDecimal(entry[9]),
-                            AvgChamferDepth = Convert.ToDecimal(entry[10]),
-                            Frequency = Convert.ToString(entry[11]),
-                            CyclesToFailure = Convert.ToDecimal(entry[12]),
-                            Roughness = Convert.ToDecimal(entry[13]),
-                            TestFrame = Convert.ToString(entry[14]),
-                            Comment = Convert.ToString(entry[15]),
-                            FractureLocation = Convert.ToString(entry[16]),
-                            Operator = Convert.ToString(entry[17]),
-                            TestDate = Convert.ToString(entry[18]),
-                            EntryDate = Convert.ToString(entry[19]),
-                            field1 = Convert.ToString(entry[20])
-                        });
-                    }
-                }
-                textFieldParser.Close();
-
-                sendMessage.Success = true;
-
-            }
-            catch (Exception ex)
-            {
-                _logger.Error(ex.Message);
-                sendMessage.Success = false;
-                sendMessage.Message = ex.Message.ToString();
-
-            }
-            return sendMessage;
-        }
-        private ApiViewModel UploadFatigue(string[] token)
+        #region Fatigue
+        private ApiViewModel UploadFatigue(DataTable data)
         {
             ApiViewModel importData = new ApiViewModel();
-            //var client = GetHttpClient();
             List<FatigueTestingDataViewModel> FatigueTestingList = new List<FatigueTestingDataViewModel>();
-            string[] splitnew = null;
-            int i = 0;
-
             try
             {
-                i = 0;
-                while (i < token.Length - 1)
+                foreach (DataRow row in data.Rows)
                 {
-                    token[i] = token[i].Replace("\"", "");
-                    token[i] = token[i].Replace("\"/", "");
-                    i++;
-                }
-
-                i = 0;
-                while (i < token.Length - 1)
-                {
-                    FatigueTestingDataViewModel FatigueTestingData = new FatigueTestingDataViewModel();
-                    //i = 0;
-                    if ((token[i] != "") && (token[i] != "\r\n"))
+                    if (row[0] == null || row[0].ToString().Trim() == "" || new Regex("[^ -~]+").IsMatch(row[0].ToString().Trim()))
                     {
-                        if (token[i].Contains("\n") && splitnew[1] != null && splitnew[1] != "")
-                        {
-                            FatigueTestingData.WorkStudyID = splitnew[1]; i++;
-                        }
-                        else
-                        {
-                            FatigueTestingData.WorkStudyID = Convert.ToString(token[i]); i++;
-                        }
-
-                        FatigueTestingData.TestNo = Convert.ToInt32(token[i]); i++;
-                        FatigueTestingData.SpecimenDrawing = Convert.ToString(token[i]); i++;
-
-                        FatigueTestingData.MinStress = Convert.ToDecimal(token[i]); i++;
-                        FatigueTestingData.MaxStress = Convert.ToDecimal(token[i]); i++;
-                        FatigueTestingData.MinLoad = Convert.ToDecimal(token[i]); i++;
-                        FatigueTestingData.MaxLoad = Convert.ToDecimal(token[i]); i++;
-                        FatigueTestingData.WidthOrDia = Convert.ToDecimal(token[i]); i++;
-                        FatigueTestingData.Thickness = Convert.ToDecimal(token[i]); i++;
-                        FatigueTestingData.HoleDia = Convert.ToDecimal(token[i]); i++;
-                        FatigueTestingData.AvgChamferDepth = Convert.ToDecimal(token[i]); i++;
-                        FatigueTestingData.Frequency = Convert.ToString(token[i]); i++;
-                        FatigueTestingData.CyclesToFailure = Convert.ToDecimal(token[i]); i++;
-                        if (token[i] == "")
-                        {
-                            token[i] = "0.0";
-                        }
-                        FatigueTestingData.Roughness = Convert.ToDecimal(token[i]); i++;
-                        FatigueTestingData.TestFrame = Convert.ToString(token[i]); i++;
-                        FatigueTestingData.Comment = Convert.ToString(token[i]); i++;
-                        FatigueTestingData.FractureLocation = Convert.ToString(token[i]); i++;
-                        FatigueTestingData.Operator = Convert.ToString(token[i]); i++;
-                        FatigueTestingData.TestDate = Convert.ToString(token[i]); i++;
-                        FatigueTestingData.EntryDate = Convert.ToString(token[i]); i++;
-                        FatigueTestingData.field1 = Convert.ToString(token[i]); i++;
-
-                        FatigueTestingData.Operator = Convert.ToString(token[i]); i++;
-                        FatigueTestingData.TestDate = Convert.ToString(token[i]); i++;
-
-                        if ((token[i]).Contains("\n"))
-                            splitnew = token[i].Split(new[] { "\r\n" }, StringSplitOptions.None);
-                        FatigueTestingData.TestTime = Convert.ToString(splitnew[0]);
-
-                        FatigueTestingList.Add(FatigueTestingData);
+                        continue;
                     }
-                    else
-                    {
-                        if (token[i] == "\r\n")
-                            i++;
-                        while (!token[i].Contains("\n"))
-                            i++;
-                        if ((token[i]).Contains("\n"))
-                            splitnew = token[i].Split(new[] { "\r\n" }, StringSplitOptions.None);
-                    }
+                    FatigueTestingList.Add(
+                        new FatigueTestingDataViewModel()
+                        {
+
+                            WorkStudyID = Convert.ToString(row[0]),
+                            TestNo = Convert.ToInt32(row[1]),
+                            SpecimenDrawing = Convert.ToString(row[2]),
+                            MinStress = Convert.ToDecimal(row[3]),
+                            MaxStress = Convert.ToDecimal(row[4]),
+                            MinLoad = Convert.ToDecimal(row[5]),
+                            MaxLoad = Convert.ToDecimal(row[6]),
+                            WidthOrDia = Convert.ToDecimal(row[7]),
+                            Thickness = Convert.ToDecimal(row[8]),
+                            HoleDia = Convert.ToDecimal(row[9]),
+                            AvgChamferDepth = Convert.ToDecimal(row[10]),
+                            Frequency = Convert.ToString(row[11]),
+                            CyclesToFailure = Convert.ToDecimal(row[12]),
+                            Roughness = Convert.ToDecimal(row[13]),
+                            TestFrame = Convert.ToString(row[14]),
+                            Comment = Convert.ToString(row[15]),
+                            FractureLocation = Convert.ToString(row[16]),
+                            Operator = Convert.ToString(row[17]),
+                            TestDate = Convert.ToString(row[18]),
+                            EntryDate = Convert.ToString(row[19]),
+                            TestTime = Convert.ToString(row[20]),
+                            field1 = Convert.ToString(row[21])
+                        }
+                        );
                 }
-                importData = SaveFatigueTestingData(FatigueTestingList);
+                return SaveFatigueTestingData(FatigueTestingList);
             }
             catch (Exception ex)
             {
@@ -2106,7 +1196,6 @@ namespace RNDSystems.API.Controllers
 
             return importData;
         }
-
         private ApiViewModel SaveFatigueTestingData(List<FatigueTestingDataViewModel> listFatigueTestingData)
         {
             ApiViewModel sendMessage = new ApiViewModel();
@@ -2178,7 +1267,9 @@ namespace RNDSystems.API.Controllers
             return sendMessage;
 
         }
-        #endregion
 
+        #endregion
     }
+
+
 }

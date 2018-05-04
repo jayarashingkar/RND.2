@@ -21,7 +21,7 @@ namespace RNDSystems.Web.Controllers
 {
     public class ImportDataController : BaseController
     {
-                
+
         // GET: ImportData
         public ActionResult ImportData(string result)
         {
@@ -31,21 +31,21 @@ namespace RNDSystems.Web.Controllers
             ImportDataViewModel data = new ImportDataViewModel();
             try
             {
-                   data.results = "";
-                    ddTestTypes = new List<SelectListItem>();               
-                    var client = GetHttpClient();
-                    //   var task = client.GetAsync(Api + "api/ImportData?WorkStudyId=none").ContinueWith((res) =>
-                    var task = client.GetAsync(Api + "api/ImportData?Active=2").ContinueWith((res) =>
+                data.results = "";
+                ddTestTypes = new List<SelectListItem>();
+                var client = GetHttpClient();
+                //   var task = client.GetAsync(Api + "api/ImportData?WorkStudyId=none").ContinueWith((res) =>
+                var task = client.GetAsync(Api + "api/ImportData?Active=2").ContinueWith((res) =>
+                {
+                    if (res.Result.IsSuccessStatusCode)
                     {
-                        if (res.Result.IsSuccessStatusCode)
+                        data = JsonConvert.DeserializeObject<ImportDataViewModel>(res.Result.Content.ReadAsStringAsync().Result);
+                        if (data != null)
                         {
-                            data = JsonConvert.DeserializeObject<ImportDataViewModel>(res.Result.Content.ReadAsStringAsync().Result);
-                            if (data != null)
-                            {
-                                 ddTestTypes = data.ddTestType;
-                            }
+                            ddTestTypes = data.ddTestType;
                         }
-                    });
+                    }
+                });
                 task.Wait();
                 ViewBag.ddTestTypes = ddTestTypes;
                 ViewBag.ddTestTypesDefault = ddTestTypes;
@@ -58,15 +58,15 @@ namespace RNDSystems.Web.Controllers
                         ViewBag.result = result;
                     else
                         ViewBag.error = result;
-                }                    
-                       
-                      
+                }
+
+
             }
             catch (Exception ex)
             {
                 ViewBag.error = ex.ToString();
                 _logger.Error(ex);
-              
+
             }
             return View(data);
         }
@@ -75,34 +75,53 @@ namespace RNDSystems.Web.Controllers
         [HttpPost]
         public ActionResult Upload(HttpPostedFileBase file, string selectedTestType)
         {
-           // TempData["result"] = " ";
+            // TempData["result"] = " ";
             ApiViewModel importData = new ApiViewModel();
             try
-            {               
+            {
                 var client = GetHttpClient();
                 if (file != null && file.ContentLength > 0)
-                {                    
+                {
                     var fileName = Path.GetFileName(file.FileName);
-                    BinaryReader b = new BinaryReader(file.InputStream);
-                    byte[] binData = b.ReadBytes(file.ContentLength);
-                    string results = System.Text.Encoding.UTF8.GetString(binData);
+                    ////BinaryReader b = new BinaryReader(file.InputStream);
+                    ////byte[] binData = b.ReadBytes(file.ContentLength);
+                    ////string results = System.Text.Encoding.UTF8.GetString(binData);
 
                     string strfileName = fileName.ToString();
                     if (!strfileName.Contains(selectedTestType))
                         importData.Message = "Please check the correct file is imported";
-                    else if  (selectedTestType == "-1")
+                    else if (selectedTestType == "-1")
                         importData.Message = "Please select the Test Type";
                     else
                     {
-                        var task = client.GetAsync(Api + "api/ImportData?id=0" + "&results=" + results + "&selectedTestType=" + selectedTestType).ContinueWith((res) =>
+                        //var task = client.GetAsync(Api + "api/ImportData?id=0" + "&results=" + results + "&selectedTestType=" + selectedTestType).ContinueWith((res) =>
+                        //{
+                        //    if (res.Result.IsSuccessStatusCode)
+                        //    {
+                        //        importData = JsonConvert.DeserializeObject<ApiViewModel>(res.Result.Content.ReadAsStringAsync().Result);
+                        //    }
+                        //});
+                        string filePath = Path.GetTempPath() + System.Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+                        try
                         {
-                            if (res.Result.IsSuccessStatusCode)
+                            file.SaveAs(filePath);
+                            var task = client.GetAsync(Api + "api/ImportData?id=0&path=" + filePath + "&selectedTestType=" + selectedTestType).ContinueWith((res) =>
                             {
-                                importData = JsonConvert.DeserializeObject<ApiViewModel>(res.Result.Content.ReadAsStringAsync().Result);
+                                if (res.Result.IsSuccessStatusCode)
+                                {
+                                    importData = JsonConvert.DeserializeObject<ApiViewModel>(res.Result.Content.ReadAsStringAsync().Result);
+                                }
+                            });
+                            task.Wait();
+                        }
+                        finally
+                        {
+                            if (System.IO.File.Exists(filePath))
+                            {
+                                System.IO.File.Delete(filePath);
                             }
-                        });
-                        task.Wait();
-                    }                 
+                        }
+                    }
                 }
                 else
                     importData.Message = "Please check the correct file is imported";
@@ -112,9 +131,9 @@ namespace RNDSystems.Web.Controllers
                 _logger.Error(ex.Message);
                 importData.Message = ex.ToString();
             }
-          
-             return RedirectToAction("ImportData", new { result = importData.Message });
+
+            return RedirectToAction("ImportData", new { result = importData.Message });
         }
-        
+
     }
 }

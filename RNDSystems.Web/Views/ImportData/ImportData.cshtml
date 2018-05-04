@@ -13,15 +13,15 @@
             </div>
         </div>
 
-       @* <label for="lblImportTypes" class="cols-sm-2 control-label">Select Import Type:</label>*@ 
-        <label for="lblImportTypes"  id="lblImportTypes"  class="cols-sm-2 control-label bg-primary text-uppercase">Select Import Type</label>
+        @* <label for="lblImportTypes" class="cols-sm-2 control-label">Select Import Type:</label>*@
+        <label for="lblImportTypes" id="lblImportTypes" class="cols-sm-2 control-label bg-primary text-uppercase">Select Import Type</label>
         <input type="hidden" name="results" id="results" value="@Model.results" />
         @*<input type="hidden" name="WorkStudyID" id="WorkStudyID" value="@Model.WorkStudyID" />*@
-        @*<form>              
-            <input type="radio" id="Default" value="Default" name="ImportRadio" checked>Default<br>
-            <input type="radio" id="Custom" value="Custom" name="ImportRadio">Custom        
-        </form>*@
-       
+        @*<form>
+                <input type="radio" id="Default" value="Default" name="ImportRadio" checked>Default<br>
+                <input type="radio" id="Custom" value="Custom" name="ImportRadio">Custom
+            </form>*@
+
         <div class="row">
             <div class="col-md-3">
                 <div class="form-group">
@@ -31,26 +31,26 @@
                     </div>
                 </div>
             </div>
-                <div class="col-md-3 ">                  
-                    <form>
-                        <input type="radio" id="Default" value="Default" name="ImportRadio" checked>Default<br>
-                        <input type="radio" id="Custom" value="Custom" name="ImportRadio">Custom<br>
-                        @*<input type="radio" id="Manual" value="Manual" name="ImportRadio" disabled>Manual Entry*@
-                    </form>
+            <div class="col-md-3 ">
+                <form>
+                    <input type="radio" id="Default" value="Default" name="ImportRadio" checked>Default<br>
+                    <input type="radio" id="Custom" value="Custom" name="ImportRadio">Custom<br>
+                    @*<input type="radio" id="Manual" value="Manual" name="ImportRadio" disabled>Manual Entry*@
+                </form>
+            </div>
+            <div class="col-md-3 ">
+                <div class="form-group">
+                    <div class="button btn btn-primary" id="btnSelectImport">Select</div>
                 </div>
-                <div class="col-md-3 ">                    
-                    <div class="form-group">
-                        <div class="button btn btn-primary" id="btnSelectImport">Select</div>
-                    </div>
-                </div>
+            </div>
         </div>
         @*<br><label for="" style="color:blue; text-decoration:underline; text-decoration-color: darkblue"class="cols-sm-2 control-label" >Import Default</label>*@
 
-@*@using (Html.BeginForm("Upload", "ImportData", FormMethod.Post, new { enctype = "multipart/form-data" }))*@
+        @*@using (Html.BeginForm("Upload", "ImportData", FormMethod.Post, new { enctype = "multipart/form-data" }))*@
 
-           <br><label for="hdImportDefault" id="hdImportDefault"  class="cols-sm-2 control-label bg-info text-uppercase">Import Default</label>
+        <br><label for="hdImportDefault" id="hdImportDefault" class="cols-sm-2 control-label bg-info text-uppercase">Import Default</label>
         <div class="row">
-                @*<div class="col-md-3">
+            @*<div class="col-md-3">
                     <div class="form-group">
                         <label for="lblddTestTypes" class="cols-sm-2 control-label">Test Type</label>
                         <div class="cols-sm-10">
@@ -65,72 +65,72 @@
             </div>
         </div>
 
-        <br><label for="hdImport"  id="hdImport" class="cols-sm-2 control-label bg-info text-uppercase">Import Custom</label>
-        
-@using (Html.BeginForm("Upload", "ImportData", FormMethod.Post, new { enctype = "multipart/form-data" }))
-{ 
-    <div class="row">
-            <div class="col-md-6">
-                <div class="row">
-                    <div class="col-md-3">
-                        @*<input type="file" id="filePath1" name="filePath1" class="hidden" />*@
+        <br><label for="hdImport" id="hdImport" class="cols-sm-2 control-label bg-info text-uppercase">Import Custom</label>
 
-                        <input type="file"  id="file" name="file" class="hidden" />
-                        <input type="text" id="filePathChoose" name="filePathChoose" class="form-control" placeholder='Choose a file...' />
-                        <input type="text" id="selectedTestType" name="selectedTestType" class="hidden" />
-                    </div>
-                    <div class="col-md-3">
-                        <button class="btn btn-default btn-choose" id="Choose" name="Choose" type="button">Choose</button>
-                    </div>
-                </div>
-                @*<div class="row">
-                    <div class="col-md-3">
-                        <button type="submit" value="Upload" class="save btn-success btn-large" id="Import" name="Import">Import</button>
-                    </div>
-                    <div class="col-md-3">
-                        <button type="reset" class="btn btn-danger btn-large" id="Reset" name="Reset">Reset</button>
-                    </div>
-                </div>*@
-
-
-                <div class="row">
-                    <div class="col-md-3">                      
-                        <button type="submit" value="Upload" class="save btn btn-success btn-large" id="Import" name="Import"><i class="fa fa-download" aria-hidden="true"></i>Import</button>
-                     </div>
-                    <div class="col-md-3">
-                        <button type="reset" class="btn btn-danger btn-large" id="Reset" name="Reset"><i class="fa fa-undo" aria-hidden="true"></i> Reset</button>
-                    </div>
-                </div>
-               
-            </div>
-        </div>
-}   
+        @using (Html.BeginForm("Upload", "ImportData", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
             <div class="row">
-                <div class="col-md-16">
-                    <h4>
-                        <label id="lblFileName" class="col-md-16 control-label bg-primary" ></label>
-                    </h4>
-                </div>
-            </div>
+                <div class="col-md-6">
+                    <div class="row">
+                        <div class="col-md-3">
+                            @*<input type="file" id="filePath1" name="filePath1" class="hidden" />*@
 
-            <div class="row">
-                <div style="font-size:18px" class="col-md-16">
-                   
-                        @*<label id="lblError" class="col-md-16 control-label btn-danger"></label>*@<br>    
-                    <div style="color:red">
-                        <label for="" name="lblError" id="lblError" class="cols-sm-2 control-label">@Html.Raw(ViewBag.error)</label><br>
-                        @*@Html.Label("lblImported", (string)@ViewBag.result)*@
-                    </div>
-                        <div style="color:green">
-                            <label for="" name="lblMessage" id="lblMessage" class="cols-sm-2 control-label">@Html.Raw(ViewBag.result)</label>
-                            @*@Html.Label("lblImported", (string)@ViewBag.result)*@
+                            <input type="file" id="file" name="file" class="hidden" />
+                            <input type="text" id="filePathChoose" name="filePathChoose" class="form-control" placeholder='Choose a file...' />
+                            <input type="text" id="selectedTestType" name="selectedTestType" class="hidden" />
                         </div>
-                            @*<label id="lblImported" class="col-md-16 control-label bg-success"></label>*@
+                        <div class="col-md-3">
+                            <button class="btn btn-default btn-choose" id="Choose" name="Choose" type="button">Choose</button>
+                        </div>
+                    </div>
+                    @*<div class="row">
+                            <div class="col-md-3">
+                                <button type="submit" value="Upload" class="save btn-success btn-large" id="Import" name="Import">Import</button>
+                            </div>
+                            <div class="col-md-3">
+                                <button type="reset" class="btn btn-danger btn-large" id="Reset" name="Reset">Reset</button>
+                            </div>
+                        </div>*@
+
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            <button type="submit" value="Upload" class="save btn btn-success btn-large" id="Import" name="Import"><i class="fa fa-download" aria-hidden="true"></i>Import</button>
+                        </div>
+                        <div class="col-md-3">
+                            <button type="reset" class="btn btn-danger btn-large" id="Reset" name="Reset"><i class="fa fa-undo" aria-hidden="true"></i> Reset</button>
+                        </div>
+                    </div>
 
                 </div>
             </div>
+        }
+        <div class="row">
+            <div class="col-md-16">
+                <h4>
+                    <label id="lblFileName" class="col-md-16 control-label bg-primary"></label>
+                </h4>
+            </div>
         </div>
+
+        <div class="row">
+            <div style="font-size:18px" class="col-md-16">
+
+                @*<label id="lblError" class="col-md-16 control-label btn-danger"></label>*@<br>
+                <div style="color:red">
+                    <label for="" name="lblError" id="lblError" class="cols-sm-2 control-label">@Html.Raw(ViewBag.error)</label><br>
+                    @*@Html.Label("lblImported", (string)@ViewBag.result)*@
+                </div>
+                <div style="color:green">
+                    <label for="" name="lblMessage" id="lblMessage" class="cols-sm-2 control-label">@Html.Raw(ViewBag.result)</label>
+                    @*@Html.Label("lblImported", (string)@ViewBag.result)*@
+                </div>
+                @*<label id="lblImported" class="col-md-16 control-label bg-success"></label>*@
+
+            </div>
+        </div>
+    </div>
 </div>
 @section scripts{
-    @Scripts.Render("~/bundles/ImportData")   
+    @Scripts.Render("~/bundles/ImportData")
 }

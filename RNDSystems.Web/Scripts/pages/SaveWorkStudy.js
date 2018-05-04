@@ -15,7 +15,7 @@
     if ($('#StartDate').val() === '') {
         $('#StartDate').datepicker("setDate", new Date());
     }
-   
+
     $('#DueDate').datepicker({ autoclose: true, todayHighlight: true, todayBtn: "linked" });
     $('#CompleteDate').datepicker({ autoclose: true, todayHighlight: true, todayBtn: "linked" });
     $('#btnAdd').on('click', function () {
@@ -63,16 +63,16 @@
                 validators: {
                     notEmpty: {
                         message: 'Study Title is required.'
-                      
-                        }
-                    }                
+
+                    }
+                }
             },
             Uncertainty: {
                 validators: {
                     notEmpty: {
                         message: 'Uncertainty is required.'
-                        }
-                    }                
+                    }
+                }
             },
             Plant: {
                 validators: {
@@ -99,19 +99,19 @@
                 }
             },
             Experimentation: {
-                excluded :false,
+                excluded: false,
                 validators: {
                     callback: {
                         message: 'Uncertainty is required.',
                         callback: function (value, validator, $field) {
-                            var options = validator.getFieldElements('StudyStatus').val();   
+                            var options = validator.getFieldElements('StudyStatus').val();
                             var Experimentation = validator.getFieldElements('Experimentation').val();
-                            if (options.trim() == "3"){
+                            if (options.trim() == "3") {
                                 if ((Experimentation == null) || (Experimentation == ""))
                                     return false;
                                 else
                                     return true;
-                            }                                
+                            }
                             else
                                 return true;
                         }
@@ -123,7 +123,7 @@
                 validators: {
                     callback: {
                         message: 'Final Summary is required.',
-                        callback: function (value, validator, $field) {                           
+                        callback: function (value, validator, $field) {
                             var options = validator.getFieldElements('StudyStatus').val();
                             var FinalSummary = validator.getFieldElements('FinalSummary').val();
                             if (options.trim() == "3") {
@@ -137,7 +137,7 @@
                         }
                     }
                 }
-            },           
+            },
         }
     });
 });
@@ -150,13 +150,13 @@ function Submit() {
         alert('Start Date is required.');
     }
     var options = $('#StudyStatus').val();
-   
+
     if (options.trim() == "3") {
         if ($('#CompleteDate').val() === '') {
             isValid = false;
-            bootbox.alert('Complete Date is required.');            
+            bootbox.alert('Complete Date is required.');
         }
-        else 
+        else
             isValid = true;
     }
 
@@ -168,6 +168,6 @@ function AssignMaterial() {
     if ($('#StartDate').val() === '') {
         isValid = false;
         alert('Start Date is required.');
-    }    
+    }
     return isValid;
 }

@@ -12,7 +12,7 @@
      {
          label: 'Printed',
          property: 'Printed',
-         sortable:true,
+         sortable: true,
      },
      //{
      //    label: 'RDStudy',
@@ -41,13 +41,13 @@
          property: 'PieceNo',
          sortable: true,
          width: '15px'
-     },      
+     },
     {
         label: 'Alloy',
         property: 'Alloy',
         sortable: true,
         width: '15px'
-    },         
+    },
     {
         label: 'CustPartNo',
         property: 'CustPart',
@@ -126,9 +126,9 @@
         width: '10px'
     },
     {
-    label: 'Delete',
-    property: 'Delete',
-    width: '10px'
+        label: 'Delete',
+        property: 'Delete',
+        width: '10px'
     }
 ];
 
@@ -137,7 +137,7 @@ var selectTests;
 
 function customColumnRenderer(helpers, callback) {
     // determine what column is being rendered
-    
+
     var column = helpers.columnAttr;
     var ListofTestNos = "";
     // get all the data for the entire row
@@ -150,15 +150,15 @@ function customColumnRenderer(helpers, callback) {
         //case 'TestingNo':
         case 'SelectTestingNo':
             // let's combine name and description into a single column
-             //customMarkup = '<input type="checkbox" id="TestingNo" name="TestingNo" value="' + rowData.TestingNo + '" />';
-           //  customMarkup = '<button id="TestingNo" name="TestingNo" onclick="TestSelected(' + rowData.TestingNo + ')" class="btn btn-inverse"><i class="fa fa-square-o"></i></button>';
-      //   customMarkup = '<input type="checkbox" id="TestingNo" name="TestingNo" onchange="TestSelected(' + rowData.TestingNo+ '" class="TestingNo" value="' + rowData.TestingNo + '"/>';
+            //customMarkup = '<input type="checkbox" id="TestingNo" name="TestingNo" value="' + rowData.TestingNo + '" />';
+            //  customMarkup = '<button id="TestingNo" name="TestingNo" onclick="TestSelected(' + rowData.TestingNo + ')" class="btn btn-inverse"><i class="fa fa-square-o"></i></button>';
+            //   customMarkup = '<input type="checkbox" id="TestingNo" name="TestingNo" onchange="TestSelected(' + rowData.TestingNo+ '" class="TestingNo" value="' + rowData.TestingNo + '"/>';
             customMarkup = ' <input type="checkbox" name="CheckTesting" id="CheckTesting' + rowData.TestingNo + '" class="CheckTesting" value="' + rowData.TestingNo + '"/>';
             break;
-        //case 'TestingMaterial':
-        //    // let's combine name and description into a single column
-        //    customMarkup = '<button onclick="GridEditClicked(' + rowData.RecId + ')" id="gridEdit" name="gridEdit" class="btn btn-success btn-sm center-block"><i class="fa fa-book"></i></button>';
-        //    break;
+            //case 'TestingMaterial':
+            //    // let's combine name and description into a single column
+            //    customMarkup = '<button onclick="GridEditClicked(' + rowData.RecId + ')" id="gridEdit" name="gridEdit" class="btn btn-success btn-sm center-block"><i class="fa fa-book"></i></button>';
+            //    break;
         case 'Edit':
             // let's combine name and description into a single column
             customMarkup = '<button onclick="GridEditClicked(' + rowData.TestingNo + ')" id="gridEdit" name="gridEdit" class="btn btn-info btn-sm center-block"><i class="fa fa-pencil"></i></button>';
@@ -181,7 +181,7 @@ $('#btnSelectPrint').on('click', function () {
         SelectedTests = "";
     $("#SelectedTests").val(SelectedTests);
 })
-$('#btnPrint').on('click', function () {  
+$('#btnPrint').on('click', function () {
     SelectedTests = "";
     $("#SelectedTests").val(SelectedTests);
 })
@@ -197,7 +197,7 @@ function customRowRenderer(helpers, callback) {
 // the API handles filtering, sorting, searching, etc.
 function customDataSource(options, callback) {
     // set options
-  
+
     var pageIndex = options.pageIndex;
     var pageSize = options.pageSize;
     var search = '';
@@ -208,7 +208,7 @@ function customDataSource(options, callback) {
     // search testing number
     if ($('#searchTestingNo').val())
         search += ';' + 'TestingNo:' + $('#searchTestingNo').val();
-    
+
     if ($('#ddlAvailableTT').val()) {
         search += ';' + 'TestType:' + $('#ddlAvailableTT').val();
     }
@@ -222,11 +222,11 @@ function customDataSource(options, callback) {
     //    $("#ddlTestType").attr("disabled", "disabled");
     //    flag = false;
     //}
- 
+
     //if ($('#ddlTestType').val() && flag)
     //    search += ';' + 'TestType:' + $('#ddlTestType').val();
 
-      //search Avialable Material Test Types
+    //search Avialable Material Test Types
     //search Sub Test Type
 
     var options = {
@@ -236,7 +236,7 @@ function customDataSource(options, callback) {
         sortDirection: options.sortDirection,
         sortBy: options.sortProperty,
         filterBy: options.filter.value || '',
-        searchBy: search || ''       
+        searchBy: search || ''
     };
     // call API, posting options
     $.ajax({
@@ -273,7 +273,7 @@ function customDataSource(options, callback) {
             // invoke callback to render repeater
             callback(dataSource);
 
-            $("input[class='CheckTesting']").on('click', function () {               
+            $("input[class='CheckTesting']").on('click', function () {
                 var testingNo = $(this).val();
                 if ($(this).prop('checked')) {
                     if (SelectedTests == "")
@@ -281,7 +281,7 @@ function customDataSource(options, callback) {
                     else
                         SelectedTests += "," + testingNo;
                 }
-                else {                    
+                else {
                     var removeString = SelectedTests.replace(testingNo, "");
                     SelectedTests = removeString;
                 }
@@ -292,9 +292,9 @@ function customDataSource(options, callback) {
 }
 
 function GridEditClicked(id) {
-    
+
     location.href = '/TestingMaterial/SaveTestingMaterial/' + id;
-   // location.href = '/TestingMaterial/SaveTestingMaterial?id=0&workStudyId=' + $('#WorkStudyID').val() + '&avialableTT=' + avialableTT;
+    // location.href = '/TestingMaterial/SaveTestingMaterial?id=0&workStudyId=' + $('#WorkStudyID').val() + '&avialableTT=' + avialableTT;
 
 }
 
@@ -347,11 +347,11 @@ function GridDeleteClicked(id) {
                 }
             }
         });
-    } 
+    }
 }
 
-$('#btnSearch').on('click', function () {    
-    $('#TestingMaterialRepeater').repeater('render');     
+$('#btnSearch').on('click', function () {
+    $('#TestingMaterialRepeater').repeater('render');
 });
 
 $('#btnClear').on('click', function () {
@@ -359,37 +359,37 @@ $('#btnClear').on('click', function () {
     $('#ddlTestType').selectpicker('val', "-1");
     $('#ddlAvailableTT').selectpicker('val', "-1");
     $('#TestingMaterialRepeater').repeater('render');
-  
+
 });
 
 $(document).ready(function () {
-   
+
     //$('#ddlTestType').attr('data-live-search', 'true');
     //$('#ddlTestType').selectpicker();
     $('#ddlAvailableTT').attr('data-live-search', 'true');
     $('#ddlAvailableTT').selectpicker();
-   // $('#ddlAvailableTT').prop('disabled', true);
-   
+    // $('#ddlAvailableTT').prop('disabled', true);
+
     $('#ddlTestType').attr('multiple', '');
     $('#ddlTestType').attr('data-actions-box', 'true');
     $('#ddlTestType').selectpicker();
-     
-    var avialableTT = $('#ddlTestType').val();
-  
-    //  $('#ddlTestType').on('focusout', function () {
-  //   $(document).on('focusout', '#ddlTestType', function () {
 
-   // $('#ddlTestType').blur(function () {     
-   // $('#btnAddAvialableTT').on('click', function () {
-   
-   $('#ddlTestType').change(function () {
+    var avialableTT = $('#ddlTestType').val();
+
+    //  $('#ddlTestType').on('focusout', function () {
+    //   $(document).on('focusout', '#ddlTestType', function () {
+
+    // $('#ddlTestType').blur(function () {     
+    // $('#btnAddAvialableTT').on('click', function () {
+
+    $('#ddlTestType').change(function () {
         avialableTT = $('#ddlTestType').val();
-       // var avialableTT = $('#ddlTestType').find("option:selected").val();
+        // var avialableTT = $('#ddlTestType').find("option:selected").val();
 
         var options = {
             avialableTT: avialableTT
         };
- 
+
         $.ajax({
             type: 'post',
             url: GetRootDirectory() + '/TestingMaterial/TestingMaterial',
@@ -400,7 +400,7 @@ $(document).ready(function () {
         .done(function (data) {
             if (data && data.isSuccess) {
                 $('#ddlAvailableTT').prop('disabled', false);
-               
+
                 // avialableTT dropdown menu
 
                 var outputSubTT = data.AvailableTestType;
@@ -421,15 +421,15 @@ $(document).ready(function () {
                 $("#ddlAvailableTT").empty();
                 $("#ddlAvailableTT").append(optionSubTT);
                 $("#ddlAvailableTT").selectpicker('refresh');
-                
+
             }
-            else {   
+            else {
                 $('#ddlAvailableTT').prop('disabled', true);
             }
-                
+
         });
     });
-  
+
     if ($('#WorkStudyID').val() !== '0') {
         $('#WorkStudyNumber').prop("readonly", true);
     }
@@ -437,20 +437,19 @@ $(document).ready(function () {
     $('#btnAddResults').on('click', function () {
         //if (SelectedTests == null)
         //    SelectedTests = "";
-       
-        if ((SelectedTests != null)&&(SelectedTests != "")) {
+
+        if ((SelectedTests != null) && (SelectedTests != "")) {
             // location.href = '/TestingMaterial/AddResults?isSuccess=false&TestType=' + $('#ddlAvailableTT').val() + '&SelectedTests=' + SelectedTests;
             location.href = '/Results/AddResults?isSuccess=false&SelectedTests=' + SelectedTests;
-        }           
+        }
         else
             bootbox.alert('Select Test to attach Results');
     });
 
     $('#btnAddTesting').on('click', function () {
-        avialableTT = $('#ddlTestType').val();       
-        if ((avialableTT == "-1") || (avialableTT == null) || (avialableTT == ""))
-        {
-            isTestTypeSelected(avialableTT);         
+        avialableTT = $('#ddlTestType').val();
+        if ((avialableTT == "-1") || (avialableTT == null) || (avialableTT == "")) {
+            isTestTypeSelected(avialableTT);
         }
         else {
             location.href = '/TestingMaterial/SaveTestingMaterial?id=0&workStudyId=' + $('#WorkStudyID').val() + '&avialableTT=' + avialableTT;

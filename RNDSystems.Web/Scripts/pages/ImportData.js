@@ -7,56 +7,56 @@
     //$('#ddTestTypesDefault').selectpicker();
 
     //Currently disabled - Can be used in next version for Manual Import
-   
+
 
     $('#ddWorkStudyId').attr({ 'data-live-search': 'true', 'data-width': '90%' }).selectpicker();
     $('#ddWorkStudyId').attr("disabled", "disabled");
     $('#ddTestNos').attr({ 'data-live-search': 'true', 'data-width': '90%' }).selectpicker();
     $('#ddTestNos').attr("disabled", "disabled");
 
-    var selectedTestType =""; 
- 
+    var selectedTestType = "";
+
     $("#btnImportDefault").prop('disabled', true);
- //   $("#ddTestTypesDefault").prop("disabled", true);
+    //   $("#ddTestTypesDefault").prop("disabled", true);
     $("#Import").prop('disabled', true);
     $("#Choose").prop('disabled', true);
-  //  $("#ddTestTypes").prop('disabled', true);
-  
+    //  $("#ddTestTypes").prop('disabled', true);
+
     $("#btnSelectImport").click(function () {
-           
+
         var importType = $("input:radio[name='ImportRadio']:checked").val();
 
         if (importType == 'Default') {
             $("#btnImportDefault").prop('disabled', false);
-         //   $("#ddTestTypesDefault").prop("disabled", false);
+            //   $("#ddTestTypesDefault").prop("disabled", false);
             $("#Import").prop('disabled', true);
-        //    $("#ddTestTypes").prop('disabled', true);
+            //    $("#ddTestTypes").prop('disabled', true);
 
             $("#hdImportDefault").addClass("bg-primary").removeClass("bg-info");
             $("#hdImport").addClass("bg-info").removeClass("bg-primary");
         }
         if (importType == 'Custom') {
             $("#btnImportDefault").prop('disabled', true);
-         //   $("#ddTestTypesDefault").prop("disabled", true);
+            //   $("#ddTestTypesDefault").prop("disabled", true);
             $("#Import").prop('disabled', false);
             $("#Choose").prop('disabled', false);
-      //      $("#ddTestTypes").prop('disabled', false);
+            //      $("#ddTestTypes").prop('disabled', false);
 
             $("#hdImport").addClass("bg-primary").removeClass("bg-info");
             $("#hdImportDefault").addClass("bg-info").removeClass("bg-primary");
         }
-        
+
         $('#lblFileName').text('');
         $('#lblImported').text('');
         $('#lblError').text('');
     });
-    
+
     $('#ddlTestType').change(function () {
-         selectedTestType = $.trim($("#ddTestTypes").val());
+        selectedTestType = $.trim($("#ddTestTypes").val());
     });
 
     $("#btnImportDefault").click(function () {
-     //   var selectedTestTypes = $('#ddTestTypesDefault').val();
+        //   var selectedTestTypes = $('#ddTestTypesDefault').val();
         var selectedTestTypes = $.trim($("#ddTestTypes").val());
 
         var filePath = "none";
@@ -75,12 +75,12 @@
             },
             data: options
         })
-        .done(function (data) {         
-            if (data.Success) {              
+        .done(function (data) {
+            if (data.Success) {
                 $('#lblImported').text("Imported: " + selectedTestType + "data");
             }
             else {
-                if ((data.Message1 != "")&&(data.Message1 != null)) {
+                if ((data.Message1 != "") && (data.Message1 != null)) {
                     errorMsg = data.Message1;
                 }
                 else
@@ -89,18 +89,18 @@
                 $('#lblError').text(errorMsg);
                 if ((data.Message != "") && (data.Message != null)) {
                     $('#lblImported').text(data.Message);
-                }                
+                }
             }
         });
-    });    
+    });
 
-    $("#Choose").click(function () {      
-      
+    $("#Choose").click(function () {
+
         $("#file").click();
         $("#filePathChoose").val($("#file").val());
     });
 
-    $("#Reset").click(function () {       
+    $("#Reset").click(function () {
         $("#filePathChoose").val("");
     });
 
@@ -108,11 +108,11 @@
     $("#Import").click(function () {
         if (selectedTestType == '-1')
             bootbox.alert("Please select Test Type");
-        else{
+        else {
             selectedTestType = $.trim($("#ddTestTypes").val());
             $("#selectedTestType").val(selectedTestType);
         }
-      
+
         var filePath = "";
         if ($("#file").val() != null) {
             filePath = $.trim($("#file").val());
@@ -124,38 +124,38 @@
         //    $('#lblError').text(errorMsg);
         //}
 
-       // var options = {
-       //    // MessageList: selectedTestTypes,
-       //     Message: selectedTestType,
-       //     Message1: filePath           
-       // };
+        // var options = {
+        //    // MessageList: selectedTestTypes,
+        //     Message: selectedTestType,
+        //     Message1: filePath           
+        // };
 
-       // $.ajax({
-       //     type: 'post',
-       //     url: Api + 'api/ImportData',
-       //     headers: {
-       //         Token: GetToken()
-       //     },
-       //     data: options
-       // })
-       //.done(function (data) {          
-       //    if (data.Success) {
-       //        $('#lblImported').text("Imported: " + selectedTestType + "data");
-       //    }
-       //    else {
-       //        if ((data.Message1 != "") && (data.Message1 != null)) {
-       //            errorMsg = data.Message1;
-       //        }
-       //        else
-       //            errorMsg = "Import Error: Please check if the file is open";
+        // $.ajax({
+        //     type: 'post',
+        //     url: Api + 'api/ImportData',
+        //     headers: {
+        //         Token: GetToken()
+        //     },
+        //     data: options
+        // })
+        //.done(function (data) {          
+        //    if (data.Success) {
+        //        $('#lblImported').text("Imported: " + selectedTestType + "data");
+        //    }
+        //    else {
+        //        if ((data.Message1 != "") && (data.Message1 != null)) {
+        //            errorMsg = data.Message1;
+        //        }
+        //        else
+        //            errorMsg = "Import Error: Please check if the file is open";
 
-       //        $('#lblError').text(errorMsg);
-       //        if ((data.Message != "") && (data.Message != null)) {
-       //            $('#lblImported').text(data.Message);
-       //        }
-       //    }
+        //        $('#lblError').text(errorMsg);
+        //        if ((data.Message != "") && (data.Message != null)) {
+        //            $('#lblImported').text(data.Message);
+        //        }
+        //    }
         //});
-       
+
     });
     $('#lblImported').addClass("bg-success");
 

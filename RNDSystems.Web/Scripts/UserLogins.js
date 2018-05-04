@@ -107,7 +107,7 @@ function customDataSource(options, callback) {
     // call API, posting options
     $.ajax({
         type: 'post',
-          url: GetRootDirectory() + '/Grid/GetUserLogins',
+        url: GetRootDirectory() + '/Grid/GetUserLogins',
         //url:  '../Grid/GetUserLogins',
         data: options
     })
@@ -245,7 +245,7 @@ $('#btnAdd').on('click', function (event, param) {
                         };
                         $.ajax({
                             type: 'post',
-                              url: GetRootDirectory() + '/Admin/SaveUserLogin',
+                            url: GetRootDirectory() + '/Admin/SaveUserLogin',
                             //url: '../Admin/SaveUserLogin',
                             data: model
                         })
@@ -306,7 +306,7 @@ function GridEditClicked(id) {
     var obj = { id: id };
     $.ajax({
         type: 'post',
-         url: GetRootDirectory() + '/Admin/EditUserLogin',
+        url: GetRootDirectory() + '/Admin/EditUserLogin',
         //url:  '../Admin/EditUserLogin',
         data: obj
     })

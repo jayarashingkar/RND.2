@@ -48,9 +48,17 @@
     <Compile Include="Constants\OptionTypeConstants.cs" />
     <Compile Include="Constants\PermissionConstants.cs" />
     <Compile Include="Constants\UserTypeConstants.cs" />
+    <Compile Include="Parser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities\Encryptor.cs" />
     <Compile Include="Utilities\Extensions.cs" />
+    <Compile Include="Validation.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\RNDSysyems.Models\RNDSystems.Models.csproj">
+      <Project>{5bbe2ac4-5cf1-4dff-9455-c7b58bb67422}</Project>
+      <Name>RNDSystems.Models</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

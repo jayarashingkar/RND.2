@@ -106,13 +106,13 @@ $(document).ready(function () {
     $('#ddlWorkStudyID').selectpicker();
 
     $('#TestType').prop('disabled', true);
-  //  $('#TestType').attr('disabled', true);   
+    //  $('#TestType').attr('disabled', true);   
 });
 
 
 function customColumnRenderer(helpers, callback) {
     // determine what column is being rendered
-    var column = helpers.columnAttr;  
+    var column = helpers.columnAttr;
     var rowData = helpers.rowData;
     var customMarkup = helpers.item.text();
     helpers.item.html(customMarkup);
@@ -122,7 +122,7 @@ function customColumnRenderer(helpers, callback) {
 function customRowRenderer(helpers, callback) {
     // let's get the id and add it to the "tr" DOM element
     var item = helpers.item;
-      item.attr('id', 'row' + helpers.rowData.RecID);
+    item.attr('id', 'row' + helpers.rowData.RecID);
     //item.attr('id', 'row' + helpers.rowData.TestingNo);
     callback();
 }
@@ -150,7 +150,7 @@ function customDataSource(options, callback) {
     //        search += ';' + 'searchToDate:' + searchToDate;
     //}
     if ($('#ddlWorkStudyID').val())
-        search += ';' + 'WorkStudyID:' + $('#ddlWorkStudyID').val();     
+        search += ';' + 'WorkStudyID:' + $('#ddlWorkStudyID').val();
     if ($('#Alloy').val())
         search += ';' + 'Alloy:' + $('#Alloy').val();
     if ($('#Temper').val())
@@ -170,7 +170,7 @@ function customDataSource(options, callback) {
         filterBy: options.filter.value || '',
         searchBy: search || ''
     };
-    
+
     // call API, posting options
     $.ajax({
         type: 'post',
@@ -202,13 +202,13 @@ function customDataSource(options, callback) {
                 columns: columns,
                 items: items
             };
-            
+
             // invoke callback to render repeater
             callback(dataSource);
         });
 }
 
-$('#btnSearch').on('click', function () {  
+$('#btnSearch').on('click', function () {
     $('#TensionReportsRepeater').repeater('render');
 });
 
@@ -228,15 +228,15 @@ $('#btnExcelReport').on('click', function () {
     if ($('#CustPart').val() != '')
         search += ';' + 'CustPart:' + $('#CustPart').val();
     search += ';' + 'TestType:' + 'Tension';
-          
+
     var ExportDataFilter = {
-        Screen: 'Tension',     
+        Screen: 'Tension',
         pageIndex: 0,
         pageSize: 10000,
         //sortDirection: options.sortDirection,
-       // sortBy: options.sortProperty,
+        // sortBy: options.sortProperty,
         filterBy: 'all',
-        searchBy: search 
+        searchBy: search
     };
 
     // call API, posting options
@@ -265,4 +265,4 @@ $('#btnClear').on('click', function () {
     search += ';' + 'TestType:' + 'Tension';
     $('#TensionReportsRepeater').repeater('render');
     return false;
-}); 
+});

@@ -1,7 +1,7 @@
 ﻿$(document).ready(function () {
-    
+
     var IsAutoFilled = false;
-   
+
     var SelectedDataBase = "USA";
 
     //EDIT
@@ -48,18 +48,18 @@
             e.preventDefault();
         }
     });
-    
+
     $('#DBCntry').attr('data-live-search', 'true');
     $('#DBCntry').selectpicker();
- 
+
     if ($('#RecID').val() !== '0') {
         $('#WorkStudyID').prop("readonly", true);
     }
 
     if ($('#MillLotNo').val() === '0') {
         $('#MillLotNo').val('');
-    }   
-    if ($('#MillLotNo').val()) {      
+    }
+    if ($('#MillLotNo').val()) {
         $('#MillLotNo').prop("readonly", true);
 
         // read only - during the EDIT
@@ -79,20 +79,20 @@
     }
 
     $("#MillLotNo").change(function () {
-         if (SelectedDataBase != 'NO') {
+        if (SelectedDataBase != 'NO') {
             //automatically fills up the values CustPart,UACPart,Alloy,Temper,SoNum
-            
+
             var RecID = $("#RecID").val();
 
             if ((RecID == "0" || RecID == undefined) && $('#MillLotNo').val()) {
                 var LotNo = $('#MillLotNo').val();
 
                 var options = {
-                    MillLotNo: $('#MillLotNo').val(),                   
+                    MillLotNo: $('#MillLotNo').val(),
                     recID: 0,
                     DataBaseName: SelectedDataBase
                 };
-               
+
                 $.ajax({
                     url: Api + "api/AssignMaterial/",
                     headers: {
@@ -104,7 +104,7 @@
                     dataType: "json",
                     contentType: "application/json;charset=utf-8",
                     success: function (data) {
-                      
+
                         if (data && data.MillLotNo > 0) {
                             $('#SaveAssignMaterial').bootstrapValidator('resetForm', true);
                             $("#CustPart").val(data.CustPart);
@@ -129,20 +129,20 @@
                             if (typeof MillLot_No !== 'undefined' && MillLot_No != null && typeof UACPart !== 'undefined' && UACPart != null) {
                                 LoadGrid("UACRepeater");
                             }
-                           
+
                             IsAutoFilled = true;
-                           
+
                         }
                         else {
-                         
-                            bootbox.alert(data.Comment);                      
+
+                            bootbox.alert(data.Comment);
                             JqueryFunction.ReadOnly();
                             $('#btnSelected').prop('disabled', true);
-                            
+
                         }
                     },
                     error: function (x, y, z) {
-                    
+
                         bootbox.confirm({
                             message: "The MillLotNumber is not a valid number for the selected database. Would you like to change the MillLotNo. ?",
                             buttons: {
@@ -155,23 +155,22 @@
                                     className: 'btn-danger'
                                 }
                             },
-                            callback: function (result){
-                                if (!result){
+                            callback: function (result) {
+                                if (!result) {
                                     //disable and change database name to none and make it readonly.( DBCntry)
                                     //do not allow to change the MillLotNo.
 
-                                    SelectedDataBase = "NO";                                    
+                                    SelectedDataBase = "NO";
                                     $('#DBCntry').val('NO').change();
                                     $('#btnSelected').prop('disabled', true);
                                     $('#DBCntry').attr("disabled", true);
-                                    $('#MillLotNo').attr("readonly", true);                                 
+                                    $('#MillLotNo').attr("readonly", true);
                                 }
-                                else
-                                {
+                                else {
                                     $('#MillLotNo').val('');
                                     $('#SaveAssignMaterial').bootstrapValidator('resetForm', true);
                                 }
-                            }                            
+                            }
                         });
                     }
                 });
@@ -179,9 +178,9 @@
         }// if (selected Database != NO)
         else {
             $('#btnSelected').prop('disabled', true);
-           // $('#SaveAssignMaterial').bootstrapValidator('resetForm', true);
+            // $('#SaveAssignMaterial').bootstrapValidator('resetForm', true);
         }
-  
+
     });
 
     $("#DBCntry").on('change', function () {
@@ -238,7 +237,7 @@
                     Comment: $('#Comment').val(),
                     DBCntry: SelectedDataBase
                 };
-                
+
                 var json = JSON.stringify(obj);
                 $.ajax({
                     url: Api + "api/UACListing",
@@ -272,7 +271,7 @@
 
     JqueryFunction = {
         ReadOnly: function () {
-          
+
 
             var inp = $("#MillLotNo").val();
 
@@ -327,7 +326,7 @@
             else {
                 $('#SoNum').prop("readonly", false);
             }
-          
+
             // make database also readonly
             $('#DBCntry').attr("disabled", true);
         }
@@ -403,9 +402,9 @@
                 excluded: false,
                 validators: {
                     notEmpty: {
-                        message: 'Mill Lot No. is required.'                       
+                        message: 'Mill Lot No. is required.'
                     }
-                }                            
+                }
             },
             UACPart: {
                 validators: {
