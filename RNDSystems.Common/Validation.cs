@@ -23,6 +23,7 @@ namespace RNDSystems.Common
         {
             return validation.FirstOrDefault(o => o.isMatch<T>()).Validate<T>(obj);
         }
+
         public static bool IsNotValidAsciiChars(object obj)
         {
             return !new Regex("[^ -~]+").IsMatch(obj.ToString().Trim());

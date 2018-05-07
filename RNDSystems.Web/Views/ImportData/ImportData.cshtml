@@ -23,14 +23,14 @@
             </form>*@
 
         <div class="row">
-            <div class="col-md-3">
+            @*<div class="col-md-3">
                 <div class="form-group">
                     <label for="lblddTestTypes" class="cols-sm-2 control-label">Test Type</label>
                     <div class="cols-sm-10">
                         @Html.DropDownList("ddTestTypes", ViewBag.ddTestTypes as IEnumerable<SelectListItem>, new { @class = "show-tick form-control", data_size = "6" })
                     </div>
                 </div>
-            </div>
+            </div>*@
             <div class="col-md-3 ">
                 <form>
                     <input type="radio" id="Default" value="Default" name="ImportRadio" checked>Default<br>
@@ -50,14 +50,14 @@
 
         <br><label for="hdImportDefault" id="hdImportDefault" class="cols-sm-2 control-label bg-info text-uppercase">Import Default</label>
         <div class="row">
-            @*<div class="col-md-3">
+            <div class="col-md-3">
                     <div class="form-group">
                         <label for="lblddTestTypes" class="cols-sm-2 control-label">Test Type</label>
                         <div class="cols-sm-10">
                             @Html.DropDownList("ddTestTypesDefault", ViewBag.ddTestTypesDefault as IEnumerable<SelectListItem>, new { @class = "show-tick", data_size = "6" })
                         </div>
                     </div>
-                </div>*@
+                </div>
             <div class="col-md-6">
                 <div class="form-group">
                     <div class="button btn btn-success" id="btnImportDefault"><i class="fa fa-download" aria-hidden="true"></i>Import Default</div>
@@ -72,16 +72,14 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="row">
-                        <div class="col-md-3">
+                        <div class="col-md-6">
                             @*<input type="file" id="filePath1" name="filePath1" class="hidden" />*@
 
                             <input type="file" id="file" name="file" class="hidden" />
                             <input type="text" id="filePathChoose" name="filePathChoose" class="form-control" placeholder='Choose a file...' />
                             <input type="text" id="selectedTestType" name="selectedTestType" class="hidden" />
                         </div>
-                        <div class="col-md-3">
-                            <button class="btn btn-default btn-choose" id="Choose" name="Choose" type="button">Choose</button>
-                        </div>
+                       
                     </div>
                     @*<div class="row">
                             <div class="col-md-3">
@@ -92,19 +90,38 @@
                             </div>
                         </div>*@
 
-
-                    <div class="row">
+                    @*<div class="row">
                         <div class="col-md-3">
                             <button type="submit" value="Upload" class="save btn btn-success btn-large" id="Import" name="Import"><i class="fa fa-download" aria-hidden="true"></i>Import</button>
                         </div>
                         <div class="col-md-3">
                             <button type="reset" class="btn btn-danger btn-large" id="Reset" name="Reset"><i class="fa fa-undo" aria-hidden="true"></i> Reset</button>
+                        </div>  
+                    </div>*@
+                    <div class="row">
+                        <div class="col-md-3">
+                            <button type="reset" class="btn btn-danger btn-large" id="Reset" name="Reset"><i class="fa fa-undo" aria-hidden="true"></i> Reset</button>
                         </div>
+                        <div class="col-md-3">
+                            <button class="btn btn-default btn-choose" id="Choose" name="Choose" type="button">Choose</button>
+                        </div>                      
+                        <div class="col-md-3">
+                            <button type="submit" value="Upload" class="save btn btn-success btn-large" id="Import" name="Import"><i class="fa fa-download" aria-hidden="true"></i>Import</button>
+                        </div>
+                       
                     </div>
 
                 </div>
             </div>
         }
+        <div class="col-md-3">
+            <div class="form-group">
+                <label for="lblddTestTypes" class="cols-sm-2 control-label">Test Type</label>
+                <div class="cols-sm-10">
+                    @Html.DropDownList("ddTestTypes", ViewBag.ddTestTypes as IEnumerable<SelectListItem>, new { @class = "show-tick form-control", data_size = "6" })
+                </div>
+            </div>
+        </div>
         <div class="row">
             <div class="col-md-16">
                 <h4>

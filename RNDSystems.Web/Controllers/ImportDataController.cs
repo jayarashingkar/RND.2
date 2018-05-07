@@ -88,10 +88,10 @@ namespace RNDSystems.Web.Controllers
                     ////string results = System.Text.Encoding.UTF8.GetString(binData);
 
                     string strfileName = fileName.ToString();
-                    if (!strfileName.Contains(selectedTestType))
-                        importData.Message = "Please check the correct file is imported";
-                    else if (selectedTestType == "-1")
+                    if (selectedTestType == "-1")
                         importData.Message = "Please select the Test Type";
+                    else if (!strfileName.Contains(selectedTestType))
+                        importData.Message = "Please check the correct file is imported";                   
                     else
                     {
                         //var task = client.GetAsync(Api + "api/ImportData?id=0" + "&results=" + results + "&selectedTestType=" + selectedTestType).ContinueWith((res) =>

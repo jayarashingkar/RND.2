@@ -2,53 +2,62 @@
     $('#ddTestTypes').attr({ 'data-live-search': 'true', 'data-width': '90%' }).selectpicker();
 
     //multiple selection
-    //$('#ddTestTypesDefault').attr('multiple', '');
-    //$('#ddTestTypesDefault').attr('data-actions-box', 'true');
-    //$('#ddTestTypesDefault').selectpicker();
+    $('#ddTestTypesDefault').attr('multiple', '');
+    $('#ddTestTypesDefault').attr('data-actions-box', 'true');
+    $('#ddTestTypesDefault').selectpicker();
 
     //Currently disabled - Can be used in next version for Manual Import
-
-
+  
     $('#ddWorkStudyId').attr({ 'data-live-search': 'true', 'data-width': '90%' }).selectpicker();
     $('#ddWorkStudyId').attr("disabled", "disabled");
     $('#ddTestNos').attr({ 'data-live-search': 'true', 'data-width': '90%' }).selectpicker();
     $('#ddTestNos').attr("disabled", "disabled");
+        $('#lblFileName').text('');
+        //$('#lblImported').text('');
+        //$('#lblError').text('');
 
     var selectedTestType = "";
 
     $("#btnImportDefault").prop('disabled', true);
-    //   $("#ddTestTypesDefault").prop("disabled", true);
+   $("#ddTestTypesDefault").prop("disabled", true);
     $("#Import").prop('disabled', true);
+    $("#Reset").prop('disabled', true);
     $("#Choose").prop('disabled', true);
-    //  $("#ddTestTypes").prop('disabled', true);
+    $("#filePathChoose").prop('disabled', true);
+      $("#ddTestTypes").prop('disabled', true);
 
     $("#btnSelectImport").click(function () {
+
+        $('#lblFileName').text('');
+        $('#lblImported').text('');
+        $('#lblError').text('');
 
         var importType = $("input:radio[name='ImportRadio']:checked").val();
 
         if (importType == 'Default') {
             $("#btnImportDefault").prop('disabled', false);
-            //   $("#ddTestTypesDefault").prop("disabled", false);
+            $("#ddTestTypesDefault").prop("disabled", false);
             $("#Import").prop('disabled', true);
-            //    $("#ddTestTypes").prop('disabled', true);
+            $("#Reset").prop('disabled', true);
+            $("#Choose").prop('disabled', true);
+            $("#filePathChoose").prop('disabled', true);
+            $("#ddTestTypes").prop('disabled', true);
 
             $("#hdImportDefault").addClass("bg-primary").removeClass("bg-info");
             $("#hdImport").addClass("bg-info").removeClass("bg-primary");
         }
         if (importType == 'Custom') {
             $("#btnImportDefault").prop('disabled', true);
-            //   $("#ddTestTypesDefault").prop("disabled", true);
+             $("#ddTestTypesDefault").prop("disabled", true);
             $("#Import").prop('disabled', false);
             $("#Choose").prop('disabled', false);
-            //      $("#ddTestTypes").prop('disabled', false);
+            $("#Reset").prop('disabled', false);
+            $("#filePathChoose").prop('disabled', false);
+            $("#ddTestTypes").prop('disabled', false);
 
             $("#hdImport").addClass("bg-primary").removeClass("bg-info");
             $("#hdImportDefault").addClass("bg-info").removeClass("bg-primary");
-        }
-
-        $('#lblFileName').text('');
-        $('#lblImported').text('');
-        $('#lblError').text('');
+        }       
     });
 
     $('#ddlTestType').change(function () {
@@ -56,17 +65,18 @@
     });
 
     $("#btnImportDefault").click(function () {
-        //   var selectedTestTypes = $('#ddTestTypesDefault').val();
-        var selectedTestTypes = $.trim($("#ddTestTypes").val());
-
+           var selectedTestTypes = $('#ddTestTypesDefault').val();
+     //   var selectedTestTypes = $.trim($("#ddTestTypes").val());
+         debugger;
         var filePath = "none";
 
         var options = {
             MessageList: selectedTestTypes,
             //Message: selectedTestType,
+           // tt: selectedTestTypes,
             Message1: filePath
         };
-
+        debugger;
         $.ajax({
             type: 'post',
             url: Api + 'api/ImportData',
@@ -76,21 +86,25 @@
             data: options
         })
         .done(function (data) {
+            debugger;
+            errorMsg = "";
+            successMsg = "";
             if (data.Success) {
-                $('#lblImported').text("Imported: " + selectedTestType + "data");
-            }
-            else {
-                if ((data.Message1 != "") && (data.Message1 != null)) {
-                    errorMsg = data.Message1;
-                }
-                else
-                    errorMsg = "Import Error: Please check if the file is open";
-
-                $('#lblError').text(errorMsg);
                 if ((data.Message != "") && (data.Message != null)) {
-                    $('#lblImported').text(data.Message);
+                    successMsg = data.Message;
                 }
+                if (data.Message1 != "") {
+                    errorMsg = data.Message1;
+                }               
             }
+            else
+                errorMsg = "Import Error: Please check if the file is open";   
+            
+            if (successMsg !="")
+                $('#lblMessage').text(successMsg);
+            if (errorMsg != "")
+                $('#lblError').text(errorMsg);
+
         });
     });
 
