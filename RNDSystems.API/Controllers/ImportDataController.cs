@@ -1241,6 +1241,11 @@ namespace RNDSystems.API.Controllers
                     {
                         continue;
                     }
+                    if (row[4].ToString().Trim() == "****")
+                    {
+                        row[4] = "0.0";
+                    }
+
                     ModulusCompressionList.Add(new ModulusCompressionDataViewModel()
                     {
                         WorkStudyID = Convert.ToString(row[0]),
@@ -1337,10 +1342,13 @@ namespace RNDSystems.API.Controllers
                     {
                         continue;
                     }
+                    if (row[13].ToString().Trim() == "")
+                    {
+                        row[13] = "0.0";
+                    }
                     FatigueTestingList.Add(
                         new FatigueTestingDataViewModel()
                         {
-
                             WorkStudyID = Convert.ToString(row[0]),
                             TestNo = Convert.ToInt32(row[1]),
                             SpecimenDrawing = Convert.ToString(row[2]),
