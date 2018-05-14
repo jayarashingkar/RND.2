@@ -64,9 +64,7 @@
                     </ul>
                 </li>
                 <li id="liWorkStudyOptions">
-                
-                @*<li id="liadmin">*@
-                    <a href="#"><span class="fa-stack fa-lg pull-left"><i class="fa fa-lock fa-stack-1x " style="color:lightcoral"></i></span>Options</a>
+                     <a href="#"><span class="fa-stack fa-lg pull-left"><i class="fa fa-lock fa-stack-1x " style="color:lightcoral"></i></span>Options</a>
                     <ul class="nav-pills nav-stacked" style="list-style-type:none;">
                         <li><a href="~/Options/SetOptions"><span class="fa-stack fa-lg pull-left"><i class="fa fa-share-square-o fa-stack-1x " style="color:coral"></i></span>Set Options</a></li>
                         <app-menu [menus]='wsMenus'></app-menu>
@@ -77,28 +75,9 @@
                     <ul class="nav-pills nav-stacked" style="list-style-type:none;">
                         <li><a href="~/ImportData/ImportData"><span class="fa-stack fa-lg pull-left"><i class="fa fa-file-excel-o fa-stack-1x " style="color:crimson"></i></span>Import Test Data</a></li>
                     </ul>
-                    @*<ul class="nav-pills nav-stacked" style="list-style-type:none;">
-                        <li><a href="~/Register/RegisterUserList"><span class="fa-stack fa-lg pull-left"><i class="fa fa-check-square fa-stack-1x " style="color:coral"></i></span>Login Permissions</a></li>                        
-                    </ul>*@
+
                 </li>
 
-               @* <li id="liadmin">*@
-
-                @*<li id="liReports">
-                    <a href="#"><span class="fa-stack fa-lg pull-left"><i class="fa fa-lock fa-stack-1x " style="color:crimson"></i></span>Reports</a>
-                    <ul class="nav-pills nav-stacked" style="list-style-type:none;">
-                        <li><a href="~/RnDReports/Reports"><span class="fa-stack fa-lg pull-left"><i class="fa fa-file-excel-o fa-stack-1x " style="color:crimson"></i></span>R&D Reports</a></li>
-                    </ul>
-                </li>*@
-
-                @*<li id="liadmin">                   
-                    <a href="#"><span class="fa-stack fa-lg pull-left"><i class="fa fa-lock fa-stack-1x " style="color:coral"></i></span>Admin</a>
-                    <ul class="nav-pills nav-stacked" style="list-style-type:none;">
-                        <li><a href="~/Register/RegisterUserList"><span class="fa-stack fa-lg pull-left"><i class="fa fa-check-square fa-stack-1x " style="color:coral"></i></span>Login Permissions</a></li>
-
-                        <app-menu [menus]='wsMenus'></app-menu>
-                    </ul>
-                </li>*@
                 <li id="liadmin">
                     <a href="#"><span class="fa-stack fa-lg pull-left"><i class="fa fa-lock fa-stack-1x " style="color:lightcoral"></i></span>Admin</a>
                     <ul class="nav-pills nav-stacked" style="list-style-type:none;">
@@ -106,12 +85,7 @@
                         <app-menu [menus]='wsMenus'></app-menu>
                     </ul>
                 </li>
-                @* Added super admin 11/21/2016*@
 
-                @*<input type="hidden" name="hdnPermission" id="hdnPermission" value="@GetUserPermission()" />
-                <li id="lisuperadmin">
-                    <a href="~/Admin/Audit"><span class="fa-stack fa-lg pull-left"><i class="fa fa-puzzle-piece fa-stack-1x " style="color:khaki"></i></span>Audit Table</a>
-                </li>*@
             </ul>
         </div><!-- /#sidebar-wrapper -->
         <!-- Page Content -->

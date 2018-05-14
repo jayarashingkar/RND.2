@@ -106,7 +106,6 @@ function customColumnRenderer(helpers, callback) {
             break;
         case 'AssignMaterial':
             // let's combine name and description into a single column
-            //customMarkup = '<button onclick="AssignMaterial(' + rowData.RecId + ')" id="gridAM" name="gridAM" class="btn btn-warning btn-sm center-block"><i class="fa fa-book"></i></button>';
             customMarkup = "<button id='gridAM' data-RecId='" + rowData.RecId + "' data-WorkStudyID='" + rowData.WorkStudyID + "'  onclick= 'AssignMaterial(this)' name= 'gridAM' class='btn btn-primary btn-sm center-block' > <i class='fa fa-book'></i></button > ";
             break;
         case 'MaterialProcessing':
@@ -115,15 +114,10 @@ function customColumnRenderer(helpers, callback) {
             break;
         case 'TestingMaterial':
             //let's combine name and description into a single column
-            //customMarkup = "<button id='gridPM' data-RecId='" + rowData.RecId + "' data-WorkStudyID='" + rowData.WorkStudyID + "'  onclick= 'TestingMaterial(this)' name= 'gridTM' class='btn btn-secondary btn-sm center-block' > <i class='fa fa-book'></i></button > ";
             customMarkup = "<button id='gridTM' data-RecId='" + rowData.RecId + "' data-WorkStudyID='" + rowData.WorkStudyID + "'  onclick= 'TestingMaterial(this)' name= 'gridTM' class='btn btn-success btn-sm center-block' > <i class='fa fa-book'></i></button > ";
 
             break;
-        //case 'MaterialTesting':
-        //    // let's combine name and description into a single column
-        //    customMarkup = '<button onclick="GridEditClicked(' + rowData.RecId + ')" id="gridEdit" name="gridEdit" class="btn btn-success btn-sm center-block"><i class="fa fa-book"></i></button>';
-        //    break;
-        case 'Edit':
+         case 'Edit':
             // let's combine name and description into a single column
             customMarkup = '<button onclick="GridEditClicked(' + rowData.RecId + ')" id="gridEdit" name="gridEdit" class="btn btn-info btn-sm center-block"><i class="fa fa-pencil"></i></button>';
             break;
@@ -228,12 +222,10 @@ function customDataSource(options, callback) {
 
 function GridEditClicked(id) {
     if (document.getElementById("hdnPermission").value == "ReadOnly") {
-        //  $('#gridEdit').hide();      
         $('#gridEdit').attr("disabled", true);
         bootbox.alert(RND.Constants.AccessDenied);
     }
     else {
-      //  $('#gridEdit').show();
         $('#gridEdit').attr("disabled", false);
         location.href = '/WorkStudy/SaveWorkStudy/' + id;
     }  
@@ -301,12 +293,8 @@ $('#btnSearch').on('click', function () {
     return false;
 });
 
+//Export
 //$('#btnExport').on('click', function () {
-
-//    //document.getElementById('reportForm').submit();
-//    var pageIndex = 0;
-//    var pageSize = 100000;
-//    var search = '';
 
 //    if ($('#searchWorkStudyNumber').val())
 //        search += ';' + 'WorkStudyID:' + $('#searchWorkStudyNumber').val();
@@ -374,9 +362,7 @@ $(document).ready(function () {
     $('#StudyStatus').selectpicker();
     $('#StudyType').attr('data-live-search', 'true');
     $('#StudyType').selectpicker();
-    //$('#searchStudyType').attr('data-live-search', 'true');
-    //$('#searchStudyType').selectpicker();
-
+ 
     $('#Plant').attr('data-live-search', 'true');
     $('#Plant').selectpicker();
   

@@ -32,13 +32,7 @@ namespace RNDSystems.Web.Controllers
                     if (res.Result.IsSuccessStatusCode)
                     {
                         RNDMaterial rndMaterial = JsonConvert.DeserializeObject<RNDMaterial>(res.Result.Content.ReadAsStringAsync().Result);
-                        if (rndMaterial != null)
-                        {
-                            /*
-                            ddlAlloy = rndMaterial.ddlAlloy;
-                            ddlTemper = rndMaterial.ddlTemper;
-                            */
-                        }
+                      
                     }
                 });
                 task.Wait();
@@ -46,10 +40,7 @@ namespace RNDSystems.Web.Controllers
                 {
                     WorkStudyID = workStudyID
                 };
-                /*
-                ViewBag.ddAlloy = ddlAlloy;
-                ViewBag.ddTemper = ddlTemper;
-                */
+           
             }
             catch (Exception ex)
             {
@@ -92,10 +83,7 @@ namespace RNDSystems.Web.Controllers
                 Text = "US Database",
                 Selected = true,
             });
-            /*
-            List<SelectListItem> ddlAlloy = null;
-            List<SelectListItem> ddlTemper = null;
-            */
+         
             try
             {
                 if (id >0)
@@ -108,10 +96,6 @@ namespace RNDSystems.Web.Controllers
                             Material = JsonConvert.DeserializeObject<RNDMaterial>(res.Result.Content.ReadAsStringAsync().Result);
                             if (Material != null)
                             {
-                                /*
-                                ddlAlloy = Material.ddlAlloy;
-                                ddlTemper = Material.ddlTemper;
-                                */
                                 if (!string.IsNullOrEmpty(workStudyId))
                                     Material.WorkStudyID = workStudyId;
                             }
@@ -126,17 +110,14 @@ namespace RNDSystems.Web.Controllers
                     Material.WorkStudyID = workStudyId;                    
                 }
                 ViewBag.ddDataBase = DataBase;
-                /*
-                ViewBag.ddAlloy = ddlAlloy;
-                ViewBag.ddTemper = ddlTemper;
-                */
+                
             }
             catch (Exception ex)
             {
                 _logger.Error(ex);
             }
             return View(Material);
-            //return RedirectToAction("SaveAssignMaterial");
+          
         }
 
         /// <summary>

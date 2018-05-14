@@ -112,6 +112,8 @@ function customDataSource(options, callback) {
 
 function GridAddClicked(ele) {
 
+    //Setting default
+
    $('#gridAdd').prop('disabled', true);
 
     var id = $(ele).attr('data-RecId');
@@ -125,6 +127,7 @@ function GridAddClicked(ele) {
     $('#IGCResult').hide();
     $('#btnSaveResult').show();
 
+    //Show the form based on the selected TestType
     if (TestType == RND.ResultConstant.SCC) {
         $('#SCCResult').show();        
     }
@@ -146,6 +149,8 @@ function GridAddClicked(ele) {
     else if (TestType == RND.ResultConstant.IGC) { 
         $('#IGCResult').show();
     }
+
+    //Save Result based on the selected TestType
     $("#btnSaveResult").click(function () {
          if (TestType == RND.ResultConstant.SCC) {
 
@@ -525,6 +530,7 @@ function GridAddClicked(ele) {
 
 $(document).ready(function () {
 
+    //Setting default values
     $(".repeater-header").remove();
     $('#SCCResult').hide();
     $('#ExcoResult').hide();

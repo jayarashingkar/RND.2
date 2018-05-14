@@ -364,11 +364,13 @@ namespace RNDSystems.API.Controllers
             {
                 //alloy temper uacpart and cust part can be added directly to table - its not in UI.
                 //if (!string.IsNullOrEmpty(WorkStudyID) && !string.IsNullOrEmpty(LotID) && !string.IsNullOrEmpty(TestType))
+
                 if (!string.IsNullOrEmpty(WorkStudyID) && !string.IsNullOrEmpty(LotID))
                 {
                     int MillLotNo = findMillLotNo(LotID);
 
                     //can be called during insert - as it is not in UI
+
                     // SqlParameter param0 = new SqlParameter("@MillLotNo", MillLotNo);
                     //// SqlParameter param1 = new SqlParameter("@testdesc", TestType);
 
@@ -457,33 +459,7 @@ namespace RNDSystems.API.Controllers
                             ado._conn.Close(); ado._conn.Dispose();
                         }
                     }
-                    //using (reader = ado.ExecDataReaderProc("RNDsubTestType_READ", "RND", param1))
-                    //{
-                    //    if (reader.HasRows)
-                    //    {
-                    //        while (reader.Read())
-                    //        {
-                    //            TM.ddSubTestType.Add(new SelectListItem
-                    //            {
-                    //                Value = Convert.ToString(reader["SubTestType"]),
-                    //                Text = Convert.ToString(reader["SubTestType"]),
-                    //                Selected = (TM.SubTestType == Convert.ToString(reader["SubTestType"])) ? true : false,
-                    //            });
-                    //            //TM.ddLocation2.Add(new SelectListItem
-                    //            //{
-                    //            //    Value = Convert.ToString(reader["Location2"]),
-                    //            //    Text = Convert.ToString(reader["Location2"]),
-                    //            //    Selected = (TM.Location2 == Convert.ToString(reader["Location2"])) ? true : false,
-                    //            //});
-                    //        }
-                    //        if (reader.Read())
-                    //        {
-                    //            TM.UACPart = Convert.ToDecimal(reader["UACPart"]);
-                    //            TM.Alloy = Convert.ToString(reader["Alloy"]);
-                    //            TM.Temper = Convert.ToString(reader["Temper"]);
-                    //        }
-                    //    }
-                    //}
+                   
                 }
                 return Serializer.ReturnContent(TM, this.Configuration.Services.GetContentNegotiator(), this.Configuration.Formatters, this.Request);
             }

@@ -30,18 +30,7 @@
                 </div>
             </div>
 
-            <div class="row">
-                @*<div class="col-md-3">
-                    <div class="form-group">
-                        <label for="lblTestType" class="cols-sm-2 control-label">Test Types</label>
-                        <div class="cols-sm-10">
-                            <div class="input-group">
-                                <span class="input-group-addon"><i class="fa fa-search" aria-hidden="true"></i></span>
-                                @Html.DropDownList("ddlTestType", ViewBag.ddlTestType as IEnumerable<SelectListItem>, new { @class = "show-tick form-control" })
-                            </div>
-                        </div>
-                    </div>
-                </div>*@
+            <div class="row">              
                 <div class="col-md-3">
                     <div class="form-group">
                         <label for="lblTestType" class="cols-sm-2 control-label">Select Material Test Types</label>
@@ -59,7 +48,6 @@
                                 @Html.DropDownList("ddlAvailableTT", ViewBag.ddlAvailableTT as IEnumerable<SelectListItem>, new { @class = "show-tick form-control" })
                             </div>
                         </div>
-                        @*<input type="hidden" name="SelectedTests" id="SelectedTests" value="@Model.SelectedTests" />*@
                         <input type="hidden" name="AvailableTT" id="AvailableTT" value="@Model.TestType" />
                     </div>
                 </div>

@@ -86,10 +86,7 @@ namespace RNDSystems.API.Controllers
             sendMessage.Success = true;
             string filePath = "none";
 
-         //   string[] token = selectedTestType.MessageList.ToString().Split(',');
-            
-            DataTableReturn dataTable = new DataTableReturn();
-         //   List<string> errorMessage = new List<string>();
+           DataTableReturn dataTable = new DataTableReturn();
             string successMsg = "";
             string errorMessage = "";
                     
@@ -110,7 +107,6 @@ namespace RNDSystems.API.Controllers
                                     sendMessage = UploadTension(dataTable.data);
                                 else
                                     sendMessage.Message = dataTable.Message;
-                                //  sendMessage = UploadTension(Common.Parser.CsvToDataTable(filePath, false));
                                 break;
                             }
                         case "Compression":
@@ -122,7 +118,6 @@ namespace RNDSystems.API.Controllers
                                     sendMessage = UploadCompression(dataTable.data);
                                 else
                                     sendMessage.Message = dataTable.Message;
-                                //  sendMessage = UploadCompression(Common.Parser.CsvToDataTable(filePath, false));
                                 break;
                             }
                         case "Bearing":
@@ -134,7 +129,7 @@ namespace RNDSystems.API.Controllers
                                     sendMessage = UploadBearing(dataTable.data);
                                 else
                                     sendMessage.Message = dataTable.Message;
-                                //sendMessage = UploadBearing(Common.Parser.CsvToDataTable(filePath, false));
+                               
                                 break;
                             }
                         case "Shear":
@@ -147,7 +142,6 @@ namespace RNDSystems.API.Controllers
                                     sendMessage = UploadShear(dataTable.data);
                                 else
                                     sendMessage.Message = dataTable.Message;
-                                // sendMessage = UploadShear(Common.Parser.CsvToDataTable(filePath, false));
                                 break;
                             }
                         case "Notch Yield":
@@ -160,7 +154,6 @@ namespace RNDSystems.API.Controllers
                                     sendMessage = UploadNotchYield(dataTable.data);
                                 else
                                     sendMessage.Message = dataTable.Message;
-                                // sendMessage = UploadNotchYield(Common.Parser.CsvToDataTable(filePath, true));
                                 break;
                             }
                         case "Residual Strength":
@@ -173,7 +166,6 @@ namespace RNDSystems.API.Controllers
                                     sendMessage = UploadResidualStrength(dataTable.data);
                                 else
                                     sendMessage.Message = dataTable.Message;
-                                //   sendMessage = UploadResidualStrength(Common.Parser.CsvToDataTable(filePath, true));
                                 break;
                             }
                         case "Fracture Toughness":
@@ -185,7 +177,6 @@ namespace RNDSystems.API.Controllers
                                     sendMessage = UploadFractureToughness(dataTable.data);
                                 else
                                     sendMessage.Message = dataTable.Message;
-                                //   sendMessage = UploadFractureToughness(Common.Parser.CsvToDataTable(filePath, false));
                                 break;
                             }
                         case "Modulus Tension":
@@ -197,7 +188,6 @@ namespace RNDSystems.API.Controllers
                                     sendMessage = UploadModulusTension(dataTable.data);
                                 else
                                     sendMessage.Message = dataTable.Message;
-                                //   sendMessage = UploadModulusTension(Common.Parser.CsvToDataTable(filePath, false));
                                 break;
                             }
                         case "Modulus Compression":
@@ -209,7 +199,6 @@ namespace RNDSystems.API.Controllers
                                     sendMessage = UploadModulusCompression(dataTable.data);
                                 else
                                     sendMessage.Message = dataTable.Message;
-                                //  sendMessage = UploadModulusCompression(Common.Parser.CsvToDataTable(filePath, false));
                                 break;
                             }
                         case "Fatigue":
@@ -221,8 +210,6 @@ namespace RNDSystems.API.Controllers
                                     sendMessage = UploadFatigue(dataTable.data);
                                 else
                                     sendMessage.Message = dataTable.Message;
-                                // sendMessage = UploadFatigue(Common.Parser.CsvToDataTable(filePath, false));
-
                                 break;
                             }
                         default:
@@ -238,7 +225,6 @@ namespace RNDSystems.API.Controllers
                             successMsg += ", " + tt.Trim();                   
                     else
                     {
-                        //  errorMessage.Add(sendMessage.Message);
                         if (errorMessage == "")
                             errorMessage = "Import Error: " + tt.Trim();
                         else
@@ -249,9 +235,7 @@ namespace RNDSystems.API.Controllers
             }
             sendMessage.Message1 = errorMessage;            
             sendMessage.Message = successMsg;
-            //  return sendMessage;
-
-            return Serializer.ReturnContent(sendMessage, this.Configuration.Services.GetContentNegotiator(), this.Configuration.Formatters, this.Request);
+          return Serializer.ReturnContent(sendMessage, this.Configuration.Services.GetContentNegotiator(), this.Configuration.Formatters, this.Request);
         }
 
         //Import file
@@ -276,7 +260,6 @@ namespace RNDSystems.API.Controllers
                             importData.Success = dataTable.Success;
                         }
                           
-                      //  importData = UploadTension(Common.Parser.CsvToDataTable(path, false));
                         break;
                     }
                 case "Compression":
@@ -289,7 +272,6 @@ namespace RNDSystems.API.Controllers
                             importData.Message = dataTable.Message;
                             importData.Success = dataTable.Success;
                         }
-                        // importData = UploadCompression(Common.Parser.CsvToDataTable(path, false));
                         break;
                     }
                 case "Bearing":
@@ -302,7 +284,6 @@ namespace RNDSystems.API.Controllers
                             importData.Message = dataTable.Message;
                             importData.Success = dataTable.Success;
                         }
-                        //importData = UploadBearing(Common.Parser.CsvToDataTable(path, false));
                         break;
                     }
                 case "Shear":
@@ -315,7 +296,6 @@ namespace RNDSystems.API.Controllers
                             importData.Message = dataTable.Message;
                             importData.Success = dataTable.Success;
                         }
-                        //importData = UploadShear(Common.Parser.CsvToDataTable(path, false));
                         break;
                     }
                 case "Notch Yield":
@@ -328,7 +308,6 @@ namespace RNDSystems.API.Controllers
                             importData.Message = dataTable.Message;
                             importData.Success = dataTable.Success;
                         }
-                       // importData = UploadNotchYield(Common.Parser.CsvToDataTable(path, true));
                         break;
                     }
                 case "Residual Strength":
@@ -341,7 +320,6 @@ namespace RNDSystems.API.Controllers
                             importData.Message = dataTable.Message;
                             importData.Success = dataTable.Success;
                         }
-                        //importData = UploadResidualStrength(Common.Parser.CsvToDataTable(path, true));
 
                         break;
                     }
@@ -355,7 +333,6 @@ namespace RNDSystems.API.Controllers
                             importData.Message = dataTable.Message;
                             importData.Success = dataTable.Success;
                         }
-                     //   importData = UploadFractureToughness(Common.Parser.CsvToDataTable(path, false));
                         break;
                     }
                 case "Modulus Tension":
@@ -368,7 +345,6 @@ namespace RNDSystems.API.Controllers
                             importData.Message = dataTable.Message;
                             importData.Success = dataTable.Success;
                         }
-                     //   importData = UploadModulusTension(Common.Parser.CsvToDataTable(path, false));
                         break;
                     }
                 case "Modulus Compression":
@@ -381,7 +357,6 @@ namespace RNDSystems.API.Controllers
                             importData.Message = dataTable.Message;
                             importData.Success = dataTable.Success;
                         }
-                       // importData = UploadModulusCompression(Common.Parser.CsvToDataTable(path, false));
                         break;
                     }
                 case "Fatigue":
@@ -394,7 +369,6 @@ namespace RNDSystems.API.Controllers
                             importData.Message = dataTable.Message;
                             importData.Success = dataTable.Success;
                         }
-                        //importData = UploadFatigue(Common.Parser.CsvToDataTable(path, false));
                         break;
                     }
                 default:

@@ -18,7 +18,6 @@
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fa fa-search" aria-hidden="true"></i></span>
                                     <input type="text" value="" id="searchWorkStudyNumber" name="searchWorkStudyNumber" class="form-control" placeholder="Enter Work Study Number" />
-                                    @*   <input type="text" value="" id="searchFirstName" name="searchFirstName" class="form-control" placeholder="Enter First Name" />*@
                                 </div>
                             </div>
                         </div>
@@ -31,7 +30,6 @@
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fa fa-search" aria-hidden="true"></i></span>
                                     @* drop down list has values from table RNDStudyType - show RNDStudytype.TypeDec values here *@
-                                    @*@Html.DropDownList("StudyType", ViewBag.ddStudyTypes as IEnumerable<SelectListItem>, new { @class = "show-tick form-control", @id = "searchStudyType" })*@
                                     @Html.DropDownList("StudyType", ViewBag.ddStudyTypes as IEnumerable<SelectListItem>, new { @class = "show-tick form-control" })
                                 </div>
                             </div>
@@ -46,7 +44,6 @@
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fa fa-search" aria-hidden="true"></i></span>
                                     @* change here - drop down list has values from table RNDLocation -show RNDLocation.PlantDesc values here *@
-                                    @*  @Html.DropDownList("searchStatusCode", ViewBag.ddStatus as IEnumerable<SelectListItem>, new { @class = "show-tick" })*@
                                     @Html.DropDownList("Plant", ViewBag.ddLocation as IEnumerable<SelectListItem>, new { @class = "show-tick form-control" })
                                 </div>
                                 </div>
@@ -59,7 +56,6 @@
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fa fa-search" aria-hidden="true"></i></span>
                                     @* change here - drop down list has values from table [RNDStudyStatus] -show [RNDStudyStatus].StatusDesc values here *@
-                                    @*  @Html.DropDownList("searchStatusCode", ViewBag.ddStatus as IEnumerable<SelectListItem>, new { @class = "show-tick" })*@
                                     @Html.DropDownList("StudyStatus", ViewBag.ddStatus as IEnumerable<SelectListItem>, new { @class = "show-tick form-control" })
                                     </div>
                                 </div>

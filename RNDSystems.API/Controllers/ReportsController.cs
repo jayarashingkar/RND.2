@@ -90,7 +90,6 @@ namespace RNDSystems.API.Controllers
             ReportsViewModel reports = new ReportsViewModel();
             try
             {
-                // string WorkStudyID = "";
                 //SqlDataReader reader = null;
 
                 CurrentUser user = ApiUser;

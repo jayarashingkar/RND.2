@@ -64,51 +64,7 @@ namespace RNDSystems.API.Controllers
                 return new HttpResponseMessage(HttpStatusCode.InternalServerError);
             }
         }
-
-
-        ///// <summary>
-        ///// Retrieve the Registered user security quetion details
-        ///// </summary>
-        ///// <param name="recID"></param>
-        ///// <returns></returns>
-        //public HttpResponseMessage Get(int recID)
-        //{
-        //    _logger.Debug("UserSecurity Get called");
-        //    SqlDataReader reader = null;
-        //    RNDUserSecurityAnswer security = null;
-        //    try
-        //    {
-        //        CurrentUser user = ApiUser;
-        //        security = new RNDUserSecurityAnswer();
-        //        AdoHelper ado = new AdoHelper();
-        //        security.RNDSecurityQuestions = new List<SelectListItem>() { GetInitialSelectItem() };
-        //        if (recID > 0)
-        //        {
-
-        //        }
-        //        using (reader = ado.ExecDataReaderProc("RNDSecurityQuestions_READ", "RND", null))
-        //        {
-        //            if (reader.HasRows)
-        //            {
-        //                while (reader.Read())
-        //                {
-        //                    security.RNDSecurityQuestions.Add(new SelectListItem
-        //                    {
-        //                        Value = Convert.ToString(reader["RNDSecurityQuestionId"]),
-        //                        Text = Convert.ToString(reader["Question"]),
-        //                    });
-        //                }
-        //            }
-        //        }
-        //        return Serializer.ReturnContent(security, this.Configuration.Services.GetContentNegotiator(), this.Configuration.Formatters, this.Request);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        _logger.Error(ex.Message);
-        //        return new HttpResponseMessage(HttpStatusCode.InternalServerError);
-        //    }
-        //}
-
+      
         /// <summary>
         /// Save the Registered user security quetion details
         /// </summary>

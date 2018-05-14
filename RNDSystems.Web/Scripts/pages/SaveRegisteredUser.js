@@ -21,12 +21,6 @@
         location.href = '/Register/SaveRegisterUser/0'
     });
 
-
-    //$('#StartDate')
-    //    .on('change', function (e) {
-    //        console.log('value is : ' + this.value);
-    //});
-
     var form = $('#SaveRegisterUser');
     form.bootstrapValidator({
         message: 'This value is not valid',
@@ -94,21 +88,3 @@
         }
     });
 });
-
-
-//function Submit() {
-//    var isValid = true;
-//    //if ($('#MillLotNo').val() === '') {
-//    //    isValid = false;
-//    //    alert('Mill LotNo is required.');
-//    //}
-//    //else if ($('#CompleteDate').val() === '') {
-//    //    isValid = false;
-//    //    alert('Complete Date is required.');
-//    //}
-//    //else if ($('#DueDate').val() === '') {
-//    //    isValid = false;
-//    //    alert('Due Date is required.');
-//    //}
-//    return isValid;
-//}

@@ -77,7 +77,6 @@ $(document).ready(function () {
                         $("#ddPieceNo").empty();
                         $("#ddPieceNo").append(optionPieceNo);
                         $("#ddPieceNo").selectpicker('refresh');
-                        //changed here end                  
                        
                 },
                 error: function(x,y,z){}
@@ -97,8 +96,6 @@ $(document).ready(function () {
     $('#ArtStartMns').attr('data-live-search', 'true');
     $('#ArtStartMns').selectpicker();
 
-
-    //changed here start
     $('#ddHole').attr('data-live-search', 'true');
     $('#ddHole').selectpicker();
 
@@ -114,8 +111,7 @@ $(document).ready(function () {
         var PieceNo = ($(this).find("option:selected").val()).trim();
         $("#PieceNo").val(PieceNo);
     });
-
- 
+     
     $('#SHTDate').datepicker({ autoclose: true, todayHighlight: true, todayBtn: "linked" });
     $('#ArtAgeDate').datepicker({ autoclose: true, todayHighlight: true, todayBtn: "linked" });
 

@@ -256,44 +256,6 @@ namespace RNDSystems.API.Controllers
             }
             return Serializer.ReturnContent(VM, this.Configuration.Services.GetContentNegotiator(), this.Configuration.Formatters, this.Request);
         }
-
-        /// <summary>
-        /// Retrieve the logged in user security token
-        /// </summary>
-        /// <param name="Token"></param>
-        /// <returns></returns>
-        //public HttpResponseMessage GetUserDetails(string Token)
-        //{
-        //    SqlDataReader reader = null;
-        //    CurrentUser dbCUser = null;
-        //    ApiViewModel VM = null;
-        //    try
-        //    {
-        //        VM = new ApiViewModel();
-        //        if (!string.IsNullOrEmpty(Token))
-        //        {
-        //            AdoHelper ado = new AdoHelper();
-        //            SqlParameter param1 = new SqlParameter("@Token", Token);
-        //            using (reader = ado.ExecDataReaderProc("RNDGetUser_ReadByID", new object[] { param1 }))
-        //            {
-        //                if (reader.HasRows && reader.Read())
-        //                {
-        //                    dbCUser = new CurrentUser();
-        //                    dbCUser.UserId = Convert.ToInt32(reader["UserId"]);
-        //                    dbCUser.UserName = Convert.ToString(reader["UserName"]);
-        //                    dbCUser.FullName = Convert.ToString(reader["FullName"]);
-        //                }
-        //                else
-        //                    VM.Message = MessageConstants.InvalidUser;
-        //            }
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        _logger.Error(ex.Message);
-        //        return new HttpResponseMessage(HttpStatusCode.InternalServerError);
-        //    }
-        //    return Serializer.ReturnContent(VM, this.Configuration.Services.GetContentNegotiator(), this.Configuration.Formatters, this.Request);
-        //}
+           
     }
 }

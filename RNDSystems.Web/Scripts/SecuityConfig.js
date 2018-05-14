@@ -61,7 +61,7 @@ function CheckSecuityConfig() {
                                         }
                                     }
                                 },
-                                LMSSecurityQuestionId: {
+                                RNDSecurityQuestionId: {
                                     validators: {
                                         callback: {
                                             message: 'Security Question is required.',

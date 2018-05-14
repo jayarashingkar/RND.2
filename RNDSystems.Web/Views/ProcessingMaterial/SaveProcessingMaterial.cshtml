@@ -36,7 +36,6 @@
                     <div class="form-group">
                         <label for="lblMillLotNo" class="cols-sm-2 control-label">Mill Lot ID</label>
                         <div class="cols-sm-10">                             
-                                @*@Html.DropDownList("MillLotNo", ViewBag.ddlMillLotNo as IEnumerable<SelectListItem>,Model.RecID>0? new { @class = "disabled show-tick" } : new { @class = "show-tick" })*@
                             @Html.DropDownList("MillLotNo", ViewBag.ddlMillLotNo as IEnumerable<SelectListItem>, Model.RecID > 0 ? (object)new { @class = "form-control disabled show-tick ", @disabled = true } : new { @class = "show-tick form-control" })
                             <input type="hidden" name="MillLotNo" id="MillLotNo" />
                         </div>
@@ -299,16 +298,7 @@
                     </div>
                 </div>
             </div>
-            @*<div class="row">
-                <div class="col-md-3">
-                    <div class="form-group">
-                        <label for="lblRCS" class="cols-sm-2 control-label">RCS</label>
-                        <div class="cols-sm-10">
-                            @Html.DropDownList("RCS", ViewBag.ddlRCS as IEnumerable<SelectListItem>, new { @class = "show-tick" })
-                        </div>
-                    </div>
-                </div>                
-            </div>*@
+
             <div class="row">
                 <div class="col-md-8">
                     <div class="form-group">

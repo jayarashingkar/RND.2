@@ -218,7 +218,6 @@
         var ids = '';
         $("a[name='SelectedRecord']").each(function () {
             ids += $(this).attr('id').replace('SelectedRecord', '') + ';';
-            // ids += $(this).attr('id').replace('pp_', '') + ';';
         });
 
         if (ids != '') {
@@ -332,63 +331,6 @@
         }
     }
 
-    //$('#btnUACPart').on('click', function () {
-    //    //$('#ppUACListing').show();
-    //    //var div = $('#ppUACListing').html();
-    //    //dialog = bootbox.dialog({
-    //    //    message: div,
-    //    //    size: 'large',
-    //    //    buttons: {
-    //    //        cancel: {
-    //    //            label: '<i class="fa fa-times"></i> Cancel',
-    //    //            className: 'btn-danger'
-    //    //        },
-    //    //        confirm: {
-    //    //            label: '<i class="fa fa-check"></i> Save',
-    //    //            className: 'btn-success',
-    //    //            callback: function (result) {
-    //    //                console.log(result);
-    //    //            }
-    //    //        },
-    //    //    },
-    //    //    onEscape: function () {
-    //    //        this.modal('hide');
-    //    //    }
-    //    //})
-    //    //var obj = {
-    //    //    id: $('#RecId').val(), MillLotNo: $('#MillLotNo').val()
-    //    //};
-    //    //$.ajax({
-    //    //    type: 'post',
-    //    //    url: GetRootDirectory() + '/AssignMaterial/UACListing',
-    //    //    data: obj
-    //    //}).done(function (data) {
-    //    //    $('#ppUACListing').html(data);
-    //    //    var div = $('#ppUACListing').html();
-    //    //    dialog = bootbox.dialog({
-    //    //        message: div,
-    //    //        size: 'large',
-    //    //        buttons: {
-    //    //            cancel: {
-    //    //                label: '<i class="fa fa-times"></i> Cancel',
-    //    //                className: 'btn-danger'
-    //    //            },
-    //    //            confirm: {
-    //    //                label: '<i class="fa fa-check"></i> Save',
-    //    //                className: 'btn-success',
-    //    //                callback: function (result) {
-    //    //                    console.log(result);
-    //    //                }
-    //    //            },
-    //    //        },
-    //    //        onEscape: function () {
-    //    //            this.modal('hide');
-    //    //        }
-    //    //    })
-    //    //});
-    //});
-
-
     var form = $('#SaveAssignMaterial');
     form.bootstrapValidator({
         message: 'This value is not valid',
@@ -439,17 +381,7 @@
                     notEmpty: {
                         message: 'Location2 is required.'
                     }
-                }
-
-                //validators: {
-                //    callback: {
-                //        message: 'Location2 is required.',
-                //        callback: function (value, validator, $field) {
-                //            return IsAutoFilled;
-
-                //        }
-                //    }
-                //}
+                } 
             },
         }
     });

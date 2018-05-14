@@ -34,7 +34,6 @@
                     <div class="form-group">
                         <label for="lblLotID" class="cols-sm-2 control-label">Lot ID</label>
                         <div class="cols-sm-10">
-                            @*  @Html.DropDownList("ddlLotID", ViewBag.ddlLotID as IEnumerable<SelectListItem>, new { @class = "show-tick" })*@
                             @Html.DropDownList("LotID", ViewBag.ddlLotID as IEnumerable<SelectListItem>, new { @class = "show-tick" })
                         </div>
                     </div>
@@ -63,14 +62,10 @@
             <div class="row">
                 <div class="col-md-3">
                     <div class="form-group">
-                        @*<div class="col-md-3">
-                            <div class="form-group">*@
                         <label for="lblLocation2" class="cols-sm-2 control-label">Location2</label>
                         <div class="cols-sm-10">
                             @Html.DropDownList("Location2", ViewBag.ddlLocation2 as IEnumerable<SelectListItem>, new { @class = "show-tick" })
                         </div>
-                        @*</div>
-                            </div>*@
                     </div>
                 </div>
                 <div class="col-md-3">
@@ -92,7 +87,6 @@
                         <label for="lblOrientation" class="cols-sm-2 control-label">Orientation</label>
                         <div class="cols-sm-10">
                             @Html.DropDownList("Orientation", ViewBag.ddlOrientation as IEnumerable<SelectListItem>, new { @class = "show-tick" })
-                            @*<input type="hidden" name="Orientation1" id="Orientation1" value="@Model.Orientation" />*@
                         </div>
                     </div>
                 </div>
@@ -121,7 +115,6 @@
                     <div class="form-group">
                         <label for="lblReplica" class="cols-sm-2 control-label">Replica</label>
                         <div class="cols-sm-10">
-                            @*@Html.DropDownList("Replica", ViewBag.ddlReplica as IEnumerable<SelectListItem>, new { @class = "show-tick" })*@
                             @Html.DropDownList("Replica", ViewBag.ddlReplica as IEnumerable<SelectListItem>, Model.TestingNo > 0 ? (object)new { @class = "form-control disabled show-tick ", @disabled = true } : new { @class = "show-tick form-control" })
                             <input type="hidden" name="Replica" id="Replica" data-toggle="dropdown" value="@Model.Replica" />
                         </div>
@@ -176,19 +169,6 @@
                     </div>
                 </div>
             </div>
-            @*<div class="row">
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <label for="lblRCS" class="cols-sm-2 control-label">RCS</label>
-                            <div class="cols-sm-10">
-                                <div class="input-group">
-                                    <span class="input-group-addon"><i class="fa fa-text-width" aria-hidden="true"></i></span>
-                                    <input type="text" value="@Model.RCS" id="RCS" name="RCS" class="form-control" placeholder="RCS" />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>*@
             <div class="row">
                 <div class="col-md-8">
                     <div class="form-group">

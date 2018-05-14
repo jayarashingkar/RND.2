@@ -1,16 +1,6 @@
 ﻿// define the columns in your datasource
 var columns = [
-    //{
-    //    label: 'ID',
-    //    property: 'UserId',
-    //    sortable: true
-    //},
-      //{
-      //    label: 'Employee No',
-      //    property: 'EmployeeNo',
-      //    sortable: true,
-      //    width: '50px'
-      //},
+
     {
         label: 'User Name',
         property: 'UserName',
@@ -94,8 +84,7 @@ function customDataSource(options, callback) {
         search += ';' + 'LastName:' + $('#searchLastName').val();
     if ($('#searchFirstName').val())
         search += ';' + 'FirstName:' + $('#searchFirstName').val();
-    //if ($('#searchEmployeeNo').val())
-    //    search += ';' + 'EmployeeNo:' + $('#searchEmployeeNo').val();
+ 
     var options = {
         pageIndex: pageIndex,
         pageSize: pageSize,
@@ -188,13 +177,6 @@ $('#btnAdd').on('click', function (event, param) {
                                     }
                                 }
                             },
-                            //EmployeeNo: {
-                            //    validators: {
-                            //        notEmpty: {
-                            //            message: 'EmployeeNo is required.'
-                            //        }
-                            //    }
-                            //},
                             PermissionLevel: {
                                 validators: {
                                     callback: {
@@ -217,8 +199,6 @@ $('#btnAdd').on('click', function (event, param) {
                         var Password = dialog.find('#Password').val();
                         var FirstName = dialog.find('#FirstName').val();
                         var LastName = dialog.find('#LastName').val();
-                        //var Email = dialog.find('#Email').val();
-                        //var EmployeeNo = dialog.find('#EmployeeNo').val();
                         var IssueDate = dialog.find('#IssueDate').datepicker();
                         IssueDate = dialog.find("#IssueDate").data('datepicker').getFormattedDate('yyyy-mm-dd');
                         var PermissionLevel = dialog.find('#PermissionLevel').val();
@@ -245,8 +225,8 @@ $('#btnAdd').on('click', function (event, param) {
                         };
                         $.ajax({
                             type: 'post',
-                            url: GetRootDirectory() + '/Admin/SaveUserLogin',
-                            //url: '../Admin/SaveUserLogin',
+                           // url: GetRootDirectory() + '/Admin/SaveUserLogin',
+                            url: '../Admin/SaveUserLogin',
                             data: model
                         })
                         .done(function (data) {
@@ -306,8 +286,8 @@ function GridEditClicked(id) {
     var obj = { id: id };
     $.ajax({
         type: 'post',
-        url: GetRootDirectory() + '/Admin/EditUserLogin',
-        //url:  '../Admin/EditUserLogin',
+       // url: GetRootDirectory() + '/Admin/EditUserLogin',
+        url:  '../Admin/EditUserLogin',
         data: obj
     })
     .done(function (data) {
@@ -329,8 +309,8 @@ function GridEditClicked(id) {
 
 function GridDeleteClicked(id) {
 
-    DeleteGridRow(id, GetRootDirectory() + '/Admin/DeleteUserLogins', 'userLoginsRepeater');
-    //DeleteGridRow(id, '../Admin/DeleteUserLogins', 'userLoginsRepeater');
+   // DeleteGridRow(id, GetRootDirectory() + '/Admin/DeleteUserLogins', 'userLoginsRepeater');
+    DeleteGridRow(id, '../Admin/DeleteUserLogins', 'userLoginsRepeater');
 }
 
 $('#btnSearch').on('click', function () {

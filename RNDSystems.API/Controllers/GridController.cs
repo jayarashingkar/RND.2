@@ -201,9 +201,7 @@ namespace RNDSystems.API.Controllers
             AdoHelper ado = new AdoHelper();
             //SqlDataReader reader = null;
             List<RNDMaterial> lstAssignMaterial = new List<RNDMaterial>();
-            //SqlParameter param1 = new SqlParameter("@CurrentPage", option.pageIndex);
-            //SqlParameter param2 = new SqlParameter("@NoOfRecords", option.pageSize);
-            List<SqlParameter> lstSqlParameter = new List<SqlParameter>();
+             List<SqlParameter> lstSqlParameter = new List<SqlParameter>();
             lstSqlParameter.Add(new SqlParameter("@CurrentPage", option.pageIndex));
             lstSqlParameter.Add(new SqlParameter("@NoOfRecords", option.pageSize));
             AddSearchFilter(option, lstSqlParameter);
@@ -217,39 +215,6 @@ namespace RNDSystems.API.Controllers
                         RNDMaterial AM = null;
                         while (reader.Read())
                         {
-                            //AM = new RNDMaterial();
-                            //AM.total = Convert.ToInt32(reader["total"]);
-                            //AM.RecID = Convert.ToInt32(reader["RecID"]);
-                            //AM.WorkStudyID = Convert.ToString(reader["WorkStudyID"]);
-                            //AM.SoNum = Convert.ToString(reader["SoNum"]);
-                            //AM.MillLotNo = Convert.ToInt32(reader["MillLotNo"]);
-                            //AM.CustPart = Convert.ToString(reader["CustPart"]);
-                            //AM.UACPart = Convert.ToDecimal(reader["UACPart"]);
-                            //AM.Alloy = Convert.ToString(reader["Alloy"]);
-                            //AM.Temper = Convert.ToString(reader["Temper"]);
-                            //AM.GageThickness = Convert.ToString(reader["GageThickness"]);
-                            //AM.Location2 = Convert.ToString(reader["Location2"]);
-                            //AM.Hole = Convert.ToString(reader["Hole"]);
-                            //AM.PieceNo = Convert.ToString(reader["PieceNo"]);
-                            //AM.Comment = Convert.ToString(reader["Comment"]);
-                            //AM.EntryDate = (!string.IsNullOrEmpty(reader["EntryDate"].ToString())) ? Convert.ToDateTime(reader["EntryDate"]) : (DateTime?)null;
-                            //AM.EntryBy = Convert.ToString(reader["EntryBy"]);
-                            //AM.DBCntry = Convert.ToString(reader["DBCntry"]);
-
-                            // start here
-                            //  AM = new RNDMaterial();
-                            //  AM.total = Convert.ToInt32(reader["total"]);
-                            //  AM.RecID = Convert.ToInt32(reader["RecID"]);
-                            //  //  AM.WorkStudyID = Convert.ToString(reader["WorkStudyID"]);
-                            //  AM.UACPart = Convert.ToDecimal(reader["UACPart"]);
-                            //  AM.GageThickness = Convert.ToString(reader["GageThickness"]);
-                            //  AM.Location2 = Convert.ToString(reader["Location2"]);
-                            ////  AM.records = Convert.ToString(reader["records"]); //records = List of all the record numbers
-                            ////  AM.RecID = splitRec(AM.records, RecID);
-                            //  lstAssignMaterial.Add(AM);
-                            //  RecID++;
-
-
                             AM = new RNDMaterial();
                             AM.total = Convert.ToInt32(reader["total"]);
                             AM.RecID = Convert.ToInt32(reader["RecID"]);
@@ -291,10 +256,7 @@ namespace RNDSystems.API.Controllers
         private DataSearch<RNDMaterial> GetAssignMaterial(DataGridoption option)
         {
             AdoHelper ado = new AdoHelper();
-            // SqlDataReader reader = null;
             List<RNDMaterial> lstAssignMaterial = new List<RNDMaterial>();
-            //SqlParameter param1 = new SqlParameter("@CurrentPage", option.pageIndex);
-            //SqlParameter param2 = new SqlParameter("@NoOfRecords", option.pageSize);
             List<SqlParameter> lstSqlParameter = new List<SqlParameter>();
             lstSqlParameter.Add(new SqlParameter("@CurrentPage", option.pageIndex));
             lstSqlParameter.Add(new SqlParameter("@NoOfRecords", option.pageSize));
@@ -583,7 +545,6 @@ namespace RNDSystems.API.Controllers
             _logger.Debug("GetOpticalMountReports");
 
             AdoHelper ado = new AdoHelper();
-            // SqlDataReader reader = null;
 
             List<OpticalMountViewModel> lstReports = new List<OpticalMountViewModel>();
             List<SqlParameter> lstSqlParameter = new List<SqlParameter>();

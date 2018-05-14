@@ -155,16 +155,7 @@ namespace RNDSystems.API.Controllers
                     SqlParameter param3 = new SqlParameter("@LastName", login.LastName);
                     SqlParameter param4 = new SqlParameter("@UserType", login.UserType);
                     SqlParameter param5 = new SqlParameter("@PermissionLevel", login.PermissionLevel);
-                    //  SqlParameter param1 = new SqlParameter("@UserName", login.UserName);
-                    //  SqlParameter param2 = new SqlParameter("@FirstName", login.FirstName);
-                    //  SqlParameter param3 = new SqlParameter("@LastName", login.LastName);
-                    //  SqlParameter param4 = new SqlParameter("@PasswordHash", login.PasswordHash);
-                    //  SqlParameter param5 = new SqlParameter("@PasswordSalt", login.PasswordSalt);
-                    //  SqlParameter param6 = new SqlParameter("@UserType", login.UserType);
-                    //  SqlParameter param7 = new SqlParameter("@PermissionLevel", login.PermissionLevel);
-                    //  SqlParameter param8 = new SqlParameter("@CreatedBy", user.UserId);
-                    //  SqlParameter param9 = new SqlParameter("@CreatedOn", DateTime.Now);
-                    //  SqlParameter param10 = new SqlParameter("@StatusCode", "DR");
+                    
                     var id = ado.ExecScalarProc("RNDLogin_Update", "RND", new object[] { param1, param2, param3, param4, param5 });
                     return Serializer.ReturnContent(MessageConstants.UserRegistered, this.Configuration.Services.GetContentNegotiator(), this.Configuration.Formatters, this.Request);
                 }

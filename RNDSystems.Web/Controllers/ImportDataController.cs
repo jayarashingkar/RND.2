@@ -101,9 +101,12 @@ namespace RNDSystems.Web.Controllers
                         //        importData = JsonConvert.DeserializeObject<ApiViewModel>(res.Result.Content.ReadAsStringAsync().Result);
                         //    }
                         //});
-                        string filePath = Path.GetTempPath() + System.Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+
+                        //    string filePath = Path.GetTempPath() + System.Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+                        string filePath = Server.MapPath("~/UploadDocument/") + System.Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
                         try
                         {
+
                             file.SaveAs(filePath);
                             var task = client.GetAsync(Api + "api/ImportData?id=0&path=" + filePath + "&selectedTestType=" + selectedTestType).ContinueWith((res) =>
                             {
@@ -118,6 +121,7 @@ namespace RNDSystems.Web.Controllers
                         {
                             if (System.IO.File.Exists(filePath))
                             {
+
                                 System.IO.File.Delete(filePath);
                             }
                         }

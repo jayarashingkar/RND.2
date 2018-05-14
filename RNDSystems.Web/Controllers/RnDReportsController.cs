@@ -22,62 +22,7 @@ namespace RNDSystems.Web.Controllers
         // GET: RnDReports
 
         #region Reports 
-        //public ActionResult Reports(string WorkStudyID)     
-        //{
-        //    _logger.Debug("Reports");
-        //    List<SelectListItem> ddlWorkStudyID = null;
-        //    List<SelectListItem> ddTestType = null;
-        //    bool isSuccess = false;
-        //    ReportsViewModel reports = null;           
-        //    try
-        //    {
-        //        ddlWorkStudyID = new List<SelectListItem>();
-        //        ddTestType = new List<SelectListItem>();
-        //        reports = new ReportsViewModel();
-
-        //        var client = GetHttpClient();
-        //        //  if (WorkStudyID == null)
-        //        //  {       
-        //        // var task = client.GetAsync(Api + "api/reports?recID=0&WorkStudyID=none").ContinueWith((res) =>
-        //        if (WorkStudyID == null)
-        //        {                   
-        //            WorkStudyID = "none";
-        //        }
-        //        var task = client.GetAsync(Api + "api/reports?recID=0&WorkStudyID=" + WorkStudyID).ContinueWith((res) =>
-        //        {
-        //            if (res.Result.IsSuccessStatusCode)
-        //            {
-        //                isSuccess = true;
-        //                reports = JsonConvert.DeserializeObject<ReportsViewModel>(res.Result.Content.ReadAsStringAsync().Result);
-        //                if (reports != null)
-        //                {
-        //                    ddlWorkStudyID = reports.ddWorkStudyID;
-        //                    ddTestType = reports.ddTestType;
-        //                }
-        //            }
-        //        });
-
-        //        task.Wait();                   
-
-        //        if (WorkStudyID == "none")
-        //        {
-        //            ViewBag.ddlWorkStudyID = ddlWorkStudyID;
-        //            ViewBag.ddTestType = ddTestType;
-        //            return View(reports);
-
-        //        }
-        //        else
-        //            return Json(new { isSuccess = isSuccess, ddTestType = ddTestType }, JsonRequestBehavior.AllowGet);
-
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        _logger.Error(ex);
-        //        isSuccess = false;
-        //    }
-        //    return Json(new { isSuccess = isSuccess, ddTestType = ddTestType }, JsonRequestBehavior.AllowGet);
-        //   // return View();
-        //}
+   
         #endregion
        // public ActionResult Reports(string TestType)
         public ActionResult Reports()
@@ -114,18 +59,6 @@ namespace RNDSystems.Web.Controllers
             }
             return View(reports);
        }
-
-        //public ActionResult GetReport(string WorkStudyID, string TestType) 
-        //{
-        //    // api/grid - api -getreports - in grid 
-        //    // and send option of which testype report is needed 
-        //    //switch (TestType.Trim())
-        //    //{
-        //    //    case 'Tension':
-
-        //    //}
-        //}
-
 
 
         public ActionResult TensionReportsList(string TestType)
@@ -230,7 +163,6 @@ namespace RNDSystems.Web.Controllers
             }
             return View("OpticalMountReportsList");
         }
-        // public ViewResult MacroEtchReportsList(string WorkStudyID)
         public ActionResult MacroEtchReportsList(string TestType)
         {
             // api/grid - api -getreports - in grid 
@@ -249,7 +181,6 @@ namespace RNDSystems.Web.Controllers
         [HttpPost]
 
         // public ActionResult ExportToExcel(int test, string TestType , string SearchBy)
-        //     public ActionResult ExportToExcel(DataGridoption ExportDataFilter)
         public void ExportToExcel(DataGridoption ExportDataFilter)
         {
              _logger.Debug("ExportToExcel");

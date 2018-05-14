@@ -13,11 +13,7 @@
          label: 'Printed',
          property: 'Printed',
          sortable: true,
-     },
-     //{
-     //    label: 'RDStudy',
-     //    property: 'WorkStudyID'
-     //},     
+     },    
      {
          label: 'Lot No',
          property: 'LotID',
@@ -150,16 +146,9 @@ function customColumnRenderer(helpers, callback) {
         //case 'TestingNo':
         case 'SelectTestingNo':
             // let's combine name and description into a single column
-            //customMarkup = '<input type="checkbox" id="TestingNo" name="TestingNo" value="' + rowData.TestingNo + '" />';
-            //  customMarkup = '<button id="TestingNo" name="TestingNo" onclick="TestSelected(' + rowData.TestingNo + ')" class="btn btn-inverse"><i class="fa fa-square-o"></i></button>';
-            //   customMarkup = '<input type="checkbox" id="TestingNo" name="TestingNo" onchange="TestSelected(' + rowData.TestingNo+ '" class="TestingNo" value="' + rowData.TestingNo + '"/>';
-            customMarkup = ' <input type="checkbox" name="CheckTesting" id="CheckTesting' + rowData.TestingNo + '" class="CheckTesting" value="' + rowData.TestingNo + '"/>';
+          customMarkup = ' <input type="checkbox" name="CheckTesting" id="CheckTesting' + rowData.TestingNo + '" class="CheckTesting" value="' + rowData.TestingNo + '"/>';
             break;
-            //case 'TestingMaterial':
-            //    // let's combine name and description into a single column
-            //    customMarkup = '<button onclick="GridEditClicked(' + rowData.RecId + ')" id="gridEdit" name="gridEdit" class="btn btn-success btn-sm center-block"><i class="fa fa-book"></i></button>';
-            //    break;
-        case 'Edit':
+         case 'Edit':
             // let's combine name and description into a single column
             customMarkup = '<button onclick="GridEditClicked(' + rowData.TestingNo + ')" id="gridEdit" name="gridEdit" class="btn btn-info btn-sm center-block"><i class="fa fa-pencil"></i></button>';
             break;
@@ -212,20 +201,7 @@ function customDataSource(options, callback) {
     if ($('#ddlAvailableTT').val()) {
         search += ';' + 'TestType:' + $('#ddlAvailableTT').val();
     }
-
-    //if ($('#ddlAvailableTT').val() == '-1'){
-    //    flag = true;
-    //    $("#ddlTestType").attr("disabled", false);
-    //}
-    //else{
-    //    search += ';' + 'TestType:' + $('#ddlAvailableTT').val();
-    //    $("#ddlTestType").attr("disabled", "disabled");
-    //    flag = false;
-    //}
-
-    //if ($('#ddlTestType').val() && flag)
-    //    search += ';' + 'TestType:' + $('#ddlTestType').val();
-
+    
     //search Avialable Material Test Types
     //search Sub Test Type
 
@@ -294,22 +270,8 @@ function customDataSource(options, callback) {
 function GridEditClicked(id) {
 
     location.href = '/TestingMaterial/SaveTestingMaterial/' + id;
-    // location.href = '/TestingMaterial/SaveTestingMaterial?id=0&workStudyId=' + $('#WorkStudyID').val() + '&avialableTT=' + avialableTT;
 
 }
-
-
-//function TestingMaterial(ele) {
-//  
-//    //   var recId = $(ele).attr('data-RecId');
-//    //var recID = $(ele).attr('data-RecID');
-//    var TestingNo = $(ele).attr('data-TestingNo');
-//    var workStudyID = $(ele).attr('data-WorkStudyID');
-//   
-//    //location.href = '/TestingMaterial/TestingMaterialList?TestingNo=' + TestingNo + '&workStudyID=' + workStudyID;
-//    location.href = '/TestingMaterial/TestingMaterialList?RecID=' + TestingNo + '&workStudyID=' + workStudyID;
-//}
-
 
 function GridDeleteClicked(id) {
     if (document.getElementById("hdnPermission").value == "ReadOnly") {
@@ -364,8 +326,7 @@ $('#btnClear').on('click', function () {
 
 $(document).ready(function () {
 
-    //$('#ddlTestType').attr('data-live-search', 'true');
-    //$('#ddlTestType').selectpicker();
+    
     $('#ddlAvailableTT').attr('data-live-search', 'true');
     $('#ddlAvailableTT').selectpicker();
     // $('#ddlAvailableTT').prop('disabled', true);
@@ -376,15 +337,9 @@ $(document).ready(function () {
 
     var avialableTT = $('#ddlTestType').val();
 
-    //  $('#ddlTestType').on('focusout', function () {
-    //   $(document).on('focusout', '#ddlTestType', function () {
-
-    // $('#ddlTestType').blur(function () {     
-    // $('#btnAddAvialableTT').on('click', function () {
-
+ 
     $('#ddlTestType').change(function () {
         avialableTT = $('#ddlTestType').val();
-        // var avialableTT = $('#ddlTestType').find("option:selected").val();
 
         var options = {
             avialableTT: avialableTT
@@ -392,8 +347,8 @@ $(document).ready(function () {
 
         $.ajax({
             type: 'post',
-            url: GetRootDirectory() + '/TestingMaterial/TestingMaterial',
-            //url:  '../TestingMaterial/TestingMaterial',
+           // url: GetRootDirectory() + '/TestingMaterial/TestingMaterial',
+            url:  '../TestingMaterial/TestingMaterial',
             //'/TestingMaterial/SaveTestingMaterial?avialableTT=' + avialableTT
             data: options
         })
@@ -435,8 +390,6 @@ $(document).ready(function () {
     }
 
     $('#btnAddResults').on('click', function () {
-        //if (SelectedTests == null)
-        //    SelectedTests = "";
 
         if ((SelectedTests != null) && (SelectedTests != "")) {
             // location.href = '/TestingMaterial/AddResults?isSuccess=false&TestType=' + $('#ddlAvailableTT').val() + '&SelectedTests=' + SelectedTests;

@@ -101,7 +101,6 @@ function customColumnRenderer(helpers, callback) {
     if (typeof isUACGrid !== 'undefined' && isUACGrid) {        
         switch (column) {
             case 'RecID':
-                //  customMarkup = '<input type="checkbox" name="UACPartCheck" click="selected();" value="' + rowData.RecID + '" />';                
                 customMarkup = ' <input type="checkbox" name="UACPartCheck" id="UACPartCheck_' + rowData.RecID + '" class="UACPartCheck" value="' + rowData.RecID + '"/>';
                    // <input type="button" name="UACPartCheck" click="selected();" value="' + rowData.RecID + '" class="btn btn-success btn-sm center-block fa fa-plus" />';
                 break;
@@ -185,12 +184,8 @@ function customDataSource(options, callback) {
      
 
     if (typeof isUACGrid !== 'undefined' && isUACGrid) {
-        //if (MillLot_No != null)
-        //    search += ';' + 'MillLotNo:' + MillLot_No;
-
-        if (UACPart != null)
-            search += ';' + 'UACPart:' + UACPart;
-  
+       if (UACPart != null)
+            search += ';' + 'UACPart:' + UACPart;  
     }
     else {        
         if ($('#searchMillLotNo').val())
@@ -273,8 +268,12 @@ function customDataSource(options, callback) {
                       })
                       if ($(this).prop('checked')) {
                           var selec = selected[0];
+
+                          //inserting selected values in sleected table
+
                           var html = "<div id='UACPartDiv_" + controlId + "'>" + selec.UACPart + " - " + selec.GageThickness + " - " + selec.Location2 + "<a class='SelectedRecord_" + controlId + "' name='SelectedRecord' id='SelectedRecord" + rid + "'>Remove</a>" + "</div>";
                           $("#SelectedList").append(html)
+
                           $("a[name='SelectedRecord']").on('click', function () {
                               $("#UACPartCheck_" + $(this).attr("class").split("_")[1]).prop("checked", false)
                               $(this).parent().remove();

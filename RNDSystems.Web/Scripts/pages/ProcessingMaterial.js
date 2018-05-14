@@ -271,12 +271,8 @@ function customColumnRenderer(helpers, callback) {
         //    // let's combine name and description into a single column
         //    customMarkup = '<div style="font-size:12px;">' + rowData.RecID + '</div>';
         //    break;
-        case 'RecID':
-            
-           // customMarkup = '<input type="button" name="ProcessRecID" click="ProcessSelected();" value="' + rowData.RecID + '" />';
-         //   customMarkup = '<input type="checkbox" id="ProcessRecID" name="ProcessRecID" onchange="ProcessSelected(' + rowData.RecID + ')"/>';
+        case 'RecID':            
             customMarkup = ' <input type="checkbox" name="ProcessRecID" id="ProcessRecID' + rowData.RecID + '" class="ProcessRecID" value="' + rowData.RecID + '"/>';
-
             break;
         case 'ArtAgeDate':
             // let's combine name and description into a single column
@@ -656,11 +652,7 @@ $('#btnSearch').on('click', function () {
 });
 
 $('#btnClear').on('click', function () {
-    //$('#searchMillLotNo').val('');    
-    //$('#searchHTLogID').val('');
-    //$('#searchAgeLotID').val('');
-
-    $('#ddMillLotNo').selectpicker('val', "-1");
+     $('#ddMillLotNo').selectpicker('val', "-1");
     $('#ddHTLogID').selectpicker('val', "-1");
     $('#ddAgeLotID').selectpicker('val', "-1");
 
@@ -698,8 +690,6 @@ $(document).ready(function () {
     });
 
     $('#btnTM').on('click', function () {
-     //   location.href = '/AssignMaterial/SaveAssignMaterial?id=0&workStudyId=' + $('#WorkStudyID').val();
-        //    customMarkup = "<button id='gridPM' data-RecId='" + rowData.RecID + "' data-WorkStudyID='" + rowData.WorkStudyID + "'  onclick= 'ProcessingMaterial(this)' name= 'gridPM' class='btn btn-primary btn-sm center-block' > <i class='fa fa-book'></i></button > ";
         var workStudyID = $('#WorkStudyID').val();
         location.href = '/TestingMaterial/TestingMaterialList?recId=0&workStudyID=' + workStudyID;
     });

@@ -52,9 +52,6 @@
     $('#Location2').attr('data-live-search', 'true');
     $('#Location2').selectpicker();
 
-    //$('#AvailableTestType').attr('data-live-search', 'true');
-    //$('#AvailableTestType').selectpicker();
-
     $('#ddSubTestType').attr('data-live-search', 'true');
     $('#ddSubTestType').selectpicker();
 
@@ -210,9 +207,7 @@
     //ends here
 
     $('#LotID').change(function () {
-
-        // var RecID = $('#RecId').val();
-
+  
         var RecID = $('#TestingNo').val();
 
         selectedLotID = $(this).find("option:selected").val();
@@ -311,7 +306,6 @@
 
     $('#Location2').change(function () {
 
-        //var RecID = $('#RecId').val();
         var RecID = $('#TestingNo').val();
 
         selectedLoc2 = $(this).find("option:selected").val();
@@ -344,7 +338,6 @@
                     if (data) {
                         $("#GageThickness").val(data.GageThickness);
                         $('#GageThickness').prop("readonly", true);
-                        // $('#GageThickness').prop('disabled', true);
                     }
                 },
                 error: function (x, y, z) { }
@@ -353,17 +346,13 @@
     });
 
     JqueryFunction = {
-        ReadOnly: function () {
-
-            //var inp = $("#ddlLotID").val();
+        ReadOnly: function () {           
             var inp = $("#LotID").val();
 
-            if (jQuery.trim(inp).length > 0) {
-                // $('#ddlLotID').prop("readonly", true);
+            if (jQuery.trim(inp).length > 0) {              
                 $('#LotID').prop("readonly", true);
             }
             else {
-                //$('#ddlLotID').prop("readonly", false);
                 $('#LotID').prop("readonly", false);
             }
 

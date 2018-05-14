@@ -1,5 +1,4 @@
 var columns = [
-
     //{
     //    label: 'User Id',
     //    property: 'UserId',
@@ -169,14 +168,6 @@ function GridEditClicked(id) {
     location.href = '/Register/SaveRegisterUser/' + id;
 }
 
-/*
-function AssignMaterial(ele) {
-    var recId = $(ele).attr('data-RecId');
-    var workStudyID = $(ele).attr('data-WorkStudyID');
-    location.href = '/AssignMaterial/AssignMaterialList?recId=' + recId + '&workStudyID=' + workStudyID;
-}
-*/
-
 function GridDeleteClicked(id) {
     bootbox.confirm({
         message: RND.Constants.AreYouDelete,
@@ -226,30 +217,9 @@ $(document).ready(function () {
 
     $(".repeater-header").remove();
     $('#PermissionLevel').attr({ 'data-live-search': 'true', 'data-width': '90%' }).selectpicker();
-    /*
-    if ($('#WorkStudyID').val() !== '0') {
-        $('#searchWorkStudyNumber').prop("readonly", true);
-    }    
-    $('#AlloyTypes').attr('data-live-search', 'true');
-    $('#AlloyTypes').selectpicker();
-    $('#TemperTypes').attr('data-live-search', 'true');
-    $('#TemperTypes').selectpicker();
-    */
+
     $('#btnAdd').on('click', function () {
-        //location.href = '/AssignMaterial/SaveAssignMaterial?id=0&workStudyId=' + $('#UserId').val();
         location.href = '/Register/SaveRegisterUser?id=0';
     });
 
-    //$("#searchUserName").focusout(function () {
-    //    if ($('#searchUserName').val())
-    //    {
-    //        alert("User Name");
-    //    }    
-    //});
-
-    //$("#searchFirstName").focusout(function () {
-    //    if ($('#searchFirstName').val()) {
-    //        alert("First Name");
-    //    }
-    //});
 });

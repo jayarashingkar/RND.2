@@ -91,28 +91,7 @@ namespace RNDSystems.API.Controllers
                 return new HttpResponseMessage(HttpStatusCode.InternalServerError);
             }
         }
-
-
-        //public HttpResponseMessage Get(string WorkStudyID)
-        //{
-        //    _logger.Debug("Processing Material Get(string WorkSutdyId) Called");
-        //    SqlDataReader reader = null;
-        //    RNDProcessing PM = null;
-        //    try
-        //    {
-        //        CurrentUser user = ApiUser;
-        //        PM = new RNDProcessing();
-        //        AdoHelper ado = new AdoHelper();
-        //        PM.ddHTLogID = new List<SelectListItem>() { GetInitialSelectItem() };
-        //        PM.ddAgeLotID = new List<SelectListItem>() { GetInitialSelectItem() };
-        //        return Serializer.ReturnContent(PM, this.Configuration.Services.GetContentNegotiator(), this.Configuration.Formatters, this.Request);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        _logger.Error(ex.Message);
-        //        return new HttpResponseMessage(HttpStatusCode.InternalServerError);
-        //    }
-        //}
+                  
 
         /// <summary>
         /// Get for Processing Material List page - populating the dropdown Menus 
@@ -315,21 +294,7 @@ namespace RNDSystems.API.Controllers
                             ado._conn.Close(); ado._conn.Dispose();
                         }
                     }
-                    //populate all the dropdowns
-                    //start here 
-
-                    //ViewBag.ddSHTStartHours = ddSHTStartHrs;
-                    //ViewBag.ddArtStartHours = ddArtStartHrs;
-                    //ViewBag.ddSHTStartMinutes = ddSHTStartMin;
-                    //ViewBag.ddArtStartMinutes = ddArtStartMin;
-
-                    //ViewBag.ddlMillLotNo = ddlMillLotNo;
-                    //ViewBag.ddlHole = ddlHole;
-                    //ViewBag.ddlPieceNo = ddlPieceNo;
-
-                    //ViewBag.ddlRCS = ddlRCS;
-                    //ends here
-
+ 
                     if (!string.IsNullOrEmpty(PM.WorkStudyID))
                     {
 
@@ -406,42 +371,7 @@ namespace RNDSystems.API.Controllers
                             }
                         }
                     }
-
-
-
                 }
-
-                //    using (reader = ado.ExecDataReaderProc("RNDAgeLotID_Read", "RND"))
-                //    {
-                //        if (reader.HasRows)
-                //        {
-                //            while (reader.Read())
-                //            {
-                //                PM.ddAgeLotID.Add(new SelectListItem
-                //                {
-                //                    Value = Convert.ToString(reader["AgeLotID"]),
-                //                    Text = Convert.ToString(reader["AgeLotID"]),
-                //                    Selected = (PM.AgeLotID == Convert.ToString(reader["AgeLotID"])) ? true : false,
-                //                });
-                //            }
-                //        }
-                //    }
-                //    using (reader = ado.ExecDataReaderProc("RNDHTLogID_Read", "RND"))
-                //    {
-                //        if (reader.HasRows)
-                //        {
-                //            while (reader.Read())
-                //            {
-                //                PM.ddHTLogID.Add(new SelectListItem
-                //                {
-                //                    Value = Convert.ToString(reader["HTLogID"]),
-                //                    Text = Convert.ToString(reader["HTLogID"]),
-                //                    Selected = (PM.HTLogID == Convert.ToString(reader["HTLogID"])) ? true : false,
-                //                });
-                //            }
-                //        }
-                //    }
-                //}
                 return Serializer.ReturnContent(PM, this.Configuration.Services.GetContentNegotiator(), this.Configuration.Formatters, this.Request);
             }
             catch (Exception ex)
@@ -458,12 +388,9 @@ namespace RNDSystems.API.Controllers
         /// <param name="SelectedRecords"></param>
         /// <returns></returns>
 
-        // public HttpResponseMessage Post(string HTGroupName, List<string> SelectedRecords)
-        //   public HttpResponseMessage Get(string GroupName, string SelectedRecords, string GroupType)
         public HttpResponseMessage Get(string GroupName, string SelectedRecords, string GroupType)
         {
             //   dynamic ds = null;
-
             //  bool isSuccess = false;
 
             try

@@ -100,69 +100,7 @@ namespace RNDSystems.Web.Controllers
                   
             return RedirectToAction("WorkSutdyList", "WorkStudy");
         }
-            //end here
-
-            #region  start 
-
-            //    login = unitofwork.LMSLoginRepository.GetByID(LoggedInUser.UserId);
-
-            //    if (login != null)
-            //    {
-            //        if (model != null)
-            //        {
-            //            if (!model.HasQuestionId)
-            //            {
-            //                // save security answer for security Question - during the change of password
-            //                answer = new LMSUserSecurityAnswer
-            //                {
-            //                    LMSLoginId = LoggedInUser.UserId,
-            //                    LMSSecurityQuestionId = model.LMSSecurityQuestionId,
-            //                    SecurityAnswer = model.SecurityAnswer,
-            //                    StatusCode = StatusCodeConstants.Active,
-            //                    CreatedBy = LoggedInUser.UserId,
-            //                    CreatedOn = DateTime.Now
-            //                };
-            //                unitofwork.LMSUserSecurityAnswerRepository.Insert(answer);
-            //            }
-
-            //            //save the password
-
-            //            login.IsSecurityApplied = true;
-            //            login.Password = model.Password;
-            //            unitofwork.LMSLoginRepository.ChangePassword(login);
-            //            unitofwork.Save();
-
-            //            Response.Cookies["LMSLogin"].Expires = DateTime.Now.AddDays(-1);
-
-            //            CurrentUser newUser = LoggedInUser;
-            //            newUser.IsSecurityApplied = true;
-            //            Session["CurrentUser"] = newUser;
-
-            //            HttpCookie cookie = new HttpCookie("LMSLogin");
-            //            cookie.Values.Add("UserName", LoggedInUser.UserName);
-            //            //cookie.Values.Add("Password", model.Password);
-            //            cookie.Expires = DateTime.Now.AddDays(15);
-            //            Response.Cookies.Add(cookie);
-            //            isSuccess = true;
-            //            //return RedirectToAction("EmployeeList", "Employee");
-
-            //            //adding here - 11/10/2016
-            //            ViewBag.ddAuditDescription = LoggedInUser.UserName;
-
-
-            //        }
-            //    }
-            //    else
-            //        message = "Login details not found.";
-            //}
-            //catch (Exception ex)
-            //{
-            //    throw ex;
-            //}
-            #endregion
-
-            // return Json(new { isSuccess = isSuccess, message = message }, JsonRequestBehavior.AllowGet);
-
+          
 
         #endregion
         //GET: Admin
