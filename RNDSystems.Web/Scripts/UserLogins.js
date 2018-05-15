@@ -96,8 +96,8 @@ function customDataSource(options, callback) {
     // call API, posting options
     $.ajax({
         type: 'post',
-        url: GetRootDirectory() + '/Grid/GetUserLogins',
-        //url:  '../Grid/GetUserLogins',
+        //url: GetRootDirectory() + '/Grid/GetUserLogins',
+        url:  '../Grid/GetUserLogins',
         data: options
     })
     .done(function (data) {

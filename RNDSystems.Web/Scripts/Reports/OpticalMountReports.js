@@ -199,7 +199,8 @@ $('#btnExcelReport').on('click', function () {
     // call API, posting options
     $.ajax({
         type: 'post',
-        url: GetRootDirectory() + '/RnDReports/ExportToExcel',
+        //url: GetRootDirectory() + '/RnDReports/ExportToExcel',
+        url: '../RnDReports/ExportToExcel',
         headers: {
             Token: GetToken()
         },
