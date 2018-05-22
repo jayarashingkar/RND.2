@@ -100,7 +100,8 @@ namespace RNDSystems.API.Controllers
                         case "Tension":
                             {
                                 if (filePath == "none")
-                                    filePath = "S:\\RD\\Database\\Export\\ForNewDataBase\\Tension.csv";
+                                    filePath = @Common.Utilities.ConfigReader.GetValue("Tension");
+                              //  filePath = "S:\\RD\\Database\\Export\\ForNewDataBase\\Tension.csv";
 
                                 dataTable = Common.Parser.CsvToDataTable(filePath, false);
                                 if (dataTable.Success)
@@ -112,7 +113,7 @@ namespace RNDSystems.API.Controllers
                         case "Compression":
                             {
                                 if (filePath == "none")
-                                    filePath = "S:\\RD\\Database\\Export\\ForNewDataBase\\Compression.csv";
+                                    filePath = @Common.Utilities.ConfigReader.GetValue("Compression");
                                 dataTable = Common.Parser.CsvToDataTable(filePath, false);
                                 if (dataTable.Success)
                                     sendMessage = UploadCompression(dataTable.data);
@@ -123,7 +124,7 @@ namespace RNDSystems.API.Controllers
                         case "Bearing":
                             {
                                 if (filePath == "none")
-                                    filePath = "S:\\RD\\Database\\Export\\ForNewDataBase\\Bearing.csv";
+                                    filePath = @Common.Utilities.ConfigReader.GetValue("Bearing");
                                 dataTable = Common.Parser.CsvToDataTable(filePath, false);
                                 if (dataTable.Success)
                                     sendMessage = UploadBearing(dataTable.data);
@@ -135,7 +136,7 @@ namespace RNDSystems.API.Controllers
                         case "Shear":
                             {
                                 if (filePath == "none")
-                                    filePath = "S:\\RD\\Database\\Export\\ForNewDataBase\\Shear.csv";
+                                    filePath = @Common.Utilities.ConfigReader.GetValue("Shear");
 
                                 dataTable = Common.Parser.CsvToDataTable(filePath, false);
                                 if (dataTable.Success)
@@ -147,7 +148,7 @@ namespace RNDSystems.API.Controllers
                         case "Notch Yield":
                             {
                                 if (filePath == "none")
-                                    filePath = "S:\\RD\\Database\\Export\\ForNewDataBase\\Notch Yield.csv";
+                                    filePath = @Common.Utilities.ConfigReader.GetValue("NotchYield");
 
                                 dataTable = Common.Parser.CsvToDataTable(filePath, true);
                                 if (dataTable.Success)
@@ -159,7 +160,7 @@ namespace RNDSystems.API.Controllers
                         case "Residual Strength":
                             {
                                 if (filePath == "none")
-                                    filePath = "S:\\RD\\Database\\Export\\ForNewDataBase\\Residual Strength.csv";
+                                    filePath = @Common.Utilities.ConfigReader.GetValue("Residual Strength");
 
                                 dataTable = Common.Parser.CsvToDataTable(filePath, true);
                                 if (dataTable.Success)
@@ -171,7 +172,9 @@ namespace RNDSystems.API.Controllers
                         case "Fracture Toughness":
                             {
                                 if (filePath == "none")
-                                    filePath = "S:\\RD\\Database\\Export\\ForNewDataBase\\Fracture Toughness.csv";
+                                    filePath = @Common.Utilities.ConfigReader.GetValue("FractureToughness");
+                                //  filePath = @"\\usctrd01.universalalloy.com\RDServer\RD\Database\Export\ForNewDataBase\Fracture Toughness.csv";
+
                                 dataTable = Common.Parser.CsvToDataTable(filePath, false);
                                 if (dataTable.Success)
                                     sendMessage = UploadFractureToughness(dataTable.data);
@@ -182,7 +185,7 @@ namespace RNDSystems.API.Controllers
                         case "Modulus Tension":
                             {
                                 if (filePath == "none")
-                                    filePath = "S:\\RD\\Database\\Export\\ForNewDataBase\\Modulus Tension.csv";
+                                    filePath = @Common.Utilities.ConfigReader.GetValue("ModulusTension");
                                 dataTable = Common.Parser.CsvToDataTable(filePath, false);
                                 if (dataTable.Success)
                                     sendMessage = UploadModulusTension(dataTable.data);
@@ -193,7 +196,7 @@ namespace RNDSystems.API.Controllers
                         case "Modulus Compression":
                             {
                                 if (filePath == "none")
-                                    filePath = "S:\\RD\\Database\\Export\\ForNewDataBase\\Modulus Compression.csv";
+                                    filePath = @Common.Utilities.ConfigReader.GetValue("ModulusCompression");
                                 dataTable = Common.Parser.CsvToDataTable(filePath, false);
                                 if (dataTable.Success)
                                     sendMessage = UploadModulusCompression(dataTable.data);
@@ -204,7 +207,7 @@ namespace RNDSystems.API.Controllers
                         case "Fatigue":
                             {
                                 if (filePath == "none")
-                                    filePath = "S:\\RD\\Database\\Export\\ForNewDataBase\\Fatigue Testing.csv";
+                                    filePath = @Common.Utilities.ConfigReader.GetValue("Fatigue");
                                 dataTable = Common.Parser.CsvToDataTable(filePath, false);
                                 if (dataTable.Success)
                                     sendMessage = UploadFatigue(dataTable.data);

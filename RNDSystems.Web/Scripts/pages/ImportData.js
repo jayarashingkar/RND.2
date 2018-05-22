@@ -67,7 +67,7 @@
     $("#btnImportDefault").click(function () {
            var selectedTestTypes = $('#ddTestTypesDefault').val();
      //   var selectedTestTypes = $.trim($("#ddTestTypes").val());
-         debugger;
+    //     debugger;
         var filePath = "none";
 
         var options = {
@@ -76,7 +76,7 @@
            // tt: selectedTestTypes,
             Message1: filePath
         };
-        debugger;
+  //      debugger;
         $.ajax({
             type: 'post',
             url: Api + 'api/ImportData',
@@ -86,7 +86,7 @@
             data: options
         })
         .done(function (data) {
-            debugger;
+           // debugger;
             errorMsg = "";
             successMsg = "";
             if (data.Success) {
